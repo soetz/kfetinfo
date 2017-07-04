@@ -26,12 +26,16 @@ import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import java.util.UUID;
 
 import org.apache.commons.text.WordUtils;
 
 public class CreateurBase {
 	static String path = new File("").getAbsolutePath();
+	static SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 
 	public static void initialiserBase(){
 		try {
@@ -155,6 +159,28 @@ public class CreateurBase {
         }
 
         System.out.println(supplementBoisson);
+	}
+
+	public static void creerMembre(String nom, String prenom, String surnom, String poste, Date dateNaissance){
+		JSONObject membre = creer();
+		membre.put("nom", nom);
+		membre.put("prenom", prenom);
+		membre.put("surnom", surnom);
+		membre.put("poste", poste);
+		membre.put("dateNaissance", formatDate.format(dateNaissance));
+		membre.put("nombreCommandes", new Integer(0));
+		membre.put("nombreServices", new Integer(0));
+		membre.put("tempsMoyenCommande", 0f);
+		try (
+			FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Membres\\" + prenom.toLowerCase() + " " + nom.toLowerCase() + ".json")) {
+            file.write(membre.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(membre);
 	}
 
 	public static void ajouterRiens(){

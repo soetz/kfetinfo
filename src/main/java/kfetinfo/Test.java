@@ -22,13 +22,25 @@ import java.io.File;
 
 import org.json.simple.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Test /*extends Application*/ {
 
 	public static void main(String[] args) {
-		CreateurBase.initialiserBase();
+		Date dateNaissance = new Date();
+		String date = "14/02/1998";
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			dateNaissance = formatDate.parse(date);
+			CreateurBase.creerMembre("Lecutiez", "Simon", "Poutre", "RP K'Fet", dateNaissance);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		/*launch(args);*/
 	}
 
