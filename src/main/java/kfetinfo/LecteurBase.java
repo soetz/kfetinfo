@@ -21,12 +21,15 @@ package kfetinfo;
 import java.io.File;
 import java.io.FileReader;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class LiseurBase {
+public class LecteurBase {
 	static String path = new File("").getAbsolutePath();
-
+	static SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private static JSONObject lireObjet(String path){
 		JSONParser parser = new JSONParser();
@@ -81,5 +84,20 @@ public class LiseurBase {
 
 		SupplementBoisson supplementBoisson = new SupplementBoisson((String)supplementBoissonJson.get("id"), (String)supplementBoissonJson.get("nom"), ((Number)supplementBoissonJson.get("cout")).floatValue(), (boolean)supplementBoissonJson.get("estDisponible"), ((Number)supplementBoissonJson.get("nbUtilisations")).intValue(), ((Number)supplementBoissonJson.get("priorite")).intValue(), ((Number)supplementBoissonJson.get("prix")).floatValue());
 		return(supplementBoisson);
+	}
+
+	public static Membre lireMembre(String nomFichier){
+		JSONObject membreJson = new JSONObject();
+		membreJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Membres\\" + nomFichier + ".json");
+
+		try {
+			Membre membre = new Membre((String)membreJson.get("id"), (String)membreJson.get("nom"), (String)membreJson.get("prenom"), (String)membreJson.get("surnom"), (String)membreJson.get("poste"), formatDate.parse((String)membreJson.get("dateNaissance")), ((Number)membreJson.get("nbCommandes")).intValue(), ((Number)membreJson.get("nbServices")).intValue(), ((Number)membreJson.get("tempsMoyenCommande")).floatValue());
+			return(membre);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			Membre membre = new Membre("", "erreur", "", "", "", new Date(0), 0, 0, 0f);
+			return(membre);
+		}
 	}
 }

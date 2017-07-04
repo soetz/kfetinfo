@@ -18,38 +18,28 @@
 
 package kfetinfo;
 
-import java.io.File;
-
-import org.json.simple.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
+public class Membre {
+	String id;
+	String nom;
+	String prenom;
+	String surnom;
+	String poste;
+	Date dateNaissance;
+	int nbCommandes;
+	int nbServices;
+	float tempsMoyenCommande;
 
-public class Test /*extends Application*/ {
-
-	public static void main(String[] args) {
-		Date dateNaissance = new Date();
-		String date = "14/02/1998";
-		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-			dateNaissance = formatDate.parse(date);
-			CreateurBase.creerMembre("Lecutiez", "Simon", "Poutre", "RP K'Fet", dateNaissance);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		Membre simon = LecteurBase.lireMembre("simon lecutiez");
-		System.out.println(simon.nom);
-		System.out.println(simon.poste);
-		/*launch(args);*/
+	public Membre(String id, String nom, String prenom, String surnom, String poste, Date dateNaissance, int nbCommandes, int nbServices, float tempsMoyenCommande){
+		this.id = id;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.surnom = surnom;
+		this.poste = poste;
+		this.dateNaissance = dateNaissance;
+		this.nbCommandes = nbCommandes;
+		this.nbServices = nbServices;
+		this.tempsMoyenCommande = tempsMoyenCommande;
 	}
-
-	/*public void start(Stage args) throws Exception {
-		
-	}*/
-
 }

@@ -168,8 +168,8 @@ public class CreateurBase {
 		membre.put("surnom", surnom);
 		membre.put("poste", poste);
 		membre.put("dateNaissance", formatDate.format(dateNaissance));
-		membre.put("nombreCommandes", new Integer(0));
-		membre.put("nombreServices", new Integer(0));
+		membre.put("nbCommandes", new Integer(0));
+		membre.put("nbServices", new Integer(0));
 		membre.put("tempsMoyenCommande", 0f);
 		try (
 			FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Membres\\" + prenom.toLowerCase() + " " + nom.toLowerCase() + ".json")) {
