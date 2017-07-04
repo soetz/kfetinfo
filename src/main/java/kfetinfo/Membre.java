@@ -42,4 +42,8 @@ public class Membre {
 		this.nbServices = nbServices;
 		this.tempsMoyenCommande = tempsMoyenCommande;
 	}
+
+	public String getNom(){
+		return(nom);
+	}
 }

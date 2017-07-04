@@ -12,7 +12,7 @@ Choix techniques :
 - Langage de programmation : Java (version 8 même si le but est d'essayer de suivre les évolutions des différentes technologies).
 - Gestion des dépendances : Maven (couplé à Eclipse).
 - Sauvegarde de la base de donnée : fichiers JSON (librairie json-simple en version 1.1.1).
-- Utilisation de la librairie commons-text d'Apache.
+- Utilisation de la librairie commons-io d'Apache.
 
 Vous pouvez trouver les sources du projet sur [Github](https://github.com/Rbird0/kfetinfo).
 Ce logiciel est distribué sous la licence GNU GPLv3 (ou toute version ultérieure) telle que publiée par la Free Software Foundation. Vous pouvez la retrouver à [cette adresse](https://www.gnu.org/licenses/#GPL), une copie est également disponible dans le fichier LICENSE.txt fourni avec le logiciel.

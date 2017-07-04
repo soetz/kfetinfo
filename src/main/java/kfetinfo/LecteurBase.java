@@ -72,10 +72,18 @@ public class LecteurBase {
 
 	public static Boisson lireBoisson(String nom){
 		JSONObject boissonJson = new JSONObject();
-		boissonJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\" + nom + ".json");
+		boissonJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\" + nom + ".json");
 
 		Boisson boisson = new Boisson((String)boissonJson.get("id"), (String)boissonJson.get("nom"), ((Number)boissonJson.get("cout")).floatValue(), (boolean)boissonJson.get("estDisponible"), ((Number)boissonJson.get("nbUtilisations")).intValue(), ((Number)boissonJson.get("priorite")).intValue());
 		return(boisson);
+	}
+
+	public static Plat lirePlat(String nom){
+		JSONObject platJson = new JSONObject();
+		platJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\" + nom + ".json");
+
+		Plat plat = new Plat((String)platJson.get("id"), (String)platJson.get("nom"), ((Number)platJson.get("cout")).floatValue(), (boolean)platJson.get("estDisponible"), ((Number)platJson.get("nbUtilisations")).intValue(), ((Number)platJson.get("priorite")).intValue(), ((Number)platJson.get("nbMaxIngredients")).intValue(), ((Number)platJson.get("nbMaxSauces")).intValue(), ((Number)platJson.get("prix")).floatValue());
+		return(plat);
 	}
 
 	public static SupplementBoisson lireSupplementBoisson(String nom){

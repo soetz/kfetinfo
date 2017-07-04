@@ -31,8 +31,6 @@ import java.util.Date;
 
 import java.util.UUID;
 
-import org.apache.commons.text.WordUtils;
-
 public class CreateurBase {
 	static String path = new File("").getAbsolutePath();
 	static SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -64,7 +62,7 @@ public class CreateurBase {
 
 	private static JSONObject creerContenuCommande(String nom, float cout, int priorite) {
 		JSONObject contenu = creer();
-		contenu.put("nom", WordUtils.capitalize(nom));
+		contenu.put("nom", nom);
 		contenu.put("cout", cout);
 		contenu.put("estDisponible", true);
 		contenu.put("nbUtilisations", new Integer(0));
@@ -74,7 +72,7 @@ public class CreateurBase {
 
 	public static void creerIngredient(String nom, float cout, int priorite) {
 		JSONObject ingredient = creerContenuCommande(nom, cout, priorite);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + nom + ".json")) {
+		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + nom.toLowerCase() + ".json")) {
 
             file.write(ingredient.toJSONString());
             file.flush();
@@ -88,7 +86,7 @@ public class CreateurBase {
 
 	public static void creerSauce(String nom, float cout, int priorite) {
 		JSONObject sauce = creerContenuCommande(nom, cout, priorite);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\" + nom + ".json")) {
+		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\" + nom.toLowerCase() + ".json")) {
 
             file.write(sauce.toJSONString());
             file.flush();
@@ -103,7 +101,7 @@ public class CreateurBase {
 	public static void creerDessert(String nom, float cout, int priorite, float prix) {
 		JSONObject dessert = creerContenuCommande(nom, cout, priorite);
 		dessert.put("prix", prix);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\" + nom + ".json")) {
+		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\" + nom.toLowerCase() + ".json")) {
 
             file.write(dessert.toJSONString());
             file.flush();
@@ -117,7 +115,7 @@ public class CreateurBase {
 
 	public static void creerBoisson(String nom, float cout, int priorite) {
 		JSONObject boisson = creerContenuCommande(nom, cout, priorite);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\" + nom + ".json")) {
+		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\" + nom.toLowerCase() + ".json")) {
 
             file.write(boisson.toJSONString());
             file.flush();
@@ -134,7 +132,7 @@ public class CreateurBase {
 		plat.put("prix", prix);
 		plat.put("nbMaxIngredients", nbMaxIngredients);
 		plat.put("nbMaxSauces", nbMaxSauces);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\" + nom + ".json")) {
+		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\" + nom.toLowerCase() + ".json")) {
 
             file.write(plat.toJSONString());
             file.flush();
@@ -149,7 +147,7 @@ public class CreateurBase {
 	public static void creerSupplementBoisson(String nom, float cout, int priorite, float prix) {
 		JSONObject supplementBoisson = creerContenuCommande(nom, cout, priorite);
 		supplementBoisson.put("prix", prix);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\" + nom + ".json")) {
+		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\" + nom.toLowerCase() + ".json")) {
 
             file.write(supplementBoisson.toJSONString());
             file.flush();
@@ -183,12 +181,14 @@ public class CreateurBase {
         System.out.println(membre);
 	}
 
+	/*public static void creerCommande()*/
+
 	public static void ajouterRiens(){
 		File f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + "rien" + ".json");
 		if(!(f.exists() && !f.isDirectory())) { 
 			JSONObject rienIngredient = new JSONObject();
 			rienIngredient.put("id", "e8a6d3a2-7e0b-4587-ac85-462329b4a776");
-			rienIngredient.put("nom", "rien");
+			rienIngredient.put("nom", "Rien");
 			rienIngredient.put("cout", 0f);
 			rienIngredient.put("estDisponible", true);
 			rienIngredient.put("nbUtilisations", new Integer(0));
@@ -209,7 +209,7 @@ public class CreateurBase {
 		if(!(f.exists() && !f.isDirectory())) { 
 			JSONObject rienSauce = new JSONObject();
 			rienSauce.put("id", "dc9e18ea-ff8c-4d71-8d11-ed18489df6a1");
-			rienSauce.put("nom", "rien");
+			rienSauce.put("nom", "Rien");
 			rienSauce.put("cout", 0f);
 			rienSauce.put("estDisponible", true);
 			rienSauce.put("nbUtilisations", new Integer(0));
@@ -230,7 +230,7 @@ public class CreateurBase {
         if(!(f.exists() && !f.isDirectory())) { 
     		JSONObject rienDessert = new JSONObject();
     		rienDessert.put("id", "962e1223-cdda-47ef-85ab-20eede2a0dc0");
-    		rienDessert.put("nom", "rien");
+    		rienDessert.put("nom", "Rien");
     		rienDessert.put("cout", 0f);
     		rienDessert.put("estDisponible", true);
     		rienDessert.put("nbUtilisations", new Integer(0));
@@ -254,7 +254,7 @@ public class CreateurBase {
         if(!(f.exists() && !f.isDirectory())) { 
         	JSONObject rienBoisson = new JSONObject();
     		rienBoisson.put("id", "c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe");
-    		rienBoisson.put("nom", "rien");
+    		rienBoisson.put("nom", "Rien");
     		rienBoisson.put("cout", 0f);
     		rienBoisson.put("estDisponible", true);
     		rienBoisson.put("nbUtilisations", new Integer(0));
@@ -275,7 +275,7 @@ public class CreateurBase {
         if(!(f.exists() && !f.isDirectory())) { 
         	JSONObject rienPlat = new JSONObject();
     		rienPlat.put("id", "ff56da46-bddd-4e4f-a871-6fa03b0e814b");
-    		rienPlat.put("nom", "rien");
+    		rienPlat.put("nom", "Rien");
     		rienPlat.put("cout", 0f);
     		rienPlat.put("estDisponible", true);
     		rienPlat.put("nbUtilisations", new Integer(0));
@@ -299,7 +299,7 @@ public class CreateurBase {
         if(!(f.exists() && !f.isDirectory())) { 
         	JSONObject rienSupplementBoisson = new JSONObject();
     		rienSupplementBoisson.put("id", "fa03180b-95ad-4a5b-84f2-cbdc2beae920");
-    		rienSupplementBoisson.put("nom", "rien");
+    		rienSupplementBoisson.put("nom", "Rien");
     		rienSupplementBoisson.put("cout", 0f);
     		rienSupplementBoisson.put("estDisponible", true);
     		rienSupplementBoisson.put("nbUtilisations", new Integer(0));

@@ -31,20 +31,9 @@ import javafx.stage.Stage;
 public class Test /*extends Application*/ {
 
 	public static void main(String[] args) {
-		Date dateNaissance = new Date();
-		String date = "14/02/1998";
-		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-			dateNaissance = formatDate.parse(date);
-			CreateurBase.creerMembre("Lecutiez", "Simon", "Poutre", "RP K'Fet", dateNaissance);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		Membre simon = LecteurBase.lireMembre("simon lecutiez");
-		System.out.println(simon.nom);
-		System.out.println(simon.poste);
+		BaseDonnees base = new BaseDonnees();
+		base.chargerIngredients();
+		base.affIngredients();
 		/*launch(args);*/
 	}
 

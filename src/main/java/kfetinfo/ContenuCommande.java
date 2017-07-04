@@ -34,4 +34,12 @@ public class ContenuCommande {
 		this.nbUtilisations = nbUtilisations;
 		this.priorite = priorite;
 	}
+
+	public int getPriorite(){
+		return(priorite);
+	}
+
+	public String getNom(){
+		return(nom);
+	}
 }
