@@ -21,6 +21,8 @@ package kfetinfo;
 import org.json.simple.JSONObject;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -28,13 +30,36 @@ import java.util.UUID;
 
 import org.apache.commons.text.WordUtils;
 
-public class CreateurContenuCommande {
+public class CreateurBase {
 	static String path = new File("").getAbsolutePath();
 
-	private static JSONObject creer(String nom, float cout, int priorite) {
-		JSONObject contenu = new JSONObject();
+	public static void initialiserBase(){
+		try {
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients"));
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces"));
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts"));
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons"));
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats"));
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson"));
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Membres"));
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services"));
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		ajouterRiens();
+	}
+
+	private static JSONObject creer() {
+		JSONObject objet = new JSONObject();
 		UUID id = UUID.randomUUID();
-		contenu.put("id", id.toString());
+		objet.put("id", id.toString());
+		return(objet);
+	}
+
+	private static JSONObject creerContenuCommande(String nom, float cout, int priorite) {
+		JSONObject contenu = creer();
 		contenu.put("nom", WordUtils.capitalize(nom));
 		contenu.put("cout", cout);
 		contenu.put("estDisponible", true);
@@ -44,7 +69,7 @@ public class CreateurContenuCommande {
 	}
 
 	public static void creerIngredient(String nom, float cout, int priorite) {
-		JSONObject ingredient = creer(nom, cout, priorite);
+		JSONObject ingredient = creerContenuCommande(nom, cout, priorite);
 		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + nom + ".json")) {
 
             file.write(ingredient.toJSONString());
@@ -58,7 +83,7 @@ public class CreateurContenuCommande {
 	}
 
 	public static void creerSauce(String nom, float cout, int priorite) {
-		JSONObject sauce = creer(nom, cout, priorite);
+		JSONObject sauce = creerContenuCommande(nom, cout, priorite);
 		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\" + nom + ".json")) {
 
             file.write(sauce.toJSONString());
@@ -72,7 +97,7 @@ public class CreateurContenuCommande {
 	}
 
 	public static void creerDessert(String nom, float cout, int priorite, float prix) {
-		JSONObject dessert = creer(nom, cout, priorite);
+		JSONObject dessert = creerContenuCommande(nom, cout, priorite);
 		dessert.put("prix", prix);
 		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\" + nom + ".json")) {
 
@@ -87,7 +112,7 @@ public class CreateurContenuCommande {
 	}
 
 	public static void creerBoisson(String nom, float cout, int priorite) {
-		JSONObject boisson = creer(nom, cout, priorite);
+		JSONObject boisson = creerContenuCommande(nom, cout, priorite);
 		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\" + nom + ".json")) {
 
             file.write(boisson.toJSONString());
@@ -101,7 +126,7 @@ public class CreateurContenuCommande {
 	}
 
 	public static void creerPlat(String nom, float cout, int priorite, float prix, int nbMaxIngredients, int nbMaxSauces) {
-		JSONObject plat = creer(nom, cout, priorite);
+		JSONObject plat = creerContenuCommande(nom, cout, priorite);
 		plat.put("prix", prix);
 		plat.put("nbMaxIngredients", nbMaxIngredients);
 		plat.put("nbMaxSauces", nbMaxSauces);
@@ -118,7 +143,7 @@ public class CreateurContenuCommande {
 	}
 
 	public static void creerSupplementBoisson(String nom, float cout, int priorite, float prix) {
-		JSONObject supplementBoisson = creer(nom, cout, priorite);
+		JSONObject supplementBoisson = creerContenuCommande(nom, cout, priorite);
 		supplementBoisson.put("prix", prix);
 		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\" + nom + ".json")) {
 

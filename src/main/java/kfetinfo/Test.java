@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 public class Test /*extends Application*/ {
 
 	public static void main(String[] args) {
+		CreateurBase.initialiserBase();
 		/*launch(args);*/
 	}
 
