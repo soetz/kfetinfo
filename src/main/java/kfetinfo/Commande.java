@@ -70,8 +70,44 @@ public class Commande {
 		this.supplementBoisson = supplementBoisson;
 	}
 
+	public Date getMoment(){
+		return(moment);
+	}
+
+	public int getNumero(){
+		return(numero);
+	}
+
+	public Plat getPlat(){
+		return(plat);
+	}
+
+	public List<Ingredient> getIngredients(){
+		return(ingredients);
+	}
+
+	public List<Sauce> getSauces(){
+		return(sauces);
+	}
+
+	public Dessert getDessert(){
+		return(dessert);
+	}
+
+	public Boisson getBoisson(){
+		return(boisson);
+	}
+
+	public SupplementBoisson getSupplementBoisson(){
+		return(supplementBoisson);
+	}
+
 	public float getPrix(){
 		float prix = 0f;
+
+		if(!(this.plat.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b"))&&!(this.dessert.getId().equals("962e1223-cdda-47ef-85ab-20eede2a0dc0"))&&!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
+			prix -= Test.getReducMenu();
+		}
 
 		prix += plat.getPrix();
 

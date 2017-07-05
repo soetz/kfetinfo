@@ -19,6 +19,9 @@
 package kfetinfo;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+
+import java.util.List;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -81,7 +84,7 @@ public class CreateurBase {
             e.printStackTrace();
         }
 
-        System.out.println(ingredient);
+		System.out.println(ingredient);
 	}
 
 	public static void creerSauce(String nom, float cout, int priorite) {
@@ -95,7 +98,7 @@ public class CreateurBase {
             e.printStackTrace();
         }
 
-        System.out.println(sauce);
+		System.out.println(sauce);
 	}
 
 	public static void creerDessert(String nom, float cout, int priorite, float prix) {
@@ -110,7 +113,7 @@ public class CreateurBase {
             e.printStackTrace();
         }
 
-        System.out.println(dessert);
+		System.out.println(dessert);
 	}
 
 	public static void creerBoisson(String nom, float cout, int priorite) {
@@ -124,7 +127,7 @@ public class CreateurBase {
             e.printStackTrace();
         }
 
-        System.out.println(boisson);
+		System.out.println(boisson);
 	}
 
 	public static void creerPlat(String nom, float cout, int priorite, float prix, int nbMaxIngredients, int nbMaxSauces) {
@@ -141,7 +144,7 @@ public class CreateurBase {
             e.printStackTrace();
         }
 
-        System.out.println(plat);
+		System.out.println(plat);
 	}
 
 	public static void creerSupplementBoisson(String nom, float cout, int priorite, float prix) {
@@ -156,7 +159,7 @@ public class CreateurBase {
             e.printStackTrace();
         }
 
-        System.out.println(supplementBoisson);
+		System.out.println(supplementBoisson);
 	}
 
 	public static void creerMembre(String nom, String prenom, String surnom, String poste, Date dateNaissance){
@@ -178,10 +181,65 @@ public class CreateurBase {
             e.printStackTrace();
         }
 
-        System.out.println(membre);
+		System.out.println(membre);
 	}
 
-	/*public static void creerCommande()*/
+	public static void ajouterCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
+		JSONObject commande = new JSONObject();
+		commande.put("numero", numero);
+		commande.put("moment", moment.getTime());
+		commande.put("plat", plat.getId());
+
+		JSONArray listeIngredients = new JSONArray();
+		for(Ingredient ingredient : ingredients){
+			listeIngredients.add(ingredient.getId());
+		}
+
+		commande.put("ingredients", listeIngredients);
+
+		JSONArray listeSauces = new JSONArray();
+		for(Sauce sauce : sauces){
+			listeSauces.add(sauce.getId());
+		}
+
+		commande.put("sauces", listeSauces);
+		commande.put("dessert", dessert.getId());
+		commande.put("boisson", boisson.getId());
+		commande.put("supplementBoisson", supplementBoisson.getId());
+
+		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		SimpleDateFormat mois = new SimpleDateFormat("MM");
+		SimpleDateFormat jour = new SimpleDateFormat("dd");
+
+		String zeros = "";
+
+		if(numero < 10){
+			zeros += "0";
+			if(numero < 100){
+				zeros += "0";
+			}
+		}
+
+		try {
+				Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\"));
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (
+				FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\" + zeros + numero + ".json")) {
+	            file.write(commande.toJSONString());
+	            file.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(commande);
+	}
+
+	public static void ajouterCommande(Commande commande){
+		ajouterCommande(commande.getNumero(), commande.getMoment(), commande.getPlat(), commande.getIngredients(), commande.getSauces(), commande.getDessert(), commande.getBoisson(), commande.getSupplementBoisson(), commande.getPrix());
+	}
 
 	public static void ajouterRiens(){
 		File f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + "rien" + ".json");

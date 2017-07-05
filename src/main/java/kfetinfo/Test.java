@@ -32,6 +32,7 @@ public class Test /*extends Application*/ {
 
 	static float prixIngredientSupp = 0.3f;
 	static float prixBoisson = 0.5f;
+	static float reducMenu = 0.3f;
 	static BaseDonnees base = new BaseDonnees();
 
 	public static void main(String[] args) {
@@ -62,6 +63,7 @@ public class Test /*extends Application*/ {
 		System.out.println(commande);
 		commande.setDessert(base.getDessert("7bbe9b8d-893c-4f39-8da4-2ddf28b620ff"));
 		System.out.println(commande);
+		CreateurBase.ajouterCommande(commande);
 
 		/*launch(args);*/
 	}
@@ -72,6 +74,10 @@ public class Test /*extends Application*/ {
 
 	public static float getPrixBoisson(){
 		return(prixBoisson);
+	}
+
+	public static float getReducMenu(){
+		return(reducMenu);
 	}
 
 	public static BaseDonnees getBase(){
