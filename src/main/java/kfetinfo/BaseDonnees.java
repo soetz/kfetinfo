@@ -38,6 +38,7 @@ public class BaseDonnees {
 	List<Membre> membres;
 
 	public BaseDonnees(){
+		CreateurBase.initialiserBase();
 		ingredients = new ArrayList();
 		sauces = new ArrayList();
 		desserts = new ArrayList();
@@ -45,15 +46,187 @@ public class BaseDonnees {
 		plats = new ArrayList();
 		supplementsBoisson = new ArrayList();
 		membres = new ArrayList();
+		chargerMenu();
 	}
 
-	public void affIngredients(){
+	public Ingredient getRienIngredient(){
+		Ingredient ingredient = new Ingredient("e8a6d3a2-7e0b-4587-ac85-462329b4a776", "Rien", 0, true, 0, -1);
+		for(Ingredient ingredientListe : ingredients){
+			if(ingredientListe.id.equals("e8a6d3a2-7e0b-4587-ac85-462329b4a776")){
+				ingredient = ingredientListe;
+			}
+		}
+
+		return(ingredient);
+	}
+
+	public Sauce getRienSauce(){
+		Sauce sauce = new Sauce("dc9e18ea-ff8c-4d71-8d11-ed18489df6a1", "Rien", 0, true, 0, -1);
+		for(Sauce sauceListe : sauces){
+			if(sauceListe.getId().equals("dc9e18ea-ff8c-4d71-8d11-ed18489df6a1")){
+				sauce = sauceListe;
+			}
+		}
+
+		return(sauce);
+	}
+
+	public Dessert getRienDessert(){
+		Dessert dessert = new Dessert("962e1223-cdda-47ef-85ab-20eede2a0dc0", "Rien", 0, true, 0, -1, 0);
+		for(Dessert dessertListe : desserts){
+			if(dessertListe.getId().equals("962e1223-cdda-47ef-85ab-20eede2a0dc0")){
+				dessert = dessertListe;
+			}
+		}
+
+		return(dessert);
+	}
+
+	public Boisson getRienBoisson(){
+		Boisson boisson = new Boisson("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe", "Rien", 0, true, 0, -1);
+		for(Boisson boissonListe : boissons){
+			if(boissonListe.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe")){
+				boisson = boissonListe;
+			}
+		}
+
+		return(boisson);
+	}
+
+	public Plat getRienPlat(){
+		Plat plat = new Plat("ff56da46-bddd-4e4f-a871-6fa03b0e814b", "Rien", 0, true, 0, -1, 0, 0, 0);
+		for(Plat platListe : plats){
+			if(platListe.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b")){
+				plat = platListe;
+			}
+		}
+
+		return(plat);
+	}
+
+	public SupplementBoisson getRienSupplementBoisson(){
+		SupplementBoisson supplementBoisson = new SupplementBoisson("fa03180b-95ad-4a5b-84f2-cbdc2beae920", "Rien", 0, true, 0, -1, 0);
+		for(SupplementBoisson supplementBoissonListe : supplementsBoisson){
+			if(supplementBoissonListe.getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+				supplementBoisson = supplementBoissonListe;
+			}
+		}
+
+		return(supplementBoisson);
+	}
+
+	public Ingredient getIngredient(String id){
+		Ingredient ingredient = getRienIngredient();
+		for(Ingredient ingredientListe : ingredients){
+			if(ingredientListe.getId().equals(id)){
+				ingredient = ingredientListe;
+			}
+		}
+
+		return(ingredient);
+	}
+
+	public Sauce getSauce(String id){
+		Sauce sauce = getRienSauce();
+		for(Sauce sauceListe : sauces){
+			if(sauceListe.getId().equals(id)){
+				sauce = sauceListe;
+			}
+		}
+
+		return(sauce);
+	}
+
+	public Dessert getDessert(String id){
+		Dessert dessert = getRienDessert();
+		for(Dessert dessertListe : desserts){
+			if(dessertListe.getId().equals(id)){
+				dessert = dessertListe;
+			}
+		}
+
+		return(dessert);
+	}
+
+	public Boisson getBoisson(String id){
+		Boisson boisson = getRienBoisson();
+		for(Boisson boissonListe : boissons){
+			if(boissonListe.getId().equals(id)){
+				boisson = boissonListe;
+			}
+		}
+
+		return(boisson);
+	}
+
+	public Plat getPlat(String id){
+		Plat plat = getRienPlat();
+		for(Plat platListe : plats){
+			if(platListe.getId().equals(id)){
+				plat = platListe;
+			}
+		}
+
+		return(plat);
+	}
+
+	public SupplementBoisson getSupplementBoisson(String id){
+		SupplementBoisson supplementBoisson = getRienSupplementBoisson();
+		for(SupplementBoisson supplementBoissonListe : supplementsBoisson){
+			if(supplementBoissonListe.getId().equals(id)){
+				supplementBoisson = supplementBoissonListe;
+			}
+		}
+
+		return(supplementBoisson);
+	}
+
+	public void chargerMenu(){
+		chargerIngredients();
+		chargerSauces();
+		chargerDesserts();
+		chargerBoissons();
+		chargerPlats();
+		chargerSupplementsBoisson();
+	}
+
+	public void affMenu(){
 		for(Ingredient ingredient : ingredients){
 			System.out.println(ingredient.getNom());
 		}
+
+		System.out.println("");
+
+		for(Sauce sauce: sauces){
+			System.out.println(sauce.getNom());
+		}
+
+		System.out.println("");
+
+		for(Dessert dessert: desserts){
+			System.out.println(dessert.getNom());
+		}
+
+		System.out.println("");
+
+		for(Boisson boisson: boissons){
+			System.out.println(boisson.getNom());
+		}
+
+		System.out.println("");
+
+		for(Plat plat: plats){
+			System.out.println(plat.getNom());
+		}
+
+		System.out.println("");
+
+		for(SupplementBoisson supplementBoisson: supplementsBoisson){
+			System.out.println(supplementBoisson.getNom());
+		}
 	}
 
-	public void chargerIngredients(){
+	private void chargerIngredients(){
 		File dossierIngredients = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\");
 		File[] listOfFiles = dossierIngredients.listFiles();
 
@@ -68,7 +241,7 @@ public class BaseDonnees {
 		Collections.reverse(ingredients);
 	}
 
-	public void chargerSauces(){
+	private void chargerSauces(){
 		File dossierSauces = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\");
 		File[] listOfFiles = dossierSauces.listFiles();
 
@@ -83,7 +256,7 @@ public class BaseDonnees {
 		Collections.reverse(sauces);
 	}
 
-	public void chargerDesserts(){
+	private void chargerDesserts(){
 		File dossierDesserts = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\");
 		File[] listOfFiles = dossierDesserts.listFiles();
 
@@ -98,7 +271,7 @@ public class BaseDonnees {
 		Collections.reverse(desserts);
 	}
 
-	public void chargerBoissons(){
+	private void chargerBoissons(){
 		File dossierBoissons = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\");
 		File[] listOfFiles = dossierBoissons.listFiles();
 
@@ -113,7 +286,7 @@ public class BaseDonnees {
 		Collections.reverse(boissons);
 	}
 
-	public void chargerPlats(){
+	private void chargerPlats(){
 		File dossierPlats = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\");
 		File[] listOfFiles = dossierPlats.listFiles();
 
@@ -128,7 +301,7 @@ public class BaseDonnees {
 		Collections.reverse(plats);
 	}
 
-	public void chargerSupplementsBoisson(){
+	private void chargerSupplementsBoisson(){
 		File dossierSupplementsBoisson = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\");
 		File[] listOfFiles = dossierSupplementsBoisson.listFiles();
 

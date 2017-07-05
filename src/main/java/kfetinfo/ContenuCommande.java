@@ -42,4 +42,8 @@ public class ContenuCommande {
 	public String getNom(){
 		return(nom);
 	}
+
+	public String getId(){
+		return(id);
+	}
 }

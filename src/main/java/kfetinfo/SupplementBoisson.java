@@ -25,4 +25,8 @@ public class SupplementBoisson extends ContenuCommande {
 		super(id, nom, cout, estDisponible, nbTotalUtilisations, priorite);
 		this.prix = prix;
 	}
+
+	public float getPrix(){
+		return(prix);
+	}
 }

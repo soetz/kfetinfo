@@ -29,4 +29,12 @@ public class Plat extends ContenuCommande {
 		this.nbMaxSauces = nbMaxSauces;
 		this.prix = prix;
 	}
+
+	public float getPrix(){
+		return(prix);
+	}
+
+	public int getNbMaxIngredients(){
+		return(nbMaxIngredients);
+	}
 }

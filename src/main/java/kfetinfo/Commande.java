@@ -21,6 +21,7 @@ package kfetinfo;
 import java.util.Date;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Commande {
 	Date moment;
@@ -29,14 +30,77 @@ public class Commande {
 	Plat plat;
 	List<Ingredient> ingredients;
 	List<Sauce> sauces;
+	Dessert dessert;
 	Boisson boisson;
 	SupplementBoisson supplementBoisson;
-	Dessert dessert;
 
-	public Commande() {
+	public Commande(Plat rienPlat, Dessert rienDessert, Boisson rienBoisson, SupplementBoisson rienSupplementBoisson) {
 		moment = new Date();
 		numero = dernierNumero + 1;
 		dernierNumero = numero;
+		plat = rienPlat;
+		ingredients = new ArrayList<Ingredient>();
+		sauces = new ArrayList<Sauce>();
+		dessert = rienDessert;
+		boisson = rienBoisson;
+		supplementBoisson = rienSupplementBoisson;
 	}
 
+	public void setPlat(Plat plat){
+		this.plat = plat;
+	}
+
+	public void addIngredient(Ingredient ingredient){
+		this.ingredients.add(ingredient);
+	}
+
+	public void addSauce(Sauce sauce){
+		this.sauces.add(sauce);
+	}
+
+	public void setDessert(Dessert dessert){
+		this.dessert = dessert;
+	}
+
+	public void setBoisson(Boisson boisson){
+		this.boisson = boisson;
+	}
+
+	public void setSupplementBoisson(SupplementBoisson supplementBoisson){
+		this.supplementBoisson = supplementBoisson;
+	}
+
+	public float getPrix(){
+		float prix = 0f;
+
+		prix += plat.getPrix();
+
+		if(this.ingredients.size() > this.plat.getNbMaxIngredients()){
+			prix += Test.getPrixIngredientSupp() * (this.ingredients.size() - this.plat.getNbMaxIngredients());
+		}
+
+		prix += dessert.getPrix();
+
+		if(this.boisson != Test.getBase().getRienBoisson()){
+			prix += Test.getPrixBoisson();
+		}
+
+		prix += supplementBoisson.getPrix();
+
+		return(prix);
+	}
+
+	public String toString(){
+		String ingString = "";
+		for(Ingredient ingredient : ingredients){
+			ingString += "  - " + ingredient.getNom() + "\n";
+		}
+
+		String sauString = "";
+		for(Sauce sauce : sauces){
+			sauString += "  - " + sauce.getNom() + "\n";
+		}
+
+		return("\nPlat : " + plat.getNom() + "\nIngrédients :\n" + ingString + "Sauces :\n" + sauString + "Boisson : " + boisson.getNom() + " + " + supplementBoisson.getNom() + "\nDessert : " + dessert.getNom() + "\nPrix : " + getPrix() + "\n");
+	}
 }
