@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 
 import org.apache.commons.io.FilenameUtils;
@@ -40,11 +42,11 @@ public class BaseDonnees {
 	List<Membre> membres;
 	List<Commande> commandes;
 
-	public BaseDonnees(){
+	public BaseDonnees(Date moment){
 		CreateurBase.initialiserBase();
 		chargerMenu();
 		chargerMembres();
-		chargerCommandes(new Date());
+		chargerCommandes(moment);
 	}
 
 	public Ingredient getRienIngredient(){
@@ -114,6 +116,8 @@ public class BaseDonnees {
 	}
 
 	public Ingredient getIngredient(String id){
+		chargerMenu();
+
 		Ingredient ingredient = getRienIngredient();
 		for(Ingredient ingredientListe : ingredients){
 			if(ingredientListe.getId().equals(id)){
@@ -125,6 +129,8 @@ public class BaseDonnees {
 	}
 
 	public Sauce getSauce(String id){
+		chargerMenu();
+
 		Sauce sauce = getRienSauce();
 		for(Sauce sauceListe : sauces){
 			if(sauceListe.getId().equals(id)){
@@ -136,6 +142,8 @@ public class BaseDonnees {
 	}
 
 	public Dessert getDessert(String id){
+		chargerMenu();
+
 		Dessert dessert = getRienDessert();
 		for(Dessert dessertListe : desserts){
 			if(dessertListe.getId().equals(id)){
@@ -147,6 +155,8 @@ public class BaseDonnees {
 	}
 
 	public Boisson getBoisson(String id){
+		chargerMenu();
+
 		Boisson boisson = getRienBoisson();
 		for(Boisson boissonListe : boissons){
 			if(boissonListe.getId().equals(id)){
@@ -158,6 +168,8 @@ public class BaseDonnees {
 	}
 
 	public Plat getPlat(String id){
+		chargerMenu();
+
 		Plat plat = getRienPlat();
 		for(Plat platListe : plats){
 			if(platListe.getId().equals(id)){
@@ -169,6 +181,8 @@ public class BaseDonnees {
 	}
 
 	public SupplementBoisson getSupplementBoisson(String id){
+		chargerMenu();
+
 		SupplementBoisson supplementBoisson = getRienSupplementBoisson();
 		for(SupplementBoisson supplementBoissonListe : supplementsBoisson){
 			if(supplementBoissonListe.getId().equals(id)){
@@ -180,6 +194,8 @@ public class BaseDonnees {
 	}
 
 	public Membre getMembre(String id){
+		chargerMembres();
+
 		Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
 		for(Membre membreListe : membres){
 			if(membreListe.getId().equals(id)){
@@ -198,17 +214,19 @@ public class BaseDonnees {
 				commande = commandeListe;
 			}
 		}
-		chargerCommandes(new Date());
+
+		chargerCommandes();
 
 		return(commande);
 	}
 
 	public Commande getCommande(int numero){
+		chargerCommandes();
 		return(getCommande(new Date(), numero));
 	}
 
 	public int getDernierNumeroCommande(){
-		chargerCommandes(new Date());
+		chargerCommandes();
 		int numero = 0;
 		for(Commande commande : commandes){
 			if(commande.getNumero() > numero){
@@ -228,6 +246,8 @@ public class BaseDonnees {
 	}
 
 	public void affMenu(){
+		chargerMenu();
+
 		for(Ingredient ingredient : ingredients){
 			System.out.println(ingredient.getNom());
 		}
@@ -264,6 +284,8 @@ public class BaseDonnees {
 	}
 
 	public void affCommandes(){
+		chargerCommandes();
+
 		for(Commande commande : commandes){
 			System.out.println(commande);
 		}
@@ -395,6 +417,12 @@ public class BaseDonnees {
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
 		SimpleDateFormat jour = new SimpleDateFormat("dd");
 
+		try {
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\"));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		File dossierCommandes = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\");
 		File[] listOfFiles = dossierCommandes.listFiles();
 
@@ -422,8 +450,10 @@ public class BaseDonnees {
 	}
 
 	public void assignerCommande(int numero, Membre membre){
+		chargerCommandes();
+
 		Commande commande = getCommande(numero);
-		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, false);
+		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, new Date(0), false);
 		CreateurBase.ajouterCommandeAssignee(commandeAssignee);
 		chargerCommandes();
 	}

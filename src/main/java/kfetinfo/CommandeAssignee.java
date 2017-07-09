@@ -24,14 +24,16 @@ public class CommandeAssignee extends Commande {
 	Membre membre;
 	Date momentAssignation;
 	boolean estRealisee;
+	Date momentRealisation;
 	boolean estDonnee;
 	
-	public CommandeAssignee(Commande commande, Membre membre, Date momentAssignation, boolean estRealisee, boolean estDonnee){
+	public CommandeAssignee(Commande commande, Membre membre, Date momentAssignation, boolean estRealisee, Date momentRealisation, boolean estDonnee){
 		super(commande.getMoment(), commande.getNumero(), commande.getPlat(), commande.getIngredients(), commande.getSauces(), commande.getDessert(), commande.getBoisson(), commande.getSupplementBoisson());
 
 		this.membre = membre;
 		this.momentAssignation = momentAssignation;
 		this.estRealisee = estRealisee;
+		this.momentRealisation = momentRealisation;
 		this.estDonnee = estDonnee;
 	}
 
@@ -47,8 +49,26 @@ public class CommandeAssignee extends Commande {
 		return(estRealisee);
 	}
 
+	public Date getMomentRealisation(){
+		return(momentRealisation);
+	}
+
 	public boolean getEstDonnee(){
 		return(estDonnee);
+	}
+
+	public void realisee(){
+		momentRealisation = new Date();
+	}
+
+	public long tempsRealisation(){
+		long temps = momentRealisation.getTime() - momentAssignation.getTime();
+		if(temps > 0){
+			return(temps);
+		}
+		else {
+			return(0);
+		}
 	}
 
 	public String toString(){

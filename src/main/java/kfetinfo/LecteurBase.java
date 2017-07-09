@@ -209,10 +209,11 @@ public class LecteurBase {
 			Membre membreCommande = base.getMembre((String)commandeJson.get("membre"));
 			Date momentAssignationCommande = new Date(((Number)commandeJson.get("momentAssignation")).longValue());
 			boolean estRealiseeCommande = (boolean)commandeJson.get("estRealisee");
+			Date momentRealisationCommande = new Date(((Number)commandeJson.get("momentRealisation")).longValue());
 			boolean estDonneeCommande = (boolean)commandeJson.get("estDonnee");
 
 			Commande commande = new Commande(momentCommande, numeroCommande, platCommande, ingredientsCommande, saucesCommande, dessertCommande, boissonCommande, supplementBoissonCommande);
-			CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membreCommande, momentAssignationCommande, estRealiseeCommande, estDonneeCommande);
+			CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membreCommande, momentAssignationCommande, estRealiseeCommande, momentRealisationCommande, estDonneeCommande);
 			
 			return(commandeAssignee);
 		}
@@ -220,7 +221,7 @@ public class LecteurBase {
 			e.printStackTrace();
 			Commande commande = new Commande(new Date(0), 0, base.getRienPlat(), new ArrayList<Ingredient>(), new ArrayList<Sauce>(), base.getRienDessert(), base.getRienBoisson(), base.getRienSupplementBoisson());
 			Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
-			CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(0), false, false);
+			CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(0), false, new Date(0), false);
 			return(commandeAssignee);
 		}
 	}

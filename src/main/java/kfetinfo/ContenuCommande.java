@@ -46,4 +46,8 @@ public class ContenuCommande {
 	public String getId(){
 		return(id);
 	}
+
+	public float getCout(){
+		return(cout);
+	}
 }

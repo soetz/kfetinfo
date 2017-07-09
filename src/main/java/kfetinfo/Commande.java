@@ -32,6 +32,7 @@ public class Commande {
 	Dessert dessert;
 	Boisson boisson;
 	SupplementBoisson supplementBoisson;
+	BaseDonnees base;
 
 	public Commande(Plat rienPlat, Dessert rienDessert, Boisson rienBoisson, SupplementBoisson rienSupplementBoisson, BaseDonnees base) {
 		moment = new Date();
@@ -42,6 +43,7 @@ public class Commande {
 		dessert = rienDessert;
 		boisson = rienBoisson;
 		supplementBoisson = rienSupplementBoisson;
+		this.base = base;
 	}
 
 	public Commande(Date moment, int numero, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson){
@@ -126,13 +128,34 @@ public class Commande {
 
 		prix += dessert.getPrix();
 
-		if(this.boisson != Test.getBase().getRienBoisson()){
+		if(!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
 			prix += Test.getPrixBoisson();
 		}
 
 		prix += supplementBoisson.getPrix();
 
 		return(prix);
+	}
+
+	public float getCout(){
+		float cout = 0;
+
+		cout += getPlat().getCout();
+
+		for(Ingredient ingredient : ingredients){
+			cout += ingredient.getCout();
+		}
+
+		for(Sauce sauce : sauces){
+			cout += sauce.getCout();
+		}
+
+		cout += getDessert().getCout();
+
+		cout += getBoisson().getCout();
+		cout += getSupplementBoisson().getCout();
+
+		return(cout);
 	}
 
 	public void envoyer(){
