@@ -28,7 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.ObjectStreamConstants;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -210,9 +210,7 @@ public class CreateurBase {
 		return(commande);
 	}
 
-	public static void ajouterCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
-		JSONObject commande = objetCommande(numero, moment, plat, ingredients, sauces, dessert, boisson, supplementBoisson, prix);
-
+	private static void ecrireCommande(int numero, Date moment, JSONObject commande){
 		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
 		SimpleDateFormat jour = new SimpleDateFormat("dd");
@@ -243,8 +241,32 @@ public class CreateurBase {
 		System.out.println(commande);
 	}
 
+	public static void ajouterCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
+		JSONObject commande = objetCommande(numero, moment, plat, ingredients, sauces, dessert, boisson, supplementBoisson, prix);
+
+		commande.put("assignee", false);
+
+		ecrireCommande(numero, moment, commande);
+	}
+
 	public static void ajouterCommande(Commande commande){
 		ajouterCommande(commande.getNumero(), commande.getMoment(), commande.getPlat(), commande.getIngredients(), commande.getSauces(), commande.getDessert(), commande.getBoisson(), commande.getSupplementBoisson(), commande.getPrix());
+	}
+
+	public static void ajouterCommandeAssignee(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix, Membre membre, Date momentAssignation, boolean estRealisee, boolean estDonnee){
+		JSONObject commandeAssignee = objetCommande(numero, moment, plat, ingredients, sauces, dessert, boisson, supplementBoisson, prix);
+
+		commandeAssignee.put("assignee", true);
+		commandeAssignee.put("membre", membre.getId());
+		commandeAssignee.put("momentAssignation", momentAssignation.getTime());
+		commandeAssignee.put("estRealisee", estRealisee);
+		commandeAssignee.put("estDonnee", estDonnee);
+
+		ecrireCommande(numero, moment, commandeAssignee);
+	}
+
+	public static void ajouterCommandeAssignee(CommandeAssignee commandeAssignee){
+		ajouterCommandeAssignee(commandeAssignee.getNumero(), commandeAssignee.getMoment(), commandeAssignee.getPlat(), commandeAssignee.getIngredients(), commandeAssignee.getSauces(), commandeAssignee.getDessert(), commandeAssignee.getBoisson(), commandeAssignee.getSupplementBoisson(), commandeAssignee.getPrix(), commandeAssignee.getMembre(), commandeAssignee.getMomentAssignation(), commandeAssignee.getEstRealisee(), commandeAssignee.getEstDonnee());
 	}
 
 	public static void ajouterRiens(){

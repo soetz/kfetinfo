@@ -18,6 +18,10 @@
 
 package kfetinfo;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
+
 import java.io.File;
 import java.io.FileReader;
 
@@ -25,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
 public class LecteurBase {
@@ -107,5 +112,145 @@ public class LecteurBase {
 			Membre membre = new Membre("", "erreur", "", "", "", new Date(0), 0, 0, 0f);
 			return(membre);
 		}
+	}
+
+	public static Commande lireCommande(Date moment, int numero, BaseDonnees base){
+		JSONObject commandeJson = new JSONObject();
+
+		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		SimpleDateFormat mois = new SimpleDateFormat("MM");
+		SimpleDateFormat jour = new SimpleDateFormat("dd");
+
+		String zeros = "";
+
+		if(numero < 10){
+			zeros += "0";
+			if((int)numero < 100){
+				zeros += "0";
+			}
+		}
+
+		commandeJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\" + zeros + numero + ".json");
+
+		try {
+			Date momentCommande = new Date(((Number)commandeJson.get("moment")).longValue());
+			int numeroCommande = ((Number)commandeJson.get("numero")).intValue();
+			Plat platCommande = base.getPlat((String)commandeJson.get("plat"));
+
+			List<Ingredient> ingredientsCommande = new ArrayList<Ingredient>();
+			JSONArray ingredientsCommandeJson = (JSONArray) commandeJson.get("ingredients");
+			Iterator<String> iterateurIng = ingredientsCommandeJson.iterator();
+			while(iterateurIng.hasNext()){
+				ingredientsCommande.add(base.getIngredient((String)iterateurIng.next()));
+			}
+
+			List<Sauce> saucesCommande = new ArrayList<Sauce>();
+			JSONArray saucesCommandeJson = (JSONArray) commandeJson.get("sauces");
+			Iterator<String> iterateurSau = saucesCommandeJson.iterator();
+			while(iterateurSau.hasNext()){
+				saucesCommande.add(base.getSauce((String)iterateurSau.next()));
+			}
+
+			Dessert dessertCommande = base.getDessert((String)commandeJson.get("dessert"));
+			Boisson boissonCommande = base.getBoisson((String)commandeJson.get("boisson"));
+			SupplementBoisson supplementBoissonCommande = base.getSupplementBoisson((String)commandeJson.get("supplementBoisson"));
+
+			Commande commande = new Commande(momentCommande, numeroCommande, platCommande, ingredientsCommande, saucesCommande, dessertCommande, boissonCommande, supplementBoissonCommande);
+			return(commande);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			Commande commande = new Commande(new Date(0), 0, base.getRienPlat(), new ArrayList<Ingredient>(), new ArrayList<Sauce>(), base.getRienDessert(), base.getRienBoisson(), base.getRienSupplementBoisson());
+			return(commande);
+		}
+	}
+
+	public static CommandeAssignee lireCommandeAssignee(Date moment, int numero, BaseDonnees base){
+		JSONObject commandeJson = new JSONObject();
+
+		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		SimpleDateFormat mois = new SimpleDateFormat("MM");
+		SimpleDateFormat jour = new SimpleDateFormat("dd");
+
+		String zeros = "";
+
+		if(numero < 10){
+			zeros += "0";
+			if((int)numero < 100){
+				zeros += "0";
+			}
+		}
+
+		commandeJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\" + zeros + numero + ".json");
+
+		try {
+			Date momentCommande = new Date(((Number)commandeJson.get("moment")).longValue());
+			int numeroCommande = ((Number)commandeJson.get("numero")).intValue();
+			Plat platCommande = base.getPlat((String)commandeJson.get("plat"));
+
+			List<Ingredient> ingredientsCommande = new ArrayList();
+			JSONArray ingredientsCommandeJson = (JSONArray) commandeJson.get("ingredients");
+			Iterator<String> iterateurIng = ingredientsCommandeJson.iterator();
+			while(iterateurIng.hasNext()){
+				ingredientsCommande.add(base.getIngredient((String)iterateurIng.next()));
+			}
+
+			List<Sauce> saucesCommande = new ArrayList();
+			JSONArray saucesCommandeJson = (JSONArray) commandeJson.get("sauces");
+			Iterator<String> iterateurSau = saucesCommandeJson.iterator();
+			while(iterateurSau.hasNext()){
+				saucesCommande.add(base.getSauce((String)iterateurSau.next()));
+			}
+
+			Dessert dessertCommande = base.getDessert((String)commandeJson.get("dessert"));
+			Boisson boissonCommande = base.getBoisson((String)commandeJson.get("boisson"));
+			SupplementBoisson supplementBoissonCommande = base.getSupplementBoisson((String)commandeJson.get("supplementBoisson"));
+
+			Membre membreCommande = base.getMembre((String)commandeJson.get("membre"));
+			Date momentAssignationCommande = new Date(((Number)commandeJson.get("momentAssignation")).longValue());
+			boolean estRealiseeCommande = (boolean)commandeJson.get("estRealisee");
+			boolean estDonneeCommande = (boolean)commandeJson.get("estDonnee");
+
+			Commande commande = new Commande(momentCommande, numeroCommande, platCommande, ingredientsCommande, saucesCommande, dessertCommande, boissonCommande, supplementBoissonCommande);
+			CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membreCommande, momentAssignationCommande, estRealiseeCommande, estDonneeCommande);
+			
+			return(commandeAssignee);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			Commande commande = new Commande(new Date(0), 0, base.getRienPlat(), new ArrayList<Ingredient>(), new ArrayList<Sauce>(), base.getRienDessert(), base.getRienBoisson(), base.getRienSupplementBoisson());
+			Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
+			CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(0), false, false);
+			return(commandeAssignee);
+		}
+	}
+
+	public static boolean estAssignee(Date moment, int numero){
+		JSONObject commandeJson = new JSONObject();
+
+		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		SimpleDateFormat mois = new SimpleDateFormat("MM");
+		SimpleDateFormat jour = new SimpleDateFormat("dd");
+
+		String zeros = "";
+
+		if(numero < 10){
+			zeros += "0";
+			if((int)numero < 100){
+				zeros += "0";
+			}
+		}
+
+		commandeJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\" + zeros + numero + ".json");
+		boolean estAssignee = false;
+
+		try {
+			estAssignee = (boolean)commandeJson.get("assignee");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return(estAssignee);
 	}
 }

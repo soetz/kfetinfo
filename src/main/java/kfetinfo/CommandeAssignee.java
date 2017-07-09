@@ -21,24 +21,37 @@ package kfetinfo;
 import java.util.Date;
 
 public class CommandeAssignee extends Commande {
+	Membre membre;
 	Date momentAssignation;
 	boolean estRealisee;
 	boolean estDonnee;
 	
-	public CommandeAssignee(Plat rienPlat, Dessert rienDessert, Boisson rienBoisson, SupplementBoisson rienSupplementBoisson, Commande commande, Date momentAssignation, boolean estRealisee, boolean estDonnee){
-		super(rienPlat, rienDessert, rienBoisson, rienSupplementBoisson);
-		
-		this.moment = commande.getMoment();
-		this.numero = commande.getNumero();
-		this.plat = commande.getPlat();
-		this.ingredients = commande.getIngredients();
-		this.sauces = commande.getSauces();
-		this.dessert = commande.getDessert();
-		this.boisson = commande.getBoisson();
-		this.supplementBoisson = commande.getSupplementBoisson();
+	public CommandeAssignee(Commande commande, Membre membre, Date momentAssignation, boolean estRealisee, boolean estDonnee){
+		super(commande.getMoment(), commande.getNumero(), commande.getPlat(), commande.getIngredients(), commande.getSauces(), commande.getDessert(), commande.getBoisson(), commande.getSupplementBoisson());
 
+		this.membre = membre;
 		this.momentAssignation = momentAssignation;
 		this.estRealisee = estRealisee;
 		this.estDonnee = estDonnee;
+	}
+
+	public Membre getMembre(){
+		return(membre);
+	}
+
+	public Date getMomentAssignation(){
+		return(momentAssignation);
+	}
+
+	public boolean getEstRealisee(){
+		return(estRealisee);
+	}
+
+	public boolean getEstDonnee(){
+		return(estDonnee);
+	}
+
+	public String toString(){
+		return(chaineToString() + "Membre : " + membre.getPrenom() + " \"" + membre.getSurnom() + "\" " + membre.getNom() + "\n");
 	}
 }

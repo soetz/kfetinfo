@@ -43,7 +43,19 @@ public class Membre {
 		this.tempsMoyenCommande = tempsMoyenCommande;
 	}
 
+	public String getId(){
+		return(id);
+	}
+
+	public String getPrenom(){
+		return(prenom);
+	}
+
 	public String getNom(){
 		return(nom);
+	}
+
+	public String getSurnom(){
+		return(surnom);
 	}
 }

@@ -22,8 +22,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.util.Collections;
-
+import java.util.Date;
 import java.io.File;
+import java.text.SimpleDateFormat;
+
 import org.apache.commons.io.FilenameUtils;
 
 public class BaseDonnees {
@@ -36,17 +38,13 @@ public class BaseDonnees {
 	List<Plat> plats;
 	List<SupplementBoisson> supplementsBoisson;
 	List<Membre> membres;
+	List<Commande> commandes;
 
 	public BaseDonnees(){
 		CreateurBase.initialiserBase();
-		ingredients = new ArrayList();
-		sauces = new ArrayList();
-		desserts = new ArrayList();
-		boissons = new ArrayList();
-		plats = new ArrayList();
-		supplementsBoisson = new ArrayList();
-		membres = new ArrayList();
 		chargerMenu();
+		chargerMembres();
+		chargerCommandes(new Date());
 	}
 
 	public Ingredient getRienIngredient(){
@@ -181,6 +179,45 @@ public class BaseDonnees {
 		return(supplementBoisson);
 	}
 
+	public Membre getMembre(String id){
+		Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
+		for(Membre membreListe : membres){
+			if(membreListe.getId().equals(id)){
+				membre = membreListe;
+			}
+		}
+
+		return(membre);
+	}
+
+	public Commande getCommande(Date moment, int numero){
+		Commande commande = new Commande(getRienPlat(), getRienDessert(), getRienBoisson(), getRienSupplementBoisson(), this);
+		chargerCommandes(moment);
+		for(Commande commandeListe : commandes){
+			if(commandeListe.getNumero() == numero){
+				commande = commandeListe;
+			}
+		}
+		chargerCommandes(new Date());
+
+		return(commande);
+	}
+
+	public Commande getCommande(int numero){
+		return(getCommande(new Date(), numero));
+	}
+
+	public int getDernierNumeroCommande(){
+		chargerCommandes(new Date());
+		int numero = 0;
+		for(Commande commande : commandes){
+			if(commande.getNumero() > numero){
+				numero = commande.getNumero();
+			}
+		}
+		return(numero);
+	}
+
 	public void chargerMenu(){
 		chargerIngredients();
 		chargerSauces();
@@ -226,7 +263,15 @@ public class BaseDonnees {
 		}
 	}
 
+	public void affCommandes(){
+		for(Commande commande : commandes){
+			System.out.println(commande);
+		}
+	}
+
 	private void chargerIngredients(){
+		ingredients = new ArrayList<Ingredient>();
+
 		File dossierIngredients = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\");
 		File[] listOfFiles = dossierIngredients.listFiles();
 
@@ -242,6 +287,8 @@ public class BaseDonnees {
 	}
 
 	private void chargerSauces(){
+		sauces = new ArrayList<Sauce>();
+
 		File dossierSauces = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\");
 		File[] listOfFiles = dossierSauces.listFiles();
 
@@ -257,6 +304,8 @@ public class BaseDonnees {
 	}
 
 	private void chargerDesserts(){
+		desserts = new ArrayList<Dessert>();
+
 		File dossierDesserts = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\");
 		File[] listOfFiles = dossierDesserts.listFiles();
 
@@ -272,6 +321,8 @@ public class BaseDonnees {
 	}
 
 	private void chargerBoissons(){
+		boissons = new ArrayList<Boisson>();
+
 		File dossierBoissons = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\");
 		File[] listOfFiles = dossierBoissons.listFiles();
 
@@ -287,6 +338,8 @@ public class BaseDonnees {
 	}
 
 	private void chargerPlats(){
+		plats = new ArrayList<Plat>();
+
 		File dossierPlats = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\");
 		File[] listOfFiles = dossierPlats.listFiles();
 
@@ -302,6 +355,8 @@ public class BaseDonnees {
 	}
 
 	private void chargerSupplementsBoisson(){
+		supplementsBoisson = new ArrayList<SupplementBoisson>();
+
 		File dossierSupplementsBoisson = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\");
 		File[] listOfFiles = dossierSupplementsBoisson.listFiles();
 
@@ -317,6 +372,8 @@ public class BaseDonnees {
 	}
 
 	public void chargerMembres(){
+		membres = new ArrayList<Membre>();
+
 		File dossierMembres = new File(path + "\\src\\main\\resources\\Base de Données\\Membres\\");
 		File[] listOfFiles = dossierMembres.listFiles();
 
@@ -329,5 +386,45 @@ public class BaseDonnees {
 
 		Collections.sort(membres, new CompareMembre());
 		Collections.reverse(membres);
+	}
+
+	public void chargerCommandes(Date moment){
+		commandes = new ArrayList<Commande>();
+
+		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		SimpleDateFormat mois = new SimpleDateFormat("MM");
+		SimpleDateFormat jour = new SimpleDateFormat("dd");
+
+		File dossierCommandes = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\");
+		File[] listOfFiles = dossierCommandes.listFiles();
+
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
+				String nom = FilenameUtils.removeExtension(listOfFiles[i].getName());
+				int numero = Integer.parseInt(nom);
+
+				if(LecteurBase.estAssignee(moment, numero)){
+					CommandeAssignee commande = LecteurBase.lireCommandeAssignee(moment, numero, this);
+					commandes.add(commande);
+				}
+				else {
+					Commande commande = LecteurBase.lireCommande(moment, numero, this);
+					commandes.add(commande);
+				}
+	    	}
+		}
+
+		Collections.sort(commandes, new CompareCommande());
+	}
+
+	public void chargerCommandes(){
+		chargerCommandes(new Date());
+	}
+
+	public void assignerCommande(int numero, Membre membre){
+		Commande commande = getCommande(numero);
+		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, false);
+		CreateurBase.ajouterCommandeAssignee(commandeAssignee);
+		chargerCommandes();
 	}
 }

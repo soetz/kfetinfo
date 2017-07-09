@@ -36,34 +36,9 @@ public class Test /*extends Application*/ {
 	static BaseDonnees base = new BaseDonnees();
 
 	public static void main(String[] args) {
-		base.affMenu();
-		Commande commande = new Commande(base.getRienPlat(), base.getRienDessert(), base.getRienBoisson(), base.getRienSupplementBoisson());
-		System.out.println(commande);
-		commande.setPlat(base.getPlat("19e392a8-17ec-4396-8305-70dcc4dca13a"));
-		System.out.println(commande);
-		commande.setPlat(base.getPlat("d5548771-4116-4f9b-baf5-20b0bb4874ce"));
-		System.out.println(commande);
-		commande.addIngredient(base.getIngredient("5e920d8b-983d-4e06-b372-589b58a18feb"));
-		System.out.println(commande);
-		commande.addIngredient(base.getIngredient("17e00364-e494-4241-b592-ccba572643a4"));
-		System.out.println(commande);
-		commande.addIngredient(base.getIngredient("b44e1e13-6aa4-493b-94eb-b21fdca5529b"));
-		System.out.println(commande);
-		commande.addIngredient(base.getIngredient("4f4edfb7-c2fc-4d2a-aac2-93197bdc8765"));
-		System.out.println(commande);
-		commande.addSauce(base.getSauce("81c19081-cb63-4639-803d-e819221dde3a"));
-		System.out.println(commande);
-		commande.addSauce(base.getSauce("1cca8192-ad1e-4cf6-abd6-2e45f20da5f6"));
-		System.out.println(commande);
-		commande.setBoisson(base.getBoisson("19e5431e-a848-4774-b548-306cfb1cd224"));
-		System.out.println(commande);
-		commande.setDessert(base.getDessert("d09234f6-eb62-41d9-82bf-758982a937dc"));
-		System.out.println(commande);
-		commande.setSupplementBoisson(base.getSupplementBoisson("eb30ae6f-05bd-4953-bf60-a34814716aed"));
-		System.out.println(commande);
-		commande.setDessert(base.getDessert("7bbe9b8d-893c-4f39-8da4-2ddf28b620ff"));
-		System.out.println(commande);
-		CreateurBase.ajouterCommande(commande);
+		base.assignerCommande(1, base.getMembre("1eafc5b3-5a4c-4eb6-8bbc-9ad5dbab726d"));
+		
+		base.affCommandes();
 
 		/*launch(args);*/
 	}

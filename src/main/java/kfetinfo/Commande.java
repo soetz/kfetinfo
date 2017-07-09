@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class Commande {
 	Date moment;
 	int numero;
-	static int dernierNumero = 0;
 	Plat plat;
 	List<Ingredient> ingredients;
 	List<Sauce> sauces;
@@ -34,16 +33,26 @@ public class Commande {
 	Boisson boisson;
 	SupplementBoisson supplementBoisson;
 
-	public Commande(Plat rienPlat, Dessert rienDessert, Boisson rienBoisson, SupplementBoisson rienSupplementBoisson) {
+	public Commande(Plat rienPlat, Dessert rienDessert, Boisson rienBoisson, SupplementBoisson rienSupplementBoisson, BaseDonnees base) {
 		moment = new Date();
-		numero = dernierNumero + 1;
-		dernierNumero = numero;
+		numero = base.getDernierNumeroCommande() + 1;
 		plat = rienPlat;
 		ingredients = new ArrayList<Ingredient>();
 		sauces = new ArrayList<Sauce>();
 		dessert = rienDessert;
 		boisson = rienBoisson;
 		supplementBoisson = rienSupplementBoisson;
+	}
+
+	public Commande(Date moment, int numero, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson){
+		this.moment = moment;
+		this.numero = numero;
+		this.plat = plat;
+		this.ingredients = ingredients;
+		this.sauces = sauces;
+		this.dessert = dessert;
+		this.boisson = boisson;
+		this.supplementBoisson = supplementBoisson;
 	}
 
 	public void setPlat(Plat plat){
@@ -130,7 +139,7 @@ public class Commande {
 		moment = new Date();
 	}
 
-	public String toString(){
+	public String chaineToString(){
 		String ingString = "";
 		for(Ingredient ingredient : ingredients){
 			ingString += "  - " + ingredient.getNom() + "\n";
@@ -141,6 +150,10 @@ public class Commande {
 			sauString += "  - " + sauce.getNom() + "\n";
 		}
 
-		return("\nPlat : " + plat.getNom() + "\nIngrédients :\n" + ingString + "Sauces :\n" + sauString + "Boisson : " + boisson.getNom() + " + " + supplementBoisson.getNom() + "\nDessert : " + dessert.getNom() + "\nPrix : " + getPrix() + "\n");
+		return("Commande #" + numero + "\n—————————————————" + "\nPlat : " + plat.getNom() + "\nIngrédients :\n" + ingString + "Sauces :\n" + sauString + "Boisson : " + boisson.getNom() + " + " + supplementBoisson.getNom() + "\nDessert : " + dessert.getNom() + "\nPrix : " + getPrix() + "\n");
+	}
+
+	public String toString(){
+		return(chaineToString());
 	}
 }
