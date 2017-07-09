@@ -184,7 +184,7 @@ public class CreateurBase {
 		System.out.println(membre);
 	}
 
-	public static void ajouterCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
+	private static JSONObject objetCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
 		JSONObject commande = new JSONObject();
 		commande.put("numero", numero);
 		commande.put("moment", moment.getTime());
@@ -206,6 +206,12 @@ public class CreateurBase {
 		commande.put("dessert", dessert.getId());
 		commande.put("boisson", boisson.getId());
 		commande.put("supplementBoisson", supplementBoisson.getId());
+
+		return(commande);
+	}
+
+	public static void ajouterCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
+		JSONObject commande = objetCommande(numero, moment, plat, ingredients, sauces, dessert, boisson, supplementBoisson, prix);
 
 		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
 		SimpleDateFormat mois = new SimpleDateFormat("MM");

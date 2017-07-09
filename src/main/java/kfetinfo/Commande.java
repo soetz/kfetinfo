@@ -126,6 +126,10 @@ public class Commande {
 		return(prix);
 	}
 
+	public void envoyer(){
+		moment = new Date();
+	}
+
 	public String toString(){
 		String ingString = "";
 		for(Ingredient ingredient : ingredients){
