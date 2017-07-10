@@ -23,7 +23,9 @@ import java.io.File;
 import org.json.simple.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -36,13 +38,6 @@ public class Test /*extends Application*/ {
 	static BaseDonnees base = new BaseDonnees(new Date());
 
 	public static void main(String[] args) {
-		Commande commande = new Commande(base.getRienPlat(), base.getRienDessert(), base.getRienBoisson(), base.getRienSupplementBoisson(), base);
-		commande.setPlat(base.getPlat("19e392a8-17ec-4396-8305-70dcc4dca13a"));
-		commande.addSauce(base.getSauce("abb31c7d-7388-46e2-aa04-ea3cd7f8fa7b"));
-		commande.addSauce(base.getSauce("3c597aa0-5a68-4a89-98eb-a03cbd384161"));
-		CreateurBase.ajouterCommande(commande);
-
-		base.assignerCommande(1, base.getMembre("1eafc5b3-5a4c-4eb6-8bbc-9ad5dbab726d"));
 		
 		base.affCommandes();
 

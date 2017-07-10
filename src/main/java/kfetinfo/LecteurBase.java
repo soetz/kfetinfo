@@ -109,7 +109,7 @@ public class LecteurBase {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			Membre membre = new Membre("", "erreur", "", "", "", new Date(0), 0, 0, 0f);
+			Membre membre = new Membre();
 			return(membre);
 		}
 	}

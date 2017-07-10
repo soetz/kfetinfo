@@ -46,6 +46,18 @@ public class Commande {
 		this.base = base;
 	}
 
+	public Commande(Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, BaseDonnees base){
+		this.moment = moment;
+		this.numero = base.getDernierNumeroCommande() + 1;
+		this.plat = plat;
+		this.ingredients = ingredients;
+		this.sauces = sauces;
+		this.dessert = dessert;
+		this.boisson = boisson;
+		this.supplementBoisson = supplementBoisson;
+		this.base = base;
+	}
+
 	public Commande(Date moment, int numero, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson){
 		this.moment = moment;
 		this.numero = numero;
@@ -160,6 +172,8 @@ public class Commande {
 
 	public void envoyer(){
 		moment = new Date();
+
+		base.ajouterCommande(this);
 	}
 
 	public String chaineToString(){

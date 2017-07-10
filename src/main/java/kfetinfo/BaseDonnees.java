@@ -128,12 +128,38 @@ public class BaseDonnees {
 		return(ingredient);
 	}
 
+	public Ingredient getIngredientNom(String nom){
+		chargerMenu();
+
+		Ingredient ingredient = getRienIngredient();
+		for(Ingredient ingredientListe : ingredients){
+			if(ingredientListe.getNom().toLowerCase().equals(nom.toLowerCase())){
+				ingredient = ingredientListe;
+			}
+		}
+
+		return(ingredient);
+	}
+
 	public Sauce getSauce(String id){
 		chargerMenu();
 
 		Sauce sauce = getRienSauce();
 		for(Sauce sauceListe : sauces){
 			if(sauceListe.getId().equals(id)){
+				sauce = sauceListe;
+			}
+		}
+
+		return(sauce);
+	}
+
+	public Sauce getSauceNom(String nom){
+		chargerMenu();
+
+		Sauce sauce = getRienSauce();
+		for(Sauce sauceListe : sauces){
+			if(sauceListe.getNom().toLowerCase().equals(nom.toLowerCase())){
 				sauce = sauceListe;
 			}
 		}
@@ -154,12 +180,38 @@ public class BaseDonnees {
 		return(dessert);
 	}
 
+	public Dessert getDessertNom(String nom){
+		chargerMenu();
+
+		Dessert dessert = getRienDessert();
+		for(Dessert dessertListe : desserts){
+			if(dessertListe.getNom().toLowerCase().equals(nom.toLowerCase())){
+				dessert = dessertListe;
+			}
+		}
+
+		return(dessert);
+	}
+
 	public Boisson getBoisson(String id){
 		chargerMenu();
 
 		Boisson boisson = getRienBoisson();
 		for(Boisson boissonListe : boissons){
 			if(boissonListe.getId().equals(id)){
+				boisson = boissonListe;
+			}
+		}
+
+		return(boisson);
+	}
+
+	public Boisson getBoissonNom(String nom){
+		chargerMenu();
+
+		Boisson boisson = getRienBoisson();
+		for(Boisson boissonListe : boissons){
+			if(boissonListe.getNom().toLowerCase().equals(nom.toLowerCase())){
 				boisson = boissonListe;
 			}
 		}
@@ -180,6 +232,19 @@ public class BaseDonnees {
 		return(plat);
 	}
 
+	public Plat getPlatNom(String nom){
+		chargerMenu();
+
+		Plat plat = getRienPlat();
+		for(Plat platListe : plats){
+			if(platListe.getNom().toLowerCase().equals(nom.toLowerCase())){
+				plat = platListe;
+			}
+		}
+
+		return(plat);
+	}
+
 	public SupplementBoisson getSupplementBoisson(String id){
 		chargerMenu();
 
@@ -193,12 +258,38 @@ public class BaseDonnees {
 		return(supplementBoisson);
 	}
 
+	public SupplementBoisson getSupplementBoissonNom(String nom){
+		chargerMenu();
+
+		SupplementBoisson supplementBoisson = getRienSupplementBoisson();
+		for(SupplementBoisson supplementBoissonListe : supplementsBoisson){
+			if(supplementBoissonListe.getNom().toLowerCase().equals(nom.toLowerCase())){
+				supplementBoisson = supplementBoissonListe;
+			}
+		}
+
+		return(supplementBoisson);
+	}
+
 	public Membre getMembre(String id){
 		chargerMembres();
 
 		Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
 		for(Membre membreListe : membres){
 			if(membreListe.getId().equals(id)){
+				membre = membreListe;
+			}
+		}
+
+		return(membre);
+	}
+
+	public Membre getMembreNomPrenom(String nom, String prenom){
+		chargerMembres();
+
+		Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
+		for(Membre membreListe : membres){
+			if((membreListe.getNom().toLowerCase().equals(nom.toLowerCase()))&&(membreListe.getPrenom().toLowerCase().equals(prenom.toLowerCase()))){
 				membre = membreListe;
 			}
 		}
@@ -447,6 +538,14 @@ public class BaseDonnees {
 
 	public void chargerCommandes(){
 		chargerCommandes(new Date());
+	}
+
+	public void ajouterCommande(Commande commande){
+		chargerCommandes();
+
+		CreateurBase.ajouterCommande(commande);
+
+		chargerCommandes();
 	}
 
 	public void assignerCommande(int numero, Membre membre){

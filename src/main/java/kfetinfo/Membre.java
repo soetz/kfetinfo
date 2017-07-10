@@ -43,6 +43,18 @@ public class Membre {
 		this.tempsMoyenCommande = tempsMoyenCommande;
 	}
 
+	public Membre(){
+		this.id = "";
+		this.nom = "";
+		this.prenom = "";
+		this.surnom = "";
+		this.poste = "";
+		this.dateNaissance = new Date(0);
+		this.nbCommandes = 0;
+		this.nbServices = 0;
+		this.tempsMoyenCommande = 0;
+	}
+
 	public String getId(){
 		return(id);
 	}
@@ -57,5 +69,17 @@ public class Membre {
 
 	public String getSurnom(){
 		return(surnom);
+	}
+
+	public String getBlaze(){
+		String prenomBlaze = getPrenom();
+		String surnomBlaze = "";
+		String nomBlaze = getNom();
+
+		if(!(getSurnom().equals(""))){
+			surnomBlaze = "\"" + getSurnom() + "\"";
+		}
+
+		return(prenomBlaze + " " + surnomBlaze + " " + nomBlaze);
 	}
 }

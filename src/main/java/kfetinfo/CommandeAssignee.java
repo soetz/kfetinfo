@@ -72,6 +72,6 @@ public class CommandeAssignee extends Commande {
 	}
 
 	public String toString(){
-		return(chaineToString() + "Membre : " + membre.getPrenom() + " \"" + membre.getSurnom() + "\" " + membre.getNom() + "\n");
+		return(chaineToString() + "Membre : " + membre.getBlaze() + "\n");
 	}
 }
