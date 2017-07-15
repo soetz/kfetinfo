@@ -32,30 +32,31 @@ public class Commande {
 	Dessert dessert;
 	Boisson boisson;
 	SupplementBoisson supplementBoisson;
-	BaseDonnees base;
 
-	public Commande(Plat rienPlat, Dessert rienDessert, Boisson rienBoisson, SupplementBoisson rienSupplementBoisson, BaseDonnees base) {
+	public Commande(Plat rienPlat, Dessert rienDessert, Boisson rienBoisson, SupplementBoisson rienSupplementBoisson) {
 		moment = new Date();
-		numero = base.getDernierNumeroCommande() + 1;
+		numero = Test.getService().getDernierNumeroCommande() + 1;
 		plat = rienPlat;
 		ingredients = new ArrayList<Ingredient>();
 		sauces = new ArrayList<Sauce>();
 		dessert = rienDessert;
 		boisson = rienBoisson;
 		supplementBoisson = rienSupplementBoisson;
-		this.base = base;
 	}
 
-	public Commande(Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, BaseDonnees base){
+	public Commande(){
+		this(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
+	}
+
+	public Commande(Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, Service service){
 		this.moment = moment;
-		this.numero = base.getDernierNumeroCommande() + 1;
+		this.numero = service.getDernierNumeroCommande() + 1;
 		this.plat = plat;
 		this.ingredients = ingredients;
 		this.sauces = sauces;
 		this.dessert = dessert;
 		this.boisson = boisson;
 		this.supplementBoisson = supplementBoisson;
-		this.base = base;
 	}
 
 	public Commande(Date moment, int numero, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson){
@@ -129,19 +130,19 @@ public class Commande {
 		float prix = 0f;
 
 		if(!(this.plat.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b"))&&!(this.dessert.getId().equals("962e1223-cdda-47ef-85ab-20eede2a0dc0"))&&!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
-			prix -= Test.getReducMenu();
+			prix -= Parametres.getReducMenu();
 		}
 
 		prix += plat.getPrix();
 
 		if(this.ingredients.size() > this.plat.getNbMaxIngredients()){
-			prix += Test.getPrixIngredientSupp() * (this.ingredients.size() - this.plat.getNbMaxIngredients());
+			prix += Parametres.getPrixIngredientSupp() * (this.ingredients.size() - this.plat.getNbMaxIngredients());
 		}
 
 		prix += dessert.getPrix();
 
 		if(!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
-			prix += Test.getPrixBoisson();
+			prix += Parametres.getPrixBoisson();
 		}
 
 		prix += supplementBoisson.getPrix();
@@ -173,7 +174,7 @@ public class Commande {
 	public void envoyer(){
 		moment = new Date();
 
-		base.ajouterCommande(this);
+		Test.getService().ajouterCommande(this);
 	}
 
 	public String chaineToString(){

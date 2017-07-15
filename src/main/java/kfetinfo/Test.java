@@ -31,33 +31,25 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Test /*extends Application*/ {
-
-	static float prixIngredientSupp = 0.3f;
-	static float prixBoisson = 0.5f;
-	static float reducMenu = 0.3f;
-	static BaseDonnees base = new BaseDonnees(new Date());
+	static Service service = new Service(new Date());
 
 	public static void main(String[] args) {
-		
-		base.affCommandes();
+		init();
+
+		service.affCommandes();
 
 		/*launch(args);*/
 	}
 
-	public static float getPrixIngredientSupp(){
-		return(prixIngredientSupp);
+	public static void init(){
+		CreateurBase.initialiserBase();
+		BaseDonnees.chargerMenu();
+		BaseDonnees.chargerMembres();
+		service.chargerCommandes();
 	}
 
-	public static float getPrixBoisson(){
-		return(prixBoisson);
-	}
-
-	public static float getReducMenu(){
-		return(reducMenu);
-	}
-
-	public static BaseDonnees getBase(){
-		return(base);
+	public static Service getService(){
+		return(service);
 	}
 
 	/*public void start(Stage args) throws Exception {

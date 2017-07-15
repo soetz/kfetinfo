@@ -24,32 +24,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 
 import org.apache.commons.io.FilenameUtils;
 
 public class BaseDonnees {
 	static String path = new File("").getAbsolutePath();
 
-	List<Ingredient> ingredients;
-	List<Sauce> sauces;
-	List<Dessert> desserts;
-	List<Boisson> boissons;
-	List<Plat> plats;
-	List<SupplementBoisson> supplementsBoisson;
-	List<Membre> membres;
-	List<Commande> commandes;
+	static List<Ingredient> ingredients;
+	static List<Sauce> sauces;
+	static List<Dessert> desserts;
+	static List<Boisson> boissons;
+	static List<Plat> plats;
+	static List<SupplementBoisson> supplementsBoisson;
+	static List<Membre> membres;
 
-	public BaseDonnees(Date moment){
-		CreateurBase.initialiserBase();
-		chargerMenu();
-		chargerMembres();
-		chargerCommandes(moment);
-	}
-
-	public Ingredient getRienIngredient(){
+	static public Ingredient getRienIngredient(){
 		Ingredient ingredient = new Ingredient("e8a6d3a2-7e0b-4587-ac85-462329b4a776", "Rien", 0, true, 0, -1);
 		for(Ingredient ingredientListe : ingredients){
 			if(ingredientListe.id.equals("e8a6d3a2-7e0b-4587-ac85-462329b4a776")){
@@ -60,7 +49,7 @@ public class BaseDonnees {
 		return(ingredient);
 	}
 
-	public Sauce getRienSauce(){
+	static public Sauce getRienSauce(){
 		Sauce sauce = new Sauce("dc9e18ea-ff8c-4d71-8d11-ed18489df6a1", "Rien", 0, true, 0, -1);
 		for(Sauce sauceListe : sauces){
 			if(sauceListe.getId().equals("dc9e18ea-ff8c-4d71-8d11-ed18489df6a1")){
@@ -71,7 +60,7 @@ public class BaseDonnees {
 		return(sauce);
 	}
 
-	public Dessert getRienDessert(){
+	static public Dessert getRienDessert(){
 		Dessert dessert = new Dessert("962e1223-cdda-47ef-85ab-20eede2a0dc0", "Rien", 0, true, 0, -1, 0);
 		for(Dessert dessertListe : desserts){
 			if(dessertListe.getId().equals("962e1223-cdda-47ef-85ab-20eede2a0dc0")){
@@ -82,7 +71,7 @@ public class BaseDonnees {
 		return(dessert);
 	}
 
-	public Boisson getRienBoisson(){
+	static public Boisson getRienBoisson(){
 		Boisson boisson = new Boisson("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe", "Rien", 0, true, 0, -1);
 		for(Boisson boissonListe : boissons){
 			if(boissonListe.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe")){
@@ -93,7 +82,7 @@ public class BaseDonnees {
 		return(boisson);
 	}
 
-	public Plat getRienPlat(){
+	static public Plat getRienPlat(){
 		Plat plat = new Plat("ff56da46-bddd-4e4f-a871-6fa03b0e814b", "Rien", 0, true, 0, -1, 0, 0, 0);
 		for(Plat platListe : plats){
 			if(platListe.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b")){
@@ -104,7 +93,7 @@ public class BaseDonnees {
 		return(plat);
 	}
 
-	public SupplementBoisson getRienSupplementBoisson(){
+	static public SupplementBoisson getRienSupplementBoisson(){
 		SupplementBoisson supplementBoisson = new SupplementBoisson("fa03180b-95ad-4a5b-84f2-cbdc2beae920", "Rien", 0, true, 0, -1, 0);
 		for(SupplementBoisson supplementBoissonListe : supplementsBoisson){
 			if(supplementBoissonListe.getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
@@ -115,7 +104,7 @@ public class BaseDonnees {
 		return(supplementBoisson);
 	}
 
-	public Ingredient getIngredient(String id){
+	static public Ingredient getIngredient(String id){
 		chargerMenu();
 
 		Ingredient ingredient = getRienIngredient();
@@ -128,7 +117,7 @@ public class BaseDonnees {
 		return(ingredient);
 	}
 
-	public Ingredient getIngredientNom(String nom){
+	static public Ingredient getIngredientNom(String nom){
 		chargerMenu();
 
 		Ingredient ingredient = getRienIngredient();
@@ -141,7 +130,7 @@ public class BaseDonnees {
 		return(ingredient);
 	}
 
-	public Sauce getSauce(String id){
+	static public Sauce getSauce(String id){
 		chargerMenu();
 
 		Sauce sauce = getRienSauce();
@@ -154,7 +143,7 @@ public class BaseDonnees {
 		return(sauce);
 	}
 
-	public Sauce getSauceNom(String nom){
+	static public Sauce getSauceNom(String nom){
 		chargerMenu();
 
 		Sauce sauce = getRienSauce();
@@ -167,7 +156,7 @@ public class BaseDonnees {
 		return(sauce);
 	}
 
-	public Dessert getDessert(String id){
+	static public Dessert getDessert(String id){
 		chargerMenu();
 
 		Dessert dessert = getRienDessert();
@@ -180,7 +169,7 @@ public class BaseDonnees {
 		return(dessert);
 	}
 
-	public Dessert getDessertNom(String nom){
+	static public Dessert getDessertNom(String nom){
 		chargerMenu();
 
 		Dessert dessert = getRienDessert();
@@ -193,7 +182,7 @@ public class BaseDonnees {
 		return(dessert);
 	}
 
-	public Boisson getBoisson(String id){
+	static public Boisson getBoisson(String id){
 		chargerMenu();
 
 		Boisson boisson = getRienBoisson();
@@ -206,7 +195,7 @@ public class BaseDonnees {
 		return(boisson);
 	}
 
-	public Boisson getBoissonNom(String nom){
+	static public Boisson getBoissonNom(String nom){
 		chargerMenu();
 
 		Boisson boisson = getRienBoisson();
@@ -219,7 +208,7 @@ public class BaseDonnees {
 		return(boisson);
 	}
 
-	public Plat getPlat(String id){
+	static public Plat getPlat(String id){
 		chargerMenu();
 
 		Plat plat = getRienPlat();
@@ -232,7 +221,7 @@ public class BaseDonnees {
 		return(plat);
 	}
 
-	public Plat getPlatNom(String nom){
+	static public Plat getPlatNom(String nom){
 		chargerMenu();
 
 		Plat plat = getRienPlat();
@@ -245,7 +234,7 @@ public class BaseDonnees {
 		return(plat);
 	}
 
-	public SupplementBoisson getSupplementBoisson(String id){
+	static public SupplementBoisson getSupplementBoisson(String id){
 		chargerMenu();
 
 		SupplementBoisson supplementBoisson = getRienSupplementBoisson();
@@ -258,7 +247,7 @@ public class BaseDonnees {
 		return(supplementBoisson);
 	}
 
-	public SupplementBoisson getSupplementBoissonNom(String nom){
+	static public SupplementBoisson getSupplementBoissonNom(String nom){
 		chargerMenu();
 
 		SupplementBoisson supplementBoisson = getRienSupplementBoisson();
@@ -271,7 +260,7 @@ public class BaseDonnees {
 		return(supplementBoisson);
 	}
 
-	public Membre getMembre(String id){
+	static public Membre getMembre(String id){
 		chargerMembres();
 
 		Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
@@ -284,7 +273,7 @@ public class BaseDonnees {
 		return(membre);
 	}
 
-	public Membre getMembreNomPrenom(String nom, String prenom){
+	static public Membre getMembreNomPrenom(String nom, String prenom){
 		chargerMembres();
 
 		Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
@@ -297,37 +286,7 @@ public class BaseDonnees {
 		return(membre);
 	}
 
-	public Commande getCommande(Date moment, int numero){
-		Commande commande = new Commande(getRienPlat(), getRienDessert(), getRienBoisson(), getRienSupplementBoisson(), this);
-		chargerCommandes(moment);
-		for(Commande commandeListe : commandes){
-			if(commandeListe.getNumero() == numero){
-				commande = commandeListe;
-			}
-		}
-
-		chargerCommandes();
-
-		return(commande);
-	}
-
-	public Commande getCommande(int numero){
-		chargerCommandes();
-		return(getCommande(new Date(), numero));
-	}
-
-	public int getDernierNumeroCommande(){
-		chargerCommandes();
-		int numero = 0;
-		for(Commande commande : commandes){
-			if(commande.getNumero() > numero){
-				numero = commande.getNumero();
-			}
-		}
-		return(numero);
-	}
-
-	public void chargerMenu(){
+	static public void chargerMenu(){
 		chargerIngredients();
 		chargerSauces();
 		chargerDesserts();
@@ -336,7 +295,7 @@ public class BaseDonnees {
 		chargerSupplementsBoisson();
 	}
 
-	public void affMenu(){
+	static public void affMenu(){
 		chargerMenu();
 
 		for(Ingredient ingredient : ingredients){
@@ -374,15 +333,7 @@ public class BaseDonnees {
 		}
 	}
 
-	public void affCommandes(){
-		chargerCommandes();
-
-		for(Commande commande : commandes){
-			System.out.println(commande);
-		}
-	}
-
-	private void chargerIngredients(){
+	static private void chargerIngredients(){
 		ingredients = new ArrayList<Ingredient>();
 
 		File dossierIngredients = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\");
@@ -399,7 +350,7 @@ public class BaseDonnees {
 		Collections.reverse(ingredients);
 	}
 
-	private void chargerSauces(){
+	static private void chargerSauces(){
 		sauces = new ArrayList<Sauce>();
 
 		File dossierSauces = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\");
@@ -416,7 +367,7 @@ public class BaseDonnees {
 		Collections.reverse(sauces);
 	}
 
-	private void chargerDesserts(){
+	static private void chargerDesserts(){
 		desserts = new ArrayList<Dessert>();
 
 		File dossierDesserts = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\");
@@ -433,7 +384,7 @@ public class BaseDonnees {
 		Collections.reverse(desserts);
 	}
 
-	private void chargerBoissons(){
+	static private void chargerBoissons(){
 		boissons = new ArrayList<Boisson>();
 
 		File dossierBoissons = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\");
@@ -450,7 +401,7 @@ public class BaseDonnees {
 		Collections.reverse(boissons);
 	}
 
-	private void chargerPlats(){
+	static private void chargerPlats(){
 		plats = new ArrayList<Plat>();
 
 		File dossierPlats = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\");
@@ -467,7 +418,7 @@ public class BaseDonnees {
 		Collections.reverse(plats);
 	}
 
-	private void chargerSupplementsBoisson(){
+	static private void chargerSupplementsBoisson(){
 		supplementsBoisson = new ArrayList<SupplementBoisson>();
 
 		File dossierSupplementsBoisson = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\");
@@ -484,7 +435,7 @@ public class BaseDonnees {
 		Collections.reverse(supplementsBoisson);
 	}
 
-	public void chargerMembres(){
+	static public void chargerMembres(){
 		membres = new ArrayList<Membre>();
 
 		File dossierMembres = new File(path + "\\src\\main\\resources\\Base de Données\\Membres\\");
@@ -499,61 +450,5 @@ public class BaseDonnees {
 
 		Collections.sort(membres, new CompareMembre());
 		Collections.reverse(membres);
-	}
-
-	public void chargerCommandes(Date moment){
-		commandes = new ArrayList<Commande>();
-
-		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
-		SimpleDateFormat mois = new SimpleDateFormat("MM");
-		SimpleDateFormat jour = new SimpleDateFormat("dd");
-
-		try {
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\"));
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		File dossierCommandes = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\");
-		File[] listOfFiles = dossierCommandes.listFiles();
-
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
-				String nom = FilenameUtils.removeExtension(listOfFiles[i].getName());
-				int numero = Integer.parseInt(nom);
-
-				if(LecteurBase.estAssignee(moment, numero)){
-					CommandeAssignee commande = LecteurBase.lireCommandeAssignee(moment, numero, this);
-					commandes.add(commande);
-				}
-				else {
-					Commande commande = LecteurBase.lireCommande(moment, numero, this);
-					commandes.add(commande);
-				}
-	    	}
-		}
-
-		Collections.sort(commandes, new CompareCommande());
-	}
-
-	public void chargerCommandes(){
-		chargerCommandes(new Date());
-	}
-
-	public void ajouterCommande(Commande commande){
-		chargerCommandes();
-
-		CreateurBase.ajouterCommande(commande);
-
-		chargerCommandes();
-	}
-
-	public void assignerCommande(int numero, Membre membre){
-		chargerCommandes();
-
-		Commande commande = getCommande(numero);
-		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, new Date(0), false);
-		CreateurBase.ajouterCommandeAssignee(commandeAssignee);
-		chargerCommandes();
 	}
 }

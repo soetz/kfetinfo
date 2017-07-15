@@ -47,6 +47,7 @@ public class CreateurBase {
 			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson"));
 			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Membres"));
 			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services"));
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Paramètres"));
 		}
 		catch (Exception e) {
 			e.printStackTrace();

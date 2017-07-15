@@ -114,7 +114,7 @@ public class LecteurBase {
 		}
 	}
 
-	public static Commande lireCommande(Date moment, int numero, BaseDonnees base){
+	public static Commande lireCommande(Date moment, int numero){
 		JSONObject commandeJson = new JSONObject();
 
 		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
@@ -135,37 +135,37 @@ public class LecteurBase {
 		try {
 			Date momentCommande = new Date(((Number)commandeJson.get("moment")).longValue());
 			int numeroCommande = ((Number)commandeJson.get("numero")).intValue();
-			Plat platCommande = base.getPlat((String)commandeJson.get("plat"));
+			Plat platCommande = BaseDonnees.getPlat((String)commandeJson.get("plat"));
 
 			List<Ingredient> ingredientsCommande = new ArrayList<Ingredient>();
 			JSONArray ingredientsCommandeJson = (JSONArray) commandeJson.get("ingredients");
 			Iterator<String> iterateurIng = ingredientsCommandeJson.iterator();
 			while(iterateurIng.hasNext()){
-				ingredientsCommande.add(base.getIngredient((String)iterateurIng.next()));
+				ingredientsCommande.add(BaseDonnees.getIngredient((String)iterateurIng.next()));
 			}
 
 			List<Sauce> saucesCommande = new ArrayList<Sauce>();
 			JSONArray saucesCommandeJson = (JSONArray) commandeJson.get("sauces");
 			Iterator<String> iterateurSau = saucesCommandeJson.iterator();
 			while(iterateurSau.hasNext()){
-				saucesCommande.add(base.getSauce((String)iterateurSau.next()));
+				saucesCommande.add(BaseDonnees.getSauce((String)iterateurSau.next()));
 			}
 
-			Dessert dessertCommande = base.getDessert((String)commandeJson.get("dessert"));
-			Boisson boissonCommande = base.getBoisson((String)commandeJson.get("boisson"));
-			SupplementBoisson supplementBoissonCommande = base.getSupplementBoisson((String)commandeJson.get("supplementBoisson"));
+			Dessert dessertCommande = BaseDonnees.getDessert((String)commandeJson.get("dessert"));
+			Boisson boissonCommande = BaseDonnees.getBoisson((String)commandeJson.get("boisson"));
+			SupplementBoisson supplementBoissonCommande = BaseDonnees.getSupplementBoisson((String)commandeJson.get("supplementBoisson"));
 
 			Commande commande = new Commande(momentCommande, numeroCommande, platCommande, ingredientsCommande, saucesCommande, dessertCommande, boissonCommande, supplementBoissonCommande);
 			return(commande);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			Commande commande = new Commande(new Date(0), 0, base.getRienPlat(), new ArrayList<Ingredient>(), new ArrayList<Sauce>(), base.getRienDessert(), base.getRienBoisson(), base.getRienSupplementBoisson());
+			Commande commande = new Commande(new Date(0), 0, BaseDonnees.getRienPlat(), new ArrayList<Ingredient>(), new ArrayList<Sauce>(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
 			return(commande);
 		}
 	}
 
-	public static CommandeAssignee lireCommandeAssignee(Date moment, int numero, BaseDonnees base){
+	public static CommandeAssignee lireCommandeAssignee(Date moment, int numero){
 		JSONObject commandeJson = new JSONObject();
 
 		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
@@ -186,27 +186,27 @@ public class LecteurBase {
 		try {
 			Date momentCommande = new Date(((Number)commandeJson.get("moment")).longValue());
 			int numeroCommande = ((Number)commandeJson.get("numero")).intValue();
-			Plat platCommande = base.getPlat((String)commandeJson.get("plat"));
+			Plat platCommande = BaseDonnees.getPlat((String)commandeJson.get("plat"));
 
 			List<Ingredient> ingredientsCommande = new ArrayList();
 			JSONArray ingredientsCommandeJson = (JSONArray) commandeJson.get("ingredients");
 			Iterator<String> iterateurIng = ingredientsCommandeJson.iterator();
 			while(iterateurIng.hasNext()){
-				ingredientsCommande.add(base.getIngredient((String)iterateurIng.next()));
+				ingredientsCommande.add(BaseDonnees.getIngredient((String)iterateurIng.next()));
 			}
 
-			List<Sauce> saucesCommande = new ArrayList();
+			List<Sauce> saucesCommande = new ArrayList<Sauce>();
 			JSONArray saucesCommandeJson = (JSONArray) commandeJson.get("sauces");
 			Iterator<String> iterateurSau = saucesCommandeJson.iterator();
 			while(iterateurSau.hasNext()){
-				saucesCommande.add(base.getSauce((String)iterateurSau.next()));
+				saucesCommande.add(BaseDonnees.getSauce((String)iterateurSau.next()));
 			}
 
-			Dessert dessertCommande = base.getDessert((String)commandeJson.get("dessert"));
-			Boisson boissonCommande = base.getBoisson((String)commandeJson.get("boisson"));
-			SupplementBoisson supplementBoissonCommande = base.getSupplementBoisson((String)commandeJson.get("supplementBoisson"));
+			Dessert dessertCommande = BaseDonnees.getDessert((String)commandeJson.get("dessert"));
+			Boisson boissonCommande = BaseDonnees.getBoisson((String)commandeJson.get("boisson"));
+			SupplementBoisson supplementBoissonCommande = BaseDonnees.getSupplementBoisson((String)commandeJson.get("supplementBoisson"));
 
-			Membre membreCommande = base.getMembre((String)commandeJson.get("membre"));
+			Membre membreCommande = BaseDonnees.getMembre((String)commandeJson.get("membre"));
 			Date momentAssignationCommande = new Date(((Number)commandeJson.get("momentAssignation")).longValue());
 			boolean estRealiseeCommande = (boolean)commandeJson.get("estRealisee");
 			Date momentRealisationCommande = new Date(((Number)commandeJson.get("momentRealisation")).longValue());
@@ -219,7 +219,7 @@ public class LecteurBase {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			Commande commande = new Commande(new Date(0), 0, base.getRienPlat(), new ArrayList<Ingredient>(), new ArrayList<Sauce>(), base.getRienDessert(), base.getRienBoisson(), base.getRienSupplementBoisson());
+			Commande commande = new Commande(new Date(0), 0, BaseDonnees.getRienPlat(), new ArrayList<Ingredient>(), new ArrayList<Sauce>(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
 			Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
 			CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(0), false, new Date(0), false);
 			return(commandeAssignee);
