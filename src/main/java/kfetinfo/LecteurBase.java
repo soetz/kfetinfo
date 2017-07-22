@@ -87,7 +87,7 @@ public class LecteurBase {
 		JSONObject platJson = new JSONObject();
 		platJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\" + nom + ".json");
 
-		Plat plat = new Plat((String)platJson.get("id"), (String)platJson.get("nom"), ((Number)platJson.get("cout")).floatValue(), (boolean)platJson.get("estDisponible"), ((Number)platJson.get("nbUtilisations")).intValue(), ((Number)platJson.get("priorite")).intValue(), ((Number)platJson.get("nbMaxIngredients")).intValue(), ((Number)platJson.get("nbMaxSauces")).intValue(), ((Number)platJson.get("prix")).floatValue());
+		Plat plat = new Plat((String)platJson.get("id"), (String)platJson.get("nom"), ((Number)platJson.get("cout")).floatValue(), (boolean)platJson.get("estDisponible"), ((Number)platJson.get("nbUtilisations")).intValue(), ((Number)platJson.get("priorite")).intValue(), ((Number)platJson.get("nbMaxIngredients")).intValue(), ((Number)platJson.get("nbMaxSauces")).intValue(), (boolean)platJson.get("utilisePain"), ((Number)platJson.get("prix")).floatValue());
 		return(plat);
 	}
 
@@ -223,6 +223,51 @@ public class LecteurBase {
 			Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
 			CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(0), false, new Date(0), false);
 			return(commandeAssignee);
+		}
+	}
+
+	public static Service lireService(Date date){
+		JSONObject serviceJson = new JSONObject();
+
+		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		SimpleDateFormat mois = new SimpleDateFormat("MM");
+		SimpleDateFormat jour = new SimpleDateFormat("dd");
+
+		serviceJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\" + "_service.json");
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+
+		try {
+			Date dateService = formatDate.parse((String)serviceJson.get("date"));
+			float nbBaguettesBaseService = ((Number)serviceJson.get("nbBaguettesBase")).floatValue();
+			float nbBaguettesUtiliseesService = ((Number)serviceJson.get("nbBaguettesUtilisees")).floatValue();
+			Membre ordiService = BaseDonnees.getMembre((String)serviceJson.get("ordi"));
+
+			List<Membre> commisService = new ArrayList<Membre>();
+			JSONArray commisServiceJson = (JSONArray) serviceJson.get("commis");
+			Iterator<String> iterateurCom = commisServiceJson.iterator();
+			while(iterateurCom.hasNext()){
+				commisService.add(BaseDonnees.getMembre((String)iterateurCom.next()));
+			}
+
+			List<Membre> confectionService = new ArrayList<Membre>();
+			JSONArray confectionServiceJson = (JSONArray) serviceJson.get("confection");
+			Iterator<String> iterateurCon = confectionServiceJson.iterator();
+			while(iterateurCon.hasNext()){
+				confectionService.add(BaseDonnees.getMembre((String)iterateurCon.next()));
+			}
+
+			List<Commande> commandesService = new ArrayList<Commande>();
+
+			Service service = new Service(dateService, commandesService, nbBaguettesBaseService, nbBaguettesUtiliseesService, ordiService, commisService, confectionService);
+
+			return(service);
+		} catch (Exception e){
+			e.printStackTrace();
+
+			Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0);
+			Service service = new Service(new Date(0), new ArrayList<Commande>(), 0, 0, membre, new ArrayList<Membre>(), new ArrayList<Membre>());
+
+			return(service);
 		}
 	}
 

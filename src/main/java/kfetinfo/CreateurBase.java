@@ -270,6 +270,66 @@ public class CreateurBase {
 		ajouterCommandeAssignee(commandeAssignee.getNumero(), commandeAssignee.getMoment(), commandeAssignee.getPlat(), commandeAssignee.getIngredients(), commandeAssignee.getSauces(), commandeAssignee.getDessert(), commandeAssignee.getBoisson(), commandeAssignee.getSupplementBoisson(), commandeAssignee.getPrix(), commandeAssignee.getMembre(), commandeAssignee.getMomentAssignation(), commandeAssignee.getEstRealisee(), commandeAssignee.getMomentRealisation(), commandeAssignee.getEstDonnee());
 	}
 
+	public static JSONObject objetService(float nbBaguettesBase, float nbBaguettesUtilisees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
+		JSONObject service = new JSONObject();
+
+		service.put("nbBaguettesBase", nbBaguettesBase);
+		service.put("nbBaguettesUtilisees", nbBaguettesUtilisees);
+		service.put("nbCommandes", nbCommandes);
+		service.put("date", formatDate.format(date));
+		service.put("cout", cout);
+		service.put("revenu", revenu);
+		service.put("marge", revenu - cout);
+		service.put("ordi", ordi.getId());
+
+		JSONArray listeCommis = new JSONArray();
+		for(Membre membre : commis){
+			listeCommis.add(membre.getId());
+		}
+		
+		service.put("commis", listeCommis);
+
+		JSONArray listeConfection = new JSONArray();
+		for(Membre membre : confection){
+			listeConfection.add(membre.getId());
+		}
+
+		service.put("confection", listeConfection);
+
+		return(service);
+	}
+
+	public static void ecrireService(Date date, JSONObject service){
+		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		SimpleDateFormat mois = new SimpleDateFormat("MM");
+		SimpleDateFormat jour = new SimpleDateFormat("dd");
+
+		try {
+				Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (
+				FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\" + "_service" + ".json")) {
+	            file.write(service.toJSONString());
+	            file.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(service);
+	}
+
+	public static void ajouterService(float nbBaguettesBase, float nbBaguettesUtilisees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
+		JSONObject service = objetService(nbBaguettesBase, nbBaguettesUtilisees, nbCommandes, date, cout, revenu, ordi, commis, confection);
+		ecrireService(date, service);
+	}
+
+	public static void ajouterService(Service service){
+		ajouterService(service.getNbBaguettesBase(), service.getNbBaguettesUtilisees(), service.getNbCommandes(), service.getDate(), service.getCout(), service.getRevenu(), service.getOrdi(), service.getCommis(), service.getConfection());
+	}
+
 	public static void ajouterRiens(){
 		File f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + "rien" + ".json");
 		if(!(f.exists() && !f.isDirectory())) { 

@@ -20,6 +20,8 @@ package kfetinfo;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 import java.util.List;
 
@@ -53,15 +55,28 @@ public class Service {
 			e.printStackTrace();
 		}
 
-		this.date = date;
-		commandes = new ArrayList<Commande>();
-		nbBaguettesBase = 0;
-		nbBaguettesUtilisees = 0;
-//		ordi = getOrdiDernierService();
-//		commis = getCommisDernierService();
-//		confection = getConfectionDernierService();
+		File fichier = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\" + "_service.json");
+		if(fichier.exists()){
+			Service vieux = LecteurBase.lireService(date);
+			this.date = date;
+			commandes = new ArrayList<Commande>();
+			nbBaguettesBase = vieux.getNbBaguettesBase();
+			nbBaguettesUtilisees = vieux.getNbBaguettesUtilisees();
+			ordi = vieux.getOrdi();
+			commis = vieux.getCommis();
+			confection = vieux.getConfection();
+		}
+		else {
+			this.date = date;
+			commandes = new ArrayList<Commande>();
+			nbBaguettesBase = 0;
+			nbBaguettesUtilisees = 0;
+			ordi = getOrdiDernierService();
+			commis = getCommisDernierService();
+			confection = getConfectionDernierService();
+		}
 
-		chargerCommandes();
+		ecrireFichier();
 	}
 
 	public Service(Date date, List<Commande> commandes, float nbBaguettesBase, float nbBaguettesUtilisees, Membre ordi, List<Membre> commis, List<Membre> confection){
@@ -83,10 +98,160 @@ public class Service {
 		this.commis = commis;
 		this.confection = confection;
 
-		chargerCommandes();
+		ecrireFichier();
+	}
+
+	public float getNbBaguettesBase(){
+		recharger();
+
+		return(nbBaguettesBase);
+	}
+
+	public float getNbBaguettesUtilisees(){
+		recharger();
+
+		return(nbBaguettesUtilisees);
+	}
+
+	public int getNbCommandes(){
+		recharger();
+
+		return(commandes.size());
+	}
+
+	public Date getDate(){
+		recharger();
+
+		return(date);
+	}
+
+	public float getCout(){
+		recharger();
+
+		float cout = 0;
+		for(Commande commande : commandes){
+			cout += commande.getCout();
+		}
+
+		return(cout);
+	}
+
+	public float getRevenu(){
+		recharger();
+
+		float revenu = 0;
+		for(Commande commande : commandes){
+			revenu += commande.getPrix();
+		}
+
+		return(revenu);
+	}
+
+	public Membre getOrdi(){
+		return(ordi);
+	}
+
+	public List<Membre> getCommis(){
+		return(commis);
+	}
+
+	public List<Membre> getConfection(){
+		return(confection);
+	}
+
+	private Date getDateDernierService(){
+		Date dateDernierService = new Date(0);
+
+		File dossierServices = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\");
+		File[] contenuDossierServices = dossierServices.listFiles();
+
+		String anneeRecente = "0";
+
+		for(File contenu : contenuDossierServices){
+			String nom = contenu.getName();
+
+			if(Integer.parseInt(nom) > Integer.parseInt(anneeRecente)){
+				anneeRecente = nom;
+			}
+		}
+
+		File dossierAnnee = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + anneeRecente + "\\");
+		File[] contenuDossierAnnee = dossierAnnee.listFiles();
+
+		String moisRecent = "0";
+
+		for(File contenu : contenuDossierAnnee){
+			String nom = contenu.getName();
+
+			if(Integer.parseInt(nom) > Integer.parseInt(moisRecent)){
+				moisRecent = nom;
+			}
+		}
+
+		File dossierMois = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + anneeRecente + "\\" + moisRecent + "\\");
+		File[] contenuDossierMois = dossierMois.listFiles();
+
+		String jourRecent = "0";
+
+		for(File contenu : contenuDossierMois){
+			String nom = contenu.getName();
+
+			if(Integer.parseInt(nom) > Integer.parseInt(jourRecent)){
+				jourRecent = nom;
+			}
+		}
+
+		if(!((anneeRecente.equals("0"))&&(moisRecent.equals("0"))&&(jourRecent.equals("0")))){
+			Calendar calendrier = GregorianCalendar.getInstance();
+			calendrier.set(Integer.parseInt(anneeRecente), Integer.parseInt(moisRecent), Integer.parseInt(jourRecent));
+			dateDernierService = calendrier.getTime();
+		}
+
+		return(dateDernierService);
+	}
+
+	public Membre getOrdiDernierService(){
+		Membre ordiDernierService = new Membre();
+
+		Date dateDernierService = getDateDernierService();
+
+		if(!dateDernierService.equals(new Date(0))){
+			Service dernierService = LecteurBase.lireService(dateDernierService);
+			ordiDernierService = dernierService.getOrdi();
+		}
+
+		return(ordiDernierService);
+	}
+
+	public List<Membre> getCommisDernierService(){
+		List<Membre> commisDernierService = new ArrayList<Membre>();
+
+		Date dateDernierService = getDateDernierService();
+
+		if(!dateDernierService.equals(new Date(0))){
+			Service dernierService = LecteurBase.lireService(dateDernierService);
+			commisDernierService = dernierService.getCommis();
+		}
+
+		return(commisDernierService);
+	}
+
+	public List<Membre> getConfectionDernierService(){
+		List<Membre> confectionDernierService = new ArrayList<Membre>();
+
+		Date dateDernierService = getDateDernierService();
+
+		if(!dateDernierService.equals(new Date(0))){
+			Service dernierService = LecteurBase.lireService(dateDernierService);
+			confectionDernierService = dernierService.getConfection();
+		}
+
+		return(confectionDernierService);
 	}
 
 	public float getNbBaguettesRestantes(){
+		recharger();
+
 		float restantes = nbBaguettesBase - nbBaguettesUtilisees;
 		if(restantes <= 0){
 			return(0);
@@ -97,18 +262,38 @@ public class Service {
 	}
 
 	public int getDernierNumeroCommande(){
-		chargerCommandes();
+		recharger();
 
 		return(commandes.size());
+	}
+
+	public void setOrdi(Membre membre){
+		ordi = membre;
+	}
+
+	public void setCommis(List<Membre> commis){
+		this.commis = commis;
+	}
+
+	public void setConfection(List<Membre> confection){
+		this.confection = confection;
+	}
+
+	public void addCommis(Membre membre){
+		commis.add(membre);
+	}
+
+	public void addConfection(Membre membre){
+		confection.add(membre);
 	}
 
 	public void ajouterCommande(Commande commande){
 		CreateurBase.ajouterCommande(commande);
 
-		chargerCommandes();
+		ecrireFichier();
 	}
 
-	public void chargerCommandes(){
+	private void chargerCommandes(){
 		commandes = new ArrayList<Commande>();
 
 		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
@@ -125,7 +310,7 @@ public class Service {
 		File[] listOfFiles = dossierCommandes.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
+			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))&&!(FilenameUtils.removeExtension(listOfFiles[i].getName()).equals("_service"))) {
 				String nom = FilenameUtils.removeExtension(listOfFiles[i].getName());
 				int numero = Integer.parseInt(nom);
 
@@ -143,10 +328,27 @@ public class Service {
 		Collections.sort(commandes, new CompareCommande());
 	}
 
+	public void recharger(){
+		chargerCommandes();
+
+		nbBaguettesUtilisees = 0;
+		for(Commande commande : commandes){
+			if(commande.getPlat().getUtilisePain()){
+				nbBaguettesUtilisees += 0.5;
+			}
+		}
+	}
+
+	public void ecrireFichier(){
+		recharger();
+
+		CreateurBase.ajouterService(this);
+	}
+
 	public Commande getCommande(int numero){
 		Commande commande = new Commande(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
 
-		chargerCommandes();
+		recharger();
 
 		for(Commande commandeListe : commandes){
 			if(commandeListe.getNumero() == numero){
@@ -154,25 +356,38 @@ public class Service {
 			}
 		}
 
-		chargerCommandes();
+		recharger();
 
 		return(commande);
 	}
 
 	public void affCommandes(){
-		chargerCommandes();
+		recharger();
 
 		for(Commande commande : commandes){
 			System.out.println(commande);
 		}
 	}
 
+	public void	affMembres(){
+		System.out.println("Ordi : " + ordi);
+		System.out.println("Commis :");
+		for(Membre membreCommis : commis){
+			System.out.println("- " + membreCommis);
+		}
+		System.out.println("Confection :");
+		for(Membre membreConfection : confection){
+			System.out.println("- " + membreConfection);
+		}
+	}
+	
 	public void assignerCommande(int numero, Membre membre){
-		chargerCommandes();
+		recharger();
 
 		Commande commande = getCommande(numero);
 		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, new Date(0), false);
 		CreateurBase.ajouterCommandeAssignee(commandeAssignee);
-		chargerCommandes();
+
+		ecrireFichier();
 	}
 }

@@ -23,8 +23,12 @@ import java.io.File;
 import org.json.simple.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
@@ -33,10 +37,22 @@ import javafx.stage.Stage;
 public class Test /*extends Application*/ {
 	static Service service = new Service(new Date());
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		init();
-
-		service.affCommandes();
+		
+//		service.setOrdi(BaseDonnees.getMembreNomPrenom("lecutiez", "simon"));
+//		service.addCommis(BaseDonnees.getMembreNomPrenom("cohen", "justine"));
+//		service.addCommis(BaseDonnees.getMembreNomPrenom("glasson", "emma"));
+//		service.addConfection(BaseDonnees.getMembreNomPrenom("decaderincourt", "kilian"));
+//		service.addConfection(BaseDonnees.getMembreNomPrenom("henrionnet", "antoine"));
+//		service.addConfection(BaseDonnees.getMembreNomPrenom("blettery", "damien"));
+//
+//		service.ecrireFichier();
+		
+		service.affMembres();
 
 		/*launch(args);*/
 	}
@@ -45,7 +61,7 @@ public class Test /*extends Application*/ {
 		CreateurBase.initialiserBase();
 		BaseDonnees.chargerMenu();
 		BaseDonnees.chargerMembres();
-		service.chargerCommandes();
+		service.recharger();
 	}
 
 	public static Service getService(){

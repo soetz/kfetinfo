@@ -83,7 +83,7 @@ public class BaseDonnees {
 	}
 
 	static public Plat getRienPlat(){
-		Plat plat = new Plat("ff56da46-bddd-4e4f-a871-6fa03b0e814b", "Rien", 0, true, 0, -1, 0, 0, 0);
+		Plat plat = new Plat("ff56da46-bddd-4e4f-a871-6fa03b0e814b", "Rien", 0, true, 0, -1, 0, 0, false, 0);
 		for(Plat platListe : plats){
 			if(platListe.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b")){
 				plat = platListe;

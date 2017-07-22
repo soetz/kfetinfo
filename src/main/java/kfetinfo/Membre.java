@@ -82,4 +82,8 @@ public class Membre {
 
 		return(prenomBlaze + " " + surnomBlaze + " " + nomBlaze);
 	}
+
+	public String toString(){
+		return(getBlaze());
+	}
 }
