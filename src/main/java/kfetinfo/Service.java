@@ -49,12 +49,6 @@ public class Service {
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
 		SimpleDateFormat jour = new SimpleDateFormat("dd");
 
-		try {
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-
 		File fichier = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\" + "_service.json");
 		if(fichier.exists()){
 			Service vieux = LecteurBase.lireService(date);
@@ -74,6 +68,12 @@ public class Service {
 			ordi = getOrdiDernierService();
 			commis = getCommisDernierService();
 			confection = getConfectionDernierService();
+		}
+
+		try {
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 
 		ecrireFichier();
@@ -97,8 +97,6 @@ public class Service {
 		this.ordi = ordi;
 		this.commis = commis;
 		this.confection = confection;
-
-		ecrireFichier();
 	}
 
 	public float getNbBaguettesBase(){
@@ -203,7 +201,7 @@ public class Service {
 
 		if(!((anneeRecente.equals("0"))&&(moisRecent.equals("0"))&&(jourRecent.equals("0")))){
 			Calendar calendrier = GregorianCalendar.getInstance();
-			calendrier.set(Integer.parseInt(anneeRecente), Integer.parseInt(moisRecent), Integer.parseInt(jourRecent));
+			calendrier.set(Integer.parseInt(anneeRecente), Integer.parseInt(moisRecent) - 1, Integer.parseInt(jourRecent));
 			dateDernierService = calendrier.getTime();
 		}
 
@@ -269,22 +267,32 @@ public class Service {
 
 	public void setOrdi(Membre membre){
 		ordi = membre;
+
+		ecrireFichier();
 	}
 
 	public void setCommis(List<Membre> commis){
 		this.commis = commis;
+
+		ecrireFichier();
 	}
 
 	public void setConfection(List<Membre> confection){
 		this.confection = confection;
+
+		ecrireFichier();
 	}
 
 	public void addCommis(Membre membre){
 		commis.add(membre);
+
+		ecrireFichier();
 	}
 
 	public void addConfection(Membre membre){
 		confection.add(membre);
+
+		ecrireFichier();
 	}
 
 	public void ajouterCommande(Commande commande){
