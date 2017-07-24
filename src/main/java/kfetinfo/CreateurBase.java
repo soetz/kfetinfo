@@ -330,6 +330,39 @@ public class CreateurBase {
 		ajouterService(service.getNbBaguettesBase(), service.getNbBaguettesUtilisees(), service.getNbCommandes(), service.getDate(), service.getCout(), service.getRevenu(), service.getOrdi(), service.getCommis(), service.getConfection());
 	}
 
+	public static JSONObject objetParametres(float prixIngredientSupp, float prixBoisson, float reducMenu){
+		JSONObject parametres = new JSONObject();
+
+		parametres.put("prixIngredientSupp", prixIngredientSupp);
+		parametres.put("prixBoisson", prixBoisson);
+		parametres.put("reducMenu", reducMenu);
+
+		return(parametres);
+	}
+
+	public static void ecrireParametres(JSONObject parametres){
+		try {
+			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Paramètres\\"));
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (
+				FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Paramètres\\paramètres.json")) {
+				file.write(parametres.toJSONString());
+				file.flush();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		System.out.println(parametres);
+	}
+
+	public static void ajouterParametres(float prixIngredientSupp, float prixBoisson, float reducMenu){
+		JSONObject parametres = objetParametres(prixIngredientSupp, prixBoisson, reducMenu);
+		ecrireParametres(parametres);
+	}
+
 	public static void ajouterRiens(){
 		File f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + "rien" + ".json");
 		if(!(f.exists() && !f.isDirectory())) { 

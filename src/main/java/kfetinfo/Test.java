@@ -36,23 +36,13 @@ import javafx.stage.Stage;
 
 public class Test /*extends Application*/ {
 	static Service service = new Service(new Date());
+	static Parametres parametres = new Parametres();
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		init();
-		
-//		service.setOrdi(BaseDonnees.getMembreNomPrenom("lecutiez", "simon"));
-//		service.addCommis(BaseDonnees.getMembreNomPrenom("cohen", "justine"));
-//		service.addCommis(BaseDonnees.getMembreNomPrenom("glasson", "emma"));
-//		service.addConfection(BaseDonnees.getMembreNomPrenom("decaderincourt", "kilian"));
-//		service.addConfection(BaseDonnees.getMembreNomPrenom("henrionnet", "antoine"));
-//		service.addConfection(BaseDonnees.getMembreNomPrenom("blettery", "damien"));
-//
-//		service.ecrireFichier();
-		
+
 		service.affMembres();
+		service.affCommandes();
 
 		/*launch(args);*/
 	}
@@ -66,6 +56,10 @@ public class Test /*extends Application*/ {
 
 	public static Service getService(){
 		return(service);
+	}
+
+	public static Parametres getParametres(){
+		return(parametres);
 	}
 
 	/*public void start(Stage args) throws Exception {

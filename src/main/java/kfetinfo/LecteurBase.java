@@ -271,6 +271,28 @@ public class LecteurBase {
 		}
 	}
 
+	public static Parametres lireParametres(){
+		JSONObject parametresJson = new JSONObject();
+
+		parametresJson = lireObjet(path + "\\src\\main\\resources\\Base de Données\\Paramètres\\paramètres.json");
+
+		try {
+			float prixIngredientSuppParametres = ((Number)parametresJson.get("prixIngredientSupp")).floatValue();
+			float prixBoissonParametres = ((Number)parametresJson.get("prixBoisson")).floatValue();
+			float reducMenuParametres = ((Number)parametresJson.get("reducMenu")).floatValue();
+
+			Parametres parametres = new Parametres(prixIngredientSuppParametres, prixBoissonParametres, reducMenuParametres);
+
+			return(parametres);
+		} catch (Exception e){
+			e.printStackTrace();
+
+			Parametres parametres = new Parametres(0.3f, 0.5f, 0.3f);
+
+			return(parametres);
+		}
+	}
+
 	public static boolean estAssignee(Date moment, int numero){
 		JSONObject commandeJson = new JSONObject();
 

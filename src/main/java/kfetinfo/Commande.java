@@ -130,19 +130,19 @@ public class Commande {
 		float prix = 0f;
 
 		if(!(this.plat.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b"))&&!(this.dessert.getId().equals("962e1223-cdda-47ef-85ab-20eede2a0dc0"))&&!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
-			prix -= Parametres.getReducMenu();
+			prix -= Test.getParametres().getReducMenu();
 		}
 
 		prix += plat.getPrix();
 
 		if(this.ingredients.size() > this.plat.getNbMaxIngredients()){
-			prix += Parametres.getPrixIngredientSupp() * (this.ingredients.size() - this.plat.getNbMaxIngredients());
+			prix += Test.getParametres().getPrixIngredientSupp() * (this.ingredients.size() - this.plat.getNbMaxIngredients());
 		}
 
 		prix += dessert.getPrix();
 
 		if(!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
-			prix += Parametres.getPrixBoisson();
+			prix += Test.getParametres().getPrixBoisson();
 		}
 
 		prix += supplementBoisson.getPrix();
