@@ -1,16 +1,21 @@
-package kfetinfo;
+package kfetinfo.core;
 
 import java.io.File;
 
 public class Parametres {
-	static String path = new File("").getAbsolutePath();
-
 	float prixIngredientSupp;
 	float prixBoisson;
 	float reducMenu;
 
 	public Parametres(){
-		File f = new File(path + "\\src\\main\\resources\\Base de Données\\Paramètres\\paramètres.json");
+		File dossier = null;
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Paramètres/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File f = new File(dossier + "/" + "paramètres.json");
 		if(f.exists() && !f.isDirectory()){
 			Parametres old = LecteurBase.lireParametres();
 			prixIngredientSupp = old.getPrixIngredientSupp();

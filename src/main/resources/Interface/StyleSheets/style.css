@@ -1,0 +1,19 @@
+#haut {
+	-fx-alignment : center;
+	-fx-background-color : limegreen;
+}
+
+#droite {
+	-fx-alignment : center;
+	-fx-background-color : cyan;
+}
+
+#bas {
+	-fx-alignment : center;
+	-fx-background-color : pink;
+}
+
+#centre {
+	-fx-alignment : center;
+	-fx-background-color : yellow;
+}

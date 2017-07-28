@@ -16,14 +16,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
-import java.util.Comparator;
+public class SupplementBoisson extends ContenuCommande {
+	float prix;
 
-public class CompareMembre implements Comparator<Membre> {
-
-	public int compare(Membre arg0, Membre arg1) {
-		return(arg0.getNom().compareTo(arg1.getNom()));
+	public SupplementBoisson(String id, String nom, float cout, boolean estDisponible, int nbTotalUtilisations, int priorite, float prix){
+		super(id, nom, cout, estDisponible, nbTotalUtilisations, priorite);
+		this.prix = prix;
 	}
 
+	public float getPrix(){
+		return(prix);
+	}
 }

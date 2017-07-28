@@ -16,10 +16,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
-public class Sauce extends ContenuCommande {
-	public Sauce(String id, String nom, float cout, boolean estDisponible, int nbTotalUtilisations, int priorite){
-		super(id, nom, cout, estDisponible, nbTotalUtilisations, priorite);
+import java.util.Comparator;
+
+public class CompareContenuCommande implements Comparator<ContenuCommande> {
+
+	public int compare(ContenuCommande arg0, ContenuCommande arg1) {
+		if(arg0.getPriorite() == (arg1.getPriorite())){
+			return(arg1.getNom().compareTo(arg0.getNom()));
+		}
+		else {
+			return(arg0.getPriorite() - arg1.getPriorite());
+		}
 	}
+
 }

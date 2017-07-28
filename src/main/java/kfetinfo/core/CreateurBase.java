@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
@@ -34,20 +34,28 @@ import java.util.Date;
 import java.util.UUID;
 
 public class CreateurBase {
-	static String path = new File("").getAbsolutePath();
 	static SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 
 	public static void initialiserBase(){
+		File dossier = null;
+
 		try {
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients"));
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces"));
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts"));
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons"));
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats"));
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson"));
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Membres"));
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services"));
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Paramètres"));
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try {
+			
+			Files.createDirectories(Paths.get(dossier + "/" + "Contenus Commandes/Ingrédients"));
+			Files.createDirectories(Paths.get(dossier + "/" + "Contenus Commandes/Sauces"));
+			Files.createDirectories(Paths.get(dossier + "/" + "Contenus Commandes/Desserts"));
+			Files.createDirectories(Paths.get(dossier + "/" + "Contenus Commandes/Boissons"));
+			Files.createDirectories(Paths.get(dossier + "/" + "Contenus Commandes/Plats"));
+			Files.createDirectories(Paths.get(dossier + "/" + "Contenus Commandes/Suppléments Boisson"));
+			Files.createDirectories(Paths.get(dossier + "/" + "Membres"));
+			Files.createDirectories(Paths.get(dossier + "/" + "Services"));
+			Files.createDirectories(Paths.get(dossier + "/" + "Paramètres"));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -75,7 +83,16 @@ public class CreateurBase {
 
 	public static void creerIngredient(String nom, float cout, int priorite) {
 		JSONObject ingredient = creerContenuCommande(nom, cout, priorite);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + nom.toLowerCase() + ".json")) {
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + nom.toLowerCase() + ".json")) {
 
             file.write(ingredient.toJSONString());
             file.flush();
@@ -89,7 +106,16 @@ public class CreateurBase {
 
 	public static void creerSauce(String nom, float cout, int priorite) {
 		JSONObject sauce = creerContenuCommande(nom, cout, priorite);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\" + nom.toLowerCase() + ".json")) {
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + nom.toLowerCase() + ".json")) {
 
             file.write(sauce.toJSONString());
             file.flush();
@@ -104,7 +130,16 @@ public class CreateurBase {
 	public static void creerDessert(String nom, float cout, int priorite, float prix) {
 		JSONObject dessert = creerContenuCommande(nom, cout, priorite);
 		dessert.put("prix", prix);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\" + nom.toLowerCase() + ".json")) {
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + nom.toLowerCase() + ".json")) {
 
             file.write(dessert.toJSONString());
             file.flush();
@@ -118,7 +153,16 @@ public class CreateurBase {
 
 	public static void creerBoisson(String nom, float cout, int priorite) {
 		JSONObject boisson = creerContenuCommande(nom, cout, priorite);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\" + nom.toLowerCase() + ".json")) {
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + nom.toLowerCase() + ".json")) {
 
             file.write(boisson.toJSONString());
             file.flush();
@@ -135,7 +179,16 @@ public class CreateurBase {
 		plat.put("prix", prix);
 		plat.put("nbMaxIngredients", nbMaxIngredients);
 		plat.put("nbMaxSauces", nbMaxSauces);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\" + nom.toLowerCase() + ".json")) {
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + nom.toLowerCase() + ".json")) {
 
             file.write(plat.toJSONString());
             file.flush();
@@ -150,7 +203,16 @@ public class CreateurBase {
 	public static void creerSupplementBoisson(String nom, float cout, int priorite, float prix) {
 		JSONObject supplementBoisson = creerContenuCommande(nom, cout, priorite);
 		supplementBoisson.put("prix", prix);
-		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\" + nom.toLowerCase() + ".json")) {
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + nom.toLowerCase() + ".json")) {
 
             file.write(supplementBoisson.toJSONString());
             file.flush();
@@ -172,8 +234,17 @@ public class CreateurBase {
 		membre.put("nbCommandes", new Integer(0));
 		membre.put("nbServices", new Integer(0));
 		membre.put("tempsMoyenCommande", 0f);
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Membres/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
 		try (
-			FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Membres\\" + prenom.toLowerCase() + " " + nom.toLowerCase() + ".json")) {
+			FileWriter file = new FileWriter(dossier + "/" + prenom.toLowerCase() + " " + nom.toLowerCase() + ".json")) {
             file.write(membre.toJSONString());
             file.flush();
 
@@ -224,14 +295,22 @@ public class CreateurBase {
 			}
 		}
 
+		File dossier = null;
+
 		try {
-				Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\"));
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try {
+				Files.createDirectories(Paths.get(dossier + "/" + annee.format(moment) + "/" + mois.format(moment) + "/" + jour.format(moment) + "/"));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
 		try (
-				FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(moment) + "\\" + mois.format(moment) + "\\" + jour.format(moment) + "\\" + zeros + numero + ".json")) {
+				FileWriter file = new FileWriter(dossier + "/" + annee.format(moment) + "/" + mois.format(moment) + "/" + jour.format(moment) + "/" + zeros + numero + ".json")) {
 	            file.write(commande.toJSONString());
 	            file.flush();
 		} catch (IOException e) {
@@ -304,14 +383,22 @@ public class CreateurBase {
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
 		SimpleDateFormat jour = new SimpleDateFormat("dd");
 
+		File dossier = null;
+
 		try {
-				Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try {
+				Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/"));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
 		try (
-				FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\" + "_service" + ".json")) {
+				FileWriter file = new FileWriter(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/" + "_service" + ".json")) {
 	            file.write(service.toJSONString());
 	            file.flush();
 		} catch (IOException e) {
@@ -341,14 +428,22 @@ public class CreateurBase {
 	}
 
 	public static void ecrireParametres(JSONObject parametres){
+		File dossier = null;
+
 		try {
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Paramètres\\"));
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Paramètres/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try {
+			Files.createDirectories(Paths.get(dossier + "/"));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
 		try (
-				FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Paramètres\\paramètres.json")) {
+				FileWriter file = new FileWriter(dossier + "/" + "paramètres.json")) {
 				file.write(parametres.toJSONString());
 				file.flush();
 		} catch (Exception e){
@@ -364,7 +459,15 @@ public class CreateurBase {
 	}
 
 	public static void ajouterRiens(){
-		File f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + "rien" + ".json");
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File f = new File(dossier + "/" + "rien" + ".json");
 		if(!(f.exists() && !f.isDirectory())) { 
 			JSONObject rienIngredient = new JSONObject();
 			rienIngredient.put("id", "e8a6d3a2-7e0b-4587-ac85-462329b4a776");
@@ -373,7 +476,8 @@ public class CreateurBase {
 			rienIngredient.put("estDisponible", true);
 			rienIngredient.put("nbUtilisations", new Integer(0));
 			rienIngredient.put("priorite", -1);
-			try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\" + "rien" + ".json")) {
+
+			try (FileWriter file = new FileWriter(dossier + "/" + "rien" + ".json")) {
 
 	            file.write(rienIngredient.toJSONString());
 	            file.flush();
@@ -385,7 +489,13 @@ public class CreateurBase {
 	        System.out.println(rienIngredient);
 		}
 
-		f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\" + "rien" + ".json");
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		f = new File(dossier + "/" + "rien" + ".json");
 		if(!(f.exists() && !f.isDirectory())) { 
 			JSONObject rienSauce = new JSONObject();
 			rienSauce.put("id", "dc9e18ea-ff8c-4d71-8d11-ed18489df6a1");
@@ -394,7 +504,7 @@ public class CreateurBase {
 			rienSauce.put("estDisponible", true);
 			rienSauce.put("nbUtilisations", new Integer(0));
 			rienSauce.put("priorite", -1);
-			try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\" + "rien" + ".json")) {
+			try (FileWriter file = new FileWriter(dossier + "/" + "rien" + ".json")) {
 
 	            file.write(rienSauce.toJSONString());
 	            file.flush();
@@ -406,7 +516,13 @@ public class CreateurBase {
 	        System.out.println(rienSauce);
 		}
 
-        f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\" + "rien" + ".json");
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+        f = new File(dossier + "/" + "rien" + ".json");
         if(!(f.exists() && !f.isDirectory())) { 
     		JSONObject rienDessert = new JSONObject();
     		rienDessert.put("id", "962e1223-cdda-47ef-85ab-20eede2a0dc0");
@@ -416,7 +532,7 @@ public class CreateurBase {
     		rienDessert.put("nbUtilisations", new Integer(0));
     		rienDessert.put("priorite", -1);
     		rienDessert.put("prix", 0f);
-    		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\" + "rien" + ".json")) {
+    		try (FileWriter file = new FileWriter(dossier + "/" + "rien" + ".json")) {
 
                 file.write(rienDessert.toJSONString());
                 file.flush();
@@ -428,9 +544,13 @@ public class CreateurBase {
             System.out.println(rienDessert);
         }
 
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 
-
-        f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\" + "rien" + ".json");
+        f = new File(dossier + "/" + "rien" + ".json");
         if(!(f.exists() && !f.isDirectory())) { 
         	JSONObject rienBoisson = new JSONObject();
     		rienBoisson.put("id", "c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe");
@@ -439,7 +559,7 @@ public class CreateurBase {
     		rienBoisson.put("estDisponible", true);
     		rienBoisson.put("nbUtilisations", new Integer(0));
     		rienBoisson.put("priorite", -1);
-    		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\" + "rien" + ".json")) {
+    		try (FileWriter file = new FileWriter(dossier + "/" + "rien" + ".json")) {
 
                 file.write(rienBoisson.toJSONString());
                 file.flush();
@@ -451,7 +571,13 @@ public class CreateurBase {
             System.out.println(rienBoisson);
         }
 
-        f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\" + "rien" + ".json");
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+        f = new File(dossier + "/" + "rien" + ".json");
         if(!(f.exists() && !f.isDirectory())) { 
         	JSONObject rienPlat = new JSONObject();
     		rienPlat.put("id", "ff56da46-bddd-4e4f-a871-6fa03b0e814b");
@@ -463,7 +589,7 @@ public class CreateurBase {
     		rienPlat.put("prix", 0f);
     		rienPlat.put("nbMaxIngredients", 0);
     		rienPlat.put("nbMaxSauces", 0);
-    		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\" + "rien" + ".json")) {
+    		try (FileWriter file = new FileWriter(dossier + "/" + "rien" + ".json")) {
 
                 file.write(rienPlat.toJSONString());
                 file.flush();
@@ -474,8 +600,14 @@ public class CreateurBase {
 
             System.out.println(rienPlat);
         }		
-		
-        f = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\" + "rien" + ".json");
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+        f = new File(dossier + "/" + "rien" + ".json");
         if(!(f.exists() && !f.isDirectory())) { 
         	JSONObject rienSupplementBoisson = new JSONObject();
     		rienSupplementBoisson.put("id", "fa03180b-95ad-4a5b-84f2-cbdc2beae920");
@@ -485,7 +617,7 @@ public class CreateurBase {
     		rienSupplementBoisson.put("nbUtilisations", new Integer(0));
     		rienSupplementBoisson.put("priorite", -1);
     		rienSupplementBoisson.put("prix", 0f);
-    		try (FileWriter file = new FileWriter(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\" + "rien" + ".json")) {
+    		try (FileWriter file = new FileWriter(dossier + "/" + "rien" + ".json")) {
 
                 file.write(rienSupplementBoisson.toJSONString());
                 file.flush();

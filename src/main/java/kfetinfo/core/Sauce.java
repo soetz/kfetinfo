@@ -16,38 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
-public class ContenuCommande {
-	String id;
-	String nom;
-	float cout;
-	boolean estDisponible;
-	int nbUtilisations;
-	int priorite;
-
-	public ContenuCommande(String id, String nom, float cout, boolean estDisponible, int nbUtilisations, int priorite){
-		this.id = id;
-		this.nom = nom;
-		this.cout = cout;
-		this.estDisponible = estDisponible;
-		this.nbUtilisations = nbUtilisations;
-		this.priorite = priorite;
-	}
-
-	public int getPriorite(){
-		return(priorite);
-	}
-
-	public String getNom(){
-		return(nom);
-	}
-
-	public String getId(){
-		return(id);
-	}
-
-	public float getCout(){
-		return(cout);
+public class Sauce extends ContenuCommande {
+	public Sauce(String id, String nom, float cout, boolean estDisponible, int nbTotalUtilisations, int priorite){
+		super(id, nom, cout, estDisponible, nbTotalUtilisations, priorite);
 	}
 }

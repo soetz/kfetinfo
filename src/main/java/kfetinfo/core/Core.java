@@ -16,38 +16,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
-import java.io.File;
-
-import org.json.simple.JSONObject;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+public class Core {
+	static Service service;
+	static Parametres parametres;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-
-public class Test /*extends Application*/ {
-	static Service service = new Service(new Date());
-	static Parametres parametres = new Parametres();
-
-	public static void main(String[] args) {
+	public Core(){
+		service = new Service(new Date());
+		parametres = new Parametres();
+		
 		init();
-
-		service.affMembres();
-		service.affCommandes();
-
-		/*launch(args);*/
 	}
 
-	public static void init(){
+	private void init(){
 		CreateurBase.initialiserBase();
 		BaseDonnees.chargerMenu();
 		BaseDonnees.chargerMembres();
@@ -61,9 +45,4 @@ public class Test /*extends Application*/ {
 	public static Parametres getParametres(){
 		return(parametres);
 	}
-
-	/*public void start(Stage args) throws Exception {
-		
-	}*/
-
 }

@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -42,14 +42,19 @@ public class Service {
 	List<Membre> commis;
 	List<Membre> confection;
 
-	static String path = new File("").getAbsolutePath();
-
 	public Service(Date date){
 		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
 		SimpleDateFormat jour = new SimpleDateFormat("dd");
 
-		File fichier = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\" + "_service.json");
+		File dossier = null;
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/" + "_service.json");
 		if(fichier.exists()){
 			Service vieux = LecteurBase.lireService(date);
 			this.date = date;
@@ -71,7 +76,7 @@ public class Service {
 		}
 
 		try {
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -84,8 +89,15 @@ public class Service {
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
 		SimpleDateFormat jour = new SimpleDateFormat("dd");
 
+		File dossier = null;
 		try {
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try {
+			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -160,7 +172,13 @@ public class Service {
 	private Date getDateDernierService(){
 		Date dateDernierService = new Date(0);
 
-		File dossierServices = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\");
+		File dossierServices = null;
+		try {
+			dossierServices = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
 		File[] contenuDossierServices = dossierServices.listFiles();
 
 		String anneeRecente = "0";
@@ -173,7 +191,13 @@ public class Service {
 			}
 		}
 
-		File dossierAnnee = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + anneeRecente + "\\");
+		File dossierAnnee = null;
+		try {
+			dossierAnnee = new File(LecteurBase.class.getResource("../../Base de Données/Services/" + anneeRecente + "/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
 		File[] contenuDossierAnnee = dossierAnnee.listFiles();
 
 		String moisRecent = "0";
@@ -186,7 +210,13 @@ public class Service {
 			}
 		}
 
-		File dossierMois = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + anneeRecente + "\\" + moisRecent + "\\");
+		File dossierMois = null;
+		try {
+			dossierMois = new File(LecteurBase.class.getResource("../../Base de Données/Services/" + anneeRecente + "/" + moisRecent + "/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
 		File[] contenuDossierMois = dossierMois.listFiles();
 
 		String jourRecent = "0";
@@ -308,13 +338,20 @@ public class Service {
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
 		SimpleDateFormat jour = new SimpleDateFormat("dd");
 
+		File dossier = null;
 		try {
-			Files.createDirectories(Paths.get(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try {
+			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		File dossierCommandes = new File(path + "\\src\\main\\resources\\Base de Données\\Services\\" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\");
+		File dossierCommandes = new File(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\");
 		File[] listOfFiles = dossierCommandes.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {

@@ -1,4 +1,4 @@
-package kfetinfo;
+package kfetinfo.core;
 
 import java.util.Comparator;
 

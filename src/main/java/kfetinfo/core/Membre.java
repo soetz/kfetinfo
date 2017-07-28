@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
 import java.util.Date;
 
@@ -44,7 +44,7 @@ public class Membre {
 	}
 
 	public Membre(){
-		this.id = "";
+		this.id = "f38aa97b-2c4b-491e-be10-884e48fbb6c2";
 		this.nom = "";
 		this.prenom = "";
 		this.surnom = "";
@@ -77,10 +77,10 @@ public class Membre {
 		String nomBlaze = getNom();
 
 		if(!(getSurnom().equals(""))){
-			surnomBlaze = "\"" + getSurnom() + "\"";
+			surnomBlaze = "\"" + getSurnom() + "\" ";
 		}
 
-		return(prenomBlaze + " " + surnomBlaze + " " + nomBlaze);
+		return(prenomBlaze + " " + surnomBlaze + nomBlaze);
 	}
 
 	public String toString(){

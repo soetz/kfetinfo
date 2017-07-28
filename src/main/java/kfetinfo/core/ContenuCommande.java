@@ -16,19 +16,38 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
-import java.util.Comparator;
+public class ContenuCommande {
+	String id;
+	String nom;
+	float cout;
+	boolean estDisponible;
+	int nbUtilisations;
+	int priorite;
 
-public class CompareContenuCommande implements Comparator<ContenuCommande> {
-
-	public int compare(ContenuCommande arg0, ContenuCommande arg1) {
-		if(arg0.getPriorite() == (arg1.getPriorite())){
-			return(arg1.getNom().compareTo(arg0.getNom()));
-		}
-		else {
-			return(arg0.getPriorite() - arg1.getPriorite());
-		}
+	public ContenuCommande(String id, String nom, float cout, boolean estDisponible, int nbUtilisations, int priorite){
+		this.id = id;
+		this.nom = nom;
+		this.cout = cout;
+		this.estDisponible = estDisponible;
+		this.nbUtilisations = nbUtilisations;
+		this.priorite = priorite;
 	}
 
+	public int getPriorite(){
+		return(priorite);
+	}
+
+	public String getNom(){
+		return(nom);
+	}
+
+	public String getId(){
+		return(id);
+	}
+
+	public float getCout(){
+		return(cout);
+	}
 }

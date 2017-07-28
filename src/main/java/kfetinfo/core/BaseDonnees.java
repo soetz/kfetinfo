@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -28,8 +28,6 @@ import java.io.File;
 import org.apache.commons.io.FilenameUtils;
 
 public class BaseDonnees {
-	static String path = new File("").getAbsolutePath();
-
 	static List<Ingredient> ingredients;
 	static List<Sauce> sauces;
 	static List<Dessert> desserts;
@@ -333,17 +331,30 @@ public class BaseDonnees {
 		}
 	}
 
+	static public void affMembres(){
+		chargerMembres();
+
+		for(Membre membre : membres){
+			System.out.println(membre);
+		}
+	}
+
 	static private void chargerIngredients(){
 		ingredients = new ArrayList<Ingredient>();
 
-		File dossierIngredients = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Ingrédients\\");
-		File[] listOfFiles = dossierIngredients.listFiles();
+		File dossierIngredients = null;
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
-			    Ingredient ingredient = LecteurBase.lireIngredient(FilenameUtils.removeExtension(listOfFiles[i].getName()));
-	    		ingredients.add(ingredient);
-	    	}
+		try{
+			dossierIngredients = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		for(File fichier : dossierIngredients.listFiles()){
+			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){
+				Ingredient ingredient = LecteurBase.lireIngredient(FilenameUtils.removeExtension(fichier.getName()));
+				ingredients.add(ingredient);
+			}
 		}
 
 		Collections.sort(ingredients, new CompareContenuCommande());
@@ -353,14 +364,19 @@ public class BaseDonnees {
 	static private void chargerSauces(){
 		sauces = new ArrayList<Sauce>();
 
-		File dossierSauces = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Sauces\\");
-		File[] listOfFiles = dossierSauces.listFiles();
+		File dossierSauces = null;
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
-			    Sauce sauce = LecteurBase.lireSauce(FilenameUtils.removeExtension(listOfFiles[i].getName()));
-	    		sauces.add(sauce);
-	    	}
+		try{
+			dossierSauces = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		for(File fichier : dossierSauces.listFiles()){
+			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){
+				Sauce sauce = LecteurBase.lireSauce(FilenameUtils.removeExtension(fichier.getName()));
+				sauces.add(sauce);
+			}
 		}
 
 		Collections.sort(sauces, new CompareContenuCommande());
@@ -370,14 +386,19 @@ public class BaseDonnees {
 	static private void chargerDesserts(){
 		desserts = new ArrayList<Dessert>();
 
-		File dossierDesserts = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Desserts\\");
-		File[] listOfFiles = dossierDesserts.listFiles();
+		File dossierDesserts = null;
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
-			    Dessert dessert = LecteurBase.lireDessert(FilenameUtils.removeExtension(listOfFiles[i].getName()));
-	    		desserts.add(dessert);
-	    	}
+		try{
+			dossierDesserts = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		for(File fichier : dossierDesserts.listFiles()){
+			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){
+				Dessert dessert = LecteurBase.lireDessert(FilenameUtils.removeExtension(fichier.getName()));
+				desserts.add(dessert);
+			}
 		}
 
 		Collections.sort(desserts, new CompareContenuCommande());
@@ -387,14 +408,19 @@ public class BaseDonnees {
 	static private void chargerBoissons(){
 		boissons = new ArrayList<Boisson>();
 
-		File dossierBoissons = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Boissons\\");
-		File[] listOfFiles = dossierBoissons.listFiles();
+		File dossierBoissons = null;
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
-			    Boisson boisson = LecteurBase.lireBoisson(FilenameUtils.removeExtension(listOfFiles[i].getName()));
-	    		boissons.add(boisson);
-	    	}
+		try{
+			dossierBoissons = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		for(File fichier : dossierBoissons.listFiles()){
+			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){
+				Boisson boisson = LecteurBase.lireBoisson(FilenameUtils.removeExtension(fichier.getName()));
+				boissons.add(boisson);
+			}
 		}
 
 		Collections.sort(boissons, new CompareContenuCommande());
@@ -404,14 +430,19 @@ public class BaseDonnees {
 	static private void chargerPlats(){
 		plats = new ArrayList<Plat>();
 
-		File dossierPlats = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Plats\\");
-		File[] listOfFiles = dossierPlats.listFiles();
+		File dossierPlats = null;
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
-			    Plat plat = LecteurBase.lirePlat(FilenameUtils.removeExtension(listOfFiles[i].getName()));
-	    		plats.add(plat);
-	    	}
+		try{
+			dossierPlats = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		for(File fichier : dossierPlats.listFiles()){
+			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){
+				Plat plat = LecteurBase.lirePlat(FilenameUtils.removeExtension(fichier.getName()));
+				plats.add(plat);
+			}
 		}
 
 		Collections.sort(plats, new CompareContenuCommande());
@@ -421,14 +452,19 @@ public class BaseDonnees {
 	static private void chargerSupplementsBoisson(){
 		supplementsBoisson = new ArrayList<SupplementBoisson>();
 
-		File dossierSupplementsBoisson = new File(path + "\\src\\main\\resources\\Base de Données\\Contenus Commandes\\Suppléments Boisson\\");
-		File[] listOfFiles = dossierSupplementsBoisson.listFiles();
+		File dossierSupplementsBoisson = null;
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
-				SupplementBoisson supplementBoisson = LecteurBase.lireSupplementBoisson(FilenameUtils.removeExtension(listOfFiles[i].getName()));
+		try{
+			dossierSupplementsBoisson = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		for(File fichier : dossierSupplementsBoisson.listFiles()){
+			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){
+				SupplementBoisson supplementBoisson = LecteurBase.lireSupplementBoisson(FilenameUtils.removeExtension(fichier.getName()));
 				supplementsBoisson.add(supplementBoisson);
-	    	}
+			}
 		}
 
 		Collections.sort(supplementsBoisson, new CompareContenuCommande());
@@ -438,14 +474,19 @@ public class BaseDonnees {
 	static public void chargerMembres(){
 		membres = new ArrayList<Membre>();
 
-		File dossierMembres = new File(path + "\\src\\main\\resources\\Base de Données\\Membres\\");
-		File[] listOfFiles = dossierMembres.listFiles();
+		File dossierMembres = null;
 
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()&&(FilenameUtils.getExtension(listOfFiles[i].getName()).equals("json"))) {
-			    Membre membre = LecteurBase.lireMembre(FilenameUtils.removeExtension(listOfFiles[i].getName()));
-	    		membres.add(membre);
-	    	}
+		try{
+			dossierMembres = new File(BaseDonnees.class.getResource("../../Base de Données/Membres/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		for(File fichier : dossierMembres.listFiles()){
+			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){
+				Membre membre = LecteurBase.lireMembre(FilenameUtils.removeExtension(fichier.getName()));
+				membres.add(membre);
+			}
 		}
 
 		Collections.sort(membres, new CompareMembre());

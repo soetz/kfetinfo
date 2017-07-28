@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.textfield.*?>
+ 
+<BorderPane>
+	<top>
+		<Label
+			id="haut"
+			text="Menu"
+		/>
+	</top>
+
+	<right>
+		<Label
+			id="droite"
+			text="Commandes"
+		/>
+	</right>
+
+	<bottom>
+		<Label
+			id="bas"
+			text="Caisse"
+		/>
+	</bottom>
+
+	<center>
+		<Label
+			id="centre"
+			text="Sélection"
+		/>
+	</center>
+</BorderPane>
+

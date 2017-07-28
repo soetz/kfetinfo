@@ -16,10 +16,31 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
-public class Ingredient extends ContenuCommande {
-	public Ingredient(String id, String nom, float cout, boolean estDisponible, int nbUtilisations, int priorite){
-		super(id, nom, cout, estDisponible, nbUtilisations, priorite);
+public class Plat extends ContenuCommande {
+	int nbMaxIngredients;
+	int nbMaxSauces;
+	boolean utilisePain;
+	float prix;
+
+	public Plat(String id, String nom, float cout, boolean estDisponible, int nbTotalUtilisations, int priorite, int nbMaxIngredients, int nbMaxSauces, boolean utilisePain, float prix){
+		super(id, nom, cout, estDisponible, nbTotalUtilisations, priorite);
+		this.nbMaxIngredients = nbMaxIngredients;
+		this.nbMaxSauces = nbMaxSauces;
+		this.utilisePain = utilisePain;
+		this.prix = prix;
+	}
+
+	public float getPrix(){
+		return(prix);
+	}
+
+	public boolean getUtilisePain(){
+		return(utilisePain);
+	}
+
+	public int getNbMaxIngredients(){
+		return(nbMaxIngredients);
 	}
 }

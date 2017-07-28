@@ -10,6 +10,7 @@ Objectifs :
 
 Choix techniques :
 - Langage de programmation : Java (version 8 même si le but est d'essayer de suivre les évolutions des différentes technologies).
+- Librairie graphique : JavaFX (en version 2).
 - Gestion des dépendances : Maven (couplé à Eclipse).
 - Sauvegarde de la base de donnée : fichiers JSON (librairie json-simple en version 1.1.1).
 - Utilisation de la librairie commons-io d'Apache.

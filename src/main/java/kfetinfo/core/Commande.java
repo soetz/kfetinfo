@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kfetinfo;
+package kfetinfo.core;
 
 import java.util.Date;
 
@@ -35,7 +35,7 @@ public class Commande {
 
 	public Commande(Plat rienPlat, Dessert rienDessert, Boisson rienBoisson, SupplementBoisson rienSupplementBoisson) {
 		moment = new Date();
-		numero = Test.getService().getDernierNumeroCommande() + 1;
+		numero = Core.getService().getDernierNumeroCommande() + 1;
 		plat = rienPlat;
 		ingredients = new ArrayList<Ingredient>();
 		sauces = new ArrayList<Sauce>();
@@ -130,19 +130,19 @@ public class Commande {
 		float prix = 0f;
 
 		if(!(this.plat.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b"))&&!(this.dessert.getId().equals("962e1223-cdda-47ef-85ab-20eede2a0dc0"))&&!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
-			prix -= Test.getParametres().getReducMenu();
+			prix -= Core.getParametres().getReducMenu();
 		}
 
 		prix += plat.getPrix();
 
 		if(this.ingredients.size() > this.plat.getNbMaxIngredients()){
-			prix += Test.getParametres().getPrixIngredientSupp() * (this.ingredients.size() - this.plat.getNbMaxIngredients());
+			prix += Core.getParametres().getPrixIngredientSupp() * (this.ingredients.size() - this.plat.getNbMaxIngredients());
 		}
 
 		prix += dessert.getPrix();
 
 		if(!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
-			prix += Test.getParametres().getPrixBoisson();
+			prix += Core.getParametres().getPrixBoisson();
 		}
 
 		prix += supplementBoisson.getPrix();
@@ -174,7 +174,7 @@ public class Commande {
 	public void envoyer(){
 		moment = new Date();
 
-		Test.getService().ajouterCommande(this);
+		Core.getService().ajouterCommande(this);
 	}
 
 	public String chaineToString(){
