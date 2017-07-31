@@ -27,6 +27,11 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.io.File;
@@ -35,7 +40,8 @@ import java.nio.file.Paths;
 
 public class Service {
 	Date date;
-	List<Commande> commandes;
+	private final ObservableList<Commande> observableList = FXCollections.observableArrayList(new ArrayList<Commande>());
+	private final ListProperty<Commande> commandesPropriete = new SimpleListProperty<Commande>(this, "commandes", observableList);
 	float nbBaguettesBase;
 	float nbBaguettesUtilisees;
 	Membre ordi;
@@ -58,7 +64,8 @@ public class Service {
 		if(fichier.exists()){
 			Service vieux = LecteurBase.lireService(date);
 			this.date = date;
-			commandes = new ArrayList<Commande>();
+			ObservableList<Commande> observableList = FXCollections.observableArrayList(new ArrayList<Commande>());
+			commandesPropriete.set(observableList);
 			nbBaguettesBase = vieux.getNbBaguettesBase();
 			nbBaguettesUtilisees = vieux.getNbBaguettesUtilisees();
 			ordi = vieux.getOrdi();
@@ -67,7 +74,8 @@ public class Service {
 		}
 		else {
 			this.date = date;
-			commandes = new ArrayList<Commande>();
+			ObservableList<Commande> observableList = FXCollections.observableArrayList(new ArrayList<Commande>());
+			commandesPropriete.set(observableList);
 			nbBaguettesBase = 0;
 			nbBaguettesUtilisees = 0;
 			ordi = getOrdiDernierService();
@@ -76,7 +84,7 @@ public class Service {
 		}
 
 		try {
-			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/"));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -97,13 +105,14 @@ public class Service {
 		}
 
 		try {
-			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/"));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
 		this.date = date;
-		this.commandes = commandes;
+		ObservableList<Commande> observableList = FXCollections.observableArrayList(commandes);
+		commandesPropriete.set(observableList);
 		this.nbBaguettesBase = nbBaguettesBase;
 		this.nbBaguettesUtilisees = nbBaguettesUtilisees;
 		this.ordi = ordi;
@@ -112,34 +121,24 @@ public class Service {
 	}
 
 	public float getNbBaguettesBase(){
-		recharger();
-
 		return(nbBaguettesBase);
 	}
 
 	public float getNbBaguettesUtilisees(){
-		recharger();
-
 		return(nbBaguettesUtilisees);
 	}
 
 	public int getNbCommandes(){
-		recharger();
-
-		return(commandes.size());
+		return(commandesPropriete.get().size());
 	}
 
 	public Date getDate(){
-		recharger();
-
 		return(date);
 	}
 
 	public float getCout(){
-		recharger();
-
 		float cout = 0;
-		for(Commande commande : commandes){
+		for(Commande commande : commandesPropriete.get()){
 			cout += commande.getCout();
 		}
 
@@ -147,14 +146,20 @@ public class Service {
 	}
 
 	public float getRevenu(){
-		recharger();
-
 		float revenu = 0;
-		for(Commande commande : commandes){
+		for(Commande commande : commandesPropriete.get()){
 			revenu += commande.getPrix();
 		}
 
 		return(revenu);
+	}
+
+	public List<Commande> getCommandes(){
+		return(commandesPropriete.get());
+	}
+
+	public ListProperty<Commande> getCommandesPropriete(){
+		return(commandesPropriete);
 	}
 
 	public Membre getOrdi(){
@@ -278,8 +283,6 @@ public class Service {
 	}
 
 	public float getNbBaguettesRestantes(){
-		recharger();
-
 		float restantes = nbBaguettesBase - nbBaguettesUtilisees;
 		if(restantes <= 0){
 			return(0);
@@ -290,9 +293,7 @@ public class Service {
 	}
 
 	public int getDernierNumeroCommande(){
-		recharger();
-
-		return(commandes.size());
+		return(commandesPropriete.get().size());
 	}
 
 	public void setOrdi(Membre membre){
@@ -332,7 +333,7 @@ public class Service {
 	}
 
 	private void chargerCommandes(){
-		commandes = new ArrayList<Commande>();
+		List<Commande> commandes = new ArrayList<Commande>();
 
 		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
@@ -371,13 +372,17 @@ public class Service {
 		}
 
 		Collections.sort(commandes, new CompareCommande());
+
+		ObservableList<Commande> observableList = FXCollections.observableArrayList(commandes);
+		commandesPropriete.set(observableList);
+		
 	}
 
 	public void recharger(){
 		chargerCommandes();
 
 		nbBaguettesUtilisees = 0;
-		for(Commande commande : commandes){
+		for(Commande commande : commandesPropriete.get()){
 			if(commande.getPlat().getUtilisePain()){
 				nbBaguettesUtilisees += 0.5;
 			}
@@ -385,31 +390,24 @@ public class Service {
 	}
 
 	public void ecrireFichier(){
-		recharger();
-
 		CreateurBase.ajouterService(this);
+		recharger();
 	}
 
 	public Commande getCommande(int numero){
 		Commande commande = new Commande(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
 
-		recharger();
-
-		for(Commande commandeListe : commandes){
+		for(Commande commandeListe : commandesPropriete.get()){
 			if(commandeListe.getNumero() == numero){
 				commande = commandeListe;
 			}
 		}
 
-		recharger();
-
 		return(commande);
 	}
 
 	public void affCommandes(){
-		recharger();
-
-		for(Commande commande : commandes){
+		for(Commande commande : commandesPropriete.get()){
 			System.out.println(commande);
 		}
 	}
@@ -427,8 +425,6 @@ public class Service {
 	}
 	
 	public void assignerCommande(int numero, Membre membre){
-		recharger();
-
 		Commande commande = getCommande(numero);
 		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, new Date(0), false);
 		CreateurBase.ajouterCommandeAssignee(commandeAssignee);

@@ -288,9 +288,9 @@ public class CreateurBase {
 
 		String zeros = "";
 
-		if(numero < 10){
+		if(numero < 100){
 			zeros += "0";
-			if(numero < 100){
+			if(numero < 10){
 				zeros += "0";
 			}
 		}

@@ -36,6 +36,30 @@ public class BaseDonnees {
 	static List<SupplementBoisson> supplementsBoisson;
 	static List<Membre> membres;
 
+	static public List<Plat> getPlats(){
+		return(plats);
+	}
+
+	static public List<Ingredient> getIngredients(){
+		return(ingredients);
+	}
+
+	static public List<Sauce> getSauces(){
+		return(sauces);
+	}
+
+	static public List<Boisson> getBoissons(){
+		return(boissons);
+	}
+
+	static public List<SupplementBoisson> getSupplementsBoisson(){
+		return(supplementsBoisson);
+	}
+
+	static public List<Dessert> getDesserts(){
+		return(desserts);
+	}
+
 	static public Ingredient getRienIngredient(){
 		Ingredient ingredient = new Ingredient("e8a6d3a2-7e0b-4587-ac85-462329b4a776", "Rien", 0, true, 0, -1);
 		for(Ingredient ingredientListe : ingredients){

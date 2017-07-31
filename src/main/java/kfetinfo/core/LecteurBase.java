@@ -215,9 +215,9 @@ public class LecteurBase {
 
 		String zeros = "";
 
-		if(numero < 10){
+		if(numero < 100){
 			zeros += "0";
-			if((int)numero < 100){
+			if((int)numero < 10){
 				zeros += "0";
 			}
 		}
@@ -273,9 +273,9 @@ public class LecteurBase {
 
 		String zeros = "";
 
-		if(numero < 10){
+		if(numero < 100){
 			zeros += "0";
-			if((int)numero < 100){
+			if((int)numero < 10){
 				zeros += "0";
 			}
 		}
@@ -421,9 +421,9 @@ public class LecteurBase {
 
 		String zeros = "";
 
-		if(numero < 10){
+		if(numero < 100){
 			zeros += "0";
-			if((int)numero < 100){
+			if(numero < 10){
 				zeros += "0";
 			}
 		}

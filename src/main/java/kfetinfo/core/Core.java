@@ -25,8 +25,8 @@ public class Core {
 	static Parametres parametres;
 
 	public Core(){
-		service = new Service(new Date());
 		parametres = new Parametres();
+		service = new Service(new Date());
 		
 		init();
 	}
