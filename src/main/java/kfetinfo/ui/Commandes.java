@@ -29,6 +29,8 @@ import kfetinfo.core.Core;
 public class Commandes {
 	public static final Double HAUTEUR_COMMANDE_FERMEE = 60.0;
 	public static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 200.0;
+
+	static VBox commandes;
 	
 	public static Region commandes(Core core){
 		ScrollPane panneauCommandes = new ScrollPane();
@@ -37,9 +39,7 @@ public class Commandes {
 		panneauCommandes.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		panneauCommandes.setHbarPolicy(ScrollBarPolicy.NEVER);
 
-		
-
-		VBox commandes = new VBox();
+		commandes = new VBox();
 
 		Button bouton = new Button("Ajouter");
 
@@ -61,6 +61,7 @@ public class Commandes {
 		});
 
 		commandes.getChildren().add(bouton);
+
 //		List<Commande> listeCommandes = core.getService().getCommandes();
 
 //		int i;
@@ -79,77 +80,39 @@ public class Commandes {
 //		droite.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 //		droite.setMinWidth(App.TAILLE_PANNEAU_COMMANDES);
 
-		ObservableList<Commande> observableList = FXCollections.observableArrayList(new ArrayList<Commande>());
-		ListProperty<Commande> bite = new SimpleListProperty<Commande>(observableList);
-
-		bite.bind(core.getService().getCommandesPropriete());
-
-		for(Commande commande : bite.get()){
-			AnchorPane commandePane = new AnchorPane();
-			commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-			commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
-			commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-			commandePane.getStyleClass().add("commande");
-
-			Label numero = new Label("" + commande.getNumero());
-			numero.setPrefSize(30.0, 30.0);
-
-			AnchorPane.setTopAnchor(numero, 0.0);
-			AnchorPane.setLeftAnchor(numero, 0.0);
-
-			commandePane.getChildren().add(numero);
-
-			commandes.getChildren().add(commandePane);
+		for(Commande commande : core.getService().getCommandes()){
+			ajouterCommande(commande);
 		}
 
-		bite.addListener(new ChangeListener() {
+		core.getService().nouvelleCommandePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				commandes.getChildren().clear();
-
-				Button bouton = new Button("Ajouter");
-
-				bouton.setOnAction(new EventHandler<ActionEvent>() {
-					
-					@Override
-					public void handle(ActionEvent event) {
-						// TODO Auto-generated method stub
-						Commande commande = new Commande(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
-						commande.setPlat(BaseDonnees.getPlatNom("sandwich"));
-						commande.addIngredient(BaseDonnees.getIngredientNom("chèvre"));
-						commande.addIngredient(BaseDonnees.getIngredientNom("jambon"));
-						commande.addSauce(BaseDonnees.getSauceNom("tartare"));
-						commande.setBoisson(BaseDonnees.getBoissonNom("7up"));
-						commande.setDessert(BaseDonnees.getDessertNom("m&m's"));
-
-						core.getService().ajouterCommande(commande);
-					}
-				});
-
-				commandes.getChildren().add(bouton);
-
-				ListProperty<Commande> liste = bite;
-				for(Commande commande : liste.get()){
-					AnchorPane commandePane = new AnchorPane();
-					commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
-					commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-					commandePane.getStyleClass().add("commande");
-
-					Label numero = new Label("" + commande.getNumero());
-					numero.setPrefSize(30.0, 30.0);
-
-					AnchorPane.setTopAnchor(numero, 0.0);
-					AnchorPane.setLeftAnchor(numero, 0.0);
-
-					commandePane.getChildren().add(numero);
-
-					commandes.getChildren().add(commandePane);
-				}
+				ajouterCommande(core.getService().getNouvelleCommande());
 			}
 		});
 
 		panneauCommandes.setContent(commandes);
 
 		return(panneauCommandes);
+	}
+
+	private static void ajouterCommande(Commande commande){
+		AnchorPane commandePane = new AnchorPane();
+		commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+		commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+		commandePane.getStyleClass().add("commande");
+
+		Label numero = new Label("" + commande.getNumero());
+		numero.setPrefSize(30.0, 30.0);
+		numero.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+		numero.setMaxSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+		numero.getStyleClass().add("numero-commande");
+
+		AnchorPane.setTopAnchor(numero, 0.0);
+		AnchorPane.setLeftAnchor(numero, 0.0);
+
+		commandePane.getChildren().add(numero);
+
+		commandes.getChildren().add(commandePane);
 	}
 }

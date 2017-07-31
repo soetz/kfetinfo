@@ -36,6 +36,13 @@
 	-fx-border-width : 1;
 }
 
+.numero-commande {
+	-fx-alignment : center;
+	-fx-background-color : "#f01010";
+	-fx-font : bold 15px "sans-serif"; 
+	-fx-text-fill : "#f0f0f0";
+}
+
 .bouton-menu {
 	-fx-background-color : "#101010";
 	-fx-border-color : "#f0f0f0";
