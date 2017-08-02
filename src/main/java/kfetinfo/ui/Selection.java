@@ -23,7 +23,7 @@ public class Selection {
 	public static final String TITRE_GROUPE = "titre-groupe-contenu-commande";
 
 	public static final Double ESPACE_GROUPES = 4.0;
-	public static final Double PADDING_SELECTION = 5.0;
+	public static final Double PADDING_SELECTION = 3.0;
 
 	public static final boolean DEV = true;
     private static final long[] frameTimes = new long[100];

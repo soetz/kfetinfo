@@ -25,13 +25,16 @@ import kfetinfo.core.Boisson;
 
 
 public class App extends Application{
-	public static final String SHOWCASE = "showcase";
+	public static final String NUMERO_COMMANDE = "numero-commande";
+	public static final String PLAT_COMMANDE = "plat-commande";
 
 	public static final Double LARGEUR_MIN_FENETRE = 800.0;
 	public static final Double HAUTEUR_MIN_FENETRE = 600.0;
 	public static final Double TAILLE_PANNEAU_MENU = 25.0;
 	public static final Double TAILLE_PANNEAU_COMMANDES = 250.0;
-	public static final Double TAILLE_PANNEAU_RESULTAT = 150.0;
+	public static final Double TAILLE_PANNEAU_RESULTAT = 173.0;
+	public static final Double TAILLE_NUMERO_COMMANDE = 30.0;
+	public static final Double ESPACE_NUMERO_PLAT = 5.0;
 
 	public static void main(String[] args){
 		launch(args);
@@ -62,7 +65,7 @@ public class App extends Application{
 		theatre.show();
 	}
 
-	public BorderPane ecranPrincipal(Core core){
+	public Region ecranPrincipal(Core core){
 		BorderPane root = new BorderPane();
 
 		Region haut = Menu.menu();
@@ -71,7 +74,7 @@ public class App extends Application{
 
 		Region centre = Selection.selection(root);
 
-		Region bas = Resultat.resultat();
+		Region bas = Resultat.resultat(root, core);
 
 		root.setTop(haut);
 		root.setRight(droite);

@@ -24,9 +24,12 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Commande;
+import kfetinfo.core.CommandeAssignee;
 import kfetinfo.core.Core;
 
 public class Commandes {
+	public static final String COMMANDE = "commande";
+
 	public static final Double HAUTEUR_COMMANDE_FERMEE = 60.0;
 	public static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 200.0;
 
@@ -41,44 +44,7 @@ public class Commandes {
 
 		commandes = new VBox();
 
-		Button bouton = new Button("Ajouter");
-
-		bouton.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				Commande commande = new Commande(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
-				commande.setPlat(BaseDonnees.getPlatNom("sandwich"));
-				commande.addIngredient(BaseDonnees.getIngredientNom("chèvre"));
-				commande.addIngredient(BaseDonnees.getIngredientNom("jambon"));
-				commande.addSauce(BaseDonnees.getSauceNom("tartare"));
-				commande.setBoisson(BaseDonnees.getBoissonNom("7up"));
-				commande.setDessert(BaseDonnees.getDessertNom("m&m's"));
-
-				core.getService().ajouterCommande(commande);
-			}
-		});
-
-		commandes.getChildren().add(bouton);
-
-//		List<Commande> listeCommandes = core.getService().getCommandes();
-
-//		int i;
-//		for(i = 0; i < 4; i++){
-//			Region region = new Region();
-//			region.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-//			region.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
-//			region.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-//			region.getStyleClass().add("commande");
-//			commandes.getChildren().add(region);
-//		}
-
-//		Label droite = new Label("Commandes");
-//		droite.setId("droite");
-//		droite.getStyleClass().add(App.SHOWCASE);
-//		droite.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-//		droite.setMinWidth(App.TAILLE_PANNEAU_COMMANDES);
+		commandes.setSpacing(-1.0);
 
 		for(Commande commande : core.getService().getCommandes()){
 			ajouterCommande(commande);
@@ -100,18 +66,27 @@ public class Commandes {
 		commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
 		commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-		commandePane.getStyleClass().add("commande");
+		commandePane.getStyleClass().add(COMMANDE);
 
 		Label numero = new Label("" + commande.getNumero());
-		numero.setPrefSize(30.0, 30.0);
+		numero.setPrefSize(App.TAILLE_NUMERO_COMMANDE, App.TAILLE_NUMERO_COMMANDE);
 		numero.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 		numero.setMaxSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-		numero.getStyleClass().add("numero-commande");
+		numero.getStyleClass().add(App.NUMERO_COMMANDE);
 
-		AnchorPane.setTopAnchor(numero, 0.0);
-		AnchorPane.setLeftAnchor(numero, 0.0);
+		Label plat = new Label(commande.getPlat().getNom().toUpperCase());
+		plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
+		plat.setMinHeight(Control.USE_PREF_SIZE);
+		plat.setMaxHeight(Control.USE_PREF_SIZE);
+		plat.getStyleClass().add(App.PLAT_COMMANDE);
+
+		AnchorPane.setTopAnchor(numero, -1.0);
+		AnchorPane.setLeftAnchor(numero, -1.0);
+		AnchorPane.setTopAnchor(plat, 0.0);
+		AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 
 		commandePane.getChildren().add(numero);
+		commandePane.getChildren().add(plat);
 
 		commandes.getChildren().add(commandePane);
 	}

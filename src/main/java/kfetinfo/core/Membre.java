@@ -83,6 +83,10 @@ public class Membre {
 		return(prenomBlaze + " " + surnomBlaze + nomBlaze);
 	}
 
+	public String getBlazeCourt(){
+		return((getSurnom().equals("")) ? getPrenom() : getSurnom());
+	}
+
 	public String toString(){
 		return(getBlaze());
 	}
