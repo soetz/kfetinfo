@@ -54,6 +54,14 @@ public class Selection {
 	private static final ObjectProperty<Dessert> dessertSelectionne = new SimpleObjectProperty<Dessert>();
 	private static final BooleanProperty commandeChangee = new SimpleBooleanProperty();
 
+	private static List<RadioButton> radiosPlats = new ArrayList<RadioButton>();
+	private static List<CheckBox> checksIngredients = new ArrayList<CheckBox>();
+	private static VBox listeIngredients = new VBox();
+	private static List<CheckBox> checksSauces = new ArrayList<CheckBox>();
+	private static List<HBox> checksAndLabelsSauces = new ArrayList<HBox>();
+	private static List<RadioButton> radiosBoissons = new ArrayList<RadioButton>();
+	private static List<RadioButton> radiosDesserts = new ArrayList<RadioButton>();
+
 	public static Region selection(Region root){
 		StackPane superposition = new StackPane();
 
@@ -99,7 +107,6 @@ public class Selection {
 		VBox groupePlats = new VBox();
 
 		ToggleGroup platSelection = new ToggleGroup();
-		List<RadioButton> radiosPlats = new ArrayList<RadioButton>();
 
 		VBox listePlats = new VBox();
 
@@ -170,10 +177,6 @@ public class Selection {
 	public static VBox groupeIngredients(Region parent){
 		VBox groupeIngredients = new VBox();
 
-		List<CheckBox> checksIngredients = new ArrayList<CheckBox>();
-
-		VBox listeIngredients = new VBox();
-
 		for (Ingredient ingredient : BaseDonnees.getIngredients()){
 			HBox box = new HBox();
 
@@ -205,6 +208,7 @@ public class Selection {
 			box.getChildren().add(checkBox);
 			box.getChildren().add(label);
 
+			grisageIngredients();
 			listeIngredients.getChildren().add(box);
 		}
 
@@ -226,8 +230,6 @@ public class Selection {
 	public static VBox groupeSauces(Region parent){
 		VBox groupeSauces = new VBox();
 
-		List<CheckBox> checksSauces = new ArrayList<CheckBox>();
-
 		VBox listeSauces = new VBox();
 
 		for(Sauce sauce : BaseDonnees.getSauces()){
@@ -247,6 +249,7 @@ public class Selection {
 						saucesSelectionnees.remove(BaseDonnees.getSauces().get(checksSauces.indexOf(checkBox)));
 						sauceChangee.set(!sauceChangee.get());
 						commandeChangee.set(!commandeChangee.get());
+						grisageSauces();
 					}
 				}
 			});
@@ -261,7 +264,9 @@ public class Selection {
 
 			box.getChildren().add(checkBox);
 			box.getChildren().add(label);
+			checksAndLabelsSauces.add(box);
 
+			grisageSauces();
 			listeSauces.getChildren().add(box);
 		}
 
@@ -284,7 +289,6 @@ public class Selection {
 		VBox groupeBoissons = new VBox();
 
 		ToggleGroup boissonSelection = new ToggleGroup();
-		List<RadioButton> radiosBoissons = new ArrayList<RadioButton>();
 
 		VBox listeBoissons = new VBox();
 
@@ -343,7 +347,6 @@ public class Selection {
 		VBox groupeDesserts = new VBox();
 
 		ToggleGroup dessertSelection = new ToggleGroup();
-		List<RadioButton> radiosDesserts = new ArrayList<RadioButton>();
 
 		VBox listeDesserts = new VBox();
 
@@ -431,12 +434,57 @@ public class Selection {
 		return(devPane);
 	}
 
+	public static void reset(){
+		radiosPlats.get(radiosPlats.size() - 1).setSelected(true);
+		ingredientsSelectionnes = new ArrayList<Ingredient>();
+		for(CheckBox check : checksIngredients){
+			check.setSelected(false);
+		}
+		ingredientChange.set(!ingredientChange.get());
+		saucesSelectionnees = new ArrayList<Sauce>();
+		for(CheckBox check : checksSauces){
+			check.setSelected(false);
+		}
+		sauceChangee.set(!sauceChangee.get());
+		radiosBoissons.get(radiosBoissons.size() - 1).setSelected(true);
+		radiosDesserts.get(radiosDesserts.size() - 1).setSelected(true);
+		commandeChangee.set(!commandeChangee.get());
+		grisageIngredients();
+		grisageSauces();
+	}
+
 	private static void grisageIngredients(){
-		
+		if(platSelectionne.get().getNbMaxIngredients() == 0){
+			for(CheckBox checkBox : checksIngredients){
+				checkBox.setSelected(false);
+			}
+			listeIngredients.setDisable(true);
+		} else {
+			listeIngredients.setDisable(false);
+		}
 	}
 
 	private static void grisageSauces(){
-		
+		if(platSelectionne.get().getNbMaxSauces() == 0){
+			for(CheckBox checkBox : checksSauces){
+				checkBox.setSelected(false);
+			}
+			for(HBox checksAndLabels : checksAndLabelsSauces){
+				checksAndLabels.setDisable(true);
+			}
+		} else {
+			if(saucesSelectionnees.size() >= platSelectionne.get().getNbMaxSauces()){
+				for(CheckBox checkBox : checksSauces){
+					if(!checkBox.isSelected()){
+						checksAndLabelsSauces.get(checksSauces.indexOf(checkBox)).setDisable(true);
+					}
+				}
+			} else {
+				for(CheckBox checkBox : checksSauces){
+					checksAndLabelsSauces.get(checksSauces.indexOf(checkBox)).setDisable(false);
+				}
+			}	
+		}
 	}
 
 	public static Plat getPlatSelectionne(){

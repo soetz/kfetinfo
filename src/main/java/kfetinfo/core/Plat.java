@@ -43,4 +43,8 @@ public class Plat extends ContenuCommande {
 	public int getNbMaxIngredients(){
 		return(nbMaxIngredients);
 	}
+
+	public int getNbMaxSauces(){
+		return(nbMaxSauces);
+	}
 }

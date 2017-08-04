@@ -2,6 +2,7 @@ package kfetinfo.ui;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
@@ -332,16 +333,18 @@ public class Resultat {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				Commande commande = new Commande(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
-				commande.setPlat(BaseDonnees.getPlatNom("sandwich"));
-				commande.addIngredient(BaseDonnees.getIngredientNom("chèvre"));
-				commande.addIngredient(BaseDonnees.getIngredientNom("jambon"));
-				commande.addSauce(BaseDonnees.getSauceNom("tartare"));
-				commande.setBoisson(BaseDonnees.getBoissonNom("7up"));
-				commande.setDessert(BaseDonnees.getDessertNom("m&m's"));
+				Commande commande = new Commande(
+						new Date(),
+						Selection.getPlatSelectionne(),
+						Selection.getIngredientsSelectionnes(),
+						Selection.getSaucesSelectionnees(),
+						Selection.getDessertSelectionne(),
+						Selection.getBoissonSelectionnee(),
+						Selection.getSupplementBoissonSelectionne(),
+						core.getService());
 
 				core.getService().ajouterCommande(commande);
+				Selection.reset();
 			}
 		});
 
