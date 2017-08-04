@@ -127,21 +127,25 @@ public class Commande {
 	}
 
 	public float getPrix(){
+		return(prixCommande(this.plat, this.ingredients, this.sauces, this.boisson, this.supplementBoisson, this.dessert));
+	}
+
+	public static float prixCommande(Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Boisson boisson, SupplementBoisson supplementBoisson, Dessert dessert){
 		float prix = 0f;
 
-		if(!(this.plat.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b"))&&!(this.dessert.getId().equals("962e1223-cdda-47ef-85ab-20eede2a0dc0"))&&!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
+		if(!(plat.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b"))&&!(dessert.getId().equals("962e1223-cdda-47ef-85ab-20eede2a0dc0"))&&!(boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
 			prix -= Core.getParametres().getReducMenu();
 		}
 
 		prix += plat.getPrix();
 
-		if(this.ingredients.size() > this.plat.getNbMaxIngredients()){
-			prix += Core.getParametres().getPrixIngredientSupp() * (this.ingredients.size() - this.plat.getNbMaxIngredients());
+		if(ingredients.size() > plat.getNbMaxIngredients()){
+			prix += Core.getParametres().getPrixIngredientSupp() * (ingredients.size() - plat.getNbMaxIngredients());
 		}
 
 		prix += dessert.getPrix();
 
-		if(!(this.boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
+		if(!(boisson.getId().equals("c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe"))){
 			prix += Core.getParametres().getPrixBoisson();
 		}
 

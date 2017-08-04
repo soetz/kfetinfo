@@ -1,11 +1,23 @@
 package kfetinfo.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -13,10 +25,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Boisson;
+import kfetinfo.core.Commande;
 import kfetinfo.core.Dessert;
 import kfetinfo.core.Ingredient;
 import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
+import kfetinfo.core.SupplementBoisson;
 
 public class Selection {
 	public static final String LISTE_CONTENU_COMMANDE = "liste-contenu-commande";
@@ -26,9 +40,19 @@ public class Selection {
 	public static final Double PADDING_SELECTION = 3.0;
 
 	public static final boolean DEV = true;
-    private static final long[] frameTimes = new long[100];
-    private static int frameTimeIndex = 0 ;
-    private static boolean arrayFilled = false ;
+	private static final long[] frameTimes = new long[100];
+	private static int frameTimeIndex = 0 ;
+	private static boolean arrayFilled = false ;
+
+	private static final ObjectProperty<Plat> platSelectionne = new SimpleObjectProperty<Plat>();
+	private static List<Ingredient> ingredientsSelectionnes = new ArrayList<Ingredient>();
+	private static final BooleanProperty ingredientChange = new SimpleBooleanProperty();
+	private static List<Sauce> saucesSelectionnees = new ArrayList<Sauce>();
+	private static final BooleanProperty sauceChangee = new SimpleBooleanProperty();
+	private static final ObjectProperty<Boisson> boissonSelectionnee = new SimpleObjectProperty<Boisson>();
+	private static final ObjectProperty<SupplementBoisson> supplementBoissonSelectionne = new SimpleObjectProperty<SupplementBoisson>();
+	private static final ObjectProperty<Dessert> dessertSelectionne = new SimpleObjectProperty<Dessert>();
+	private static final BooleanProperty commandeChangee = new SimpleBooleanProperty();
 
 	public static Region selection(Region root){
 		StackPane superposition = new StackPane();
@@ -45,6 +69,8 @@ public class Selection {
 		VBox groupeSauces = groupeSauces(selection);
 
 		VBox groupeBoissons = groupeBoissons(selection);
+
+		supplementBoissonSelectionne.set(BaseDonnees.getSupplementBoissonNom("rien"));
 
 		VBox groupeDesserts = groupeDesserts(selection);
 
@@ -72,14 +98,25 @@ public class Selection {
 	public static VBox groupePlats(Region parent){
 		VBox groupePlats = new VBox();
 
+		ToggleGroup platSelection = new ToggleGroup();
+		List<RadioButton> radiosPlats = new ArrayList<RadioButton>();
+
 		VBox listePlats = new VBox();
 
 		for(Plat plat : BaseDonnees.getPlats()){
 			HBox box = new HBox();
 
 			RadioButton radio = new RadioButton();
+			radio.setToggleGroup(platSelection);
+			radiosPlats.add(radio);
 
 			Label label = new Label(plat.getNom());
+			label.setOnMouseClicked(new EventHandler<Event>() {
+				public void handle(Event event) {
+					platSelection.selectToggle(radio);
+					radio.requestFocus();
+				}
+			});
 
 			box.getChildren().add(radio);
 			box.getChildren().add(label);
@@ -91,6 +128,34 @@ public class Selection {
 		listePlats.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listePlats.maxWidthProperty().bind(listePlats.minWidthProperty());
 		listePlats.setMaxHeight(Control.USE_PREF_SIZE);
+
+		platSelection.selectedToggleProperty().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				for(RadioButton radio : radiosPlats){
+					if(newVal.equals(radio)){
+						platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio)));
+						commandeChangee.set(!commandeChangee.get());
+						grisageIngredients();
+						grisageSauces();
+					}
+				}
+			}
+		});
+
+//		platSelection.selectedToggleProperty().addListener(new ChangeListener(){
+//			public void changed(ObservableValue o, Object oldVal, Object newVal){
+//				for(RadioButton radio : radiosPlats){
+//					if(newVal.equals(radio)){
+//						platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio)));
+//						grisageIngredients();
+//						grisageSauces();
+//					}
+//				}
+//			}
+//		});
+
+		platSelection.selectToggle(radiosPlats.get(radiosPlats.size() - 1));
+		platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.size() - 1));
 
 		Label titrePlats = new Label("PLAT");
 		titrePlats.getStyleClass().add(TITRE_GROUPE);
@@ -105,14 +170,37 @@ public class Selection {
 	public static VBox groupeIngredients(Region parent){
 		VBox groupeIngredients = new VBox();
 
+		List<CheckBox> checksIngredients = new ArrayList<CheckBox>();
+
 		VBox listeIngredients = new VBox();
 
-		for(Ingredient ingredient : BaseDonnees.getIngredients()){
+		for (Ingredient ingredient : BaseDonnees.getIngredients()){
 			HBox box = new HBox();
 
 			CheckBox checkBox = new CheckBox();
+			checksIngredients.add(checkBox);
+
+			checkBox.selectedProperty().addListener(new ChangeListener() {
+				public void changed(ObservableValue o, Object oldVal, Object newVal){
+					if(checkBox.isSelected()){
+						ingredientsSelectionnes.add(BaseDonnees.getIngredients().get(checksIngredients.indexOf(checkBox)));
+						ingredientChange.set(!ingredientChange.get());
+						commandeChangee.set(!commandeChangee.get());
+					} else {
+						ingredientsSelectionnes.remove(BaseDonnees.getIngredients().get(checksIngredients.indexOf(checkBox)));
+						ingredientChange.set(!ingredientChange.get());
+						commandeChangee.set(!commandeChangee.get());
+					}
+				}
+			});
 
 			Label label = new Label(ingredient.getNom());
+			label.setOnMouseClicked(new EventHandler<Event>() {
+				public void handle(Event event){
+					checkBox.setSelected(!checkBox.isSelected());
+					checkBox.requestFocus();
+				}
+			});
 
 			box.getChildren().add(checkBox);
 			box.getChildren().add(label);
@@ -138,14 +226,38 @@ public class Selection {
 	public static VBox groupeSauces(Region parent){
 		VBox groupeSauces = new VBox();
 
+		List<CheckBox> checksSauces = new ArrayList<CheckBox>();
+
 		VBox listeSauces = new VBox();
 
 		for(Sauce sauce : BaseDonnees.getSauces()){
 			HBox box = new HBox();
 
 			CheckBox checkBox = new CheckBox();
+			checksSauces.add(checkBox);
+
+			checkBox.selectedProperty().addListener(new ChangeListener() {
+				public void changed(ObservableValue o, Object oldVal, Object newVal){
+					if(checkBox.isSelected()){
+						saucesSelectionnees.add(BaseDonnees.getSauces().get(checksSauces.indexOf(checkBox)));
+						sauceChangee.set(!sauceChangee.get());
+						commandeChangee.set(!commandeChangee.get());
+						grisageSauces();
+					} else {
+						saucesSelectionnees.remove(BaseDonnees.getSauces().get(checksSauces.indexOf(checkBox)));
+						sauceChangee.set(!sauceChangee.get());
+						commandeChangee.set(!commandeChangee.get());
+					}
+				}
+			});
 
 			Label label = new Label(sauce.getNom());
+			label.setOnMouseClicked(new EventHandler<Event>() {
+				public void handle(Event event){
+					checkBox.setSelected(!checkBox.isSelected());
+					checkBox.requestFocus();
+				}
+			});
 
 			box.getChildren().add(checkBox);
 			box.getChildren().add(label);
@@ -171,14 +283,26 @@ public class Selection {
 	public static VBox groupeBoissons(Region parent){
 		VBox groupeBoissons = new VBox();
 
+		ToggleGroup boissonSelection = new ToggleGroup();
+		List<RadioButton> radiosBoissons = new ArrayList<RadioButton>();
+
 		VBox listeBoissons = new VBox();
 
 		for(Boisson boisson : BaseDonnees.getBoissons()){
 			HBox box = new HBox();
 
 			RadioButton radio = new RadioButton();
+			radio.setToggleGroup(boissonSelection);
+			radiosBoissons.add(radio);
+			radio.setSelected(true);
 
 			Label label = new Label(boisson.getNom());
+			label.setOnMouseClicked(new EventHandler<Event>() {
+				public void handle(Event event){
+					boissonSelection.selectToggle(radio);
+					radio.requestFocus();
+				}
+			});
 
 			box.getChildren().add(radio);
 			box.getChildren().add(label);
@@ -190,6 +314,20 @@ public class Selection {
 		listeBoissons.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listeBoissons.maxWidthProperty().bind(listeBoissons.minWidthProperty());
 		listeBoissons.setMaxHeight(Control.USE_PREF_SIZE);
+
+		boissonSelection.selectedToggleProperty().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				for(RadioButton radio : radiosBoissons){
+					if(newVal.equals(radio)){
+						boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.indexOf(radio)));
+						commandeChangee.set(!commandeChangee.get());
+					}
+				}
+			}
+		});
+
+		boissonSelection.selectToggle(radiosBoissons.get(radiosBoissons.size() - 1));
+		boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.size() - 1));
 
 		Label titreBoissons = new Label("BOISSON");
 		titreBoissons.getStyleClass().add(TITRE_GROUPE);
@@ -204,14 +342,26 @@ public class Selection {
 	public static VBox groupeDesserts(Region parent){
 		VBox groupeDesserts = new VBox();
 
+		ToggleGroup dessertSelection = new ToggleGroup();
+		List<RadioButton> radiosDesserts = new ArrayList<RadioButton>();
+
 		VBox listeDesserts = new VBox();
 
 		for(Dessert dessert : BaseDonnees.getDesserts()){
 			HBox box = new HBox();
 
 			RadioButton radio = new RadioButton();
+			radio.setToggleGroup(dessertSelection);
+			radiosDesserts.add(radio);
+			radio.setSelected(true);
 
 			Label label = new Label(dessert.getNom());
+			label.setOnMouseClicked(new EventHandler<Event>() {
+				public void handle(Event event){
+					dessertSelection.selectToggle(radio);
+					radio.requestFocus();
+				}
+			});
 
 			box.getChildren().add(radio);
 			box.getChildren().add(label);
@@ -223,6 +373,20 @@ public class Selection {
 		listeDesserts.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listeDesserts.maxWidthProperty().bind(listeDesserts.minWidthProperty());
 		listeDesserts.setMaxHeight(Control.USE_PREF_SIZE);
+
+		dessertSelection.selectedToggleProperty().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				for(RadioButton radio : radiosDesserts){
+					if(newVal.equals(radio)){
+						dessertSelectionne.set(BaseDonnees.getDesserts().get(radiosDesserts.indexOf(radio)));
+						commandeChangee.set(!commandeChangee.get());
+					}
+				}
+			}
+		});
+
+		dessertSelection.selectToggle(radiosDesserts.get(radiosDesserts.size() - 1));
+		dessertSelectionne.set(BaseDonnees.getDesserts().get(radiosDesserts.size() - 1));
 
 		Label titreDesserts = new Label("DESSERT");
 		titreDesserts.getStyleClass().add(TITRE_GROUPE);
@@ -265,5 +429,85 @@ public class Selection {
         devPane.getChildren().add(label);
 		
 		return(devPane);
+	}
+
+	private static void grisageIngredients(){
+		
+	}
+
+	private static void grisageSauces(){
+		
+	}
+
+	public static Plat getPlatSelectionne(){
+		return(platSelectionne.get());
+	}
+
+	public static void setPlatSelectionne(Plat plat){
+		platSelectionne.set(plat);
+	}
+
+	public static ObjectProperty<Plat> platSelectionnePropriete(){
+		return(platSelectionne);
+	}
+
+	public static BooleanProperty ingredientChangePropriete(){
+		return(ingredientChange);
+	}
+
+	public static List<Ingredient> getIngredientsSelectionnes(){
+		return(ingredientsSelectionnes);
+	}
+
+	public static BooleanProperty sauceChangeePropriete(){
+		return(sauceChangee);
+	}
+
+	public static List<Sauce> getSaucesSelectionnees(){
+		return(saucesSelectionnees);
+	}
+
+	public static Boisson getBoissonSelectionnee(){
+		return(boissonSelectionnee.get());
+	}
+
+	public static void setBoissonSelectionnee(Boisson boisson){
+		boissonSelectionnee.set(boisson);
+	}
+
+	public static ObjectProperty<Boisson> boissonSelectionneePropriete(){
+		return(boissonSelectionnee);
+	}
+
+	public static SupplementBoisson getSupplementBoissonSelectionne(){
+		return(supplementBoissonSelectionne.get());
+	}
+
+	public static void setSupplementBoissonSelectionne(SupplementBoisson supplementBoisson){
+		supplementBoissonSelectionne.set(supplementBoisson);
+	}
+
+	public static ObjectProperty<SupplementBoisson> supplementBoissonSelectionnePropriete(){
+		return(supplementBoissonSelectionne);
+	}
+
+	public static Dessert getDessertSelectionne(){
+		return(dessertSelectionne.get());
+	}
+
+	public static void setDessertSelectionne(Dessert dessert){
+		dessertSelectionne.set(dessert);
+	}
+
+	public static ObjectProperty<Dessert> dessertSelectionnePropriete(){
+		return(dessertSelectionne);
+	}
+
+	public static BooleanProperty commandeChangeePropriete(){
+		return(commandeChangee);
+	}
+
+	public static float getPrixCommande(){
+		return(Commande.prixCommande(getPlatSelectionne(), getIngredientsSelectionnes(), getSaucesSelectionnees(), getBoissonSelectionnee(), getSupplementBoissonSelectionne(), getDessertSelectionne()));
 	}
 }

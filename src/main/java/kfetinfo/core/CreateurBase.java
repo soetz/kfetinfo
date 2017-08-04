@@ -462,67 +462,12 @@ public class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI());
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-
-		File f = new File(dossier + "/" + "rien" + ".json");
-		if(!(f.exists() && !f.isDirectory())) { 
-			JSONObject rienIngredient = new JSONObject();
-			rienIngredient.put("id", "e8a6d3a2-7e0b-4587-ac85-462329b4a776");
-			rienIngredient.put("nom", "Rien");
-			rienIngredient.put("cout", 0f);
-			rienIngredient.put("estDisponible", true);
-			rienIngredient.put("nbUtilisations", new Integer(0));
-			rienIngredient.put("priorite", -1);
-
-			try (FileWriter file = new FileWriter(dossier + "/" + "rien" + ".json")) {
-
-	            file.write(rienIngredient.toJSONString());
-	            file.flush();
-
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-
-	        System.out.println(rienIngredient);
-		}
-
-		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI());
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-
-		f = new File(dossier + "/" + "rien" + ".json");
-		if(!(f.exists() && !f.isDirectory())) { 
-			JSONObject rienSauce = new JSONObject();
-			rienSauce.put("id", "dc9e18ea-ff8c-4d71-8d11-ed18489df6a1");
-			rienSauce.put("nom", "Rien");
-			rienSauce.put("cout", 0f);
-			rienSauce.put("estDisponible", true);
-			rienSauce.put("nbUtilisations", new Integer(0));
-			rienSauce.put("priorite", -1);
-			try (FileWriter file = new FileWriter(dossier + "/" + "rien" + ".json")) {
-
-	            file.write(rienSauce.toJSONString());
-	            file.flush();
-
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-
-	        System.out.println(rienSauce);
-		}
-
-		try {
 			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI());
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
-        f = new File(dossier + "/" + "rien" + ".json");
+        File f = new File(dossier + "/" + "rien" + ".json");
         if(!(f.exists() && !f.isDirectory())) { 
     		JSONObject rienDessert = new JSONObject();
     		rienDessert.put("id", "962e1223-cdda-47ef-85ab-20eede2a0dc0");

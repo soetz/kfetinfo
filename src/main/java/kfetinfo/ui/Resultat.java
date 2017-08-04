@@ -1,5 +1,13 @@
 package kfetinfo.ui;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,6 +25,8 @@ import javafx.scene.layout.VBox;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Commande;
 import kfetinfo.core.Core;
+import kfetinfo.core.Ingredient;
+import kfetinfo.core.Sauce;
 
 public class Resultat {
 	public static final String COMMANDE_PREVIEW = "commande-preview";
@@ -84,13 +94,24 @@ public class Resultat {
 		HBox numeroEtPlat = new HBox();
 		numeroEtPlat.setSpacing(App.ESPACE_NUMERO_PLAT);
 
-		Label numero = new Label("XX");
+		Label numero = new Label("" + (core.getService().getNbCommandes() + 1));
+		core.getService().nouvelleCommandePropriete().addListener(new ChangeListener(){
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				numero.setText("" + (core.getService().getNbCommandes() + 1));
+			}
+		});
 		numero.setPrefSize(App.TAILLE_NUMERO_COMMANDE, App.TAILLE_NUMERO_COMMANDE);
 		numero.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 		numero.setMaxSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 		numero.getStyleClass().add(App.NUMERO_COMMANDE);
 
-		Label plat = new Label("Nom du plat".toUpperCase());
+		Label plat = new Label("Rien".toUpperCase());
+		Selection.platSelectionnePropriete().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				plat.setText(Selection.getPlatSelectionne().getNom().toUpperCase());
+			}
+		});
+
 		plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 		plat.setMinHeight(Control.USE_PREF_SIZE);
 		plat.setMaxHeight(Control.USE_PREF_SIZE);
@@ -98,22 +119,64 @@ public class Resultat {
 
 		numeroEtPlat.getChildren().addAll(numero, plat);
 
-		Label ingredients = new Label("Ingrédient #1 - Ingrédient #2 - Ingrédient #3");
+		Label ingredients = new Label("Rien");
+		Selection.ingredientChangePropriete().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				String nomsIngredients = "";
+				if(Selection.getIngredientsSelectionnes().size()!=0){
+					nomsIngredients += Selection.getIngredientsSelectionnes().get(0).getNom();
+					for(Ingredient ingredient : Selection.getIngredientsSelectionnes()){
+						if(!(ingredient.equals(Selection.getIngredientsSelectionnes().get(0)))){
+							nomsIngredients += " - " + ingredient.getNom();
+						}
+					}
+				} else {
+					nomsIngredients = "Rien";
+				}
+				ingredients.setText(nomsIngredients);
+			}
+		});
 		ingredients.getStyleClass().add(CONTENU_COMMANDE_PREVIEW);
 		ingredients.maxWidthProperty().bind(commande.widthProperty().subtract(MARGIN_PREVIEW));
 		ingredients.setTranslateX(MARGIN_PREVIEW);
 
-		Label sauces = new Label("Sauce #1 - Sauce #2");
+		Label sauces = new Label("Rien");
+		Selection.sauceChangeePropriete().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				String nomsSauces = "";
+				if(Selection.getSaucesSelectionnees().size()!=0){
+					nomsSauces += Selection.getSaucesSelectionnees().get(0).getNom();
+					for(Sauce sauce : Selection.getSaucesSelectionnees()){
+						if(!(sauce.equals(Selection.getSaucesSelectionnees().get(0)))){
+							nomsSauces += " - " + sauce.getNom();
+						}
+					}
+				} else {
+					nomsSauces = "Rien";
+				}
+				sauces.setText(nomsSauces);
+			}
+		});
 		sauces.getStyleClass().add(CONTENU_COMMANDE_PREVIEW);
 		sauces.maxWidthProperty().bind(commande.widthProperty().subtract(MARGIN_PREVIEW));
 		sauces.setTranslateX(MARGIN_PREVIEW);
 
-		Label boisson = new Label("Boisson + Supplément Boisson");
+		Label boisson = new Label("Rien");
+		Selection.boissonSelectionneePropriete().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				boisson.setText(Selection.getBoissonSelectionnee().getNom());
+			}
+		});
 		boisson.getStyleClass().add(CONTENU_COMMANDE_PREVIEW);
 		boisson.maxWidthProperty().bind(commande.widthProperty().subtract(MARGIN_PREVIEW));
 		boisson.setTranslateX(MARGIN_PREVIEW);
 
-		Label dessert = new Label("Dessert");
+		Label dessert = new Label("Rien");
+		Selection.dessertSelectionnePropriete().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				dessert.setText(Selection.getDessertSelectionne().getNom());
+			}
+		});
 		dessert.getStyleClass().add(CONTENU_COMMANDE_PREVIEW);
 		dessert.maxWidthProperty().bind(commande.widthProperty().subtract(MARGIN_PREVIEW));
 		dessert.setTranslateX(MARGIN_PREVIEW);
@@ -126,7 +189,17 @@ public class Resultat {
 
 		AnchorPane fixationPrix = new AnchorPane();
 
-		Label prix = new Label("XX,XX€");
+		Label prix = new Label("- €");
+		Selection.commandeChangeePropriete().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				String affPrix = "- €";
+				if(Selection.getPrixCommande()!=0f){
+					NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
+					affPrix = numberFormatter.format(Selection.getPrixCommande()) + "€";
+				}
+				prix.setText(affPrix);
+			}
+		});
 		prix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
 
 		AnchorPane.setBottomAnchor(prix, MARGIN_PREVIEW);

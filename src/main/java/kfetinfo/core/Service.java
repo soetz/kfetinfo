@@ -84,7 +84,7 @@ public class Service {
 		}
 
 		try {
-			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/"));
 		} catch (Exception e){
 			e.printStackTrace();
 		}

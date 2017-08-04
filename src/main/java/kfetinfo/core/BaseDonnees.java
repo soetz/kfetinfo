@@ -48,39 +48,39 @@ public class BaseDonnees {
 		return(sauces);
 	}
 
-	static public List<Boisson> getBoissons(){
-		return(boissons);
-	}
-
 	static public List<SupplementBoisson> getSupplementsBoisson(){
 		return(supplementsBoisson);
+	}
+
+	static public List<Boisson> getBoissons(){
+		return(boissons);
 	}
 
 	static public List<Dessert> getDesserts(){
 		return(desserts);
 	}
 
-	static public Ingredient getRienIngredient(){
-		Ingredient ingredient = new Ingredient("e8a6d3a2-7e0b-4587-ac85-462329b4a776", "Rien", 0, true, 0, -1);
-		for(Ingredient ingredientListe : ingredients){
-			if(ingredientListe.id.equals("e8a6d3a2-7e0b-4587-ac85-462329b4a776")){
-				ingredient = ingredientListe;
-			}
-		}
-
-		return(ingredient);
-	}
-
-	static public Sauce getRienSauce(){
-		Sauce sauce = new Sauce("dc9e18ea-ff8c-4d71-8d11-ed18489df6a1", "Rien", 0, true, 0, -1);
-		for(Sauce sauceListe : sauces){
-			if(sauceListe.getId().equals("dc9e18ea-ff8c-4d71-8d11-ed18489df6a1")){
-				sauce = sauceListe;
-			}
-		}
-
-		return(sauce);
-	}
+//	static public Ingredient getRienIngredient(){
+//		Ingredient ingredient = new Ingredient("e8a6d3a2-7e0b-4587-ac85-462329b4a776", "Rien", 0, true, 0, -1);
+//		for(Ingredient ingredientListe : ingredients){
+//			if(ingredientListe.id.equals("e8a6d3a2-7e0b-4587-ac85-462329b4a776")){
+//				ingredient = ingredientListe;
+//			}
+//		}
+//
+//		return(ingredient);
+//	}
+//
+//	static public Sauce getRienSauce(){
+//		Sauce sauce = new Sauce("dc9e18ea-ff8c-4d71-8d11-ed18489df6a1", "Rien", 0, true, 0, -1);
+//		for(Sauce sauceListe : sauces){
+//			if(sauceListe.getId().equals("dc9e18ea-ff8c-4d71-8d11-ed18489df6a1")){
+//				sauce = sauceListe;
+//			}
+//		}
+//
+//		return(sauce);
+//	}
 
 	static public Dessert getRienDessert(){
 		Dessert dessert = new Dessert("962e1223-cdda-47ef-85ab-20eede2a0dc0", "Rien", 0, true, 0, -1, 0);
@@ -129,7 +129,7 @@ public class BaseDonnees {
 	static public Ingredient getIngredient(String id){
 		chargerMenu();
 
-		Ingredient ingredient = getRienIngredient();
+		Ingredient ingredient = new Ingredient();
 		for(Ingredient ingredientListe : ingredients){
 			if(ingredientListe.getId().equals(id)){
 				ingredient = ingredientListe;
@@ -142,7 +142,7 @@ public class BaseDonnees {
 	static public Ingredient getIngredientNom(String nom){
 		chargerMenu();
 
-		Ingredient ingredient = getRienIngredient();
+		Ingredient ingredient = new Ingredient();
 		for(Ingredient ingredientListe : ingredients){
 			if(ingredientListe.getNom().toLowerCase().equals(nom.toLowerCase())){
 				ingredient = ingredientListe;
@@ -155,7 +155,7 @@ public class BaseDonnees {
 	static public Sauce getSauce(String id){
 		chargerMenu();
 
-		Sauce sauce = getRienSauce();
+		Sauce sauce = new Sauce();
 		for(Sauce sauceListe : sauces){
 			if(sauceListe.getId().equals(id)){
 				sauce = sauceListe;
@@ -168,7 +168,7 @@ public class BaseDonnees {
 	static public Sauce getSauceNom(String nom){
 		chargerMenu();
 
-		Sauce sauce = getRienSauce();
+		Sauce sauce = new Sauce();
 		for(Sauce sauceListe : sauces){
 			if(sauceListe.getNom().toLowerCase().equals(nom.toLowerCase())){
 				sauce = sauceListe;
