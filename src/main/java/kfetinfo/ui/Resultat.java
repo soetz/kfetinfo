@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -44,6 +45,32 @@ public class Resultat {
 	public static final Double PADDING_HAUT_TABLEAU = 3.0;
 	public static final Double ESPACE_A_RENDRE = 5.0;
 	public static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
+
+	private static int nbUnCent = 0;
+	private static int nbDeuxCent = 0;
+	private static int nbCinqCent = 0;
+	private static int nbDixCent = 0;
+	private static int nbVingtCent = 0;
+	private static int nbCinquanteCent = 0;
+	private static int nbUnEuro = 0;
+	private static int nbDeuxEuros = 0;
+	private static int nbCinqEuros = 0;
+	private static int nbDixEuros = 0;
+	private static int nbVingtEuros = 0;
+
+	private static Label lbNbUnCent = new Label("x0");
+	private static Label lbNbDeuxCent = new Label("x0");
+	private static Label lbNbCinqCent = new Label("x0");
+	private static Label lbNbDixCent = new Label("x0");
+	private static Label lbNbVingtCent = new Label("x0");
+	private static Label lbNbCinquanteCent = new Label("x0");
+	private static Label lbNbUnEuro = new Label("x0");
+	private static Label lbNbDeuxEuros = new Label("x0");
+	private static Label lbNbCinqEuros = new Label("x0");
+	private static Label lbNbDixEuros = new Label("x0");
+	private static Label lbNbVingtEuros = new Label("x0");
+
+	private static Label nbARendre;
 
 	public static Region resultat(Region root, Core core){
 		BorderPane resultat = new BorderPane();
@@ -199,6 +226,8 @@ public class Resultat {
 					affPrix = numberFormatter.format(Selection.getPrixCommande()) + "€";
 				}
 				prix.setText(affPrix);
+
+				mettreCompteurAJour();
 			}
 		});
 		prix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
@@ -234,29 +263,106 @@ public class Resultat {
 		Button boutonCinqEuros = new Button("5€");
 		Button boutonDixEuros = new Button("10€");
 		Button boutonVingtEuros = new Button("20€");
-		Label nbUnCent = new Label("xX");
-		Label nbDeuxCent = new Label("xX");
-		Label nbCinqCent = new Label("xX");
-		Label nbDixCent = new Label("xX");
-		Label nbVingtCent = new Label("xX");
-		Label nbCinquanteCent = new Label("xX");
-		Label nbUnEuro = new Label("xX");
-		Label nbDeuxEuros = new Label("xX");
-		Label nbCinqEuros = new Label("xX");
-		Label nbDixEuros = new Label("xX");
-		Label nbVingtEuros = new Label("xX");
 
-		nbUnCent.getStyleClass().add(NOMBRE_PIECES);
-		nbDeuxCent.getStyleClass().add(NOMBRE_PIECES);
-		nbCinqCent.getStyleClass().add(NOMBRE_PIECES);
-		nbDixCent.getStyleClass().add(NOMBRE_PIECES);
-		nbVingtCent.getStyleClass().add(NOMBRE_PIECES);
-		nbCinquanteCent.getStyleClass().add(NOMBRE_PIECES);
-		nbUnEuro.getStyleClass().add(NOMBRE_PIECES);
-		nbDeuxEuros.getStyleClass().add(NOMBRE_PIECES);
-		nbCinqEuros.getStyleClass().add(NOMBRE_PIECES);
-		nbDixEuros.getStyleClass().add(NOMBRE_PIECES);
-		nbVingtEuros.getStyleClass().add(NOMBRE_PIECES);
+		boutonUnCent.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbUnCent += 1;
+				lbNbUnCent.setText("x" + nbUnCent);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonDeuxCent.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbDeuxCent += 1;
+				lbNbDeuxCent.setText("x" + nbDeuxCent);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonCinqCent.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbCinqCent += 1;
+				lbNbCinqCent.setText("x" + nbCinqCent);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonDixCent.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbDixCent += 1;
+				lbNbDixCent.setText("x" + nbDixCent);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonVingtCent.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbVingtCent += 1;
+				lbNbVingtCent.setText("x" + nbVingtCent);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonCinquanteCent.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbCinquanteCent += 1;
+				lbNbCinquanteCent.setText("x" + nbCinquanteCent);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonUnEuro.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbUnEuro += 1;
+				lbNbUnEuro.setText("x" + nbUnEuro);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonDeuxEuros.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbDeuxEuros += 1;
+				lbNbDeuxEuros.setText("x" + nbDeuxEuros);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonCinqEuros.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbCinqEuros += 1;
+				lbNbCinqEuros.setText("x" + nbCinqEuros);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonDixEuros.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbDixEuros += 1;
+				lbNbDixEuros.setText("x" + nbDixEuros);
+				mettreCompteurAJour();
+			}
+		});
+
+		boutonVingtEuros.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				nbVingtEuros += 1;
+				lbNbVingtEuros.setText("x" + nbVingtEuros);
+				mettreCompteurAJour();
+			}
+		});
+
+		lbNbUnCent.getStyleClass().add(NOMBRE_PIECES);
+		lbNbDeuxCent.getStyleClass().add(NOMBRE_PIECES);
+		lbNbCinqCent.getStyleClass().add(NOMBRE_PIECES);
+		lbNbDixCent.getStyleClass().add(NOMBRE_PIECES);
+		lbNbVingtCent.getStyleClass().add(NOMBRE_PIECES);
+		lbNbCinquanteCent.getStyleClass().add(NOMBRE_PIECES);
+		lbNbUnEuro.getStyleClass().add(NOMBRE_PIECES);
+		lbNbDeuxEuros.getStyleClass().add(NOMBRE_PIECES);
+		lbNbCinqEuros.getStyleClass().add(NOMBRE_PIECES);
+		lbNbDixEuros.getStyleClass().add(NOMBRE_PIECES);
+		lbNbVingtEuros.getStyleClass().add(NOMBRE_PIECES);
 
 		pieces.add(boutonUnCent, 0, 6, 3, 1);
 		pieces.add(boutonDeuxCent, 2, 6, 3, 1);
@@ -269,17 +375,17 @@ public class Resultat {
 		pieces.add(boutonCinqEuros, 0, 0, 3, 1);
 		pieces.add(boutonDixEuros, 2, 0, 3, 1);
 		pieces.add(boutonVingtEuros, 4, 0, 3, 1);
-		pieces.add(nbUnCent, 0, 7, 3, 1);
-		pieces.add(nbDeuxCent, 2, 7, 3, 1);
-		pieces.add(nbCinqCent, 4, 7, 3, 1);
-		pieces.add(nbDixCent, 0, 5, 3, 1);
-		pieces.add(nbVingtCent, 2, 5, 3, 1);
-		pieces.add(nbCinquanteCent, 4, 5, 3, 1);
-		pieces.add(nbUnEuro, 0, 3, 4, 1);
-		pieces.add(nbDeuxEuros, 3, 3, 4, 1);
-		pieces.add(nbCinqEuros, 0, 1, 3, 1);
-		pieces.add(nbDixEuros, 2, 1, 3, 1);
-		pieces.add(nbVingtEuros, 4, 1, 3, 1);
+		pieces.add(lbNbUnCent, 0, 7, 3, 1);
+		pieces.add(lbNbDeuxCent, 2, 7, 3, 1);
+		pieces.add(lbNbCinqCent, 4, 7, 3, 1);
+		pieces.add(lbNbDixCent, 0, 5, 3, 1);
+		pieces.add(lbNbVingtCent, 2, 5, 3, 1);
+		pieces.add(lbNbCinquanteCent, 4, 5, 3, 1);
+		pieces.add(lbNbUnEuro, 0, 3, 4, 1);
+		pieces.add(lbNbDeuxEuros, 3, 3, 4, 1);
+		pieces.add(lbNbCinqEuros, 0, 1, 3, 1);
+		pieces.add(lbNbDixEuros, 2, 1, 3, 1);
+		pieces.add(lbNbVingtEuros, 4, 1, 3, 1);
 
 		boutonUnCent.setMaxWidth(Double.MAX_VALUE);
 		boutonDeuxCent.setMaxWidth(Double.MAX_VALUE);
@@ -292,17 +398,17 @@ public class Resultat {
 		boutonCinqEuros.setMaxWidth(Double.MAX_VALUE);
 		boutonDixEuros.setMaxWidth(Double.MAX_VALUE);
 		boutonVingtEuros.setMaxWidth(Double.MAX_VALUE);
-		nbUnCent.setMaxWidth(Double.MAX_VALUE);
-		nbDeuxCent.setMaxWidth(Double.MAX_VALUE);
-		nbCinqCent.setMaxWidth(Double.MAX_VALUE);
-		nbDixCent.setMaxWidth(Double.MAX_VALUE);
-		nbVingtCent.setMaxWidth(Double.MAX_VALUE);
-		nbCinquanteCent.setMaxWidth(Double.MAX_VALUE);
-		nbUnEuro.setMaxWidth(Double.MAX_VALUE);
-		nbDeuxEuros.setMaxWidth(Double.MAX_VALUE);
-		nbCinqEuros.setMaxWidth(Double.MAX_VALUE);
-		nbDixEuros.setMaxWidth(Double.MAX_VALUE);
-		nbVingtEuros.setMaxWidth(Double.MAX_VALUE);
+		lbNbUnCent.setMaxWidth(Double.MAX_VALUE);
+		lbNbDeuxCent.setMaxWidth(Double.MAX_VALUE);
+		lbNbCinqCent.setMaxWidth(Double.MAX_VALUE);
+		lbNbDixCent.setMaxWidth(Double.MAX_VALUE);
+		lbNbVingtCent.setMaxWidth(Double.MAX_VALUE);
+		lbNbCinquanteCent.setMaxWidth(Double.MAX_VALUE);
+		lbNbUnEuro.setMaxWidth(Double.MAX_VALUE);
+		lbNbDeuxEuros.setMaxWidth(Double.MAX_VALUE);
+		lbNbCinqEuros.setMaxWidth(Double.MAX_VALUE);
+		lbNbDixEuros.setMaxWidth(Double.MAX_VALUE);
+		lbNbVingtEuros.setMaxWidth(Double.MAX_VALUE);
 
 		VBox aRendreAjouter = new VBox();
 
@@ -312,6 +418,11 @@ public class Resultat {
 		aRendreAjouter.maxWidthProperty().bind(aRendreAjouter.minWidthProperty());
 
 		Button boutonReset = new Button("Reset");
+		boutonReset.setOnMouseClicked(new EventHandler<Event>() {
+			public void handle(Event e){
+				resetPieces();
+			}
+		});
 		boutonReset.minWidthProperty().bind(aRendreAjouter.widthProperty().subtract(4));
 		boutonReset.maxWidthProperty().bind(boutonReset.minWidthProperty());
 
@@ -319,7 +430,7 @@ public class Resultat {
 		aRendre.getStyleClass().add(A_RENDRE);
 		aRendre.setMaxWidth(Double.MAX_VALUE);
 
-		Label nbARendre = new Label("XX,XX€");
+		nbARendre = new Label("- €");
 		nbARendre.getStyleClass().add(A_RENDRE);
 		nbARendre.setMaxWidth(Double.MAX_VALUE);	
 
@@ -354,5 +465,58 @@ public class Resultat {
 		separation.setRight(aRendreAjouter);
 
 		return(separation);
+	}
+
+	public static void resetPieces(){
+		nbUnCent = 0;
+		nbDeuxCent = 0;
+		nbCinqCent = 0;
+		nbDixCent = 0;
+		nbVingtCent = 0;
+		nbCinquanteCent = 0;
+		nbUnEuro = 0;
+		nbDeuxEuros = 0;
+		nbCinqEuros = 0;
+		nbDixEuros = 0;
+		nbVingtEuros = 0;
+
+		lbNbUnCent.setText("x0");
+		lbNbDeuxCent.setText("x0");
+		lbNbCinqCent.setText("x0");
+		lbNbDixCent.setText("x0");
+		lbNbVingtCent.setText("x0");
+		lbNbCinquanteCent.setText("x0");
+		lbNbUnEuro.setText("x0");
+		lbNbDeuxEuros.setText("x0");
+		lbNbCinqEuros.setText("x0");
+		lbNbDixEuros.setText("x0");
+		lbNbVingtEuros.setText("x0");
+
+		mettreCompteurAJour();
+	}
+
+	public static void mettreCompteurAJour(){
+		float totalCommande = Selection.getPrixCommande();
+		float pris = 0f;
+		String affARendre = "- €";
+
+		pris += 0.01*nbUnCent;
+		pris += 0.02*nbDeuxCent;
+		pris += 0.05*nbCinqCent;
+		pris += 0.1*nbDixCent;
+		pris += 0.2*nbVingtCent;
+		pris += 0.5*nbCinquanteCent;
+		pris += nbUnEuro;
+		pris += 2*nbDeuxEuros;
+		pris += 5*nbCinqEuros;
+		pris += 10*nbDixEuros;
+		pris += 20*nbVingtEuros;
+
+		if(pris >= totalCommande){
+			NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
+			affARendre = numberFormatter.format(pris - totalCommande) + "€";
+		}
+
+		nbARendre.setText(affARendre);
 	}
 }
