@@ -264,88 +264,88 @@ public class Resultat {
 		Button boutonDixEuros = new Button("10€");
 		Button boutonVingtEuros = new Button("20€");
 
-		boutonUnCent.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonUnCent.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbUnCent += 1;
 				lbNbUnCent.setText("x" + nbUnCent);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonDeuxCent.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonDeuxCent.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbDeuxCent += 1;
 				lbNbDeuxCent.setText("x" + nbDeuxCent);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonCinqCent.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonCinqCent.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbCinqCent += 1;
 				lbNbCinqCent.setText("x" + nbCinqCent);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonDixCent.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonDixCent.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbDixCent += 1;
 				lbNbDixCent.setText("x" + nbDixCent);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonVingtCent.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonVingtCent.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbVingtCent += 1;
 				lbNbVingtCent.setText("x" + nbVingtCent);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonCinquanteCent.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonCinquanteCent.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbCinquanteCent += 1;
 				lbNbCinquanteCent.setText("x" + nbCinquanteCent);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonUnEuro.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonUnEuro.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbUnEuro += 1;
 				lbNbUnEuro.setText("x" + nbUnEuro);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonDeuxEuros.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonDeuxEuros.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbDeuxEuros += 1;
 				lbNbDeuxEuros.setText("x" + nbDeuxEuros);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonCinqEuros.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonCinqEuros.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbCinqEuros += 1;
 				lbNbCinqEuros.setText("x" + nbCinqEuros);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonDixEuros.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonDixEuros.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbDixEuros += 1;
 				lbNbDixEuros.setText("x" + nbDixEuros);
 				mettreCompteurAJour();
 			}
 		});
 
-		boutonVingtEuros.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonVingtEuros.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				nbVingtEuros += 1;
 				lbNbVingtEuros.setText("x" + nbVingtEuros);
 				mettreCompteurAJour();
@@ -418,8 +418,8 @@ public class Resultat {
 		aRendreAjouter.maxWidthProperty().bind(aRendreAjouter.minWidthProperty());
 
 		Button boutonReset = new Button("Reset");
-		boutonReset.setOnMouseClicked(new EventHandler<Event>() {
-			public void handle(Event e){
+		boutonReset.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent e){
 				resetPieces();
 			}
 		});
@@ -512,9 +512,11 @@ public class Resultat {
 		pris += 10*nbDixEuros;
 		pris += 20*nbVingtEuros;
 
-		if(pris >= totalCommande){
-			NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
-			affARendre = numberFormatter.format(pris - totalCommande) + "€";
+		if((totalCommande != 0)||(pris != 0)){
+			if(pris >= totalCommande){
+				NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
+				affARendre = numberFormatter.format(pris - totalCommande) + "€";
+			}
 		}
 
 		nbARendre.setText(affARendre);

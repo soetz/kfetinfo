@@ -75,7 +75,15 @@
 }
 
 .plat-commande {
-	-fx-font : bold 12px "sans-serif"; 
+	-fx-font : bold 12px "sans-serif";
+}
+
+.plat-liste-commandes {
+	-fx-cursor : hand;
+}
+
+.panneau-commandes {
+	-fx-focus-color : transparent;
 }
 
 .bouton-menu {
