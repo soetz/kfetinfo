@@ -60,6 +60,10 @@ public class BaseDonnees {
 		return(desserts);
 	}
 
+	static public List<Membre> getMembres(){
+		return(membres);
+	}
+
 //	static public Ingredient getRienIngredient(){
 //		Ingredient ingredient = new Ingredient("e8a6d3a2-7e0b-4587-ac85-462329b4a776", "Rien", 0, true, 0, -1);
 //		for(Ingredient ingredientListe : ingredients){
@@ -514,6 +518,5 @@ public class BaseDonnees {
 		}
 
 		Collections.sort(membres, new CompareMembre());
-		Collections.reverse(membres);
 	}
 }

@@ -19,8 +19,10 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -71,6 +73,14 @@ public class Resultat {
 	private static Label lbNbVingtEuros = new Label("x0");
 
 	private static Label nbARendre;
+	private static Button ajouterBouton;
+
+	private static Label membreOrdi;
+	private static Label membreCommis1;
+	private static Label membreCommis2;
+	private static Label membreConfection1;
+	private static Label membreConfection2;
+	private static Label membreConfection3;
 
 	public static Region resultat(Region root, Core core){
 		BorderPane resultat = new BorderPane();
@@ -80,7 +90,7 @@ public class Resultat {
 
 		Region gauche = gauche(resultat, core);
 		Region milieu = milieu(core);
-		Region droite = new Region();
+		Region droite = droite(resultat, core);
 
 		gauche.setMaxHeight(Double.MAX_VALUE);
 		milieu.setMaxHeight(Double.MAX_VALUE);
@@ -432,9 +442,10 @@ public class Resultat {
 
 		nbARendre = new Label("- €");
 		nbARendre.getStyleClass().add(A_RENDRE);
-		nbARendre.setMaxWidth(Double.MAX_VALUE);	
+		nbARendre.setMaxWidth(Double.MAX_VALUE);
 
-		Button ajouterBouton = new Button("Ajouter");
+		ajouterBouton = new Button("Ajouter");
+		ajouterBouton.setDisable(true);
 		ajouterBouton.minWidthProperty().bind(boutonReset.minWidthProperty());
 		ajouterBouton.maxWidthProperty().bind(ajouterBouton.minWidthProperty());
 		ajouterBouton.setMinHeight(App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER);
@@ -454,8 +465,10 @@ public class Resultat {
 						Selection.getSupplementBoissonSelectionne(),
 						core.getService());
 
-				core.getService().ajouterCommande(commande);
-				Selection.reset();
+						core.getService().ajouterCommande(commande);
+						Selection.reset();
+
+						resetPieces();
 			}
 		});
 
@@ -465,6 +478,110 @@ public class Resultat {
 		separation.setRight(aRendreAjouter);
 
 		return(separation);
+	}
+
+	public static Region droite(Region parent, Core core){
+		AnchorPane layout = new AnchorPane();
+
+		GridPane membres = new GridPane();
+		membres.setHgap(5.0);
+		membres.setVgap(3.0);
+
+		Label ordi = new Label("Ordi");
+		Label commis1 = new Label("Commis #1");
+		Label commis2 = new Label("Commis #2");
+		Label confection1 = new Label("Confection #1");
+		Label confection2 = new Label("Confection #2");
+		Label confection3 = new Label("Confection #3");
+		membreOrdi = new Label("---");
+		membreCommis1 = new Label("---");
+		membreCommis2 = new Label("---");
+		membreConfection1 = new Label("---");
+		membreConfection2 = new Label("---");
+		membreConfection3 = new Label("---");
+
+		Button boutonOrdi = new Button("Modifier");
+		boutonOrdi.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent a){
+				SelectionMembre.selectionOrdi(core);
+			}
+		});
+
+		Button boutonCommis1 = new Button("Modifier");
+		boutonCommis1.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent a){
+				SelectionMembre.selectionCommis1(core);
+			}
+		});
+
+		Button boutonCommis2 = new Button("Modifier");
+		boutonCommis2.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent a){
+				SelectionMembre.selectionCommis2(core);
+			}
+		});
+
+		Button boutonConfection1 = new Button("Modifier");
+		boutonConfection1.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent a){
+				SelectionMembre.selectionConfection1(core);
+			}
+		});
+
+		Button boutonConfection2 = new Button("Modifier");
+		boutonConfection2.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent a){
+				SelectionMembre.selectionConfection2(core);
+			}
+		});
+
+		Button boutonConfection3 = new Button("Modifier");
+		boutonConfection3.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent a){
+				SelectionMembre.selectionConfection3(core);
+			}
+		});
+
+		mettreOrdiAJour(core);
+
+		mettreCommisAJour(core);
+
+		mettreConfectionAJour(core);
+
+		membres.add(ordi, 0, 0);
+		membres.add(membreOrdi, 1, 0);
+		membres.add(boutonOrdi, 2, 0);
+		membres.add(commis1, 0, 1);
+		membres.add(membreCommis1, 1, 1);
+		membres.add(boutonCommis1, 2, 1);
+		membres.add(commis2, 0, 2);
+		membres.add(membreCommis2, 1, 2);
+		membres.add(boutonCommis2, 2, 2);
+		membres.add(confection1, 0, 3);
+		membres.add(membreConfection1, 1, 3);
+		membres.add(boutonConfection1, 2, 3);
+		membres.add(confection2, 0, 4);
+		membres.add(membreConfection2, 1, 4);
+		membres.add(boutonConfection2, 2, 4);
+		membres.add(confection3, 0, 5);
+		membres.add(membreConfection3, 1, 5);
+		membres.add(boutonConfection3, 2, 5);
+
+		ColumnConstraints nePasGrow = new ColumnConstraints();
+		nePasGrow.setHgrow(Priority.NEVER);
+		ColumnConstraints grow = new ColumnConstraints();
+		grow.setHgrow(Priority.ALWAYS);
+		membres.getColumnConstraints().add(nePasGrow);
+		membres.getColumnConstraints().add(grow);
+		membres.getColumnConstraints().add(nePasGrow);
+
+		AnchorPane.setLeftAnchor(membres, 5.0);
+		AnchorPane.setRightAnchor(membres, 2.0);
+		AnchorPane.setTopAnchor(membres, 3.0);
+
+		layout.getChildren().add(membres);
+
+		return(layout);
 	}
 
 	public static void resetPieces(){
@@ -519,6 +636,39 @@ public class Resultat {
 			}
 		}
 
+		if(totalCommande == 0){
+			ajouterBouton.setDisable(true);
+		} else {
+			ajouterBouton.setDisable(false);
+		}
+
 		nbARendre.setText(affARendre);
+	}
+
+	public static void mettreOrdiAJour(Core core){
+		if(!core.getService().getOrdi().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+			membreOrdi.setText(core.getService().getOrdi().getBlazeCourt().toUpperCase());
+		}
+	}
+
+	public static void mettreCommisAJour(Core core){
+		if(core.getService().getCommis().size() > 0){
+			membreCommis1.setText(core.getService().getCommis().get(0).getBlazeCourt().toUpperCase());
+			if(core.getService().getCommis().size() > 1){
+				membreCommis2.setText(core.getService().getCommis().get(1).getBlazeCourt().toUpperCase());
+			}
+		}
+	}
+
+	public static void mettreConfectionAJour(Core core){
+		if(core.getService().getConfection().size() > 0){
+			membreConfection1.setText(core.getService().getConfection().get(0).getBlazeCourt().toUpperCase());
+			if(core.getService().getConfection().size() > 1){
+				membreConfection2.setText(core.getService().getConfection().get(1).getBlazeCourt().toUpperCase());
+				if(core.getService().getConfection().size() > 2){
+					membreConfection3.setText(core.getService().getConfection().get(2).getBlazeCourt().toUpperCase());
+				}
+			}
+		}
 	}
 }
