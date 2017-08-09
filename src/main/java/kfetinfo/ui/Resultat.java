@@ -452,8 +452,6 @@ public class Resultat {
 		ajouterBouton.setMaxHeight(App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER);	
 
 		ajouterBouton.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
 			public void handle(ActionEvent event) {
 				Commande commande = new Commande(
 						new Date(),
@@ -648,6 +646,8 @@ public class Resultat {
 	public static void mettreOrdiAJour(Core core){
 		if(!core.getService().getOrdi().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
 			membreOrdi.setText(core.getService().getOrdi().getBlazeCourt().toUpperCase());
+		} else {
+			membreOrdi.setText("---");
 		}
 	}
 
@@ -656,7 +656,11 @@ public class Resultat {
 			membreCommis1.setText(core.getService().getCommis().get(0).getBlazeCourt().toUpperCase());
 			if(core.getService().getCommis().size() > 1){
 				membreCommis2.setText(core.getService().getCommis().get(1).getBlazeCourt().toUpperCase());
+			} else {
+				membreCommis2.setText("---");
 			}
+		} else {
+			membreCommis1.setText("---");
 		}
 	}
 
@@ -667,8 +671,14 @@ public class Resultat {
 				membreConfection2.setText(core.getService().getConfection().get(1).getBlazeCourt().toUpperCase());
 				if(core.getService().getConfection().size() > 2){
 					membreConfection3.setText(core.getService().getConfection().get(2).getBlazeCourt().toUpperCase());
+				} else {
+					membreConfection3.setText("---");
 				}
+			} else {
+				membreConfection2.setText("---");
 			}
+		} else {
+			membreConfection1.setText("---");
 		}
 	}
 }

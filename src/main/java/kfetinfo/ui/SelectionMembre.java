@@ -21,12 +21,14 @@ import kfetinfo.core.Membre;
 public class SelectionMembre {
 	private static Membre membreSelectionne;
 	public static void selectionOrdi(Core core){
-		VBox root = null;
-
-		root = new VBox();
+		VBox root = new VBox();
 
 		final TableView<Membre> table = new TableView();
-		table.getItems().setAll(BaseDonnees.getMembres());
+		Membre personne = new Membre();
+		List<Membre> membres = new ArrayList<Membre>();
+		membres.add(personne);
+		membres.addAll(BaseDonnees.getMembres());
+		table.getItems().setAll(membres);
 		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
 		nomColonne.setCellValueFactory(param -> {
 			final Membre membre = param.getValue();
@@ -44,8 +46,9 @@ public class SelectionMembre {
 
 		root.getChildren().add(table);
 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 250, 350);
 		Stage stage = new Stage();
+		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Selection du membre");
@@ -54,12 +57,16 @@ public class SelectionMembre {
 	}
 
 	public static void selectionCommis1(Core core){
-		VBox root = null;
+		VBox root = new VBox();
 
-		root = new VBox();
+		List<Membre> commisDebut = core.getService().getCommis();
 
 		final TableView<Membre> table = new TableView();
-		table.getItems().setAll(BaseDonnees.getMembres());
+		Membre personne = new Membre();
+		List<Membre> membres = new ArrayList<Membre>();
+		membres.add(personne);
+		membres.addAll(BaseDonnees.getMembres());
+		table.getItems().setAll(membres);
 		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
 		nomColonne.setCellValueFactory(param -> {
 			final Membre membre = param.getValue();
@@ -70,10 +77,17 @@ public class SelectionMembre {
 
 		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				Membre commis2 = core.getService().getCommis().get(1);
 				List<Membre> commis = new ArrayList<Membre>();
-				commis.add(table.getSelectionModel().getSelectedItem());
-				commis.add(commis2);
+				if(commisDebut.size() >= 2){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						commis.add(table.getSelectionModel().getSelectedItem());
+					}
+					commis.add(commisDebut.get(1));
+				} else {
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						commis.add(table.getSelectionModel().getSelectedItem());
+					}
+				}
 				core.getService().setCommis(commis);
 				Resultat.mettreCommisAJour(core);
 			}
@@ -81,8 +95,9 @@ public class SelectionMembre {
 
 		root.getChildren().add(table);
 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 250, 350);
 		Stage stage = new Stage();
+		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Selection du membre");
@@ -91,12 +106,16 @@ public class SelectionMembre {
 	}
 
 	public static void selectionCommis2(Core core){
-		VBox root = null;
+		VBox root = new VBox();
 
-		root = new VBox();
+		List<Membre> commisDebut = core.getService().getCommis();
 
 		final TableView<Membre> table = new TableView();
-		table.getItems().setAll(BaseDonnees.getMembres());
+		Membre personne = new Membre();
+		List<Membre> membres = new ArrayList<Membre>();
+		membres.add(personne);
+		membres.addAll(BaseDonnees.getMembres());
+		table.getItems().setAll(membres);
 		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
 		nomColonne.setCellValueFactory(param -> {
 			final Membre membre = param.getValue();
@@ -107,10 +126,17 @@ public class SelectionMembre {
 
 		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				Membre commis1 = core.getService().getCommis().get(0);
 				List<Membre> commis = new ArrayList<Membre>();
-				commis.add(commis1);
-				commis.add(table.getSelectionModel().getSelectedItem());
+				if(commisDebut.size() >= 1){
+					commis.add(commisDebut.get(0));
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						commis.add(table.getSelectionModel().getSelectedItem());
+					}
+				} else {
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						commis.add(table.getSelectionModel().getSelectedItem());
+					}
+				}
 				core.getService().setCommis(commis);
 				Resultat.mettreCommisAJour(core);
 			}
@@ -118,8 +144,9 @@ public class SelectionMembre {
 
 		root.getChildren().add(table);
 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 250, 350);
 		Stage stage = new Stage();
+		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Selection du membre");
@@ -128,12 +155,16 @@ public class SelectionMembre {
 	}
 
 	public static void selectionConfection1(Core core){
-		VBox root = null;
+		VBox root = new VBox();
 
-		root = new VBox();
+		List<Membre> confectionDebut = core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
-		table.getItems().setAll(BaseDonnees.getMembres());
+		Membre personne = new Membre();
+		List<Membre> membres = new ArrayList<Membre>();
+		membres.add(personne);
+		membres.addAll(BaseDonnees.getMembres());
+		table.getItems().setAll(membres);
 		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
 		nomColonne.setCellValueFactory(param -> {
 			final Membre membre = param.getValue();
@@ -144,12 +175,21 @@ public class SelectionMembre {
 
 		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				Membre confection2 = core.getService().getConfection().get(1); //TODO vérifier la taille de la liste
-				Membre confection3 = core.getService().getConfection().get(2);
 				List<Membre> confection = new ArrayList<Membre>();
-				confection.add(table.getSelectionModel().getSelectedItem());
-				confection.add(confection2);
-				confection.add(confection3);
+				if(confectionDebut.size() >= 3){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
+					confection.add(confectionDebut.get(1));
+					confection.add(confectionDebut.get(2));
+				} else if(confectionDebut.size() >= 2){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
+					confection.add(confectionDebut.get(1));
+				} else {
+					confection.add(table.getSelectionModel().getSelectedItem());
+				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour(core);
 			}
@@ -157,8 +197,9 @@ public class SelectionMembre {
 
 		root.getChildren().add(table);
 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 250, 350);
 		Stage stage = new Stage();
+		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Selection du membre");
@@ -167,12 +208,16 @@ public class SelectionMembre {
 	}
 
 	public static void selectionConfection2(Core core){
-		VBox root = null;
+		VBox root = new VBox();
 
-		root = new VBox();
+		List<Membre> confectionDebut = core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
-		table.getItems().setAll(BaseDonnees.getMembres());
+		Membre personne = new Membre();
+		List<Membre> membres = new ArrayList<Membre>();
+		membres.add(personne);
+		membres.addAll(BaseDonnees.getMembres());
+		table.getItems().setAll(membres);
 		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
 		nomColonne.setCellValueFactory(param -> {
 			final Membre membre = param.getValue();
@@ -183,12 +228,21 @@ public class SelectionMembre {
 
 		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				Membre confection1 = core.getService().getConfection().get(0); //TODO vérifier la taille de la liste
-				Membre confection3 = core.getService().getConfection().get(2);
 				List<Membre> confection = new ArrayList<Membre>();
-				confection.add(confection1);
-				confection.add(table.getSelectionModel().getSelectedItem());
-				confection.add(confection3);
+				if(confectionDebut.size() >= 3){
+					confection.add(confectionDebut.get(0));
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
+					confection.add(confectionDebut.get(2));
+				} else if(confectionDebut.size() >= 1){
+					confection.add(confectionDebut.get(0));
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
+				} else {
+					confection.add(table.getSelectionModel().getSelectedItem());
+				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour(core);
 			}
@@ -196,8 +250,9 @@ public class SelectionMembre {
 
 		root.getChildren().add(table);
 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 250, 350);
 		Stage stage = new Stage();
+		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Selection du membre");
@@ -206,12 +261,16 @@ public class SelectionMembre {
 	}
 
 	public static void selectionConfection3(Core core){
-		VBox root = null;
+		VBox root = new VBox();
 
-		root = new VBox();
+		List<Membre> confectionDebut = core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
-		table.getItems().setAll(BaseDonnees.getMembres());
+		Membre personne = new Membre();
+		List<Membre> membres = new ArrayList<Membre>();
+		membres.add(personne);
+		membres.addAll(BaseDonnees.getMembres());
+		table.getItems().setAll(membres);
 		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
 		nomColonne.setCellValueFactory(param -> {
 			final Membre membre = param.getValue();
@@ -222,12 +281,21 @@ public class SelectionMembre {
 
 		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				Membre confection1 = core.getService().getConfection().get(0); //TODO vérifier la taille de la liste
-				Membre confection2 = core.getService().getConfection().get(1);
 				List<Membre> confection = new ArrayList<Membre>();
-				confection.add(confection1);
-				confection.add(confection2);
-				confection.add(table.getSelectionModel().getSelectedItem());
+				if(confectionDebut.size() >= 2){
+					confection.add(confectionDebut.get(0));
+					confection.add(confectionDebut.get(1));
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
+				} else if(confectionDebut.size() >= 1){
+					confection.add(confectionDebut.get(0));
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
+				} else {
+					confection.add(table.getSelectionModel().getSelectedItem());
+				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour(core);
 			}
@@ -235,8 +303,9 @@ public class SelectionMembre {
 
 		root.getChildren().add(table);
 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 250, 350);
 		Stage stage = new Stage();
+		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Selection du membre");

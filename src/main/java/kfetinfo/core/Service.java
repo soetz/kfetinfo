@@ -44,6 +44,7 @@ public class Service {
 	Date date;
 	List<Commande> commandes;
 	private final ObjectProperty<Commande> nouvelleCommande = new SimpleObjectProperty<Commande>();
+	private final ObjectProperty<CommandeAssignee> nouvelleCommandeAssignee = new SimpleObjectProperty<CommandeAssignee>();
 	float nbBaguettesBase;
 	float nbBaguettesUtilisees;
 	Membre ordi;
@@ -128,10 +129,6 @@ public class Service {
 		return(nbBaguettesUtilisees);
 	}
 
-	public int getNbCommandes(){
-		return(commandes.size());
-	}
-
 	public Date getDate(){
 		return(date);
 	}
@@ -154,9 +151,25 @@ public class Service {
 		return(revenu);
 	}
 
+	public Commande getCommande(int numero){
+		Commande commande = new Commande(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
+
+		for(Commande commandeListe : commandes){
+			if(commandeListe.getNumero() == numero){
+				commande = commandeListe;
+			}
+		}
+
+		return(commande);
+	}
+
 	public List<Commande> getCommandes(){
 
 		return(commandes);
+	}
+
+	public int getNbCommandes(){
+		return(commandes.size());
 	}
 
 	public Membre getOrdi(){
@@ -322,12 +335,62 @@ public class Service {
 
 		ecrireFichier();
 	}
+	
+	public void assignerCommande(int numero, Membre membre){
+		Commande commande = getCommande(numero);
+		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, new Date(0), false);
+
+		CreateurBase.ajouterCommandeAssignee(commandeAssignee);
+
+		int index = commandes.indexOf(commande);
+		commandes.remove(commande);
+		commandes.add(index, commandeAssignee);
+		nouvelleCommandeAssignee.set(commandeAssignee);
+
+		ecrireFichier();
+	}
+
+	public void assignation(){
+		List<Membre> membresOccupes = new ArrayList<Membre>();
+
+		for(Commande commande : commandes){
+			if(commande.getClass().equals(CommandeAssignee.class)){
+				CommandeAssignee commandeAssignee = (CommandeAssignee)commande;
+				if(!commandeAssignee.getEstRealisee()){
+					membresOccupes.add(commandeAssignee.getMembre());
+				}
+			}
+		}
+
+		for(Membre confection : confection){
+			if(!membresOccupes.contains(confection)){
+				Commande commandeNonAssignee = null;
+				int numero = Integer.MAX_VALUE;
+
+				for(Commande commande : commandes){
+					if(!commande.getClass().equals(CommandeAssignee.class)){
+						if(commande.getNumero() < numero){
+							commandeNonAssignee = commande;
+							numero = commande.getNumero();
+						}
+					}
+				}
+
+				if(commandeNonAssignee!=null){
+					assignerCommande(commandeNonAssignee.getNumero(), confection);
+					membresOccupes.add(confection);
+				}
+			}
+		}
+	}
 
 	public void ajouterCommande(Commande commande){
 		CreateurBase.ajouterCommande(commande);
 
 		commandes.add(commande);
 		nouvelleCommande.set(commande);
+
+		assignation();
 
 		ecrireFichier();
 	}
@@ -347,12 +410,12 @@ public class Service {
 		}
 
 		try {
-			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\"));
+			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/"));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		File dossierCommandes = new File(dossier + "/" + annee.format(date) + "\\" + mois.format(date) + "\\" + jour.format(date) + "\\");
+		File dossierCommandes = new File(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/");
 		File[] listOfFiles = dossierCommandes.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
@@ -389,18 +452,6 @@ public class Service {
 		CreateurBase.ajouterService(this);
 	}
 
-	public Commande getCommande(int numero){
-		Commande commande = new Commande(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
-
-		for(Commande commandeListe : commandes){
-			if(commandeListe.getNumero() == numero){
-				commande = commandeListe;
-			}
-		}
-
-		return(commande);
-	}
-
 	public void affCommandes(){
 		for(Commande commande : commandes){
 			System.out.println(commande);
@@ -418,14 +469,6 @@ public class Service {
 			System.out.println("- " + membreConfection);
 		}
 	}
-	
-	public void assignerCommande(int numero, Membre membre){
-		Commande commande = getCommande(numero);
-		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, new Date(0), false);
-		CreateurBase.ajouterCommandeAssignee(commandeAssignee);
-
-		ecrireFichier();
-	}
 
 	public final Commande getNouvelleCommande(){
 		return(nouvelleCommande.get());
@@ -437,5 +480,17 @@ public class Service {
 
 	public final ObjectProperty<Commande> nouvelleCommandePropriete(){
 		return(nouvelleCommande);
+	}
+
+	public final CommandeAssignee getNouvelleCommandeAssignee(){
+		return(nouvelleCommandeAssignee.get());
+	}
+
+	public final void setNouvelleCommandeAssignee(CommandeAssignee commande){
+		nouvelleCommandeAssignee.set(commande);
+	}
+
+	public final ObjectProperty<CommandeAssignee> nouvelleCommandeAssigneePropriete(){
+		return(nouvelleCommandeAssignee);
 	}
 }

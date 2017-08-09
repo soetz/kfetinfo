@@ -29,7 +29,7 @@ public class Core {
 	public Core(){
 		parametres = new Parametres();
 		service = new Service(new Date());
-		
+
 		init();
 	}
 

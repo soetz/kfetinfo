@@ -46,7 +46,7 @@ public class Membre {
 	public Membre(){
 		this.id = "f38aa97b-2c4b-491e-be10-884e48fbb6c2";
 		this.nom = "";
-		this.prenom = "";
+		this.prenom = "Personne";
 		this.surnom = "";
 		this.poste = "";
 		this.dateNaissance = new Date(0);
@@ -85,6 +85,24 @@ public class Membre {
 
 	public String getBlazeCourt(){
 		return((getSurnom().equals("")) ? getPrenom() : getSurnom());
+	}
+
+	public boolean equals(Object o){
+		if(o == null){
+			return(false);
+		}
+		if(o == this){
+			return(true);
+		}
+		if(!(o instanceof Membre)){
+			return(false);
+		}
+		Membre oMembre = (Membre)o;
+		if(oMembre.getId().equals(this.getId())){
+			return(true);
+		} else {
+			return(false);
+		}
 	}
 
 	public String toString(){

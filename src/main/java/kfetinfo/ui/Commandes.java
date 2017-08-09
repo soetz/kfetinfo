@@ -35,14 +35,17 @@ public class Commandes {
 	public static final String PANNEAU_COMMANDES = "panneau-commandes";
 	public static final String PLAT_LISTE_COMMANDES = "plat-liste-commandes";
 
-	public static final Double HAUTEUR_COMMANDE_FERMEE = 60.0;
-	public static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 130.0;
+	public static final Double HAUTEUR_COMMANDE_FERMEE = 70.0;
+	public static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 139.0;
 
 	static VBox commandes;
 
 	static List<Region> commandesPanes = new ArrayList<Region>();
 	static List<Boolean> developpes = new ArrayList<Boolean>();
+	static List<Label> confections = new ArrayList<Label>();
 	static List<VBox> contenusCommandes = new ArrayList<VBox>();
+	static List<Button> boutonsRealisees = new ArrayList<Button>();
+	static List<Button> boutonsDonnees = new ArrayList<Button>();
 	
 	public static Region commandes(Core core){
 		ScrollPane panneauCommandes = new ScrollPane();
@@ -57,12 +60,18 @@ public class Commandes {
 		commandes.setSpacing(-1.0);
 
 		for(Commande commande : core.getService().getCommandes()){
-			ajouterCommande(commande);
+			ajouterCommande(commande, core);
 		}
 
 		core.getService().nouvelleCommandePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				ajouterCommande(core.getService().getNouvelleCommande());
+				ajouterCommande(core.getService().getNouvelleCommande(), core);
+			}
+		});
+
+		core.getService().nouvelleCommandeAssigneePropriete().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				assignerCommande(core.getService().getNouvelleCommandeAssignee());
 			}
 		});
 
@@ -71,7 +80,7 @@ public class Commandes {
 		return(panneauCommandes);
 	}
 
-	private static void ajouterCommande(Commande commande){
+	private static void ajouterCommande(Commande commande, Core core){
 		AnchorPane commandePane = new AnchorPane();
 		commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
@@ -91,9 +100,15 @@ public class Commandes {
 		plat.setMinHeight(Control.USE_PREF_SIZE);
 		plat.setMaxHeight(Control.USE_PREF_SIZE);
 		plat.setMaxWidth(Double.MAX_VALUE);
-		plat.setPrefWidth(App.TAILLE_PANNEAU_COMMANDES - App.TAILLE_NUMERO_COMMANDE - 30);
 		plat.getStyleClass().add(App.PLAT_COMMANDE);
 		plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+
+		Label confection = new Label();
+		if(commande instanceof CommandeAssignee){
+			CommandeAssignee commandeAssignee = (CommandeAssignee)commande;
+			confection.setText(commandeAssignee.getMembre().getBlazeCourt());
+		}
+		confections.add(confection);
 
 		VBox contenuCommande = new VBox();
 		contenuCommande.setVisible(false);
@@ -110,16 +125,54 @@ public class Commandes {
 
 		contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert);
 
+		Button boutonRealisee = new Button("Réalisée");
+		Button boutonDonnee = new Button("Donnée");
+
 		AnchorPane.setTopAnchor(numero, -1.0);
 		AnchorPane.setLeftAnchor(numero, -1.0);
 		AnchorPane.setTopAnchor(plat, 0.0);
 		AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
+		AnchorPane.setTopAnchor(confection, 0.0);
+		AnchorPane.setRightAnchor(confection, 2.0);
 		AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 		AnchorPane.setLeftAnchor(contenuCommande, 3.0);
+		AnchorPane.setLeftAnchor(boutonRealisee, 50.0);
+		AnchorPane.setBottomAnchor(boutonRealisee, 7.0);
+		AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+		AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
+
+		if(!(commande instanceof CommandeAssignee)){
+			boutonRealisee.setVisible(false);
+			boutonDonnee.setVisible(false);
+		}
+
+		boutonRealisee.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent a){
+				if(core.getService().getCommande(commande.getNumero()) instanceof CommandeAssignee){
+					CommandeAssignee commandeAssignee = (CommandeAssignee)core.getService().getCommande(commande.getNumero());
+					commandeAssignee.realisee(core.getService());
+				}
+			}
+		});
+
+		boutonDonnee.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent a){
+				if(core.getService().getCommande(commande.getNumero()) instanceof CommandeAssignee){
+					CommandeAssignee commandeAssignee = (CommandeAssignee)core.getService().getCommande(commande.getNumero());
+					commandeAssignee.donnee();
+				}
+			}
+		});
+
+		boutonsRealisees.add(boutonRealisee);
+		boutonsDonnees.add(boutonDonnee);
 
 		commandePane.getChildren().add(numero);
 		commandePane.getChildren().add(plat);
+		commandePane.getChildren().add(confection);
 		commandePane.getChildren().add(contenuCommande);
+		commandePane.getChildren().add(boutonRealisee);
+		commandePane.getChildren().add(boutonDonnee);
 
 		commandesPanes.add(commandePane);
 
@@ -137,6 +190,12 @@ public class Commandes {
 		});
 
 		commandes.getChildren().add(commandePane);
+	}
+
+	private static void assignerCommande(CommandeAssignee commande){
+		confections.get(commande.getNumero() - 1).setText(commande.getMembre().getBlazeCourt());
+		boutonsRealisees.get(commande.getNumero() - 1).setVisible(true);
+		boutonsDonnees.get(commande.getNumero() - 1).setVisible(true);
 	}
 
 	private static Label lbIngredients(Commande commande){

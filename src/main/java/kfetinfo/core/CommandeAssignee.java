@@ -57,8 +57,11 @@ public class CommandeAssignee extends Commande {
 		return(estDonnee);
 	}
 
-	public void realisee(){
+	public void realisee(Service service){
 		momentRealisation = new Date();
+		estRealisee = true;
+		service.assignation();
+		CreateurBase.ajouterCommandeAssignee(this);
 	}
 
 	public long tempsRealisation(){
@@ -69,6 +72,11 @@ public class CommandeAssignee extends Commande {
 		else {
 			return(0);
 		}
+	}
+
+	public void donnee(){
+		estDonnee = true;
+		CreateurBase.ajouterCommandeAssignee(this);
 	}
 
 	public String toString(){
