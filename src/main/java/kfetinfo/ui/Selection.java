@@ -7,6 +7,7 @@ import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Boisson;
 import kfetinfo.core.Commande;
@@ -60,6 +62,7 @@ public class Selection {
 	private static List<CheckBox> checksSauces = new ArrayList<CheckBox>();
 	private static List<HBox> checksAndLabelsSauces = new ArrayList<HBox>();
 	private static List<RadioButton> radiosBoissons = new ArrayList<RadioButton>();
+	private static List<RadioButton> radiosSupplementsBoisson = new ArrayList<RadioButton>();
 	private static List<RadioButton> radiosDesserts = new ArrayList<RadioButton>();
 
 	public static Region selection(Region root){
@@ -314,6 +317,38 @@ public class Selection {
 			listeBoissons.getChildren().add(box);
 		}
 
+		Line separation = new Line();
+		separation.setStartX(0);
+		separation.setStartY(0);
+		separation.endXProperty().bind(groupeBoissons.widthProperty().subtract(10));
+		separation.setEndY(0);
+		separation.setTranslateX(5);
+		listeBoissons.getChildren().add(separation);
+
+		ToggleGroup supplementBoissonSelection = new ToggleGroup();
+
+		for(SupplementBoisson supplementBoisson : BaseDonnees.getSupplementsBoisson()){
+			HBox box = new HBox();
+
+			RadioButton radio = new RadioButton();
+			radio.setToggleGroup(supplementBoissonSelection);
+			radiosSupplementsBoisson.add(radio);
+			radio.setSelected(true);
+
+			Label label = new Label(supplementBoisson.getNom());
+			label.setOnMouseClicked(new EventHandler<Event>() {
+				public void handle(Event event){
+					supplementBoissonSelection.selectToggle(radio);
+					radio.requestFocus();
+				}
+			});
+
+			box.getChildren().add(radio);
+			box.getChildren().add(label);
+
+			listeBoissons.getChildren().add(box);
+		}
+
 		listeBoissons.getStyleClass().add(LISTE_CONTENU_COMMANDE);
 		listeBoissons.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listeBoissons.maxWidthProperty().bind(listeBoissons.minWidthProperty());
@@ -324,6 +359,17 @@ public class Selection {
 				for(RadioButton radio : radiosBoissons){
 					if(newVal.equals(radio)){
 						boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.indexOf(radio)));
+						commandeChangee.set(!commandeChangee.get());
+					}
+				}
+			}
+		});
+
+		supplementBoissonSelection.selectedToggleProperty().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				for(RadioButton radio : radiosSupplementsBoisson){
+					if(newVal.equals(radio)){
+						supplementBoissonSelectionne.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.indexOf(radio)));
 						commandeChangee.set(!commandeChangee.get());
 					}
 				}

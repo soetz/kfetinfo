@@ -152,7 +152,7 @@ public class Service {
 	}
 
 	public Commande getCommande(int numero){
-		Commande commande = new Commande(BaseDonnees.getRienPlat(), BaseDonnees.getRienDessert(), BaseDonnees.getRienBoisson(), BaseDonnees.getRienSupplementBoisson());
+		Commande commande = null;
 
 		for(Commande commandeListe : commandes){
 			if(commandeListe.getNumero() == numero){
@@ -337,14 +337,14 @@ public class Service {
 	}
 	
 	public void assignerCommande(int numero, Membre membre){
-		Commande commande = getCommande(numero);
+		Commande commande = LecteurBase.lireCommande(date, numero);
 		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, new Date(0), false);
 
 		CreateurBase.ajouterCommandeAssignee(commandeAssignee);
 
-		int index = commandes.indexOf(commande);
 		commandes.remove(commande);
-		commandes.add(index, commandeAssignee);
+		commandes.add(LecteurBase.lireCommandeAssignee(date, commande.getNumero()));
+		Collections.sort(commandes, new CompareCommande());
 		nouvelleCommandeAssignee.set(commandeAssignee);
 
 		ecrireFichier();
@@ -368,7 +368,7 @@ public class Service {
 				int numero = Integer.MAX_VALUE;
 
 				for(Commande commande : commandes){
-					if(!commande.getClass().equals(CommandeAssignee.class)){
+					if(!(commande instanceof CommandeAssignee)){
 						if(commande.getNumero() < numero){
 							commandeNonAssignee = commande;
 							numero = commande.getNumero();

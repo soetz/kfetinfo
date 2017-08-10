@@ -317,7 +317,7 @@ public class CreateurBase {
 			e.printStackTrace();
 		}
 
-		System.out.println(commande);
+		System.out.println("Écriture de : " +  commande);
 	}
 
 	public static void ajouterCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
@@ -405,7 +405,7 @@ public class CreateurBase {
 			e.printStackTrace();
 		}
 
-		System.out.println(service);
+		System.out.println("Écriture de : " + service);
 	}
 
 	public static void ajouterService(float nbBaguettesBase, float nbBaguettesUtilisees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){

@@ -195,6 +195,23 @@ public class Commande {
 		return("Commande #" + numero + "\n—————————————————" + "\nPlat : " + plat.getNom() + "\nIngrédients :\n" + ingString + "Sauces :\n" + sauString + "Boisson : " + boisson.getNom() + " + " + supplementBoisson.getNom() + "\nDessert : " + dessert.getNom() + "\nPrix : " + getPrix() + "\n");
 	}
 
+	public boolean equals(Object o){
+		if(o == null){
+			return(false);
+		}
+		if(o == this){
+			return(true);
+		}
+		if(!(o instanceof Commande)){
+			return(false);
+		}
+		Commande oCommande = (Commande)o;
+		if(oCommande.getNumero() == this.getNumero()){
+			return(true);
+		} else {
+			return(false);
+		}
+	}
 	public String toString(){
 		return(chaineToString());
 	}

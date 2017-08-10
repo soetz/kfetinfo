@@ -118,7 +118,12 @@ public class Commandes {
 		lbIngredients.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 36);
 		Label lbSauces = lbSauces(commande);
 		lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
-		Label lbBoisson = new Label(commande.getBoisson().getNom());
+		Label lbBoisson = new Label();
+		if(commande.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+			lbBoisson.setText(commande.getBoisson().getNom());
+		} else {
+			lbBoisson.setText(commande.getBoisson().getNom() + " + " + commande.getSupplementBoisson().getNom());
+		}
 		lbBoisson.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 		Label lbDessert = new Label(commande.getDessert().getNom());
 		lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
@@ -151,6 +156,7 @@ public class Commandes {
 				if(core.getService().getCommande(commande.getNumero()) instanceof CommandeAssignee){
 					CommandeAssignee commandeAssignee = (CommandeAssignee)core.getService().getCommande(commande.getNumero());
 					commandeAssignee.realisee(core.getService());
+					EcranConfection.mettreEcransAJour(core);
 				}
 			}
 		});

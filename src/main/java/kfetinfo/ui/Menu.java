@@ -1,18 +1,27 @@
 package kfetinfo.ui;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import kfetinfo.core.Core;
 
 public class Menu {
 	public static final String BOUTON_MENU = "bouton-menu";
 
-	public static HBox menu(){
+	public static HBox menu(Core core, Stage theatre){
 		HBox menu = new HBox();
 
 		Button confection = new Button("Confection");
 		confection.getStyleClass().add(BOUTON_MENU);
 		confection.prefHeightProperty().bind(menu.heightProperty());
 		confection.prefWidthProperty().bind(menu.widthProperty().divide(5));
+		confection.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae){
+				EcranConfection.ecranConfection(core, theatre);
+			}
+		});
 
 		Button stocks = new Button("Stocks");
 		stocks.getStyleClass().add(BOUTON_MENU);

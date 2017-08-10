@@ -47,6 +47,7 @@ public class LecteurBase {
 		}
 
 		JSONObject objetJson = (JSONObject)objet;
+
 		return(objetJson);
 	}
 
@@ -246,6 +247,8 @@ public class LecteurBase {
 				saucesCommande.add(BaseDonnees.getSauce((String)iterateurSau.next()));
 			}
 
+			System.out.println("Lecture de : " + commandeJson);
+
 			Commande commande = new Commande(
 					new Date(((Number)commandeJson.get("moment")).longValue()),
 					((Number)commandeJson.get("numero")).intValue(),
@@ -303,6 +306,8 @@ public class LecteurBase {
 			while(iterateurSau.hasNext()){
 				saucesCommande.add(BaseDonnees.getSauce((String)iterateurSau.next()));
 			}
+
+			System.out.println("Lecture de : " + commandeJson);
 
 			Commande commande = new Commande(
 					new Date(((Number)commandeJson.get("moment")).longValue()),
@@ -363,6 +368,8 @@ public class LecteurBase {
 			while(iterateurCon.hasNext()){
 				confectionService.add(BaseDonnees.getMembre((String)iterateurCon.next()));
 			}
+
+			System.out.println("Lecture de : " + serviceJson);
 
 			Service service = new Service(
 					formatDate.parse((String)serviceJson.get("date")),

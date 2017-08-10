@@ -60,8 +60,8 @@ public class CommandeAssignee extends Commande {
 	public void realisee(Service service){
 		momentRealisation = new Date();
 		estRealisee = true;
-		service.assignation();
 		CreateurBase.ajouterCommandeAssignee(this);
+		service.assignation();
 	}
 
 	public long tempsRealisation(){

@@ -202,9 +202,24 @@ public class Resultat {
 		Label boisson = new Label("Rien");
 		Selection.boissonSelectionneePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				boisson.setText(Selection.getBoissonSelectionnee().getNom());
+				if(Selection.getSupplementBoissonSelectionne().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+					boisson.setText(Selection.getBoissonSelectionnee().getNom());
+				} else {
+					boisson.setText(Selection.getBoissonSelectionnee().getNom() + " + " + Selection.getSupplementBoissonSelectionne().getNom());
+				}
 			}
 		});
+
+		Selection.supplementBoissonSelectionnePropriete().addListener(new ChangeListener() {
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				if(Selection.getSupplementBoissonSelectionne().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+					boisson.setText(Selection.getBoissonSelectionnee().getNom());
+				} else {
+					boisson.setText(Selection.getBoissonSelectionnee().getNom() + " + " + Selection.getSupplementBoissonSelectionne().getNom());
+				}
+			}
+		});
+
 		boisson.getStyleClass().add(CONTENU_COMMANDE_PREVIEW);
 		boisson.maxWidthProperty().bind(commande.widthProperty().subtract(MARGIN_PREVIEW));
 		boisson.setTranslateX(MARGIN_PREVIEW);
@@ -464,6 +479,8 @@ public class Resultat {
 						core.getService());
 
 						core.getService().ajouterCommande(commande);
+						EcranConfection.mettreEcransAJour(core);
+
 						Selection.reset();
 
 						resetPieces();

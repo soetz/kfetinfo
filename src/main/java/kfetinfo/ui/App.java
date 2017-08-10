@@ -46,7 +46,7 @@ public class App extends Application{
 		Parent root = null;
 
 		try {
-			root = ecranPrincipal(core);
+			root = ecranPrincipal(core, theatre);
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -65,10 +65,10 @@ public class App extends Application{
 		theatre.show();
 	}
 
-	public Region ecranPrincipal(Core core){
+	public Region ecranPrincipal(Core core, Stage theatre){
 		BorderPane root = new BorderPane();
 
-		Region haut = Menu.menu();
+		Region haut = Menu.menu(core, theatre);
 
 		Region droite = Commandes.commandes(core);
 
