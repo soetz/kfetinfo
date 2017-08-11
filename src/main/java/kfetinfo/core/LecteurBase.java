@@ -374,8 +374,9 @@ public class LecteurBase {
 			Service service = new Service(
 					formatDate.parse((String)serviceJson.get("date")),
 					new ArrayList<Commande>(),
-					((Number)serviceJson.get("nbBaguettesBase")).floatValue(),
 					((Number)serviceJson.get("nbBaguettesUtilisees")).floatValue(),
+					((Number)serviceJson.get("nbBaguettesAchetees")).floatValue(),
+					((Number)serviceJson.get("nbBaguettesReservees")).floatValue(),
 					BaseDonnees.getMembre((String)serviceJson.get("ordi")),
 					commisService,
 					confectionService);
@@ -385,7 +386,7 @@ public class LecteurBase {
 			e.printStackTrace();
 
 			Membre membre = new Membre();
-			Service service = new Service(new Date(0), new ArrayList<Commande>(), 0, 0, membre, new ArrayList<Membre>(), new ArrayList<Membre>());
+			Service service = new Service(new Date(0), new ArrayList<Commande>(), 0, 0, 0, membre, new ArrayList<Membre>(), new ArrayList<Membre>());
 
 			return(service);
 		}

@@ -26,4 +26,9 @@ public class Sauce extends ContenuCommande {
 	public Sauce(){
 		this("", "", 0f, false, 0, 0);
 	}
+
+	public void setDisponible(boolean disponible){
+		super.setDisponible(disponible);
+		CreateurBase.mettreSauceAJour(this);
+	}
 }

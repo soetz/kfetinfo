@@ -47,4 +47,9 @@ public class Plat extends ContenuCommande {
 	public int getNbMaxSauces(){
 		return(nbMaxSauces);
 	}
+
+	public void setDisponible(boolean disponible){
+		super.setDisponible(disponible);
+		CreateurBase.mettrePlatAJour(this);
+	}
 }

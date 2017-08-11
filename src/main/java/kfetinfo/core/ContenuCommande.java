@@ -50,4 +50,30 @@ public class ContenuCommande {
 	public float getCout(){
 		return(cout);
 	}
+
+	public boolean getDisponible(){
+		return(estDisponible);
+	}
+
+	public void setDisponible(boolean disponible){
+		estDisponible = disponible;
+	}
+
+	public boolean equals(Object o){
+		if(o == null){
+			return(false);
+		}
+		if(o == this){
+			return(true);
+		}
+		if(!(o instanceof ContenuCommande)){
+			return(false);
+		}
+		ContenuCommande oContenuCommande = (ContenuCommande)o;
+		if(id.equals(oContenuCommande.getId())){
+			return(true);
+		} else {
+			return(false);
+		}
+	}
 }

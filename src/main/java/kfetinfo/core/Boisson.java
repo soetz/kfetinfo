@@ -24,4 +24,9 @@ public class Boisson extends ContenuCommande {
 	public Boisson(String id, String nom, float cout, boolean estDisponible, int nbTotalUtilisations, int priorite){
 		super(id, nom, cout, estDisponible, nbTotalUtilisations, priorite);
 	}
+
+	public void setDisponible(boolean disponible){
+		super.setDisponible(disponible);
+		CreateurBase.mettreBoissonAJour(this);
+	}
 }

@@ -65,6 +65,16 @@ public class Selection {
 	private static List<RadioButton> radiosSupplementsBoisson = new ArrayList<RadioButton>();
 	private static List<RadioButton> radiosDesserts = new ArrayList<RadioButton>();
 
+	private static List<HBox> boxesPlats = new ArrayList<HBox>();
+	private static List<HBox> boxesIngredients = new ArrayList<HBox>();
+	private static List<HBox> boxesSauces = new ArrayList<HBox>();
+	private static List<HBox> boxesBoissons = new ArrayList<HBox>();
+	private static List<HBox> boxesSupplementsBoisson = new ArrayList<HBox>();
+	private static List<HBox> boxesDesserts = new ArrayList<HBox>();
+
+	private static List<Boolean> ingredientsDispo = ingredientsDispo();
+	private static List<Boolean> saucesDispo = saucesDispo();
+
 	public static Region selection(Region root){
 		StackPane superposition = new StackPane();
 
@@ -80,8 +90,6 @@ public class Selection {
 		VBox groupeSauces = groupeSauces(selection);
 
 		VBox groupeBoissons = groupeBoissons(selection);
-
-		supplementBoissonSelectionne.set(BaseDonnees.getSupplementBoissonNom("rien"));
 
 		VBox groupeDesserts = groupeDesserts(selection);
 
@@ -130,6 +138,9 @@ public class Selection {
 
 			box.getChildren().add(radio);
 			box.getChildren().add(label);
+			boxesPlats.add(box);
+			
+			box.setDisable(!plat.getDisponible());
 
 			listePlats.getChildren().add(box);
 		}
@@ -151,18 +162,6 @@ public class Selection {
 				}
 			}
 		});
-
-//		platSelection.selectedToggleProperty().addListener(new ChangeListener(){
-//			public void changed(ObservableValue o, Object oldVal, Object newVal){
-//				for(RadioButton radio : radiosPlats){
-//					if(newVal.equals(radio)){
-//						platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio)));
-//						grisageIngredients();
-//						grisageSauces();
-//					}
-//				}
-//			}
-//		});
 
 		platSelection.selectToggle(radiosPlats.get(radiosPlats.size() - 1));
 		platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.size() - 1));
@@ -210,6 +209,7 @@ public class Selection {
 
 			box.getChildren().add(checkBox);
 			box.getChildren().add(label);
+			boxesIngredients.add(box);
 
 			grisageIngredients();
 			listeIngredients.getChildren().add(box);
@@ -268,6 +268,7 @@ public class Selection {
 			box.getChildren().add(checkBox);
 			box.getChildren().add(label);
 			checksAndLabelsSauces.add(box);
+			boxesSauces.add(box);
 
 			grisageSauces();
 			listeSauces.getChildren().add(box);
@@ -313,6 +314,9 @@ public class Selection {
 
 			box.getChildren().add(radio);
 			box.getChildren().add(label);
+			boxesBoissons.add(box);
+
+			box.setDisable(!boisson.getDisponible());
 
 			listeBoissons.getChildren().add(box);
 		}
@@ -345,6 +349,9 @@ public class Selection {
 
 			box.getChildren().add(radio);
 			box.getChildren().add(label);
+			boxesSupplementsBoisson.add(box);
+
+			box.setDisable(!supplementBoisson.getDisponible());
 
 			listeBoissons.getChildren().add(box);
 		}
@@ -378,6 +385,8 @@ public class Selection {
 
 		boissonSelection.selectToggle(radiosBoissons.get(radiosBoissons.size() - 1));
 		boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.size() - 1));
+		supplementBoissonSelection.selectToggle(radiosSupplementsBoisson.get(radiosSupplementsBoisson.size() - 1));
+		supplementBoissonSelectionne.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.size() - 1));
 
 		Label titreBoissons = new Label("BOISSON");
 		titreBoissons.getStyleClass().add(TITRE_GROUPE);
@@ -414,6 +423,9 @@ public class Selection {
 
 			box.getChildren().add(radio);
 			box.getChildren().add(label);
+			boxesDesserts.add(box);
+
+			box.setDisable(!dessert.getDisponible());
 
 			listeDesserts.getChildren().add(box);
 		}
@@ -507,6 +519,19 @@ public class Selection {
 			listeIngredients.setDisable(true);
 		} else {
 			listeIngredients.setDisable(false);
+
+			for(HBox box : boxesIngredients){
+				box.setDisable(false);
+			}
+
+			int i = 0;
+			for(boolean disponible : ingredientsDispo){
+				if(!disponible){
+					checksIngredients.get(i).setSelected(false);
+					boxesIngredients.get(i).setDisable(true);
+				}
+				i++;
+			}
 		}
 	}
 
@@ -531,6 +556,81 @@ public class Selection {
 				}
 			}	
 		}
+
+		int i = 0;
+		for(boolean disponible : saucesDispo){
+			if(!disponible){
+				checksSauces.get(i).setSelected(false);
+				boxesSauces.get(i).setDisable(true);
+			}
+			i++;
+		}
+	}
+
+	public static void platDisponible(int position, boolean disponible){
+		if(!disponible){
+			if(radiosPlats.get(position).isSelected()){
+				radiosPlats.get(BaseDonnees.getPlats().size() - 1).setSelected(true);
+			}
+		}
+		boxesPlats.get(position).setDisable(!disponible);
+	}
+
+	public static void ingredientDisponible(int position, boolean disponible){
+		ingredientsDispo.remove(position);
+		ingredientsDispo.add(position, disponible);
+		grisageIngredients();
+	}
+
+	public static void sauceDisponible(int position, boolean disponible){
+		saucesDispo.remove(position);
+		saucesDispo.add(position, disponible);
+		grisageSauces();
+	}
+
+	public static void boissonDisponible(int position, boolean disponible){
+		if(!disponible){
+			if(radiosBoissons.get(position).isSelected()){
+				radiosBoissons.get(BaseDonnees.getBoissons().size() - 1).setSelected(true);
+			}
+		}
+		boxesBoissons.get(position).setDisable(!disponible);
+	}
+
+	public static void supplementBoissonDisponible(int position, boolean disponible){
+		if(!disponible){
+			if(radiosSupplementsBoisson.get(position).isSelected()){
+				radiosSupplementsBoisson.get(BaseDonnees.getSupplementsBoisson().size() - 1).setSelected(true);
+			}
+		}
+		boxesSupplementsBoisson.get(position).setDisable(!disponible);
+	}
+
+	public static void dessertDisponible(int position, boolean disponible){
+		if(!disponible){
+			if(radiosDesserts.get(position).isSelected()){
+				radiosDesserts.get(BaseDonnees.getDesserts().size() - 1).setSelected(true);
+			}
+		}
+		boxesDesserts.get(position).setDisable(!disponible);
+	}
+
+	public static List<Boolean> ingredientsDispo(){
+		List<Boolean> liste = new ArrayList<Boolean>();
+		for(Ingredient ingredient : BaseDonnees.getIngredients()){
+			liste.add(ingredient.getDisponible());
+		}
+
+		return(liste);
+	}
+
+	public static List<Boolean> saucesDispo(){
+		List<Boolean> liste = new ArrayList<Boolean>();
+		for(Sauce sauce : BaseDonnees.getSauces()){
+			liste.add(sauce.getDisponible());
+		}
+
+		return(liste);
 	}
 
 	public static Plat getPlatSelectionne(){

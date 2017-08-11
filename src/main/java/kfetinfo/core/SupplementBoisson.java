@@ -29,4 +29,9 @@ public class SupplementBoisson extends ContenuCommande {
 	public float getPrix(){
 		return(prix);
 	}
+
+	public void setDisponible(boolean disponible){
+		super.setDisponible(disponible);
+		CreateurBase.mettreSupplementBoissonAJour(this);
+	}
 }

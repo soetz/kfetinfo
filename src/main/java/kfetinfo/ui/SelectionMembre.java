@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Core;
 import kfetinfo.core.Membre;
@@ -48,6 +50,7 @@ public class SelectionMembre {
 
 		Scene scene = new Scene(root, 250, 350);
 		Stage stage = new Stage();
+
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL);
@@ -154,7 +157,7 @@ public class SelectionMembre {
 		stage.show();
 	}
 
-	public static void selectionConfection1(Core core){
+	public static Stage selectionConfection1(Core core){
 		VBox root = new VBox();
 
 		List<Membre> confectionDebut = core.getService().getConfection();
@@ -188,7 +191,9 @@ public class SelectionMembre {
 					}
 					confection.add(confectionDebut.get(1));
 				} else {
-					confection.add(table.getSelectionModel().getSelectedItem());
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
 				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour(core);
@@ -206,9 +211,11 @@ public class SelectionMembre {
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();
+
+		return(stage);
 	}
 
-	public static void selectionConfection2(Core core){
+	public static Stage selectionConfection2(Core core){
 		VBox root = new VBox();
 
 		List<Membre> confectionDebut = core.getService().getConfection();
@@ -242,7 +249,9 @@ public class SelectionMembre {
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				} else {
-					confection.add(table.getSelectionModel().getSelectedItem());
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
 				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour(core);
@@ -260,9 +269,11 @@ public class SelectionMembre {
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();
+
+		return(stage);
 	}
 
-	public static void selectionConfection3(Core core){
+	public static Stage selectionConfection3(Core core){
 		VBox root = new VBox();
 
 		List<Membre> confectionDebut = core.getService().getConfection();
@@ -296,7 +307,9 @@ public class SelectionMembre {
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				} else {
-					confection.add(table.getSelectionModel().getSelectedItem());
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+						confection.add(table.getSelectionModel().getSelectedItem());
+					}
 				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour(core);
@@ -314,5 +327,7 @@ public class SelectionMembre {
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();
+
+		return(stage);
 	}
 }

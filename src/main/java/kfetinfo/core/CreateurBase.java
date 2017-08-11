@@ -33,6 +33,8 @@ import java.util.Date;
 
 import java.util.UUID;
 
+import javax.swing.plaf.metal.MetalRootPaneUI;
+
 public class CreateurBase {
 	static SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -71,18 +73,18 @@ public class CreateurBase {
 		return(objet);
 	}
 
-	private static JSONObject creerContenuCommande(String nom, float cout, int priorite) {
+	private static JSONObject creerContenuCommande(String nom, float cout, boolean estDisponible, int priorite) {
 		JSONObject contenu = creer();
 		contenu.put("nom", nom);
 		contenu.put("cout", cout);
-		contenu.put("estDisponible", true);
+		contenu.put("estDisponible", estDisponible);
 		contenu.put("nbUtilisations", new Integer(0));
 		contenu.put("priorite", priorite);
 		return(contenu);
 	}
 
-	public static void creerIngredient(String nom, float cout, int priorite) {
-		JSONObject ingredient = creerContenuCommande(nom, cout, priorite);
+	public static void creerIngredient(String nom, float cout, boolean estDisponible, int priorite) {
+		JSONObject ingredient = creerContenuCommande(nom, cout, estDisponible, priorite);
 
 		File dossier = null;
 
@@ -104,8 +106,8 @@ public class CreateurBase {
 		System.out.println(ingredient);
 	}
 
-	public static void creerSauce(String nom, float cout, int priorite) {
-		JSONObject sauce = creerContenuCommande(nom, cout, priorite);
+	public static void creerSauce(String nom, float cout, boolean estDisponible, int priorite) {
+		JSONObject sauce = creerContenuCommande(nom, cout, estDisponible, priorite);
 
 		File dossier = null;
 
@@ -127,8 +129,8 @@ public class CreateurBase {
 		System.out.println(sauce);
 	}
 
-	public static void creerDessert(String nom, float cout, int priorite, float prix) {
-		JSONObject dessert = creerContenuCommande(nom, cout, priorite);
+	public static void creerDessert(String nom, float cout, boolean estDisponible, int priorite, float prix) {
+		JSONObject dessert = creerContenuCommande(nom, cout, estDisponible, priorite);
 		dessert.put("prix", prix);
 
 		File dossier = null;
@@ -151,8 +153,8 @@ public class CreateurBase {
 		System.out.println(dessert);
 	}
 
-	public static void creerBoisson(String nom, float cout, int priorite) {
-		JSONObject boisson = creerContenuCommande(nom, cout, priorite);
+	public static void creerBoisson(String nom, float cout, boolean estDisponible, int priorite) {
+		JSONObject boisson = creerContenuCommande(nom, cout, estDisponible, priorite);
 
 		File dossier = null;
 
@@ -174,11 +176,12 @@ public class CreateurBase {
 		System.out.println(boisson);
 	}
 
-	public static void creerPlat(String nom, float cout, int priorite, float prix, int nbMaxIngredients, int nbMaxSauces) {
-		JSONObject plat = creerContenuCommande(nom, cout, priorite);
+	public static void creerPlat(String nom, float cout, boolean estDisponible, int priorite, float prix, int nbMaxIngredients, int nbMaxSauces, boolean utilisePain) {
+		JSONObject plat = creerContenuCommande(nom, cout, estDisponible, priorite);
 		plat.put("prix", prix);
 		plat.put("nbMaxIngredients", nbMaxIngredients);
 		plat.put("nbMaxSauces", nbMaxSauces);
+		plat.put("utilisePain", utilisePain);
 
 		File dossier = null;
 
@@ -200,8 +203,8 @@ public class CreateurBase {
 		System.out.println(plat);
 	}
 
-	public static void creerSupplementBoisson(String nom, float cout, int priorite, float prix) {
-		JSONObject supplementBoisson = creerContenuCommande(nom, cout, priorite);
+	public static void creerSupplementBoisson(String nom, float cout, boolean estDisponible, int priorite, float prix) {
+		JSONObject supplementBoisson = creerContenuCommande(nom, cout, estDisponible, priorite);
 		supplementBoisson.put("prix", prix);
 
 		File dossier = null;
@@ -222,6 +225,160 @@ public class CreateurBase {
         }
 
 		System.out.println(supplementBoisson);
+	}
+
+	private static JSONObject mettreContenuCommandeAJour(String id, String nom, float cout, boolean estDisponible, int priorite){
+		JSONObject contenu = new JSONObject();
+		contenu.put("id", id);
+		contenu.put("nom", nom);
+		contenu.put("cout", cout);
+		contenu.put("estDisponible", estDisponible);
+		contenu.put("nbUtilisations", new Integer(0));
+		contenu.put("priorite", priorite);
+		return(contenu);
+	}
+
+	public static void mettreIngredientAJour(Ingredient ingredient) {
+		JSONObject ingredientJson = mettreContenuCommandeAJour(ingredient.getId(), ingredient.getNom(), ingredient.getCout(), ingredient.getDisponible(), ingredient.getPriorite());
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + ingredient.getNom().toLowerCase() + ".json")) {
+
+            file.write(ingredientJson.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		System.out.println(ingredientJson);
+	}
+
+	public static void mettreSauceAJour(Sauce sauce) {
+		JSONObject sauceJson = mettreContenuCommandeAJour(sauce.getId(), sauce.getNom(), sauce.getCout(), sauce.getDisponible(), sauce.getPriorite());
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + sauce.getNom().toLowerCase() + ".json")) {
+
+            file.write(sauceJson.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		System.out.println(sauceJson);
+	}
+
+	public static void mettreDessertAJour(Dessert dessert) {
+		JSONObject dessertJson = mettreContenuCommandeAJour(dessert.getId(), dessert.getNom(), dessert.getCout(), dessert.getDisponible(), dessert.getPriorite());
+		dessertJson.put("prix", dessert.getPrix());
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + dessert.getNom().toLowerCase() + ".json")) {
+
+            file.write(dessertJson.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		System.out.println(dessertJson);
+	}
+
+	public static void mettreBoissonAJour(Boisson boisson) {
+		JSONObject boissonJson = mettreContenuCommandeAJour(boisson.getId(), boisson.getNom(), boisson.getCout(), boisson.getDisponible(), boisson.getPriorite());
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + boisson.getNom().toLowerCase() + ".json")) {
+
+            file.write(boissonJson.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		System.out.println(boissonJson);
+	}
+	public static void mettrePlatAJour(Plat plat){
+		JSONObject platJson = mettreContenuCommandeAJour(plat.getId(), plat.getNom(), plat.getCout(), plat.getDisponible(), plat.getPriorite());
+		platJson.put("prix", plat.getPrix());
+		platJson.put("nbMaxIngredients", plat.getNbMaxIngredients());
+		platJson.put("nbMaxSauces", plat.getNbMaxSauces());
+		platJson.put("utilisePain", plat.getUtilisePain());
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + plat.getNom().toLowerCase() + ".json")) {
+
+            file.write(platJson.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		System.out.println(platJson);
+	}
+
+	public static void mettreSupplementBoissonAJour(SupplementBoisson supplementBoisson) {
+		JSONObject supplementBoissonJson = mettreContenuCommandeAJour(supplementBoisson.getId(), supplementBoisson.getNom(), supplementBoisson.getCout(), supplementBoisson.getDisponible(), supplementBoisson.getPriorite());
+		supplementBoissonJson.put("prix", supplementBoisson.getPrix());
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (FileWriter file = new FileWriter(dossier + "/" + supplementBoisson.getNom().toLowerCase() + ".json")) {
+
+            file.write(supplementBoissonJson.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		System.out.println(supplementBoissonJson);
 	}
 
 	public static void creerMembre(String nom, String prenom, String surnom, String poste, Date dateNaissance){
@@ -349,11 +506,12 @@ public class CreateurBase {
 		ajouterCommandeAssignee(commandeAssignee.getNumero(), commandeAssignee.getMoment(), commandeAssignee.getPlat(), commandeAssignee.getIngredients(), commandeAssignee.getSauces(), commandeAssignee.getDessert(), commandeAssignee.getBoisson(), commandeAssignee.getSupplementBoisson(), commandeAssignee.getPrix(), commandeAssignee.getMembre(), commandeAssignee.getMomentAssignation(), commandeAssignee.getEstRealisee(), commandeAssignee.getMomentRealisation(), commandeAssignee.getEstDonnee());
 	}
 
-	public static JSONObject objetService(float nbBaguettesBase, float nbBaguettesUtilisees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
+	public static JSONObject objetService(float nbBaguettesUtilisees, float nbBaguettesAchetees, float nbBaguettesReservees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
 		JSONObject service = new JSONObject();
 
-		service.put("nbBaguettesBase", nbBaguettesBase);
 		service.put("nbBaguettesUtilisees", nbBaguettesUtilisees);
+		service.put("nbBaguettesAchetees", nbBaguettesAchetees);
+		service.put("nbBaguettesReservees", nbBaguettesReservees);		
 		service.put("nbCommandes", nbCommandes);
 		service.put("date", formatDate.format(date));
 		service.put("cout", cout);
@@ -408,13 +566,13 @@ public class CreateurBase {
 		System.out.println("Écriture de : " + service);
 	}
 
-	public static void ajouterService(float nbBaguettesBase, float nbBaguettesUtilisees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
-		JSONObject service = objetService(nbBaguettesBase, nbBaguettesUtilisees, nbCommandes, date, cout, revenu, ordi, commis, confection);
+	public static void ajouterService(float nbBaguettesUtilisees, float nbBaguettesAchetees, float nbBaguettesReservees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
+		JSONObject service = objetService(nbBaguettesUtilisees, nbBaguettesAchetees, nbBaguettesReservees, nbCommandes, date, cout, revenu, ordi, commis, confection);
 		ecrireService(date, service);
 	}
 
 	public static void ajouterService(Service service){
-		ajouterService(service.getNbBaguettesBase(), service.getNbBaguettesUtilisees(), service.getNbCommandes(), service.getDate(), service.getCout(), service.getRevenu(), service.getOrdi(), service.getCommis(), service.getConfection());
+		ajouterService(service.getNbBaguettesUtilisees(), service.getNbBaguettesAchetees(), service.getNbBaguettesReservees(), service.getNbCommandes(), service.getDate(), service.getCout(), service.getRevenu(), service.getOrdi(), service.getCommis(), service.getConfection());
 	}
 
 	public static JSONObject objetParametres(float prixIngredientSupp, float prixBoisson, float reducMenu){

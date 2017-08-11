@@ -27,6 +27,11 @@ public class Menu {
 		stocks.getStyleClass().add(BOUTON_MENU);
 		stocks.prefHeightProperty().bind(menu.heightProperty());
 		stocks.prefWidthProperty().bind(menu.widthProperty().divide(5));
+		stocks.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae){
+				Stocks.ecranStocks(core, theatre);
+			}
+		});
 
 		Button menuBouton = new Button("Menu");
 		menuBouton.getStyleClass().add(BOUTON_MENU);

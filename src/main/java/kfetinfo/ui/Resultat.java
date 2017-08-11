@@ -26,6 +26,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.WindowEvent;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Commande;
 import kfetinfo.core.Core;
@@ -539,21 +540,33 @@ public class Resultat {
 		Button boutonConfection1 = new Button("Modifier");
 		boutonConfection1.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionConfection1(core);
+				SelectionMembre.selectionConfection1(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
+					public void handle(WindowEvent e){
+						core.getService().assignation();
+					}
+				});
 			}
 		});
 
 		Button boutonConfection2 = new Button("Modifier");
 		boutonConfection2.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionConfection2(core);
+				SelectionMembre.selectionConfection2(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
+					public void handle(WindowEvent e){
+						core.getService().assignation();
+					}
+				});
 			}
 		});
 
 		Button boutonConfection3 = new Button("Modifier");
 		boutonConfection3.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionConfection3(core);
+				SelectionMembre.selectionConfection3(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
+					public void handle(WindowEvent e){
+						core.getService().assignation();
+					}
+				});
 			}
 		});
 

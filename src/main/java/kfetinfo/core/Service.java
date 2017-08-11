@@ -46,6 +46,8 @@ public class Service {
 	private final ObjectProperty<Commande> nouvelleCommande = new SimpleObjectProperty<Commande>();
 	private final ObjectProperty<CommandeAssignee> nouvelleCommandeAssignee = new SimpleObjectProperty<CommandeAssignee>();
 	float nbBaguettesBase;
+	float nbBaguettesAchetees;
+	float nbBaguettesReservees;
 	float nbBaguettesUtilisees;
 	Membre ordi;
 	List<Membre> commis;
@@ -68,17 +70,20 @@ public class Service {
 			Service vieux = LecteurBase.lireService(date);
 			this.date = date;
 			commandes = new ArrayList<Commande>();
-			nbBaguettesBase = vieux.getNbBaguettesBase();
 			nbBaguettesUtilisees = vieux.getNbBaguettesUtilisees();
+			nbBaguettesAchetees = vieux.getNbBaguettesAchetees();
+			nbBaguettesReservees = vieux.getNbBaguettesReservees();
+			nbBaguettesBase = nbBaguettesAchetees - nbBaguettesReservees;
 			ordi = vieux.getOrdi();
 			commis = vieux.getCommis();
 			confection = vieux.getConfection();
-		}
-		else {
+		} else {
 			this.date = date;
 			commandes = new ArrayList<Commande>();
-			nbBaguettesBase = 0;
 			nbBaguettesUtilisees = 0;
+			nbBaguettesAchetees = 0;
+			nbBaguettesReservees = 0;
+			nbBaguettesBase = nbBaguettesAchetees - nbBaguettesReservees;
 			ordi = getOrdiDernierService();
 			commis = getCommisDernierService();
 			confection = getConfectionDernierService();
@@ -94,7 +99,7 @@ public class Service {
 		ecrireFichier();
 	}
 
-	public Service(Date date, List<Commande> commandes, float nbBaguettesBase, float nbBaguettesUtilisees, Membre ordi, List<Membre> commis, List<Membre> confection){
+	public Service(Date date, List<Commande> commandes, float nbBaguettesUtilisees, float nbBaguettesAchetees, float nbBaguettesReservees, Membre ordi, List<Membre> commis, List<Membre> confection){
 		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
 		SimpleDateFormat mois = new SimpleDateFormat("MM");
 		SimpleDateFormat jour = new SimpleDateFormat("dd");
@@ -114,8 +119,10 @@ public class Service {
 
 		this.date = date;
 		this.commandes = commandes;
-		this.nbBaguettesBase = nbBaguettesBase;
+		this.nbBaguettesBase = nbBaguettesAchetees - nbBaguettesReservees;
 		this.nbBaguettesUtilisees = nbBaguettesUtilisees;
+		this.nbBaguettesAchetees = nbBaguettesAchetees;
+		this.nbBaguettesReservees = nbBaguettesReservees;
 		this.ordi = ordi;
 		this.commis = commis;
 		this.confection = confection;
@@ -127,6 +134,14 @@ public class Service {
 
 	public float getNbBaguettesUtilisees(){
 		return(nbBaguettesUtilisees);
+	}
+
+	public float getNbBaguettesAchetees(){
+		return(nbBaguettesAchetees);
+	}
+
+	public float getNbBaguettesReservees(){
+		return(nbBaguettesReservees);
 	}
 
 	public Date getDate(){
@@ -324,6 +339,20 @@ public class Service {
 		ecrireFichier();
 	}
 
+	public void setNbBaguettesAchetees(float nb){
+		nbBaguettesAchetees = nb;
+		nbBaguettesBase = nbBaguettesAchetees - nbBaguettesReservees;
+
+		ecrireFichier();
+	}
+
+	public void setNbBaguettesReservees(float nb){
+		nbBaguettesReservees = nb;
+		nbBaguettesBase = nbBaguettesAchetees - nbBaguettesReservees;
+
+		ecrireFichier();
+	}
+
 	public void addCommis(Membre membre){
 		commis.add(membre);
 
@@ -389,6 +418,10 @@ public class Service {
 
 		commandes.add(commande);
 		nouvelleCommande.set(commande);
+
+		if(commande.getPlat().getUtilisePain()){
+			nbBaguettesUtilisees += 0.5;
+		}
 
 		assignation();
 

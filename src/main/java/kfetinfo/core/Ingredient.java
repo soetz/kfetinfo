@@ -26,4 +26,9 @@ public class Ingredient extends ContenuCommande {
 	public Ingredient(){
 		this("", "", 0f, false, 0, 0);
 	}
+
+	public void setDisponible(boolean disponible){
+		super.setDisponible(disponible);
+		CreateurBase.mettreIngredientAJour(this);
+	}
 }
