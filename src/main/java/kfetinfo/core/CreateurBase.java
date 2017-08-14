@@ -389,6 +389,38 @@ public class CreateurBase {
 		System.out.println(supplementBoissonJson);
 	}
 
+	public static void mettreMembreAJour(Membre membre){
+		JSONObject membreJson = new JSONObject();
+		membreJson.put("id", membre.getId());
+		membreJson.put("nom", membre.getNom());
+		membreJson.put("prenom", membre.getPrenom());
+		membreJson.put("poste", membre.getPoste());
+		membreJson.put("dateNaissance", formatDate.format(membre.getDateNaissance()));
+		membreJson.put("nbCommandes", membre.getNbCommandes());
+		membreJson.put("nbServices", membre.getNbServices());
+		membreJson.put("tempsMoyenCommande", membre.getTempsMoyenCommande());
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Membres/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		try (
+			FileWriter file = new FileWriter(dossier + "/" + membre.getPrenom().toLowerCase() + " " + membre.getNom().toLowerCase() + ".json")) {
+            file.write(membreJson.toJSONString());
+            file.flush();
+            file.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		System.out.println(membre);
+	}
+
 	public static void creerMembre(String nom, String prenom, String surnom, String poste, Date dateNaissance){
 		JSONObject membre = creer();
 		membre.put("nom", nom);
@@ -825,6 +857,19 @@ public class CreateurBase {
 		}
 
 		File fichier = new File(dossier + "/" + dessert.getNom().toLowerCase() + ".json");
+		fichier.delete();
+	}
+
+	public static void supprimerMembre(Membre membre){
+		File dossier = null;
+
+		try{
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Membres").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + membre.getPrenom().toLowerCase() + " " + membre.getNom().toLowerCase() + ".json");
 		fichier.delete();
 	}
 }

@@ -51,6 +51,11 @@ public class Menu {
 		administration.getStyleClass().add(BOUTON_MENU);
 		administration.prefHeightProperty().bind(menu.heightProperty());
 		administration.prefWidthProperty().bind(menu.widthProperty().divide(5));
+		administration.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae){
+				EditionMembre.ecran(core);
+			}
+		});
 
 		Button graphiques = new Button("_Graphiques");
 		graphiques.getStyleClass().add(BOUTON_MENU);

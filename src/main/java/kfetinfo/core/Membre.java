@@ -71,6 +71,26 @@ public class Membre {
 		return(surnom);
 	}
 
+	public String getPoste(){
+		return(poste);
+	}
+
+	public Date getDateNaissance(){
+		return(dateNaissance);
+	}
+
+	public int getNbCommandes(){
+		return(nbCommandes);
+	}
+
+	public int getNbServices(){
+		return(nbServices);
+	}
+
+	public float getTempsMoyenCommande(){
+		return(tempsMoyenCommande);
+	}
+
 	public String getBlaze(){
 		String prenomBlaze = getPrenom();
 		String surnomBlaze = "";
