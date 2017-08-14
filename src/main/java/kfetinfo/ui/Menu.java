@@ -13,7 +13,8 @@ public class Menu {
 	public static HBox menu(Core core, Stage theatre){
 		HBox menu = new HBox();
 
-		Button confection = new Button("Confection");
+		Button confection = new Button("_Confection");
+		confection.setMnemonicParsing(true);
 		confection.getStyleClass().add(BOUTON_MENU);
 		confection.prefHeightProperty().bind(menu.heightProperty());
 		confection.prefWidthProperty().bind(menu.widthProperty().divide(5));
@@ -23,7 +24,8 @@ public class Menu {
 			}
 		});
 
-		Button stocks = new Button("Stocks");
+		Button stocks = new Button("S_tocks");
+		stocks.setMnemonicParsing(true);
 		stocks.getStyleClass().add(BOUTON_MENU);
 		stocks.prefHeightProperty().bind(menu.heightProperty());
 		stocks.prefWidthProperty().bind(menu.widthProperty().divide(5));
@@ -33,17 +35,24 @@ public class Menu {
 			}
 		});
 
-		Button menuBouton = new Button("Menu");
+		Button menuBouton = new Button("_Menu");
+		menuBouton.setMnemonicParsing(true);
 		menuBouton.getStyleClass().add(BOUTON_MENU);
 		menuBouton.prefHeightProperty().bind(menu.heightProperty());
 		menuBouton.prefWidthProperty().bind(menu.widthProperty().divide(5));
+		menuBouton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae){
+				EditionContenu.ecran(core);
+			}
+		});
 
-		Button administration = new Button("Administration");
+		Button administration = new Button("A_dministration");
+		administration.setMnemonicParsing(true);
 		administration.getStyleClass().add(BOUTON_MENU);
 		administration.prefHeightProperty().bind(menu.heightProperty());
 		administration.prefWidthProperty().bind(menu.widthProperty().divide(5));
 
-		Button graphiques = new Button("Graphiques");
+		Button graphiques = new Button("_Graphiques");
 		graphiques.getStyleClass().add(BOUTON_MENU);
 		graphiques.prefHeightProperty().bind(menu.heightProperty());
 		graphiques.prefWidthProperty().bind(menu.widthProperty().divide(5));

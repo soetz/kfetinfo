@@ -55,6 +55,10 @@ public class ContenuCommande {
 		return(estDisponible);
 	}
 
+	public int getNbUtilisations(){
+		return(nbUtilisations);
+	}
+
 	public void setDisponible(boolean disponible){
 		estDisponible = disponible;
 	}

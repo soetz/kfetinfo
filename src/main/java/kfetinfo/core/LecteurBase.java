@@ -40,7 +40,9 @@ public class LecteurBase {
 
 		Object objet = null;
 		try {
-		objet = parser.parse(new FileReader(path));
+			FileReader lecteur = new FileReader(path);
+			objet = parser.parse(lecteur);
+			lecteur.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();

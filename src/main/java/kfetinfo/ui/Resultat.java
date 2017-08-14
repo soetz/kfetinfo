@@ -31,6 +31,7 @@ import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Commande;
 import kfetinfo.core.Core;
 import kfetinfo.core.Ingredient;
+import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
 
 public class Resultat {
@@ -460,7 +461,9 @@ public class Resultat {
 		nbARendre.getStyleClass().add(A_RENDRE);
 		nbARendre.setMaxWidth(Double.MAX_VALUE);
 
-		ajouterBouton = new Button("Ajouter");
+		ajouterBouton = new Button("A_jouter");
+		ajouterBouton.setMnemonicParsing(true);
+		ajouterBouton.setDefaultButton(true);
 		ajouterBouton.setDisable(true);
 		ajouterBouton.minWidthProperty().bind(boutonReset.minWidthProperty());
 		ajouterBouton.maxWidthProperty().bind(ajouterBouton.minWidthProperty());
@@ -481,6 +484,19 @@ public class Resultat {
 
 						core.getService().ajouterCommande(commande);
 						EcranConfection.mettreEcransAJour(core);
+
+						if(Selection.getPlatSelectionne().getUtilisePain()){
+							if(core.getService().getNbBaguettesRestantes() <= 0){
+								int i = 0;
+								for(Plat plat : BaseDonnees.getPlats()){
+									if(plat.getUtilisePain()){
+										Selection.platDisponible(i, false);
+									}
+
+									i++;
+								}
+							}
+						}
 
 						Selection.reset();
 
@@ -543,6 +559,7 @@ public class Resultat {
 				SelectionMembre.selectionConfection1(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						core.getService().assignation();
+						EcranConfection.mettreEcransAJour(core);
 					}
 				});
 			}
@@ -554,6 +571,7 @@ public class Resultat {
 				SelectionMembre.selectionConfection2(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						core.getService().assignation();
+						EcranConfection.mettreEcransAJour(core);
 					}
 				});
 			}
@@ -565,6 +583,7 @@ public class Resultat {
 				SelectionMembre.selectionConfection3(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						core.getService().assignation();
+						EcranConfection.mettreEcransAJour(core);
 					}
 				});
 			}

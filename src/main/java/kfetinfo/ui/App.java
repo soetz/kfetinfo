@@ -1,5 +1,7 @@
 package kfetinfo.ui;
 
+import java.util.Locale;
+
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,6 +27,8 @@ import kfetinfo.core.Boisson;
 
 
 public class App extends Application{
+	public static BorderPane root;
+
 	public static final String NUMERO_COMMANDE = "numero-commande";
 	public static final String PLAT_COMMANDE = "plat-commande";
 
@@ -41,9 +45,12 @@ public class App extends Application{
 	}
 
 	public void start(Stage theatre){
+		Locale.setDefault(Locale.FRENCH);
+		Locale.setDefault(Locale.FRANCE);
+
 		Core core = new Core();
 
-		Parent root = null;
+		root = null;
 
 		try {
 			root = ecranPrincipal(core, theatre);
@@ -65,22 +72,27 @@ public class App extends Application{
 		theatre.show();
 	}
 
-	public Region ecranPrincipal(Core core, Stage theatre){
-		BorderPane root = new BorderPane();
+	public BorderPane ecranPrincipal(Core core, Stage theatre){
+		BorderPane racine = new BorderPane();
 
 		Region haut = Menu.menu(core, theatre);
 
 		Region droite = Commandes.commandes(core);
 
-		Region centre = Selection.selection(root);
+		Region centre = Selection.selection(racine);
 
-		Region bas = Resultat.resultat(root, core);
+		Region bas = Resultat.resultat(racine, core);
 
-		root.setTop(haut);
-		root.setRight(droite);
-		root.setBottom(bas);
-		root.setCenter(centre);
+		racine.setTop(haut);
+		racine.setRight(droite);
+		racine.setBottom(bas);
+		racine.setCenter(centre);
 		
-		return(root);
+		return(racine);
+	}
+
+	public static void mettreSelectionAJour(){
+		root.setCenter(Selection.selection(root));
+		Selection.reset();
 	}
 }

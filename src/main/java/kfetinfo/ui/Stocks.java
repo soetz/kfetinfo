@@ -1,5 +1,8 @@
 package kfetinfo.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -15,6 +18,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -33,13 +37,16 @@ import kfetinfo.core.Sauce;
 import kfetinfo.core.SupplementBoisson;
 
 public class Stocks {
+	static List<CheckBox> checkBoxesPlats;
 	static float nbBaguettesAchetees;
 	static float nbBaguettesReservees;
 
 	public static void ecranStocks(Core core, Stage ecranPrincipal){
-		StackPane pane = new StackPane();
+		BorderPane pane = new BorderPane();
 
 		HBox selection = new HBox();
+
+		checkBoxesPlats = new ArrayList<CheckBox>();
 
 		VBox groupePlats = groupePlats(selection);
 
@@ -81,7 +88,7 @@ public class Stocks {
 			public void decrement(int steps){
 				final Float value = ((Number)getValue()).floatValue();
 				final float val = (value == null) ? 0 : value;
-				if(val - 0.5*steps > nbBaguettesReservees + core.getService().getNbBaguettesUtilisees()){
+				if(val - 0.5*steps >= nbBaguettesReservees + core.getService().getNbBaguettesUtilisees()){
 					setValue(val - 0.5*steps);
 				}
 			}
@@ -138,7 +145,10 @@ public class Stocks {
 			public void handle(ActionEvent ae){
 				core.getService().setNbBaguettesAchetees(nbBaguettesAchetees);
 				core.getService().setNbBaguettesReservees(nbBaguettesReservees);
-				//TODO mettre à jour liste plats dispos en fonction du pain
+				for(CheckBox check : checkBoxesPlats){
+					check.setSelected(!check.isSelected());
+					check.setSelected(!check.isSelected());
+				}
 			}
 		});
 
@@ -155,8 +165,8 @@ public class Stocks {
 
 		baguettes.getChildren().add(layout);
 
-		pane.getChildren().add(baguettes);
-		pane.getChildren().add(selection);
+		pane.setCenter(selection);
+		pane.setBottom(baguettes);
 
 		Scene scene = new Scene(pane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
 		Stage theatre = new Stage();
@@ -184,10 +194,23 @@ public class Stocks {
 				CheckBox checkBox = new CheckBox();
 				checkBox.selectedProperty().addListener(new ChangeListener() {
 					public void changed(ObservableValue o, Object oldVal, Object newVal){
+						boolean grise = false;
+						if(plat.getUtilisePain()){
+							if(Core.getService().getNbBaguettesRestantes() <= 0){
+								grise = true;
+							}
+						}
+
+						if(!checkBox.isSelected()){
+							grise = true;
+						}
+
 						plat.setDisponible(checkBox.isSelected());
-						Selection.platDisponible(numero, checkBox.isSelected());
+						Selection.platDisponible(numero, !grise);
 					}
 				});
+
+				checkBoxesPlats.add(checkBox);
 
 				if(plat.getDisponible()){
 					checkBox.setSelected(true);

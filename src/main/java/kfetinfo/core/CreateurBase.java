@@ -195,6 +195,7 @@ public class CreateurBase {
 
             file.write(plat.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -219,6 +220,7 @@ public class CreateurBase {
 
             file.write(supplementBoisson.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -253,6 +255,7 @@ public class CreateurBase {
 
             file.write(ingredientJson.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -276,6 +279,7 @@ public class CreateurBase {
 
             file.write(sauceJson.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -300,6 +304,7 @@ public class CreateurBase {
 
             file.write(dessertJson.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -323,6 +328,7 @@ public class CreateurBase {
 
             file.write(boissonJson.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -349,6 +355,7 @@ public class CreateurBase {
 
             file.write(platJson.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -373,6 +380,7 @@ public class CreateurBase {
 
             file.write(supplementBoissonJson.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -404,6 +412,7 @@ public class CreateurBase {
 			FileWriter file = new FileWriter(dossier + "/" + prenom.toLowerCase() + " " + nom.toLowerCase() + ".json")) {
             file.write(membre.toJSONString());
             file.flush();
+            file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -470,6 +479,7 @@ public class CreateurBase {
 				FileWriter file = new FileWriter(dossier + "/" + annee.format(moment) + "/" + mois.format(moment) + "/" + jour.format(moment) + "/" + zeros + numero + ".json")) {
 	            file.write(commande.toJSONString());
 	            file.flush();
+	            file.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -559,6 +569,7 @@ public class CreateurBase {
 				FileWriter file = new FileWriter(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/" + "_service" + ".json")) {
 	            file.write(service.toJSONString());
 	            file.flush();
+	            file.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -604,6 +615,7 @@ public class CreateurBase {
 				FileWriter file = new FileWriter(dossier + "/" + "paramètres.json")) {
 				file.write(parametres.toJSONString());
 				file.flush();
+	            file.close();
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -639,6 +651,7 @@ public class CreateurBase {
 
                 file.write(rienDessert.toJSONString());
                 file.flush();
+                file.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -666,6 +679,7 @@ public class CreateurBase {
 
                 file.write(rienBoisson.toJSONString());
                 file.flush();
+                file.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -696,6 +710,7 @@ public class CreateurBase {
 
                 file.write(rienPlat.toJSONString());
                 file.flush();
+                file.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -724,6 +739,7 @@ public class CreateurBase {
 
                 file.write(rienSupplementBoisson.toJSONString());
                 file.flush();
+                file.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -734,4 +750,81 @@ public class CreateurBase {
         
 	}
 
+	public static void supprimerPlat(ContenuCommande plat){
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + plat.getNom().toLowerCase() + ".json");
+		fichier.delete();
+	}
+
+	public static void supprimerIngredient(ContenuCommande ingredient){
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + ingredient.getNom().toLowerCase() + ".json");
+		fichier.delete();
+	}
+
+	public static void supprimerSauce(ContenuCommande sauce){
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + sauce.getNom().toLowerCase() + ".json");
+		fichier.delete();
+	}
+
+	public static void supprimerBoisson(ContenuCommande boisson){
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + boisson.getNom().toLowerCase() + ".json");
+		fichier.delete();
+	}
+
+	public static void supprimerSupplementBoisson(ContenuCommande supplementBoisson){
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + supplementBoisson.getNom().toLowerCase() + ".json");
+		fichier.delete();
+	}
+
+	public static void supprimerDessert(ContenuCommande dessert){
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + dessert.getNom().toLowerCase() + ".json");
+		fichier.delete();
+	}
 }

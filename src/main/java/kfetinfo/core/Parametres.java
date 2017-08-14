@@ -49,6 +49,18 @@ public class Parametres {
 		return(reducMenu);
 	}
 
+	public void setPrixIngredientSupp(float prix){
+		prixIngredientSupp = prix;
+	}
+
+	public void setPrixBoisson(float prix){
+		prixBoisson = prix;
+	}
+
+	public void setReducMenu(float reduc){
+		reducMenu = reduc;
+	}
+
 	public void ecrireFichier(){
 		CreateurBase.ajouterParametres(prixIngredientSupp, prixBoisson, reducMenu);
 	}

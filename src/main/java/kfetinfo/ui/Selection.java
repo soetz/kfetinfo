@@ -28,6 +28,7 @@ import javafx.scene.shape.Line;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Boisson;
 import kfetinfo.core.Commande;
+import kfetinfo.core.Core;
 import kfetinfo.core.Dessert;
 import kfetinfo.core.Ingredient;
 import kfetinfo.core.Plat;
@@ -47,35 +48,67 @@ public class Selection {
 	private static boolean arrayFilled = false ;
 
 	private static final ObjectProperty<Plat> platSelectionne = new SimpleObjectProperty<Plat>();
-	private static List<Ingredient> ingredientsSelectionnes = new ArrayList<Ingredient>();
+	private static List<Ingredient> ingredientsSelectionnes;
 	private static final BooleanProperty ingredientChange = new SimpleBooleanProperty();
-	private static List<Sauce> saucesSelectionnees = new ArrayList<Sauce>();
+	private static List<Sauce> saucesSelectionnees;
 	private static final BooleanProperty sauceChangee = new SimpleBooleanProperty();
 	private static final ObjectProperty<Boisson> boissonSelectionnee = new SimpleObjectProperty<Boisson>();
 	private static final ObjectProperty<SupplementBoisson> supplementBoissonSelectionne = new SimpleObjectProperty<SupplementBoisson>();
 	private static final ObjectProperty<Dessert> dessertSelectionne = new SimpleObjectProperty<Dessert>();
 	private static final BooleanProperty commandeChangee = new SimpleBooleanProperty();
 
-	private static List<RadioButton> radiosPlats = new ArrayList<RadioButton>();
-	private static List<CheckBox> checksIngredients = new ArrayList<CheckBox>();
-	private static VBox listeIngredients = new VBox();
-	private static List<CheckBox> checksSauces = new ArrayList<CheckBox>();
-	private static List<HBox> checksAndLabelsSauces = new ArrayList<HBox>();
-	private static List<RadioButton> radiosBoissons = new ArrayList<RadioButton>();
-	private static List<RadioButton> radiosSupplementsBoisson = new ArrayList<RadioButton>();
-	private static List<RadioButton> radiosDesserts = new ArrayList<RadioButton>();
+	private static List<RadioButton> radiosPlats;
+	private static List<CheckBox> checksIngredients;
+	private static VBox listeIngredients;
+	private static List<CheckBox> checksSauces;
+	private static List<HBox> checksAndLabelsSauces;
+	private static List<RadioButton> radiosBoissons;
+	private static List<RadioButton> radiosSupplementsBoisson;
+	private static List<RadioButton> radiosDesserts;
 
-	private static List<HBox> boxesPlats = new ArrayList<HBox>();
-	private static List<HBox> boxesIngredients = new ArrayList<HBox>();
-	private static List<HBox> boxesSauces = new ArrayList<HBox>();
-	private static List<HBox> boxesBoissons = new ArrayList<HBox>();
-	private static List<HBox> boxesSupplementsBoisson = new ArrayList<HBox>();
-	private static List<HBox> boxesDesserts = new ArrayList<HBox>();
+	private static List<HBox> boxesPlats;
+	private static List<HBox> boxesIngredients;
+	private static List<HBox> boxesSauces;
+	private static List<HBox> boxesBoissons;
+	private static List<HBox> boxesSupplementsBoisson;
+	private static List<HBox> boxesDesserts;
 
-	private static List<Boolean> ingredientsDispo = ingredientsDispo();
-	private static List<Boolean> saucesDispo = saucesDispo();
+	private static List<Boolean> ingredientsDispo;
+	private static List<Boolean> saucesDispo;
+
+	private static List<String> mnemoniquesUtilisees;
 
 	public static Region selection(Region root){
+		ingredientsSelectionnes = new ArrayList<Ingredient>();
+		saucesSelectionnees = new ArrayList<Sauce>();
+
+		radiosPlats = new ArrayList<RadioButton>();
+		checksIngredients = new ArrayList<CheckBox>();
+		listeIngredients = new VBox();
+		checksSauces = new ArrayList<CheckBox>();
+		checksAndLabelsSauces = new ArrayList<HBox>();
+		radiosBoissons = new ArrayList<RadioButton>();
+		radiosSupplementsBoisson = new ArrayList<RadioButton>();
+		radiosDesserts = new ArrayList<RadioButton>();
+
+		boxesPlats = new ArrayList<HBox>();
+		boxesIngredients = new ArrayList<HBox>();
+		boxesSauces = new ArrayList<HBox>();
+		boxesBoissons = new ArrayList<HBox>();
+		boxesSupplementsBoisson = new ArrayList<HBox>();
+		boxesDesserts = new ArrayList<HBox>();
+
+		ingredientsDispo = ingredientsDispo();
+		saucesDispo = saucesDispo();
+
+		mnemoniquesUtilisees = new ArrayList<String>();
+		mnemoniquesUtilisees.add("J");
+		mnemoniquesUtilisees.add("C");
+		mnemoniquesUtilisees.add("T");
+		mnemoniquesUtilisees.add("M");
+		mnemoniquesUtilisees.add("D");
+		mnemoniquesUtilisees.add("G");
+
 		StackPane superposition = new StackPane();
 
 		HBox selection = new HBox();
@@ -121,6 +154,7 @@ public class Selection {
 
 		VBox listePlats = new VBox();
 
+		int i = 0;
 		for(Plat plat : BaseDonnees.getPlats()){
 			HBox box = new HBox();
 
@@ -128,7 +162,15 @@ public class Selection {
 			radio.setToggleGroup(platSelection);
 			radiosPlats.add(radio);
 
-			Label label = new Label(plat.getNom());
+
+			Label label = new Label();
+			if(mnemoniquesUtilisees.contains(plat.getNom().substring(0, 1))){
+				label.setText(plat.getNom());
+				label.setMnemonicParsing(false);
+			} else {
+				label.setText("_" + plat.getNom());
+				label.setMnemonicParsing(true);
+			}
 			label.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event) {
 					platSelection.selectToggle(radio);
@@ -136,13 +178,27 @@ public class Selection {
 				}
 			});
 
+			label.setLabelFor(radio);
 			box.getChildren().add(radio);
 			box.getChildren().add(label);
 			boxesPlats.add(box);
-			
-			box.setDisable(!plat.getDisponible());
+
+			boolean grise = false;
+			if(plat.getUtilisePain()){
+				if(Core.getService().getNbBaguettesRestantes() <= 0){
+					grise = true;
+				}
+			}
+
+			if(!plat.getDisponible()){
+				grise = true;
+			}
+
+			Selection.platDisponible(i, !grise);
 
 			listePlats.getChildren().add(box);
+
+			i++;
 		}
 
 		listePlats.getStyleClass().add(LISTE_CONTENU_COMMANDE);
@@ -567,7 +623,7 @@ public class Selection {
 		}
 	}
 
-	public static void platDisponible(int position, boolean disponible){
+	public static void platDisponible(int position, boolean disponible){		
 		if(!disponible){
 			if(radiosPlats.get(position).isSelected()){
 				radiosPlats.get(BaseDonnees.getPlats().size() - 1).setSelected(true);
