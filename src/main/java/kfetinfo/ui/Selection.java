@@ -1,7 +1,9 @@
 package kfetinfo.ui;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
@@ -47,6 +49,8 @@ public class Selection {
 	private static int frameTimeIndex = 0 ;
 	private static boolean arrayFilled = false ;
 
+	private static Label compteurBaguettes = new Label();
+
 	private static final ObjectProperty<Plat> platSelectionne = new SimpleObjectProperty<Plat>();
 	private static List<Ingredient> ingredientsSelectionnes;
 	private static final BooleanProperty ingredientChange = new SimpleBooleanProperty();
@@ -78,7 +82,7 @@ public class Selection {
 
 	private static List<String> mnemoniquesUtilisees;
 
-	public static Region selection(Region root){
+	public static Region selection(Region root, Core core){
 		ingredientsSelectionnes = new ArrayList<Ingredient>();
 		saucesSelectionnees = new ArrayList<Sauce>();
 
@@ -136,7 +140,7 @@ public class Selection {
 		selection.getStyleClass().add("selection");
 		selection.setPadding(new Insets(PADDING_SELECTION));
 
-		AnchorPane utilDev = utilDev(root);
+		AnchorPane utilDev = utilDev(root, core);
 
 		superposition.getChildren().addAll(utilDev, selection);
 
@@ -515,7 +519,7 @@ public class Selection {
 		return(groupeDesserts);
 	}
 
-	public static AnchorPane utilDev(Region root){
+	public static AnchorPane utilDev(Region root, Core core){
 		AnchorPane devPane = new AnchorPane();
 
 		Label label = new Label();
@@ -540,12 +544,22 @@ public class Selection {
 
         frameRateMeter.start();
 
-        AnchorPane.setBottomAnchor(label, 2.0);
-        AnchorPane.setLeftAnchor(label, 2.0);
+        refreshBaguettes(core);
+
+        AnchorPane.setBottomAnchor(label, 14.0);
+        AnchorPane.setLeftAnchor(label, 14.0);
+        AnchorPane.setBottomAnchor(compteurBaguettes, 0.0);
+        AnchorPane.setLeftAnchor(compteurBaguettes, 4.0);
 
         devPane.getChildren().add(label);
+        devPane.getChildren().add(compteurBaguettes);
 		
 		return(devPane);
+	}
+
+	public static void refreshBaguettes(Core core){
+		NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
+		compteurBaguettes.setText("Nombre de baguettes restantes : " + numberFormatter.format(core.getService().getNbBaguettesRestantes()));
 	}
 
 	public static void reset(){

@@ -29,7 +29,11 @@ import kfetinfo.core.Boisson;
 public class App extends Application{
 	public static BorderPane root;
 
-	public static final String NUMERO_COMMANDE = "numero-commande";
+	public static final String NUMERO_COMMANDE_AJOUTEE = "numero-commande-ajoutee";
+	public static final String NUMERO_COMMANDE_ASSIGNEE = "numero-commande-assignee";
+	public static final String NUMERO_COMMANDE_REALISEE = "numero-commande-realisee";
+	public static final String NUMERO_COMMANDE_DONNEE = "numero-commande-donnee";
+	
 	public static final String PLAT_COMMANDE = "plat-commande";
 
 	public static final Double LARGEUR_MIN_FENETRE = 800.0;
@@ -79,7 +83,7 @@ public class App extends Application{
 
 		Region droite = Commandes.commandes(core);
 
-		Region centre = Selection.selection(racine);
+		Region centre = Selection.selection(racine, core);
 
 		Region bas = Resultat.resultat(racine, core);
 
@@ -91,8 +95,8 @@ public class App extends Application{
 		return(racine);
 	}
 
-	public static void mettreSelectionAJour(){
-		root.setCenter(Selection.selection(root));
+	public static void mettreSelectionAJour(Core core){
+		root.setCenter(Selection.selection(root, core));
 		Selection.reset();
 	}
 }

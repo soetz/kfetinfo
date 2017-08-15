@@ -65,9 +65,36 @@
 	-fx-border-width : 1;
 }
 
-.numero-commande {
+.numero-commande-ajoutee {
 	-fx-alignment : center;
 	-fx-background-color : "#f01010";
+	-fx-border-color : "#101010";
+	-fx-border-width : 1;
+	-fx-font : bold 15px "sans-serif"; 
+	-fx-text-fill : "#f0f0f0";
+}
+
+.numero-commande-assignee {
+	-fx-alignment : center;
+	-fx-background-color : "#f08010";
+	-fx-border-color : "#101010";
+	-fx-border-width : 1;
+	-fx-font : bold 15px "sans-serif"; 
+	-fx-text-fill : "#f0f0f0";
+}
+
+.numero-commande-realisee {
+	-fx-alignment : center;
+	-fx-background-color : "#10d010";
+	-fx-border-color : "#101010";
+	-fx-border-width : 1;
+	-fx-font : bold 15px "sans-serif"; 
+	-fx-text-fill : "#f0f0f0";
+}
+
+.numero-commande-donnee {
+	-fx-alignment : center;
+	-fx-background-color : "#1010f0";
 	-fx-border-color : "#101010";
 	-fx-border-width : 1;
 	-fx-font : bold 15px "sans-serif"; 

@@ -92,7 +92,7 @@ public class EcranConfection {
 			numeroCommande.setPrefSize(App.TAILLE_NUMERO_COMMANDE, App.TAILLE_NUMERO_COMMANDE);
 			numeroCommande.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 			numeroCommande.setMaxSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-			numeroCommande.getStyleClass().add(App.NUMERO_COMMANDE);
+			numeroCommande.getStyleClass().add(App.NUMERO_COMMANDE_AJOUTEE);
 
 			Label plat = new Label(commande.getPlat().getNom().toUpperCase());
 			plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);

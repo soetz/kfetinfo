@@ -114,7 +114,7 @@ public class EditionContenu {
 		theatre.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we){
 				if(modifie){
-					App.mettreSelectionAJour();
+					App.mettreSelectionAJour(core);
 				}
 			}
 		});

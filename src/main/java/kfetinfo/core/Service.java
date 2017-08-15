@@ -378,6 +378,10 @@ public class Service {
 		CreateurBase.retirerCommande(commande);
 		commandes.remove(commande);
 		nouvelleCommandeRetiree.set(commande);
+
+		if(commande.getPlat().getUtilisePain()){
+			nbBaguettesUtilisees -= 0.5;
+		}
 	}
 
 	public void commandeDonnee(CommandeAssignee commande){

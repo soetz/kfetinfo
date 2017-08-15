@@ -134,16 +134,22 @@ public class Resultat {
 		HBox numeroEtPlat = new HBox();
 		numeroEtPlat.setSpacing(App.ESPACE_NUMERO_PLAT);
 
-		Label numero = new Label("" + (core.getService().getNbCommandes() + 1));
+		Label numero = new Label("" + (core.getService().getDernierNumeroCommande() + 1));
 		core.getService().nouvelleCommandePropriete().addListener(new ChangeListener(){
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				numero.setText("" + (core.getService().getNbCommandes() + 1));
+				numero.setText("" + (core.getService().getDernierNumeroCommande() + 1));
 			}
 		});
+		core.getService().nouvelleCommandeRetireePropriete().addListener(new ChangeListener(){
+			public void changed(ObservableValue o, Object oldVal, Object newVal){
+				numero.setText("" + (core.getService().getDernierNumeroCommande() + 1));
+			}
+		});
+
 		numero.setPrefSize(App.TAILLE_NUMERO_COMMANDE, App.TAILLE_NUMERO_COMMANDE);
 		numero.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 		numero.setMaxSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-		numero.getStyleClass().add(App.NUMERO_COMMANDE);
+		numero.getStyleClass().add(App.NUMERO_COMMANDE_AJOUTEE);
 
 		Label plat = new Label("Rien".toUpperCase());
 		Selection.platSelectionnePropriete().addListener(new ChangeListener() {
@@ -501,6 +507,8 @@ public class Resultat {
 						Selection.reset();
 
 						resetPieces();
+
+						Selection.refreshBaguettes(core);
 			}
 		});
 

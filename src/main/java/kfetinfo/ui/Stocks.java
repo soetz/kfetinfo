@@ -1,7 +1,9 @@
 package kfetinfo.ui;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -75,7 +77,8 @@ public class Stocks {
 		Label baguettesAchetees = new Label("Nombre de baguettes achetées");
 		Label baguettesMembres = new Label("Nombre de baguettes réservées aux membres");
 
-		Label nbUtilisees = new Label("" + core.getService().getNbBaguettesUtilisees());
+		NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
+		Label nbUtilisees = new Label("" + numberFormatter.format(core.getService().getNbBaguettesUtilisees()));
 
 		nbBaguettesAchetees = core.getService().getNbBaguettesAchetees();
 		nbBaguettesReservees = core.getService().getNbBaguettesReservees();
