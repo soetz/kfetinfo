@@ -175,12 +175,6 @@ public class Commande {
 		return(cout);
 	}
 
-	public void envoyer(){
-		moment = new Date();
-
-		Core.getService().ajouterCommande(this);
-	}
-
 	public String chaineToString(){
 		String ingString = "";
 		for(Ingredient ingredient : ingredients){
@@ -212,6 +206,7 @@ public class Commande {
 			return(false);
 		}
 	}
+
 	public String toString(){
 		return(chaineToString());
 	}

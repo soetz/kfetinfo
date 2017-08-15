@@ -45,6 +45,9 @@ public class Service {
 	List<Commande> commandes;
 	private final ObjectProperty<Commande> nouvelleCommande = new SimpleObjectProperty<Commande>();
 	private final ObjectProperty<CommandeAssignee> nouvelleCommandeAssignee = new SimpleObjectProperty<CommandeAssignee>();
+	private final ObjectProperty<CommandeAssignee> nouvelleCommandeRealisee = new SimpleObjectProperty<CommandeAssignee>();
+	private final ObjectProperty<CommandeAssignee> nouvelleCommandeDonnee = new SimpleObjectProperty<CommandeAssignee>();	
+	private final ObjectProperty<Commande> nouvelleCommandeRetiree = new SimpleObjectProperty<Commande>();
 	float nbBaguettesBase;
 	float nbBaguettesAchetees;
 	float nbBaguettesReservees;
@@ -318,7 +321,13 @@ public class Service {
 	}
 
 	public int getDernierNumeroCommande(){
-		return(commandes.size());
+		int dernier = 0;
+		for(Commande commande : commandes){
+			if(commande.getNumero() > dernier){
+				dernier = commande.getNumero();
+			}
+		}
+		return(dernier);
 	}
 
 	public void setOrdi(Membre membre){
@@ -364,7 +373,21 @@ public class Service {
 
 		ecrireFichier();
 	}
-	
+
+	public void retirerCommande(Commande commande){
+		CreateurBase.retirerCommande(commande);
+		commandes.remove(commande);
+		nouvelleCommandeRetiree.set(commande);
+	}
+
+	public void commandeDonnee(CommandeAssignee commande){
+		nouvelleCommandeDonnee.set(commande);
+	}
+
+	public void commandeRealisee(CommandeAssignee commande){
+		nouvelleCommandeRealisee.set(commande);
+	}
+
 	public void assignerCommande(int numero, Membre membre){
 		Commande commande = LecteurBase.lireCommande(date, numero);
 		CommandeAssignee commandeAssignee = new CommandeAssignee(commande, membre, new Date(), false, new Date(0), false);
@@ -525,5 +548,41 @@ public class Service {
 
 	public final ObjectProperty<CommandeAssignee> nouvelleCommandeAssigneePropriete(){
 		return(nouvelleCommandeAssignee);
+	}
+
+	public final CommandeAssignee getNouvelleCommandeRealisee(){
+		return(nouvelleCommandeRealisee.get());
+	}
+
+	public final void setNouvelleCommandeRealisee(CommandeAssignee commande){
+		nouvelleCommandeRealisee.set(commande);
+	}
+
+	public final ObjectProperty<CommandeAssignee> nouvelleCommandeRealiseePropriete(){
+		return(nouvelleCommandeRealisee);
+	}
+
+	public final CommandeAssignee getNouvelleCommandeDonnee(){
+		return(nouvelleCommandeDonnee.get());
+	}
+
+	public final void setNouvelleCommandeDonnee(CommandeAssignee commande){
+		nouvelleCommandeDonnee.set(commande);
+	}
+
+	public final ObjectProperty<CommandeAssignee> nouvelleCommandeDonneePropriete(){
+		return(nouvelleCommandeDonnee);
+	}
+
+	public final Commande getNouvelleCommandeRetiree(){
+		return(nouvelleCommandeRetiree.get());
+	}
+
+	public final void setNouvelleCommandeRetiree(Commande commande){
+		nouvelleCommandeRetiree.set(commande);
+	}
+
+	public final ObjectProperty<Commande> nouvelleCommandeRetireePropriete(){
+		return(nouvelleCommandeRetiree);
 	}
 }

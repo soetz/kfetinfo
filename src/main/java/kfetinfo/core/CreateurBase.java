@@ -863,13 +863,39 @@ public class CreateurBase {
 	public static void supprimerMembre(Membre membre){
 		File dossier = null;
 
-		try{
+		try {
 			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Membres").toURI());
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 
 		File fichier = new File(dossier + "/" + membre.getPrenom().toLowerCase() + " " + membre.getNom().toLowerCase() + ".json");
+		fichier.delete();
+	}
+
+	public static void retirerCommande(Commande commande){
+		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		SimpleDateFormat mois = new SimpleDateFormat("MM");
+		SimpleDateFormat jour = new SimpleDateFormat("dd");
+
+		String zeros = "";
+
+		if(commande.getNumero() < 100){
+			zeros += "0";
+			if(commande.getNumero() < 10){
+				zeros += "0";
+			}
+		}
+
+		File dossier = null;
+
+		try {
+			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services").toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		File fichier = new File(dossier + "/" + annee.format(commande.getMoment()) + "/" + mois.format(commande.getMoment()) + "/" + jour.format(commande.getMoment()) + "/" + zeros + commande.getNumero() + ".json");
 		fichier.delete();
 	}
 }
