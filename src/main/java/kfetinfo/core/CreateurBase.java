@@ -36,7 +36,7 @@ import java.util.UUID;
 import javax.swing.plaf.metal.MetalRootPaneUI;
 
 public class CreateurBase {
-	static SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 
 	public static void initialiserBase(){
 		File dossier = null;
