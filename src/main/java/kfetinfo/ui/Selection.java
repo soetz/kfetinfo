@@ -82,7 +82,11 @@ public class Selection {
 
 	private static List<String> mnemoniquesUtilisees;
 
+	private static boolean chargementTermine;
+
 	public static Region selection(Region root, Core core){
+		chargementTermine = false;
+
 		ingredientsSelectionnes = new ArrayList<Ingredient>();
 		saucesSelectionnees = new ArrayList<Sauce>();
 
@@ -144,6 +148,10 @@ public class Selection {
 
 		superposition.getChildren().addAll(utilDev, selection);
 
+		chargementTermine = true;
+		grisageIngredients();
+		grisageSauces();
+
 		if(DEV){
 			return(superposition);
 		} else {
@@ -165,7 +173,6 @@ public class Selection {
 			RadioButton radio = new RadioButton();
 			radio.setToggleGroup(platSelection);
 			radiosPlats.add(radio);
-
 
 			Label label = new Label();
 			if(mnemoniquesUtilisees.contains(plat.getNom().substring(0, 1))){
@@ -216,8 +223,10 @@ public class Selection {
 					if(newVal.equals(radio)){
 						platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio)));
 						commandeChangee.set(!commandeChangee.get());
-						grisageIngredients();
-						grisageSauces();
+						if(chargementTermine){
+							grisageIngredients();
+							grisageSauces();
+						}
 					}
 				}
 			}
@@ -271,7 +280,6 @@ public class Selection {
 			box.getChildren().add(label);
 			boxesIngredients.add(box);
 
-			grisageIngredients();
 			listeIngredients.getChildren().add(box);
 		}
 
@@ -295,11 +303,13 @@ public class Selection {
 
 		VBox listeSauces = new VBox();
 
+		List<Sauce> s = BaseDonnees.getSauces();
 		for(Sauce sauce : BaseDonnees.getSauces()){
 			HBox box = new HBox();
 
 			CheckBox checkBox = new CheckBox();
 			checksSauces.add(checkBox);
+			List<CheckBox> cs = checksSauces;
 
 			checkBox.selectedProperty().addListener(new ChangeListener() {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
@@ -330,7 +340,6 @@ public class Selection {
 			checksAndLabelsSauces.add(box);
 			boxesSauces.add(box);
 
-			grisageSauces();
 			listeSauces.getChildren().add(box);
 		}
 
@@ -575,6 +584,7 @@ public class Selection {
 		}
 		sauceChangee.set(!sauceChangee.get());
 		radiosBoissons.get(radiosBoissons.size() - 1).setSelected(true);
+		radiosSupplementsBoisson.get(radiosSupplementsBoisson.size() - 1).setSelected(true);		
 		radiosDesserts.get(radiosDesserts.size() - 1).setSelected(true);
 		commandeChangee.set(!commandeChangee.get());
 		grisageIngredients();
@@ -628,8 +638,10 @@ public class Selection {
 		}
 
 		int i = 0;
+		List<Boolean> sd = saucesDispo;
 		for(boolean disponible : saucesDispo){
 			if(!disponible){
+				List<CheckBox> cs = checksSauces;
 				checksSauces.get(i).setSelected(false);
 				boxesSauces.get(i).setDisable(true);
 			}
