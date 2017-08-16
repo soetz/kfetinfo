@@ -18,14 +18,40 @@
 
 package kfetinfo.core;
 
+/**
+ * <p>Boisson est une classe décrivant une boisson pouvant être servie à la K'Fet.</p>
+ * 
+ * @see ContenuCommande
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
 public class Boisson extends ContenuCommande {
-	SupplementBoisson supplement;
 
-	public Boisson(String id, String nom, float cout, boolean estDisponible, int nbTotalUtilisations, int priorite){
-		super(id, nom, cout, estDisponible, nbTotalUtilisations, priorite);
+	/**
+	 * <p>Constructeur Boisson.</p>
+	 * <p>Tous les paramètres sont appliqués aux attributs de l'objet directement.</p>
+	 *
+	 * @param id l'identificateur de la boisson, utilisé dans le cadre de la base de données notamment.
+	 * @param nom le nom de la boisson.
+	 * @param cout le coût de la boisson, c'est à dire une estimation de la quantité d'argent dépensée pour servir la boisson si celle-ci est servie de manière classique.
+	 * @param estDisponible le fait que la boisson soit en stock ou pas.
+	 * @param nbUtilisations le nombre d'utilisations de la boisson. Non implémenté pour l'instant.
+	 * @param priorite la position de la boisson dans la liste des boissons (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
+	 */
+	public Boisson(String id, String nom, float cout, boolean estDisponible, int nbUtilisations, int priorite){
+
+		super(id, nom, cout, estDisponible, nbUtilisations, priorite); //appel au constructeur de la classe parente
 	}
 
+	/**
+	 * Modifie l'état {@code estDisponible} de la boisson en lui affectant la valeur passée en paramètres. Met également à jour le fichier de la base de données correspondant à cette boisson.
+	 * 
+	 * @param disponible le fait que la boisson soit en stock.
+	 */
+	@Override
 	public void setDisponible(boolean disponible){
+
 		super.setDisponible(disponible);
 		CreateurBase.mettreBoissonAJour(this);
 	}
