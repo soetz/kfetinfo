@@ -784,6 +784,6 @@ public class Selection {
 	}
 
 	public static float getPrixCommande(){
-		return(Commande.prixCommande(getPlatSelectionne(), getIngredientsSelectionnes(), getSaucesSelectionnees(), getBoissonSelectionnee(), getSupplementBoissonSelectionne(), getDessertSelectionne()));
+		return(Commande.prixCommande(getPlatSelectionne(), getIngredientsSelectionnes(), getBoissonSelectionnee(), getSupplementBoissonSelectionne(), getDessertSelectionne()));
 	}
 }

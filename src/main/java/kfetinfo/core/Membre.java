@@ -208,7 +208,7 @@ public class Membre {
 	 * 
 	 * @param o l'objet avec lequel comparer ce membre.
 	 * 
-	 * @return le fait que le membre passé en paramètres et le contenu commande propriétaire de la méthode ont des attributs {@code id} égaux.
+	 * @return le fait que le membre passé en paramètres et le membre propriétaire de la méthode ont des attributs {@code id} égaux.
 	 */
 	@Override
 	public boolean equals(Object o){

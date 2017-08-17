@@ -1,5 +1,6 @@
 package kfetinfo.ui;
 
+import java.util.Date;
 import java.util.Locale;
 
 import javafx.application.Application;
@@ -24,6 +25,8 @@ import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Boisson;
+import kfetinfo.core.Commande;
+import kfetinfo.core.CommandeAssignee;
 
 
 public class App extends Application{
