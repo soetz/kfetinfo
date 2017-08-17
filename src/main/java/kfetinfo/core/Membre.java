@@ -19,6 +19,7 @@
 package kfetinfo.core;
 
 import java.util.Date;
+
 import java.util.Objects;
 
 /**
@@ -30,6 +31,9 @@ import java.util.Objects;
  */
 public class Membre {
 
+	//id du membre par défaut
+	public static final String ID_MEMBRE_DEFAUT = "f38aa97b-2c4b-491e-be10-884e48fbb6c2";
+
 	//attributs de la classe
 	private String id;
 	private String nom;
@@ -40,9 +44,6 @@ public class Membre {
 	private int nbCommandes;
 	private int nbServices;
 	private float tempsMoyenCommande;
-
-	//id du membre par défaut
-	public static final String ID_MEMBRE_DEFAUT = "f38aa97b-2c4b-491e-be10-884e48fbb6c2";
 
 	/**
 	 * <p>Constructeur Membre.</p>

@@ -46,6 +46,12 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class BaseDonnees {
 
+	//ids des contenus commande correspondant à rien
+	public static final String ID_RIEN_PLAT = "ff56da46-bddd-4e4f-a871-6fa03b0e814b";
+	public static final String ID_RIEN_BOISSON = "c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe";
+	public static final String ID_RIEN_SUPPLEMENT_BOISSON = "fa03180b-95ad-4a5b-84f2-cbdc2beae920";
+	public static final String ID_RIEN_DESSERT = "962e1223-cdda-47ef-85ab-20eede2a0dc0";
+
 	//listes des éléments
 	private static List<Ingredient> ingredients;
 	private static List<Sauce> sauces;
@@ -54,12 +60,6 @@ public class BaseDonnees {
 	private static List<Plat> plats;
 	private static List<SupplementBoisson> supplementsBoisson;
 	private static List<Membre> membres;
-
-	//ids des contenus commande correspondant à rien
-	public static final String ID_RIEN_PLAT = "ff56da46-bddd-4e4f-a871-6fa03b0e814b";
-	public static final String ID_RIEN_BOISSON = "c1d0b7e7-b9f8-4d2f-8c3d-7a0edcc413fe";
-	public static final String ID_RIEN_SUPPLEMENT_BOISSON = "fa03180b-95ad-4a5b-84f2-cbdc2beae920";
-	public static final String ID_RIEN_DESSERT = "962e1223-cdda-47ef-85ab-20eede2a0dc0";
 
 	/**
 	 * Renvoie la liste des {@code Plat}.
@@ -518,12 +518,12 @@ public class BaseDonnees {
 	 */
 	static public void chargerMenu(){
 
+		chargerPlats();
 		chargerIngredients();
 		chargerSauces();
-		chargerDesserts();
 		chargerBoissons();
-		chargerPlats();
 		chargerSupplementsBoisson();
+		chargerDesserts();
 	}
 
 	/**

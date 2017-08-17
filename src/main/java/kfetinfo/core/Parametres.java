@@ -62,6 +62,6 @@ public class Parametres {
 	}
 
 	public void ecrireFichier(){
-		CreateurBase.ajouterParametres(prixIngredientSupp, prixBoisson, reducMenu);
+		CreateurBase.ajouterParametres(this);
 	}
 }

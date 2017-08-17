@@ -27,17 +27,16 @@ public class Core {
 	static Parametres parametres;
 
 	public Core(){
+		init();
+
 		parametres = new Parametres();
 		service = new Service(new Date());
-
-		init();
 	}
 
 	private void init(){
 		CreateurBase.initialiserBase();
 		BaseDonnees.chargerMenu();
 		BaseDonnees.chargerMembres();
-		service.recharger();
 	}
 
 	public static Service getService(){
