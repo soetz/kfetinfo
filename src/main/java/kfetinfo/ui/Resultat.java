@@ -504,11 +504,11 @@ public class Resultat {
 							}
 						}
 
-						Selection.reset();
+						Selection.resetSelection();
 
 						resetPieces();
 
-						Selection.refreshBaguettes(core);
+						Selection.refreshCompteurBaguettes();
 			}
 		});
 

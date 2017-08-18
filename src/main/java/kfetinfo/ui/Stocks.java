@@ -152,7 +152,7 @@ public class Stocks {
 					check.setSelected(!check.isSelected());
 					check.setSelected(!check.isSelected());
 				}
-				Selection.refreshBaguettes(core);
+				Selection.refreshCompteurBaguettes();
 			}
 		});
 

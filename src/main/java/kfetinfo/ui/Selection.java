@@ -2,6 +2,7 @@ package kfetinfo.ui;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,54 +38,80 @@ import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
 import kfetinfo.core.SupplementBoisson;
 
-public class Selection {
+/**
+ * <p>Selection est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de la section « sélection du contenu de la commande » du logiciel.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @author James_D de StackOverflow
+ * @version 1.0
+ */
+public final class Selection {
+
+	//classes de style pour l'utilisation du CSS
 	public static final String LISTE_CONTENU_COMMANDE = "liste-contenu-commande";
 	public static final String TITRE_GROUPE = "titre-groupe-contenu-commande";
 
-	public static final Double ESPACE_GROUPES = 4.0;
-	public static final Double PADDING_SELECTION = 3.0;
+	//constantes pour l'affichage
+	private static final Double ESPACE_GROUPES = 4.0;
+	private static final Double PADDING_SELECTION = 3.0;
 
-	public static final boolean DEV = true;
+	//variables utiles pour l'affichage du panneau de développement
+	private static final boolean DEV = true;
 	private static final long[] frameTimes = new long[100];
 	private static int frameTimeIndex = 0 ;
 	private static boolean arrayFilled = false ;
 
+	//Label du compteur de baguettes restantes
 	private static Label compteurBaguettes = new Label();
 
+	//propriétés et listes décrivant les contenus commandes sélectionnés
 	private static final ObjectProperty<Plat> platSelectionne = new SimpleObjectProperty<Plat>();
 	private static List<Ingredient> ingredientsSelectionnes;
-	private static final BooleanProperty ingredientChange = new SimpleBooleanProperty();
+	private static final BooleanProperty ingredientChange = new SimpleBooleanProperty(); //propriété indiquant uniquement que la liste des ingrédients sélectionnés a changé
 	private static List<Sauce> saucesSelectionnees;
-	private static final BooleanProperty sauceChangee = new SimpleBooleanProperty();
+	private static final BooleanProperty sauceChangee = new SimpleBooleanProperty(); //propriété indiquant uniquement que la liste des sauces sélectionnées a changé
 	private static final ObjectProperty<Boisson> boissonSelectionnee = new SimpleObjectProperty<Boisson>();
 	private static final ObjectProperty<SupplementBoisson> supplementBoissonSelectionne = new SimpleObjectProperty<SupplementBoisson>();
 	private static final ObjectProperty<Dessert> dessertSelectionne = new SimpleObjectProperty<Dessert>();
-	private static final BooleanProperty commandeChangee = new SimpleBooleanProperty();
+	private static final BooleanProperty commandeChangee = new SimpleBooleanProperty(); //propriété indiquant uniquement que le contenu de la commande a changé
 
+	//listes utilisées pour détecter quel contenu est sélectionné (on vient chercher son index dans la liste)
 	private static List<RadioButton> radiosPlats;
 	private static List<CheckBox> checksIngredients;
-	private static VBox listeIngredients;
 	private static List<CheckBox> checksSauces;
-	private static List<HBox> checksAndLabelsSauces;
 	private static List<RadioButton> radiosBoissons;
 	private static List<RadioButton> radiosSupplementsBoisson;
 	private static List<RadioButton> radiosDesserts;
 
+	//listes utilisées pour griser les contenus
 	private static List<HBox> boxesPlats;
 	private static List<HBox> boxesIngredients;
+	private static VBox listeIngredients;
 	private static List<HBox> boxesSauces;
 	private static List<HBox> boxesBoissons;
 	private static List<HBox> boxesSupplementsBoisson;
 	private static List<HBox> boxesDesserts;
 
+	//listes de booléens utilisées pour sauvegarder quels ingrédients et sauces sont disponibles (ceux-ci ayant des mécanismes de grisage différents)
 	private static List<Boolean> ingredientsDispo;
 	private static List<Boolean> saucesDispo;
 
+	//liste permettant de ne pas utiliser deux fois une même touche mnémonique
 	private static List<String> mnemoniquesUtilisees;
 
+	//booléen indiquant que le chargement des contenus est terminé et qu'on peut commencer à déclencher des évènements lors de la sélection
 	private static boolean chargementTermine;
 
-	public static Region selection(Region root, Core core){
+	/**
+	 * Crée une {@code Region} permettant de sélectionner le contenu de la nouvelle commande.
+	 * 
+	 * @param root le parent du panneau.
+	 * @param core le core du système K'Fet.
+	 * 
+	 * @return le panneau de sélection de contenus commande.
+	 */
+	public static final Region selection(Region root, Core core){
+
 		chargementTermine = false;
 
 		ingredientsSelectionnes = new ArrayList<Ingredient>();
@@ -92,15 +119,14 @@ public class Selection {
 
 		radiosPlats = new ArrayList<RadioButton>();
 		checksIngredients = new ArrayList<CheckBox>();
-		listeIngredients = new VBox();
 		checksSauces = new ArrayList<CheckBox>();
-		checksAndLabelsSauces = new ArrayList<HBox>();
 		radiosBoissons = new ArrayList<RadioButton>();
 		radiosSupplementsBoisson = new ArrayList<RadioButton>();
 		radiosDesserts = new ArrayList<RadioButton>();
 
 		boxesPlats = new ArrayList<HBox>();
 		boxesIngredients = new ArrayList<HBox>();
+		listeIngredients = new VBox();
 		boxesSauces = new ArrayList<HBox>();
 		boxesBoissons = new ArrayList<HBox>();
 		boxesSupplementsBoisson = new ArrayList<HBox>();
@@ -110,21 +136,21 @@ public class Selection {
 		saucesDispo = saucesDispo();
 
 		mnemoniquesUtilisees = new ArrayList<String>();
-		mnemoniquesUtilisees.add("J");
-		mnemoniquesUtilisees.add("C");
-		mnemoniquesUtilisees.add("T");
-		mnemoniquesUtilisees.add("M");
-		mnemoniquesUtilisees.add("D");
-		mnemoniquesUtilisees.add("G");
+		mnemoniquesUtilisees.add("J"); //mnémonique pour le bouton aJouter la commande
+		mnemoniquesUtilisees.add("C"); //mnémonique pour le menu Confection
+		mnemoniquesUtilisees.add("T"); //mnémonique pour le menu sTocks
+		mnemoniquesUtilisees.add("M"); //mnémonique pour le menu Menu
+		mnemoniquesUtilisees.add("D"); //mnémonique pour le menu aDministration
+		mnemoniquesUtilisees.add("G"); //mnémonique pour le menu Graphiques
 
-		StackPane superposition = new StackPane();
+		StackPane superposition = new StackPane(); //StackPane pour pouvoir avoir le compte de baguettes restantes au dessus du panneau de sélection
 
 		HBox selection = new HBox();
 
 		selection.minWidthProperty().bind(root.widthProperty().subtract(App.TAILLE_PANNEAU_COMMANDES));
 		selection.maxWidthProperty().bind(selection.minWidthProperty());
 
-		VBox groupePlats = groupePlats(selection);
+		VBox groupePlats = groupePlats(selection); //on crée les 5 groupes correspondant aux 5 types de contenus commande (les suppléments boisson étant avec les boissons)
 
 		VBox groupeIngredients = groupeIngredients(selection);
 
@@ -144,25 +170,29 @@ public class Selection {
 		selection.getStyleClass().add("selection");
 		selection.setPadding(new Insets(PADDING_SELECTION));
 
-		AnchorPane utilDev = utilDev(root, core);
+		AnchorPane baguettes = compteurBaguettesRestantes(root, core);
 
-		superposition.getChildren().addAll(utilDev, selection);
+		superposition.getChildren().addAll(baguettes, selection);
 
 		chargementTermine = true;
 		grisageIngredients();
 		grisageSauces();
 
-		if(DEV){
-			return(superposition);
-		} else {
-			return(selection);
-		}
+		return(superposition);
 	}
 
-	public static VBox groupePlats(Region parent){
+	/**
+	 * Crée une {@code VBox} correspondant la liste des plats de la base de données adjoints de boutons radio afin de sélectionner le plat de la commande.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return un panneau permettant de sélectionner le plat de la commande.
+	 */
+	public static final VBox groupePlats(Region parent){
+
 		VBox groupePlats = new VBox();
 
-		ToggleGroup platSelection = new ToggleGroup();
+		ToggleGroup platSelection = new ToggleGroup(); //un ToggleGroup permet de n'autoriser qu'un des Toggles (pour le coup des boutons radio) à être sélectionné en même temps
 
 		VBox listePlats = new VBox();
 
@@ -175,13 +205,15 @@ public class Selection {
 			radiosPlats.add(radio);
 
 			Label label = new Label();
-			if(mnemoniquesUtilisees.contains(plat.getNom().substring(0, 1))){
+			if(mnemoniquesUtilisees.contains(plat.getNom().toUpperCase().substring(0, 1))){ //si la mnémonique n'est pas déjà utilisée, on l'ajoute
 				label.setText(plat.getNom());
 				label.setMnemonicParsing(false);
 			} else {
 				label.setText("_" + plat.getNom());
 				label.setMnemonicParsing(true);
 			}
+
+			//lorsque l'utilisateur clique sur le Label de nom du plat, on sélectionne le radio correspondant
 			label.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event) {
 					platSelection.selectToggle(radio);
@@ -195,7 +227,7 @@ public class Selection {
 			boxesPlats.add(box);
 
 			boolean grise = false;
-			if(plat.getUtilisePain()){
+			if(plat.getUtilisePain()){ //on détermine si le plat doit être grisé ou non
 				if(Core.getService().getNbBaguettesRestantes() <= 0){
 					grise = true;
 				}
@@ -217,14 +249,15 @@ public class Selection {
 		listePlats.maxWidthProperty().bind(listePlats.minWidthProperty());
 		listePlats.setMaxHeight(Control.USE_PREF_SIZE);
 
+		//lorsque l'élément sélectionné change, on sélectionne le plat de la base de données correspondant et on indique que la commande a changé
 		platSelection.selectedToggleProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosPlats){
 					if(newVal.equals(radio)){
-						platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio)));
-						commandeChangee.set(!commandeChangee.get());
+						platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio))); //on sélectionne le plat correspondant au bouton,
+						commandeChangee.set(!commandeChangee.get()); //on indique que le contenu de la commande a changé
 						if(chargementTermine){
-							grisageIngredients();
+							grisageIngredients(); //et on grise les ingrédients ou les sauces suivant les spécificités du plat
 							grisageSauces();
 						}
 					}
@@ -232,7 +265,7 @@ public class Selection {
 			}
 		});
 
-		platSelection.selectToggle(radiosPlats.get(radiosPlats.size() - 1));
+		platSelection.selectToggle(radiosPlats.get(radiosPlats.size() - 1)); //on sélectionne le dernier élément de la liste (« Rien »)
 		platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.size() - 1));
 
 		Label titrePlats = new Label("PLAT");
@@ -245,7 +278,15 @@ public class Selection {
 		return(groupePlats);
 	}
 
-	public static VBox groupeIngredients(Region parent){
+	/**
+	 * Crée une {@code VBox} correspondant la liste des ingrédients de la base de données adjoints de checkboxes afin de sélectionner l'ingrédient de la commande.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return un panneau permettant de sélectionner l'ingrédient de la commande.
+	 */
+	public static final VBox groupeIngredients(Region parent){
+
 		VBox groupeIngredients = new VBox();
 
 		for (Ingredient ingredient : BaseDonnees.getIngredients()){
@@ -254,6 +295,7 @@ public class Selection {
 			CheckBox checkBox = new CheckBox();
 			checksIngredients.add(checkBox);
 
+			//lorsque l'état de sélection d'un élément change, on ajoute ou on retire l'ingrédient de la base de données correspondant à la liste des ingrédients sélectionnés, et on indique que le dernier ingrédient sélectionné ainsi que la commande ont changé
 			checkBox.selectedProperty().addListener(new ChangeListener() {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
 					if(checkBox.isSelected()){
@@ -269,6 +311,8 @@ public class Selection {
 			});
 
 			Label label = new Label(ingredient.getNom());
+
+			//lorsque l'utilisateur clique sur le Label de nom de l'ingrédient, on sélectionne la checkbox correspondante
 			label.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
 					checkBox.setSelected(!checkBox.isSelected());
@@ -298,19 +342,26 @@ public class Selection {
 		return(groupeIngredients);
 	}
 
-	public static VBox groupeSauces(Region parent){
+	/**
+	 * Crée une {@code VBox} correspondant la liste des sauces de la base de données adjointes de checkboxes afin de sélectionner la sauce de la commande.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return un panneau permettant de sélectionner la sauce de la commande.
+	 */
+	public static final VBox groupeSauces(Region parent){
+
 		VBox groupeSauces = new VBox();
 
 		VBox listeSauces = new VBox();
 
-		List<Sauce> s = BaseDonnees.getSauces();
 		for(Sauce sauce : BaseDonnees.getSauces()){
 			HBox box = new HBox();
 
 			CheckBox checkBox = new CheckBox();
 			checksSauces.add(checkBox);
-			List<CheckBox> cs = checksSauces;
 
+			//lorsque l'état de sélection d'un élément change, on ajoute ou on retire la sauce de la base de données correspondant à la liste des sauces sélectionnées, et on indique que la dernière sauce sélectionnée ainsi que la commande ont changé
 			checkBox.selectedProperty().addListener(new ChangeListener() {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
 					if(checkBox.isSelected()){
@@ -337,7 +388,6 @@ public class Selection {
 
 			box.getChildren().add(checkBox);
 			box.getChildren().add(label);
-			checksAndLabelsSauces.add(box);
 			boxesSauces.add(box);
 
 			listeSauces.getChildren().add(box);
@@ -358,10 +408,18 @@ public class Selection {
 		return(groupeSauces);
 	}
 
-	public static VBox groupeBoissons(Region parent){
+	/**
+	 * Crée une {@code VBox} correspondant la liste des boissons ainsi qu'à la liste des suppléments boisson de la base de données adjointes de boutons radio afin de sélectionner la boisson et le supplément boisson de la commande.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return un panneau permettant de sélectionner la boisson et le supplément boisson de la commande.
+	 */
+	public static final VBox groupeBoissons(Region parent){
+
 		VBox groupeBoissons = new VBox();
 
-		ToggleGroup boissonSelection = new ToggleGroup();
+		ToggleGroup boissonSelection = new ToggleGroup(); //un ToggleGroup permet de n'autoriser qu'un des Toggles (pour le coup des boutons radio) à être sélectionné en même temps
 
 		VBox listeBoissons = new VBox();
 
@@ -374,6 +432,8 @@ public class Selection {
 			radio.setSelected(true);
 
 			Label label = new Label(boisson.getNom());
+
+			//lorsque l'utilisateur clique sur le Label de nom de la boisson, on sélectionne le radio correspondant
 			label.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
 					boissonSelection.selectToggle(radio);
@@ -385,12 +445,12 @@ public class Selection {
 			box.getChildren().add(label);
 			boxesBoissons.add(box);
 
-			box.setDisable(!boisson.getDisponible());
+			box.setDisable(!boisson.getDisponible()); //on grise la boisson si jamais elle n'est pas disponible
 
 			listeBoissons.getChildren().add(box);
 		}
 
-		Line separation = new Line();
+		Line separation = new Line(); //on ajoute une ligne de séparation entre boissons et suppléments boisson
 		separation.setStartX(0);
 		separation.setStartY(0);
 		separation.endXProperty().bind(groupeBoissons.widthProperty().subtract(10));
@@ -398,7 +458,7 @@ public class Selection {
 		separation.setTranslateX(5);
 		listeBoissons.getChildren().add(separation);
 
-		ToggleGroup supplementBoissonSelection = new ToggleGroup();
+		ToggleGroup supplementBoissonSelection = new ToggleGroup(); //un ToggleGroup permet de n'autoriser qu'un des Toggles (pour le coup des boutons radio) à être sélectionné en même temps
 
 		for(SupplementBoisson supplementBoisson : BaseDonnees.getSupplementsBoisson()){
 			HBox box = new HBox();
@@ -408,6 +468,7 @@ public class Selection {
 			radiosSupplementsBoisson.add(radio);
 			radio.setSelected(true);
 
+			//lorsque l'utilisateur clique sur le Label de nom du supplément boisson, on sélectionne le radio correspondant
 			Label label = new Label(supplementBoisson.getNom());
 			label.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
@@ -420,7 +481,7 @@ public class Selection {
 			box.getChildren().add(label);
 			boxesSupplementsBoisson.add(box);
 
-			box.setDisable(!supplementBoisson.getDisponible());
+			box.setDisable(!supplementBoisson.getDisponible()); //on grise le supplément boisson si jamais il n'est pas disponible
 
 			listeBoissons.getChildren().add(box);
 		}
@@ -430,31 +491,33 @@ public class Selection {
 		listeBoissons.maxWidthProperty().bind(listeBoissons.minWidthProperty());
 		listeBoissons.setMaxHeight(Control.USE_PREF_SIZE);
 
+		//lorsque l'élément sélectionné change, on sélectionne la boisson de la base de données correspondante et on indique que la commande a changé
 		boissonSelection.selectedToggleProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosBoissons){
 					if(newVal.equals(radio)){
-						boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.indexOf(radio)));
-						commandeChangee.set(!commandeChangee.get());
+						boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.indexOf(radio))); //on sélectionne la boisson correspondant au bouton,
+						commandeChangee.set(!commandeChangee.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
 			}
 		});
 
+		//lorsque l'élément sélectionné change, on sélectionne le supplément boisson de la base de données correspondant et on indique que la commande a changé
 		supplementBoissonSelection.selectedToggleProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosSupplementsBoisson){
 					if(newVal.equals(radio)){
-						supplementBoissonSelectionne.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.indexOf(radio)));
-						commandeChangee.set(!commandeChangee.get());
+						supplementBoissonSelectionne.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.indexOf(radio))); //on sélectionne le supplément boisson correspondant au bouton,
+						commandeChangee.set(!commandeChangee.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
 			}
 		});
 
-		boissonSelection.selectToggle(radiosBoissons.get(radiosBoissons.size() - 1));
+		boissonSelection.selectToggle(radiosBoissons.get(radiosBoissons.size() - 1)); //on sélectionne le dernier élément de la liste (« Rien »)
 		boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.size() - 1));
-		supplementBoissonSelection.selectToggle(radiosSupplementsBoisson.get(radiosSupplementsBoisson.size() - 1));
+		supplementBoissonSelection.selectToggle(radiosSupplementsBoisson.get(radiosSupplementsBoisson.size() - 1)); //on sélectionne le dernier élément de la liste (« Rien »)
 		supplementBoissonSelectionne.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.size() - 1));
 
 		Label titreBoissons = new Label("BOISSON");
@@ -467,10 +530,18 @@ public class Selection {
 		return(groupeBoissons);
 	}
 
-	public static VBox groupeDesserts(Region parent){
+	/**
+	 * Crée une {@code VBox} correspondant la liste des desserts de la base de données adjoints de boutons radio afin de sélectionner le dessert de la commande.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return un panneau permettant de sélectionner le dessert de la commande.
+	 */
+	public static final VBox groupeDesserts(Region parent){
+
 		VBox groupeDesserts = new VBox();
 
-		ToggleGroup dessertSelection = new ToggleGroup();
+		ToggleGroup dessertSelection = new ToggleGroup(); //un ToggleGroup permet de n'autoriser qu'un des Toggles (pour le coup des boutons radio) à être sélectionné en même temps
 
 		VBox listeDesserts = new VBox();
 
@@ -483,6 +554,8 @@ public class Selection {
 			radio.setSelected(true);
 
 			Label label = new Label(dessert.getNom());
+
+			//lorsque l'utilisateur clique sur le Label de nom du plat, on sélectionne le radio correspondant
 			label.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
 					dessertSelection.selectToggle(radio);
@@ -494,7 +567,7 @@ public class Selection {
 			box.getChildren().add(label);
 			boxesDesserts.add(box);
 
-			box.setDisable(!dessert.getDisponible());
+			box.setDisable(!dessert.getDisponible()); //on grise le dessert si jamais il n'est pas disponible
 
 			listeDesserts.getChildren().add(box);
 		}
@@ -504,18 +577,19 @@ public class Selection {
 		listeDesserts.maxWidthProperty().bind(listeDesserts.minWidthProperty());
 		listeDesserts.setMaxHeight(Control.USE_PREF_SIZE);
 
+		//lorsque l'élément sélectionné change, on sélectionne le dessert de la base de données correspondant et on indique que la commande a changé
 		dessertSelection.selectedToggleProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosDesserts){
 					if(newVal.equals(radio)){
-						dessertSelectionne.set(BaseDonnees.getDesserts().get(radiosDesserts.indexOf(radio)));
-						commandeChangee.set(!commandeChangee.get());
+						dessertSelectionne.set(BaseDonnees.getDesserts().get(radiosDesserts.indexOf(radio))); //on sélectionne le dessert correspondant au bouton,
+						commandeChangee.set(!commandeChangee.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
 			}
 		});
 
-		dessertSelection.selectToggle(radiosDesserts.get(radiosDesserts.size() - 1));
+		dessertSelection.selectToggle(radiosDesserts.get(radiosDesserts.size() - 1)); //on sélectionne le dernier élément de la liste (« Rien »)
 		dessertSelectionne.set(BaseDonnees.getDesserts().get(radiosDesserts.size() - 1));
 
 		Label titreDesserts = new Label("DESSERT");
@@ -528,84 +602,121 @@ public class Selection {
 		return(groupeDesserts);
 	}
 
-	public static AnchorPane utilDev(Region root, Core core){
-		AnchorPane devPane = new AnchorPane();
+	/**
+	 * Crée un {@code AnchorPane} avec un compteur de baguettes de pain restantes placé en bas à gauche. Ce panneau affiche également des informations utiles au développement si celles-ci sont activées.
+	 * 
+	 * @param root le node racine de la fenêtre dans lequel ce panneau est placé.
+	 * @param core le core du système K'Fet.
+	 * 
+	 * @return un panneau avec un compteur de baguettes restantes.
+	 */
+	public static final AnchorPane compteurBaguettesRestantes(Region root, Core core){
 
-		Label label = new Label();
-		AnimationTimer frameRateMeter = new AnimationTimer() {
-			
-            @Override
-            public void handle(long now) {
-                long oldFrameTime = frameTimes[frameTimeIndex] ;
-                frameTimes[frameTimeIndex] = now ;
-                frameTimeIndex = (frameTimeIndex + 1) % frameTimes.length ;
-                if (frameTimeIndex == 0) {
-                    arrayFilled = true ;
-                }
-                if (arrayFilled) {
-                    long elapsedNanos = now - oldFrameTime ;
-                    long elapsedNanosPerFrame = elapsedNanos / frameTimes.length ;
-                    double frameRate = 1_000_000_000.0 / elapsedNanosPerFrame ;
-                    label.textProperty().bind(root.widthProperty().asString().concat(" x ").concat(root.heightProperty().asString()).concat(String.format(" - %.1f fps", frameRate)));
-                }
-            }
-        };
+		AnchorPane compteurBaguettesPane = new AnchorPane();
 
-        frameRateMeter.start();
+		if(DEV){
+			Label dev = new Label(); //alors ce qui se passe ici je l'ai trouvé sur internet (https://stackoverflow.com/questions/28287398/what-is-the-preferred-way-of-getting-the-frame-rate-of-a-javafx-application) et je serais bien incapable de l'expliquer
+			AnimationTimer frameRateMeter = new AnimationTimer(){ //anyway merci à James_D et tout ce qu'il faut savoir c'est que ça fait un compteur de framerate (auquel j'ai ajouté la taille de la fenêtre)
+				
+				@Override
+				public void handle(long now) {
+					long oldFrameTime = frameTimes[frameTimeIndex] ;
+					frameTimes[frameTimeIndex] = now ;
+					frameTimeIndex = (frameTimeIndex + 1) % frameTimes.length ;
+					if (frameTimeIndex == 0) {
+						arrayFilled = true ;
+					}
+					if (arrayFilled) {
+						long elapsedNanos = now - oldFrameTime ;
+						long elapsedNanosPerFrame = elapsedNanos / frameTimes.length ;
+						double frameRate = 1_000_000_000.0 / elapsedNanosPerFrame ;
+						dev.textProperty().bind(root.widthProperty().asString().concat(" x ").concat(root.heightProperty().asString()).concat(String.format(" - %.1f fps", frameRate)));
+					}
+				}
+			};
 
-        refreshBaguettes(core);
+			frameRateMeter.start();
 
-        AnchorPane.setBottomAnchor(label, 14.0);
-        AnchorPane.setLeftAnchor(label, 14.0);
-        AnchorPane.setBottomAnchor(compteurBaguettes, 0.0);
-        AnchorPane.setLeftAnchor(compteurBaguettes, 4.0);
+			AnchorPane.setBottomAnchor(dev, 14.0);
+			AnchorPane.setLeftAnchor(dev, 4.0);
+			compteurBaguettesPane.getChildren().add(dev);
+		}
 
-        devPane.getChildren().add(label);
-        devPane.getChildren().add(compteurBaguettes);
-		
-		return(devPane);
+		refreshCompteurBaguettes();
+
+		AnchorPane.setBottomAnchor(compteurBaguettes, 0.0);
+		AnchorPane.setLeftAnchor(compteurBaguettes, 4.0);
+
+		compteurBaguettesPane.getChildren().add(compteurBaguettes);
+
+		return(compteurBaguettesPane);
 	}
 
-	public static void refreshBaguettes(Core core){
-		NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
-		compteurBaguettes.setText("Nombre de baguettes restantes : " + numberFormatter.format(core.getService().getNbBaguettesRestantes()));
-	}
+	/**
+	 * Remet la sélection des contenus commande sur rien pour chaque type de contenu commande.
+	 */
+	public static final void resetSelection(){
 
-	public static void reset(){
-		radiosPlats.get(radiosPlats.size() - 1).setSelected(true);
+		radiosPlats.get(radiosPlats.size() - 1).setSelected(true); //on remet tout à 0,
+
 		ingredientsSelectionnes = new ArrayList<Ingredient>();
+
 		for(CheckBox check : checksIngredients){
 			check.setSelected(false);
 		}
+
 		ingredientChange.set(!ingredientChange.get());
+
 		saucesSelectionnees = new ArrayList<Sauce>();
+
 		for(CheckBox check : checksSauces){
 			check.setSelected(false);
 		}
+
 		sauceChangee.set(!sauceChangee.get());
+
 		radiosBoissons.get(radiosBoissons.size() - 1).setSelected(true);
-		radiosSupplementsBoisson.get(radiosSupplementsBoisson.size() - 1).setSelected(true);		
+
+		radiosSupplementsBoisson.get(radiosSupplementsBoisson.size() - 1).setSelected(true);
+
 		radiosDesserts.get(radiosDesserts.size() - 1).setSelected(true);
-		commandeChangee.set(!commandeChangee.get());
-		grisageIngredients();
+
+		commandeChangee.set(!commandeChangee.get()); //on indique que le contenu de la commande a changé,
+
+		grisageIngredients(); //et on remet à jour le grisage des ingrédients et sauces
 		grisageSauces();
 	}
 
-	private static void grisageIngredients(){
-		if(platSelectionne.get().getNbMaxIngredients() == 0){
+	/**
+	 * Remet à jour le compteur de baguettes restantes.
+	 * 
+	 * @param core le core du système K'Fet.
+	 */
+	public static final void refreshCompteurBaguettes(){
+
+		NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
+		compteurBaguettes.setText("Nombre de baguettes restantes : " + numberFormatter.format(Core.getService().getNbBaguettesRestantes()));
+	}
+
+	/**
+	 * Grise les ingrédients qui doivent être grisés, et dégrise ceux qui ne doivent pas l'être. Un ingrédient doit être grisé quand il n'est pas disponible et la liste entière des ingrédients doit être grisée si le nombre max d'ingrédients du plat sélectionné est 0.
+	 */
+	private static final void grisageIngredients(){
+
+		if(platSelectionne.get().getNbMaxIngredients() == 0){ //si le nombre max d'ingrédients du plat est 0,
 			for(CheckBox checkBox : checksIngredients){
 				checkBox.setSelected(false);
 			}
-			listeIngredients.setDisable(true);
+			listeIngredients.setDisable(true); //on grise toute la liste d'ingrédients
 		} else {
-			listeIngredients.setDisable(false);
+			listeIngredients.setDisable(false); //sinon on la dégrise,
 
 			for(HBox box : boxesIngredients){
-				box.setDisable(false);
+				box.setDisable(false); //on dégrise tous les ingrédients individuellement,
 			}
 
 			int i = 0;
-			for(boolean disponible : ingredientsDispo){
+			for(boolean disponible : ingredientsDispo){ //et pour chaque ingrédient, s'il nest pas disponible on le grise
 				if(!disponible){
 					checksIngredients.get(i).setSelected(false);
 					boxesIngredients.get(i).setDisable(true);
@@ -615,33 +726,45 @@ public class Selection {
 		}
 	}
 
-	private static void grisageSauces(){
-		if(platSelectionne.get().getNbMaxSauces() == 0){
-			for(CheckBox checkBox : checksSauces){
+	/**
+	 * Grise les sauces qui doivent l'être, et dégrise celles qui ne doivent pas l'être. Une sauce doit être grisée quand elle n'est pas disponible, quand le nombre max de sauces du plat sélectionné est atteint et qu'elle n'est pas déjà sélectionnée, et la liste entière des sauces doit être grisée si le nombre max de sauces du plat sélectionné est 0.
+	 */
+	private static final void grisageSauces(){
+
+		if(platSelectionne.get().getNbMaxSauces() == 0){ //si le nombre max de sauces du plat est 0,
+			for(CheckBox checkBox : checksSauces){ //on décoche tous les checkboxes et on grise toutes les sauces
 				checkBox.setSelected(false);
 			}
-			for(HBox checksAndLabels : checksAndLabelsSauces){
-				checksAndLabels.setDisable(true);
+			for(HBox box : boxesSauces){
+				box.setDisable(true);
 			}
 		} else {
-			if(saucesSelectionnees.size() >= platSelectionne.get().getNbMaxSauces()){
+			if(saucesSelectionnees.size() == platSelectionne.get().getNbMaxSauces()){ //sinon si le nombre de sauces sélectionnées est égal au max du plat, on grise tous les checkboxes non sélectionnés
 				for(CheckBox checkBox : checksSauces){
 					if(!checkBox.isSelected()){
-						checksAndLabelsSauces.get(checksSauces.indexOf(checkBox)).setDisable(true);
+						boxesSauces.get(checksSauces.indexOf(checkBox)).setDisable(true);
 					}
 				}
-			} else {
+			} else if(saucesSelectionnees.size() > platSelectionne.get().getNbMaxSauces()){ //sinon si le nombre de sauces sélectionnées est supérieur au max du plat (ce qui peut arriver lorsqu'on change de plat sélectionné), on décoche progressivement les sauces jusqu'à avoir le bon nombre de sauces cochées
+				while(saucesSelectionnees.size() > platSelectionne.get().getNbMaxSauces()){
+					boolean decoche = false;
+					for(CheckBox check : checksSauces){
+						if(check.isSelected()&&!decoche){
+							check.setSelected(false);
+							decoche = true;
+						}
+					}
+				}
+			} else { //et sinon on les décoche toutes
 				for(CheckBox checkBox : checksSauces){
-					checksAndLabelsSauces.get(checksSauces.indexOf(checkBox)).setDisable(false);
+					boxesSauces.get(checksSauces.indexOf(checkBox)).setDisable(false);
 				}
 			}	
 		}
 
 		int i = 0;
-		List<Boolean> sd = saucesDispo;
-		for(boolean disponible : saucesDispo){
+		for(boolean disponible : saucesDispo){ //et pour chaque sauce, si elle n'est pas disponible on la grise
 			if(!disponible){
-				List<CheckBox> cs = checksSauces;
 				checksSauces.get(i).setSelected(false);
 				boxesSauces.get(i).setDisable(true);
 			}
@@ -649,28 +772,57 @@ public class Selection {
 		}
 	}
 
-	public static void platDisponible(int position, boolean disponible){		
+	/**
+	 * Utilisé pour indiquer si un {@code Plat} est disponible, c'est à dire s'il devrait être grisé.
+	 * 
+	 * @param position la position du plat dans la liste des plats.
+	 * @param disponible le fait que le plat soit disponible.
+	 */
+	public static final void platDisponible(int position, boolean disponible){
+
 		if(!disponible){
 			if(radiosPlats.get(position).isSelected()){
 				radiosPlats.get(BaseDonnees.getPlats().size() - 1).setSelected(true);
 			}
 		}
+
 		boxesPlats.get(position).setDisable(!disponible);
 	}
 
-	public static void ingredientDisponible(int position, boolean disponible){
+	/**
+	 * Utilisé pour indiquer si un {@code Ingredient} est disponible, c'est à dire s'il devrait être grisé.
+	 * 
+	 * @param position la position de l'ingrédient dans la liste des ingrédients.
+	 * @param disponible le fait que l'ingrédient soit disponible.
+	 */
+	public static final void ingredientDisponible(int position, boolean disponible){
+
 		ingredientsDispo.remove(position);
 		ingredientsDispo.add(position, disponible);
 		grisageIngredients();
 	}
 
-	public static void sauceDisponible(int position, boolean disponible){
+	/**
+	 * Utilisé pour indiquer si une {@code Sauce} est disponible, c'est à dire si elle devrait être grisée.
+	 * 
+	 * @param position la position de la sauce dans la liste des sauces.
+	 * @param disponible le fait que la sauce soit disponible.
+	 */
+	public static final void sauceDisponible(int position, boolean disponible){
+
 		saucesDispo.remove(position);
 		saucesDispo.add(position, disponible);
 		grisageSauces();
 	}
 
-	public static void boissonDisponible(int position, boolean disponible){
+	/**
+	 * Utilisé pour indiquer si une {@code Boisson} est disponible, c'est à dire si elle devrait être grisée.
+	 * 
+	 * @param position la position de la boisson dans la liste des boissons.
+	 * @param disponible le fait que la boisson soit disponible.
+	 */
+	public static final void boissonDisponible(int position, boolean disponible){
+
 		if(!disponible){
 			if(radiosBoissons.get(position).isSelected()){
 				radiosBoissons.get(BaseDonnees.getBoissons().size() - 1).setSelected(true);
@@ -679,7 +831,14 @@ public class Selection {
 		boxesBoissons.get(position).setDisable(!disponible);
 	}
 
-	public static void supplementBoissonDisponible(int position, boolean disponible){
+	/**
+	 * Utilisé pour indiquer si un {@code SupplementBoisson} est disponible, c'est à dire s'il devrait être grisé.
+	 * 
+	 * @param position la position du supplément boisson dans la liste des suppléments boisson.
+	 * @param disponible le fait que le supplément boisson soit disponible.
+	 */
+	public static final void supplementBoissonDisponible(int position, boolean disponible){
+
 		if(!disponible){
 			if(radiosSupplementsBoisson.get(position).isSelected()){
 				radiosSupplementsBoisson.get(BaseDonnees.getSupplementsBoisson().size() - 1).setSelected(true);
@@ -688,7 +847,14 @@ public class Selection {
 		boxesSupplementsBoisson.get(position).setDisable(!disponible);
 	}
 
-	public static void dessertDisponible(int position, boolean disponible){
+	/**
+	 * Utilisé pour indiquer si un {@code Dessert} est disponible, c'est à dire s'il devrait être grisé.
+	 * 
+	 * @param position la dessert du plat dans la liste des desserts.
+	 * @param disponible le fait que le dessert soit disponible.
+	 */
+	public static final void dessertDisponible(int position, boolean disponible){
+
 		if(!disponible){
 			if(radiosDesserts.get(position).isSelected()){
 				radiosDesserts.get(BaseDonnees.getDesserts().size() - 1).setSelected(true);
@@ -697,7 +863,13 @@ public class Selection {
 		boxesDesserts.get(position).setDisable(!disponible);
 	}
 
-	public static List<Boolean> ingredientsDispo(){
+	/**
+	 * Initialise la {@code List<Boolean>} décrivant la disponibilité de chaque ingrédient.
+	 * 
+	 * @return une liste de booléens qui indique pour chaque ingrédient s'il est disponible.
+	 */
+	private static final List<Boolean> ingredientsDispo(){
+
 		List<Boolean> liste = new ArrayList<Boolean>();
 		for(Ingredient ingredient : BaseDonnees.getIngredients()){
 			liste.add(ingredient.getDisponible());
@@ -706,7 +878,13 @@ public class Selection {
 		return(liste);
 	}
 
-	public static List<Boolean> saucesDispo(){
+	/**
+	 * Initialise la {@code List<Boolean>} décrivant la disponibilité de chaque sauce.
+	 * 
+	 * @return une liste de booléens qui indique pour chaque sauce si elle est disponible.
+	 */
+	private static final List<Boolean> saucesDispo(){
+
 		List<Boolean> liste = new ArrayList<Boolean>();
 		for(Sauce sauce : BaseDonnees.getSauces()){
 			liste.add(sauce.getDisponible());
@@ -715,75 +893,183 @@ public class Selection {
 		return(liste);
 	}
 
-	public static Plat getPlatSelectionne(){
+	/**
+	 * Renvoie le prix de la commande actuellement sélectionnée.
+	 *
+	 * @return le prix de la commande avec la sélection actuelle.
+	 */
+	public static final float getPrixCommande(){
+
+		return(Commande.prixCommande(getPlatSelectionne(), getIngredientsSelectionnes(), getBoissonSelectionnee(), getSupplementBoissonSelectionne(), getDessertSelectionne()));
+	}
+
+	/**
+	 * Renvoie la valeur de la propriété javafx {@code platSelectionne}.
+	 * 
+	 * @return la valeur de la propriété plat sélectionné.
+	 */
+	public static final Plat getPlatSelectionne(){
+
 		return(platSelectionne.get());
 	}
 
-	public static void setPlatSelectionne(Plat plat){
+	/**
+	 * Modifie la valeur de la propriété javafx {@code platSelectionne}.
+	 * 
+	 * @param plat le {@code Plat} à affecter à la valeur de la propriété.
+	 */
+	public static final void setPlatSelectionne(Plat plat){
+
 		platSelectionne.set(plat);
 	}
 
-	public static ObjectProperty<Plat> platSelectionnePropriete(){
+	/**
+	 * Renvoie la propriété javafx {@code platSelectionne}.
+	 * 
+	 * @return la propriété plat sélectionné.
+	 */
+	public static final ObjectProperty<Plat> platSelectionnePropriete(){
+
 		return(platSelectionne);
 	}
 
-	public static BooleanProperty ingredientChangePropriete(){
+	/**
+	 * Renvoie la propriété javafx {@code ingredientChange}.
+	 * 
+	 * @return la propriété ingredient changé.
+	 */
+	public static final BooleanProperty ingredientChangePropriete(){
+
 		return(ingredientChange);
 	}
 
-	public static List<Ingredient> getIngredientsSelectionnes(){
+	/**
+	 * Renvoie la {@code List<Ingredient>} décrivant les ingrédients actuellement sélectionnés.
+	 * 
+	 * @return les ingrédients sélectionnés.
+	 */
+	public static final List<Ingredient> getIngredientsSelectionnes(){
+
 		return(ingredientsSelectionnes);
 	}
 
-	public static BooleanProperty sauceChangeePropriete(){
+	/**
+	 * Renvoie la propriété javafx {@code sauceChangee}.
+	 * 
+	 * @return la propriété sauce changée.
+	 */
+	public static final BooleanProperty sauceChangeePropriete(){
+
 		return(sauceChangee);
 	}
 
-	public static List<Sauce> getSaucesSelectionnees(){
+	/**
+	 * Renvoie la {@code List<Sauce>} décrivant les sauces actuellement sélectionnées.
+	 * 
+	 * @return les sauces sélectionnées.
+	 */
+	public static final List<Sauce> getSaucesSelectionnees(){
+
 		return(saucesSelectionnees);
 	}
 
-	public static Boisson getBoissonSelectionnee(){
+	/**
+	 * Renvoie la valeur de la propriété javafx {@code boissonSelectionnee}.
+	 * 
+	 * @return la valeur de la propriété boisson sélectionnée.
+	 */
+	public static final Boisson getBoissonSelectionnee(){
+
 		return(boissonSelectionnee.get());
 	}
 
-	public static void setBoissonSelectionnee(Boisson boisson){
+	/**
+	 * Modifie la valeur de la propriété javafx {@code boissonSelectionnee}.
+	 * 
+	 * @param boisson la {@code Boisson} à affecter à la valeur de la propriété.
+	 */
+	public static final void setBoissonSelectionnee(Boisson boisson){
+
 		boissonSelectionnee.set(boisson);
 	}
 
-	public static ObjectProperty<Boisson> boissonSelectionneePropriete(){
+	/**
+	 * Renvoie la propriété javafx {@code boissonSelectionnee}.
+	 * 
+	 * @return la propriété boisson sélectionnée.
+	 */
+	public static final ObjectProperty<Boisson> boissonSelectionneePropriete(){
+
 		return(boissonSelectionnee);
 	}
 
-	public static SupplementBoisson getSupplementBoissonSelectionne(){
+	/**
+	 * Renvoie la valeur de la propriété javafx {@code supplementBoissonSelectionne}.
+	 * 
+	 * @return la valeur de la propriété supplément boisson sélectionné.
+	 */
+	public static final SupplementBoisson getSupplementBoissonSelectionne(){
+
 		return(supplementBoissonSelectionne.get());
 	}
 
-	public static void setSupplementBoissonSelectionne(SupplementBoisson supplementBoisson){
+	/**
+	 * Modifie la valeur de la propriété javafx {@code supplementBoissonSelectionne}.
+	 * 
+	 * @param supplementBoisson le {@code SupplementBoisson} à affecter à la valeur de la propriété.
+	 */
+	public static final void setSupplementBoissonSelectionne(SupplementBoisson supplementBoisson){
+
 		supplementBoissonSelectionne.set(supplementBoisson);
 	}
 
-	public static ObjectProperty<SupplementBoisson> supplementBoissonSelectionnePropriete(){
+	/**
+	 * Renvoie la propriété javafx {@code supplementBoissonSelectionne}.
+	 * 
+	 * @return la propriété supplément boisson sélectionné.
+	 */
+	public static final ObjectProperty<SupplementBoisson> supplementBoissonSelectionnePropriete(){
+
 		return(supplementBoissonSelectionne);
 	}
 
-	public static Dessert getDessertSelectionne(){
+	/**
+	 * Renvoie la valeur de la propriété javafx {@code dessertSelectionne}.
+	 * 
+	 * @return la valeur de la propriété dessert sélectionné.
+	 */
+	public static final Dessert getDessertSelectionne(){
+
 		return(dessertSelectionne.get());
 	}
 
-	public static void setDessertSelectionne(Dessert dessert){
+	/**
+	 * Modifie la valeur de la propriété javafx {@code dessertSelectionne}.
+	 * 
+	 * @param dessert le {@code Dessert} à affecter à la valeur de la propriété.
+	 */
+	public static final void setDessertSelectionne(Dessert dessert){
+
 		dessertSelectionne.set(dessert);
 	}
 
-	public static ObjectProperty<Dessert> dessertSelectionnePropriete(){
+	/**
+	 * Renvoie la propriété javafx {@code dessertSelectionne}.
+	 * 
+	 * @return la propriété dessert sélectionné.
+	 */
+	public static final ObjectProperty<Dessert> dessertSelectionnePropriete(){
+
 		return(dessertSelectionne);
 	}
 
-	public static BooleanProperty commandeChangeePropriete(){
-		return(commandeChangee);
-	}
+	/**
+	 * Renvoie la propriété javafx {@code nouvelleCommande}.
+	 * 
+	 * @return la propriété nouvelle commande.
+	 */
+	public static final BooleanProperty commandeChangeePropriete(){
 
-	public static float getPrixCommande(){
-		return(Commande.prixCommande(getPlatSelectionne(), getIngredientsSelectionnes(), getBoissonSelectionnee(), getSupplementBoissonSelectionne(), getDessertSelectionne()));
+		return(commandeChangee);
 	}
 }

@@ -100,6 +100,6 @@ public class App extends Application{
 
 	public static void mettreSelectionAJour(Core core){
 		root.setCenter(Selection.selection(root, core));
-		Selection.reset();
+		Selection.resetSelection();
 	}
 }

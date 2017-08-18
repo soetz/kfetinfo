@@ -146,7 +146,7 @@ public class Commandes {
 							public void handle(ActionEvent a){
 								core.getService().retirerCommande(commande);
 								EcranConfection.mettreEcransAJour(core);
-								Selection.refreshBaguettes(core);
+								Selection.refreshCompteurBaguettes();
 							}
 						});
 
@@ -234,7 +234,7 @@ public class Commandes {
 							public void handle(ActionEvent a){
 								core.getService().retirerCommande(commande);
 								EcranConfection.mettreEcransAJour(core);
-								Selection.refreshBaguettes(core);
+								Selection.refreshCompteurBaguettes();
 							}
 						});
 
@@ -333,7 +333,7 @@ public class Commandes {
 						public void handle(ActionEvent a){
 							core.getService().retirerCommande(commande);
 							EcranConfection.mettreEcransAJour(core);
-							Selection.refreshBaguettes(core);
+							Selection.refreshCompteurBaguettes();
 						}
 					});
 
@@ -424,7 +424,7 @@ public class Commandes {
 					public void handle(ActionEvent a){
 						core.getService().retirerCommande(commande);
 						EcranConfection.mettreEcransAJour(core);
-						Selection.refreshBaguettes(core);
+						Selection.refreshCompteurBaguettes();
 					}
 				});
 
@@ -514,7 +514,7 @@ public class Commandes {
 					public void handle(ActionEvent a){
 						core.getService().retirerCommande(commande);
 						EcranConfection.mettreEcransAJour(core);
-						Selection.refreshBaguettes(core);
+						Selection.refreshCompteurBaguettes();
 					}
 				});
 
@@ -628,7 +628,7 @@ public class Commandes {
 						public void handle(ActionEvent a){
 							core.getService().retirerCommande(commande);
 							EcranConfection.mettreEcransAJour(core);
-							Selection.refreshBaguettes(core);
+							Selection.refreshCompteurBaguettes();
 						}
 					});
 
@@ -752,7 +752,7 @@ public class Commandes {
 						public void handle(ActionEvent a){
 							core.getService().retirerCommande(commande);
 							EcranConfection.mettreEcransAJour(core);
-							Selection.refreshBaguettes(core);
+							Selection.refreshCompteurBaguettes();
 						}
 					});
 
@@ -878,7 +878,7 @@ public class Commandes {
 						public void handle(ActionEvent a){
 							core.getService().retirerCommande(commande);
 							EcranConfection.mettreEcransAJour(core);
-							Selection.refreshBaguettes(core);
+							Selection.refreshCompteurBaguettes();
 						}
 					});
 

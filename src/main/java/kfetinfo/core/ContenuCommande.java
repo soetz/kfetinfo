@@ -41,7 +41,7 @@ import java.util.Objects;
  * @author Simon Lecutiez - Sœtz
  * @version 1.0
  */
-public class ContenuCommande {
+public abstract class ContenuCommande {
 
 	//attributs de la classe
 	private String id;
