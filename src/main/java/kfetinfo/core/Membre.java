@@ -249,6 +249,7 @@ public class Membre {
 	 * 
 	 * @return le blaze du membre.
 	 */
+	@Override
 	public String toString(){
 
 		return(getBlaze());

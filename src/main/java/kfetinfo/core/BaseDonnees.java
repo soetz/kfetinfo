@@ -148,7 +148,7 @@ public final class BaseDonnees {
 	/**
 	 * Renvoie l'élément <i>rien</i> de type {@code Plat}. C'est à dire l'élément qui est utilisé pour indiquer que le client n'a choisi aucun plat. Son {@code id} est fixé et il a une {@code priorite} de {@code -1}.
 	 * 
-	 * @return Un {@code Plat} correspondant au fait que l'utilisateur n'a pas séléctionné de plat.
+	 * @return Un {@code Plat} correspondant au fait que l'utilisateur n'a pas sélectionné de plat.
 	 */
 	public static final Plat getRienPlat(){
 
@@ -166,7 +166,7 @@ public final class BaseDonnees {
 	/**
 	 * Renvoie l'élément <i>rien</i> de type {@code Boisson}. C'est à dire l'élément qui est utilisé pour indiquer que le client n'a choisi aucune boisson. Son {@code id} est fixé et il a une {@code priorite} de {@code -1}.
 	 * 
-	 * @return Une {@code Boisson} correspondant au fait que l'utilisateur n'a pas séléctionné de boisson.
+	 * @return Une {@code Boisson} correspondant au fait que l'utilisateur n'a pas sélectionné de boisson.
 	 */
 	public static final Boisson getRienBoisson(){
 
@@ -184,7 +184,7 @@ public final class BaseDonnees {
 	/**
 	 * Renvoie l'élément <i>rien</i> de type {@code SupplementBoisson}. C'est à dire l'élément qui est utilisé pour indiquer que le client n'a choisi aucun supplément boisson. Son {@code id} est fixé et il a une {@code priorite} de {@code -1}.
 	 * 
-	 * @return Un {@code SupplementBoisson} correspondant au fait que l'utilisateur n'a pas séléctionné de supplément boisson.
+	 * @return Un {@code SupplementBoisson} correspondant au fait que l'utilisateur n'a pas sélectionné de supplément boisson.
 	 */
 	public static final SupplementBoisson getRienSupplementBoisson(){
 
@@ -202,7 +202,7 @@ public final class BaseDonnees {
 	/**
 	 * Renvoie l'élément <i>rien</i> de type {@code Dessert}. C'est à dire l'élément qui est utilisé pour indiquer que le client n'a choisi aucun dessert. Son {@code id} est fixé et il a une {@code priorite} de {@code -1}.
 	 * 
-	 * @return Un {@code Dessert} correspondant au fait que l'utilisateur n'a pas séléctionné de dessert.
+	 * @return Un {@code Dessert} correspondant au fait que l'utilisateur n'a pas sélectionné de dessert.
 	 */
 	public static final Dessert getRienDessert(){
 

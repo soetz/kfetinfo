@@ -114,7 +114,7 @@ public class Service {
 
 		try {
 			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/")); //on crée un dossier pour accueillir le fichier correspondant à ce service
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -350,7 +350,7 @@ public class Service {
 		File dossierServices = null;
 		try {
 			dossierServices = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -369,7 +369,7 @@ public class Service {
 		File dossierAnnee = null;
 		try {
 			dossierAnnee = new File(LecteurBase.class.getResource("../../Base de Données/Services/" + anneeRecente + "/").toURI()); //on définit le dossier de lecture sur le dossier Services/anneeRecente
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -388,7 +388,7 @@ public class Service {
 		File dossierMois = null;
 		try {
 			dossierMois = new File(LecteurBase.class.getResource("../../Base de Données/Services/" + anneeRecente + "/" + moisRecent + "/").toURI()); //on définit le dossier de lecture sur le dossier Services/anneeRecente/moisRecent
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -633,21 +633,20 @@ public class Service {
 		File dossier = null;
 		try {
 			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
 			Files.createDirectories(Paths.get(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/")); //on crée les dossiers correspondant à la date de ce service au cas où il n'existe pas
-		}
-		catch(Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 
 		File dossierCommandes = new File(dossier + "/" + annee.format(date) + "/" + mois.format(date) + "/" + jour.format(date) + "/");
 		File[] listOfFiles = dossierCommandes.listFiles();
 
-		for (File fichier : listOfFiles) { //pour chaque fichier ou dossier du dossier de ce service,
+		for(File fichier : listOfFiles){ //pour chaque fichier ou dossier du dossier de ce service,
 			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName()).equals("json"))&&!(FilenameUtils.removeExtension(fichier.getName()).equals("_service"))){ //s'il s'agit d'un fichier, que son extension est json et que son nom n'est pas _service,
 				String nom = FilenameUtils.removeExtension(fichier.getName());
 				int numero = Integer.parseInt(nom);

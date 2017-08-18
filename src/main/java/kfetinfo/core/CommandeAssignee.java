@@ -134,8 +134,7 @@ public class CommandeAssignee extends Commande {
 
 		if(temps > 0){
 			return(temps);
-		}
-		else {
+		} else {
 			return(0);
 		}
 	}

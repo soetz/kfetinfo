@@ -310,8 +310,7 @@ public final class LecteurBase {
 					((Number)membreJson.get("tempsMoyenCommande")).floatValue());
 
 			return(membre);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Membre membre = null;
 
@@ -594,8 +593,7 @@ public final class LecteurBase {
 
 		try {
 			estAssignee = (boolean)commandeJson.get("assignee");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
