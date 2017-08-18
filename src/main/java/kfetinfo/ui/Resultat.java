@@ -1,19 +1,14 @@
 package kfetinfo.ui;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -31,10 +26,19 @@ import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Commande;
 import kfetinfo.core.Core;
 import kfetinfo.core.Ingredient;
+import kfetinfo.core.Membre;
 import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
 
-public class Resultat {
+/**
+ * <p>Resultat est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage des sections « prévisualisation de la commande », « caisse » et « équipe » du logiciel.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
+public final class Resultat {
+
+	//classes de style pour l'utilisation du CSS
 	public static final String COMMANDE_PREVIEW = "commande-preview";
 	public static final String FOND_COMMANDE_PREVIEW = "fond-commande-preview";
 	public static final String CONTENU_COMMANDE_PREVIEW = "contenu-commande-preview";
@@ -42,6 +46,7 @@ public class Resultat {
 	public static final String NOMBRE_PIECES = "nombre-pieces";
 	public static final String A_RENDRE = "a-rendre";
 
+	//constantes pour l'affichage
 	public static final Double PADDING_PREVIEW = 4.0;
 	public static final Double MARGIN_PREVIEW = 5.0;
 	public static final Double ESPACE_CONTENUS_COMMANDE = 8.0;
@@ -50,6 +55,7 @@ public class Resultat {
 	public static final Double ESPACE_A_RENDRE = 5.0;
 	public static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
 
+	//comptes de pièces
 	private static int nbUnCent = 0;
 	private static int nbDeuxCent = 0;
 	private static int nbCinqCent = 0;
@@ -62,6 +68,7 @@ public class Resultat {
 	private static int nbDixEuros = 0;
 	private static int nbVingtEuros = 0;
 
+	//labels de comptes de pièces
 	private static Label lbNbUnCent = new Label("x0");
 	private static Label lbNbDeuxCent = new Label("x0");
 	private static Label lbNbCinqCent = new Label("x0");
@@ -74,9 +81,13 @@ public class Resultat {
 	private static Label lbNbDixEuros = new Label("x0");
 	private static Label lbNbVingtEuros = new Label("x0");
 
-	private static Label nbARendre;
+	//label indiquant la quantité d'argent que l'ordi doit rendre au client
+	private static Label lbARendre;
+
+	//bouton permettant d'ajouter la commande au service
 	private static Button ajouterBouton;
 
+	//labels de membres
 	private static Label membreOrdi;
 	private static Label membreCommis1;
 	private static Label membreCommis2;
@@ -84,15 +95,24 @@ public class Resultat {
 	private static Label membreConfection2;
 	private static Label membreConfection3;
 
-	public static Region resultat(Region root, Core core){
+	/**
+	 * Crée une {@code Region} permettant de prévisualiser la commande en train d'être formulée, et de gérer la caisse et l'équipe du service.
+	 * 
+	 * @param root le parent du panneau.
+	 * @param core le core du système K'Fet.
+	 * 
+	 * @return le panneau de prévisualisation, de caisse et d'équipe.
+	 */
+	public static final Region resultat(Region root, Core core){
+
 		BorderPane resultat = new BorderPane();
 
 		resultat.minWidthProperty().bind(root.widthProperty());
 		resultat.maxWidthProperty().bind(resultat.minWidthProperty());
 
-		Region gauche = gauche(resultat, core);
-		Region milieu = milieu(core);
-		Region droite = droite(resultat, core);
+		Region gauche = previsualisationCommande(resultat, core);
+		Region milieu = caisse(core);
+		Region droite = equipe(resultat, core);
 
 		gauche.setMaxHeight(Double.MAX_VALUE);
 		milieu.setMaxHeight(Double.MAX_VALUE);
@@ -116,7 +136,16 @@ public class Resultat {
 		return(resultat);
 	}
 
-	public static Region gauche(Region parent, Core core){
+	/**
+	 * Crée une {@code Region} permettant de prévisualiser la commande en train d'être formulée. Apparaissent la liste des contenus commande de la commande, son numéro et son prix.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * @param core le core du système K'Fet.
+	 * 
+	 * @return le panneau de prévisualisation de la commande.
+	 */
+	public static final Region previsualisationCommande(Region parent, Core core){
+
 		StackPane commandePreview = new StackPane();
 
 		commandePreview.setPadding(new Insets(PADDING_PREVIEW));
@@ -135,6 +164,8 @@ public class Resultat {
 		numeroEtPlat.setSpacing(App.ESPACE_NUMERO_PLAT);
 
 		Label numero = new Label("" + (core.getService().getDernierNumeroCommande() + 1));
+
+		//le label numero montre le numéro de la prochaine commande quand une commande est ajoutée ou retirée
 		core.getService().nouvelleCommandePropriete().addListener(new ChangeListener(){
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				numero.setText("" + (core.getService().getDernierNumeroCommande() + 1));
@@ -152,6 +183,8 @@ public class Resultat {
 		numero.getStyleClass().add(App.NUMERO_COMMANDE_AJOUTEE);
 
 		Label plat = new Label("Rien".toUpperCase());
+
+		//le label plat montre le plat actuellement sélectionné
 		Selection.platSelectionnePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				plat.setText(Selection.getPlatSelectionne().getNom().toUpperCase());
@@ -166,10 +199,12 @@ public class Resultat {
 		numeroEtPlat.getChildren().addAll(numero, plat);
 
 		Label ingredients = new Label("Rien");
+
+		//le label ingredients montre la liste des ingrédients, il est mis à jour chaque fois que la liste des ingrédients change
 		Selection.ingredientChangePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				String nomsIngredients = "";
-				if(Selection.getIngredientsSelectionnes().size()!=0){
+				if(Selection.getIngredientsSelectionnes().size() >= 1){
 					nomsIngredients += Selection.getIngredientsSelectionnes().get(0).getNom();
 					for(Ingredient ingredient : Selection.getIngredientsSelectionnes()){
 						if(!(ingredient.equals(Selection.getIngredientsSelectionnes().get(0)))){
@@ -182,15 +217,18 @@ public class Resultat {
 				ingredients.setText(nomsIngredients);
 			}
 		});
+
 		ingredients.getStyleClass().add(CONTENU_COMMANDE_PREVIEW);
 		ingredients.maxWidthProperty().bind(commande.widthProperty().subtract(MARGIN_PREVIEW));
 		ingredients.setTranslateX(MARGIN_PREVIEW);
 
 		Label sauces = new Label("Rien");
+
+		//le label sauces montre la liste des sauces, il est mis à jour chaque fois que la liste des sauces change
 		Selection.sauceChangeePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				String nomsSauces = "";
-				if(Selection.getSaucesSelectionnees().size()!=0){
+				if(Selection.getSaucesSelectionnees().size() >= 1){
 					nomsSauces += Selection.getSaucesSelectionnees().get(0).getNom();
 					for(Sauce sauce : Selection.getSaucesSelectionnees()){
 						if(!(sauce.equals(Selection.getSaucesSelectionnees().get(0)))){
@@ -203,24 +241,26 @@ public class Resultat {
 				sauces.setText(nomsSauces);
 			}
 		});
+
 		sauces.getStyleClass().add(CONTENU_COMMANDE_PREVIEW);
 		sauces.maxWidthProperty().bind(commande.widthProperty().subtract(MARGIN_PREVIEW));
 		sauces.setTranslateX(MARGIN_PREVIEW);
 
 		Label boisson = new Label("Rien");
+
+		//le label boisson montre la boisson actuellement sélectionnée, ainsi que son supplément boisson, il est mis à jour chaque fois que l'un des deux change
 		Selection.boissonSelectionneePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				if(Selection.getSupplementBoissonSelectionne().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+				if(Selection.getSupplementBoissonSelectionne().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 					boisson.setText(Selection.getBoissonSelectionnee().getNom());
 				} else {
 					boisson.setText(Selection.getBoissonSelectionnee().getNom() + " + " + Selection.getSupplementBoissonSelectionne().getNom());
 				}
 			}
 		});
-
 		Selection.supplementBoissonSelectionnePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				if(Selection.getSupplementBoissonSelectionne().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+				if(Selection.getSupplementBoissonSelectionne().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 					boisson.setText(Selection.getBoissonSelectionnee().getNom());
 				} else {
 					boisson.setText(Selection.getBoissonSelectionnee().getNom() + " + " + Selection.getSupplementBoissonSelectionne().getNom());
@@ -233,11 +273,14 @@ public class Resultat {
 		boisson.setTranslateX(MARGIN_PREVIEW);
 
 		Label dessert = new Label("Rien");
+
+		//le label plat montre le dessert actuellement sélectionné
 		Selection.dessertSelectionnePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				dessert.setText(Selection.getDessertSelectionne().getNom());
 			}
 		});
+
 		dessert.getStyleClass().add(CONTENU_COMMANDE_PREVIEW);
 		dessert.maxWidthProperty().bind(commande.widthProperty().subtract(MARGIN_PREVIEW));
 		dessert.setTranslateX(MARGIN_PREVIEW);
@@ -251,10 +294,12 @@ public class Resultat {
 		AnchorPane fixationPrix = new AnchorPane();
 
 		Label prix = new Label("- €");
+
+		//le label prix montre le prix de la commande formulée
 		Selection.commandeChangeePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				String affPrix = "- €";
-				if(Selection.getPrixCommande()!=0f){
+				if(Selection.getPrixCommande() > 0f){
 					NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
 					affPrix = numberFormatter.format(Selection.getPrixCommande()) + "€";
 				}
@@ -263,6 +308,7 @@ public class Resultat {
 				mettreCompteurAJour();
 			}
 		});
+
 		prix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
 
 		AnchorPane.setBottomAnchor(prix, MARGIN_PREVIEW);
@@ -277,7 +323,15 @@ public class Resultat {
 		return(commandePreview);
 	}
 
-	public static Region milieu(Core core){
+	/**
+	 * Crée un panneau permettant de gérer la caisse. Il est composé de boutons correspondant aux pièces que donnent les clients et fournit un affichage de la quantité d'argent à rendre au client.
+	 * 
+	 * @param core le core du système K'Fet.
+	 * 
+	 * @return le panneau de gestion de la caisse.
+	 */
+	public static final Region caisse(Core core){
+
 		BorderPane separation = new BorderPane();
 
 		GridPane pieces = new GridPane();
@@ -285,6 +339,7 @@ public class Resultat {
 		pieces.setTranslateY(PADDING_HAUT_TABLEAU);
 		pieces.setHgap(LARGEUR_CELLULE_TABLEAU);
 
+		//les boutons du panneau
 		Button boutonUnCent = new Button("1¢");
 		Button boutonDeuxCent = new Button("2¢");
 		Button boutonCinqCent = new Button("5¢");
@@ -297,6 +352,7 @@ public class Resultat {
 		Button boutonDixEuros = new Button("10€");
 		Button boutonVingtEuros = new Button("20€");
 
+		//pour chaque bouton, on définit qu'un clic augmente de 1 le compte de nombre de pièces correspondant
 		boutonUnCent.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e){
 				nbUnCent += 1;
@@ -397,6 +453,8 @@ public class Resultat {
 		lbNbDixEuros.getStyleClass().add(NOMBRE_PIECES);
 		lbNbVingtEuros.getStyleClass().add(NOMBRE_PIECES);
 
+		/* On ajoute les boutons de manière à former la forme du tableau - au passage ça fonctionne mais c'est pas comme ça que je pense que le GridPane fonctionne au niveau des colonnes et du span,
+		 * à vrai dire j'ai aucune idée de pourquoi ça ça fonctionne alors que la manière à laquelle j'avais pensé à la base non… Enfin bref ça marche on va pas se plaindre ! */
 		pieces.add(boutonUnCent, 0, 6, 3, 1);
 		pieces.add(boutonDeuxCent, 2, 6, 3, 1);
 		pieces.add(boutonCinqCent, 4, 6, 3, 1);
@@ -450,12 +508,13 @@ public class Resultat {
 		aRendreAjouter.minWidthProperty().bind(separation.widthProperty().subtract(pieces.widthProperty()));
 		aRendreAjouter.maxWidthProperty().bind(aRendreAjouter.minWidthProperty());
 
-		Button boutonReset = new Button("Reset");
+		Button boutonReset = new Button("Reset"); //bouton permettant de remettre les comptes de pièces à zéro
 		boutonReset.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e){
 				resetPieces();
 			}
 		});
+
 		boutonReset.minWidthProperty().bind(aRendreAjouter.widthProperty().subtract(4));
 		boutonReset.maxWidthProperty().bind(boutonReset.minWidthProperty());
 
@@ -463,11 +522,11 @@ public class Resultat {
 		aRendre.getStyleClass().add(A_RENDRE);
 		aRendre.setMaxWidth(Double.MAX_VALUE);
 
-		nbARendre = new Label("- €");
-		nbARendre.getStyleClass().add(A_RENDRE);
-		nbARendre.setMaxWidth(Double.MAX_VALUE);
+		lbARendre = new Label("- €"); //label indiquant la quantité d'argent à rendre au client
+		lbARendre.getStyleClass().add(A_RENDRE);
+		lbARendre.setMaxWidth(Double.MAX_VALUE);
 
-		ajouterBouton = new Button("A_jouter");
+		ajouterBouton = new Button("A_jouter"); //J est une touche mnémonique pour ce bouton
 		ajouterBouton.setMnemonicParsing(true);
 		ajouterBouton.setDefaultButton(true);
 		ajouterBouton.setDisable(true);
@@ -476,9 +535,9 @@ public class Resultat {
 		ajouterBouton.setMinHeight(App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER);
 		ajouterBouton.setMaxHeight(App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER);	
 
-		ajouterBouton.setOnAction(new EventHandler<ActionEvent>() {
+		ajouterBouton.setOnAction(new EventHandler<ActionEvent>(){ //au déclenchement du bouton,
 			public void handle(ActionEvent event) {
-				Commande commande = new Commande(
+				Commande commande = new Commande( //on crée une nouvelle commande avec les données du panneau de sélection
 						new Date(),
 						Selection.getPlatSelectionne(),
 						Selection.getIngredientsSelectionnes(),
@@ -486,13 +545,13 @@ public class Resultat {
 						Selection.getDessertSelectionne(),
 						Selection.getBoissonSelectionnee(),
 						Selection.getSupplementBoissonSelectionne(),
-						core.getService());
+						Core.getService());
 
-						core.getService().ajouterCommande(commande);
-						EcranConfection.mettreEcransAJour(core);
+						Core.getService().ajouterCommande(commande); //on l'ajoute
+						EcranConfection.mettreEcransAJour(core); //on met les données de l'écran de confection à jour
 
-						if(Selection.getPlatSelectionne().getUtilisePain()){
-							if(core.getService().getNbBaguettesRestantes() <= 0){
+						if(Selection.getPlatSelectionne().getUtilisePain()){ //s'il n'y a plus de pain, on grise les plats qui en utilisent
+							if(Core.getService().getNbBaguettesRestantes() <= 0){
 								int i = 0;
 								for(Plat plat : BaseDonnees.getPlats()){
 									if(plat.getUtilisePain()){
@@ -504,7 +563,7 @@ public class Resultat {
 							}
 						}
 
-						Selection.resetSelection();
+						Selection.resetSelection(); //on remet la sélection et les pièces à zéro
 
 						resetPieces();
 
@@ -512,7 +571,7 @@ public class Resultat {
 			}
 		});
 
-		aRendreAjouter.getChildren().addAll(boutonReset, aRendre, nbARendre, ajouterBouton);
+		aRendreAjouter.getChildren().addAll(boutonReset, aRendre, lbARendre, ajouterBouton);
 
 		separation.setLeft(pieces);
 		separation.setRight(aRendreAjouter);
@@ -520,11 +579,20 @@ public class Resultat {
 		return(separation);
 	}
 
-	public static Region droite(Region parent, Core core){
+	/**
+	 * Crée un panneau permettant de gérer l'équipe actuelle du service, c'est à dire de visualiser les membres réalisant le service et de les sélectionner.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * @param core le core du système K'Fet.
+	 * 
+	 * @return le panneau de gestion de l'équipe.
+	 */
+	public static final Region equipe(Region parent, Core core){
+
 		AnchorPane layout = new AnchorPane();
 
 		GridPane membres = new GridPane();
-		membres.setHgap(5.0);
+		membres.setHgap(5.0); //TODO changer ça en constante
 		membres.setVgap(3.0);
 
 		Label ordi = new Label("Ordi");
@@ -566,7 +634,7 @@ public class Resultat {
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection1(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
-						core.getService().assignation();
+						Core.getService().assignation();
 						EcranConfection.mettreEcransAJour(core);
 					}
 				});
@@ -578,7 +646,7 @@ public class Resultat {
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection2(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
-						core.getService().assignation();
+						Core.getService().assignation();
 						EcranConfection.mettreEcransAJour(core);
 					}
 				});
@@ -590,18 +658,18 @@ public class Resultat {
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection3(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
-						core.getService().assignation();
+						Core.getService().assignation();
 						EcranConfection.mettreEcransAJour(core);
 					}
 				});
 			}
 		});
 
-		mettreOrdiAJour(core);
+		mettreOrdiAJour();
 
-		mettreCommisAJour(core);
+		mettreCommisAJour();
 
-		mettreConfectionAJour(core);
+		mettreConfectionAJour();
 
 		membres.add(ordi, 0, 0);
 		membres.add(membreOrdi, 1, 0);
@@ -622,7 +690,7 @@ public class Resultat {
 		membres.add(membreConfection3, 1, 5);
 		membres.add(boutonConfection3, 2, 5);
 
-		ColumnConstraints nePasGrow = new ColumnConstraints();
+		ColumnConstraints nePasGrow = new ColumnConstraints(); //on indique que les colonnes à l'extérieur du tableau (les labels et les boutons) ne doivent pas grander si le tableau est redimensionné mais que la colonne du milieu (le blaze court du membre sélectionné) si
 		nePasGrow.setHgrow(Priority.NEVER);
 		ColumnConstraints grow = new ColumnConstraints();
 		grow.setHgrow(Priority.ALWAYS);
@@ -639,7 +707,11 @@ public class Resultat {
 		return(layout);
 	}
 
+	/**
+	 * Remet toutes les pièces de la caisse à zéro.
+	 */
 	public static void resetPieces(){
+
 		nbUnCent = 0;
 		nbDeuxCent = 0;
 		nbCinqCent = 0;
@@ -667,7 +739,11 @@ public class Resultat {
 		mettreCompteurAJour();
 	}
 
+	/**
+	 * Met le compte d'argent à rendre à jour. Celui-ci fonctionne de la manière suivante : si le client n'a pas donné assez d'argent, alors le compte affiche « - € », s'il a donné pile la bonne quantité d'argent, il affiche « 0 € » et s'il a donné trop d'argent il indique le montant à rendre au client.
+	 */
 	public static void mettreCompteurAJour(){
+
 		float totalCommande = Selection.getPrixCommande();
 		float pris = 0f;
 		String affARendre = "- €";
@@ -691,28 +767,34 @@ public class Resultat {
 			}
 		}
 
-		if(totalCommande == 0){
+		if(totalCommande <= 0){ //si le membre ne doit rien payer, on désactive le bouton - manquerait plus qu'on soit gratuits
 			ajouterBouton.setDisable(true);
 		} else {
 			ajouterBouton.setDisable(false);
 		}
 
-		nbARendre.setText(affARendre);
+		lbARendre.setText(affARendre);
 	}
 
-	public static void mettreOrdiAJour(Core core){
-		if(!core.getService().getOrdi().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
-			membreOrdi.setText(core.getService().getOrdi().getBlazeCourt().toUpperCase());
+	/**
+	 * Met l'affichage du label correspondant au membre au poste ordi à jour.
+	 */
+	public static void mettreOrdiAJour(){
+		if(!Core.getService().getOrdi().getId().equals(Membre.ID_MEMBRE_DEFAUT)){
+			membreOrdi.setText(Core.getService().getOrdi().getBlazeCourt().toUpperCase());
 		} else {
 			membreOrdi.setText("---");
 		}
 	}
 
-	public static void mettreCommisAJour(Core core){
-		if(core.getService().getCommis().size() > 0){
-			membreCommis1.setText(core.getService().getCommis().get(0).getBlazeCourt().toUpperCase());
-			if(core.getService().getCommis().size() > 1){
-				membreCommis2.setText(core.getService().getCommis().get(1).getBlazeCourt().toUpperCase());
+	/**
+	 * Met l'affichage des labels correspondant au membres au poste commis à jour.
+	 */
+	public static void mettreCommisAJour(){
+		if(Core.getService().getCommis().size() > 0){
+			membreCommis1.setText(Core.getService().getCommis().get(0).getBlazeCourt().toUpperCase());
+			if(Core.getService().getCommis().size() > 1){
+				membreCommis2.setText(Core.getService().getCommis().get(1).getBlazeCourt().toUpperCase());
 			} else {
 				membreCommis2.setText("---");
 			}
@@ -721,13 +803,16 @@ public class Resultat {
 		}
 	}
 
-	public static void mettreConfectionAJour(Core core){
-		if(core.getService().getConfection().size() > 0){
-			membreConfection1.setText(core.getService().getConfection().get(0).getBlazeCourt().toUpperCase());
-			if(core.getService().getConfection().size() > 1){
-				membreConfection2.setText(core.getService().getConfection().get(1).getBlazeCourt().toUpperCase());
-				if(core.getService().getConfection().size() > 2){
-					membreConfection3.setText(core.getService().getConfection().get(2).getBlazeCourt().toUpperCase());
+	/**
+	 * Met l'affichage des labels correspondant au membres au poste confection à jour.
+	 */
+	public static void mettreConfectionAJour(){
+		if(Core.getService().getConfection().size() > 0){
+			membreConfection1.setText(Core.getService().getConfection().get(0).getBlazeCourt().toUpperCase());
+			if(Core.getService().getConfection().size() > 1){
+				membreConfection2.setText(Core.getService().getConfection().get(1).getBlazeCourt().toUpperCase());
+				if(Core.getService().getConfection().size() > 2){
+					membreConfection3.setText(Core.getService().getConfection().get(2).getBlazeCourt().toUpperCase());
 				} else {
 					membreConfection3.setText("---");
 				}

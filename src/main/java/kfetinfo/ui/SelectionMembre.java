@@ -42,7 +42,7 @@ public class SelectionMembre {
 		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				core.getService().setOrdi(table.getSelectionModel().getSelectedItem());
-				Resultat.mettreOrdiAJour(core);
+				Resultat.mettreOrdiAJour();
 			}
 		});
 
@@ -92,7 +92,7 @@ public class SelectionMembre {
 					}
 				}
 				core.getService().setCommis(commis);
-				Resultat.mettreCommisAJour(core);
+				Resultat.mettreCommisAJour();
 			}
 		});
 
@@ -141,7 +141,7 @@ public class SelectionMembre {
 					}
 				}
 				core.getService().setCommis(commis);
-				Resultat.mettreCommisAJour(core);
+				Resultat.mettreCommisAJour();
 			}
 		});
 
@@ -196,7 +196,7 @@ public class SelectionMembre {
 					}
 				}
 				core.getService().setConfection(confection);
-				Resultat.mettreConfectionAJour(core);
+				Resultat.mettreConfectionAJour();
 				EcranConfection.mettreEcransAJour(core);
 			}
 		});
@@ -254,7 +254,7 @@ public class SelectionMembre {
 					}
 				}
 				core.getService().setConfection(confection);
-				Resultat.mettreConfectionAJour(core);
+				Resultat.mettreConfectionAJour();
 				EcranConfection.mettreEcransAJour(core);
 			}
 		});
@@ -312,7 +312,7 @@ public class SelectionMembre {
 					}
 				}
 				core.getService().setConfection(confection);
-				Resultat.mettreConfectionAJour(core);
+				Resultat.mettreConfectionAJour();
 				EcranConfection.mettreEcransAJour(core);
 			}
 		});
