@@ -24,12 +24,11 @@ import java.util.List;
 
 public class Core {
 	static Service service;
-	static Parametres parametres;
 
 	public Core(){
 		init();
 
-		parametres = new Parametres();
+		Parametres.initialiser();
 		service = new Service(new Date());
 	}
 
@@ -41,9 +40,5 @@ public class Core {
 
 	public static Service getService(){
 		return(service);
-	}
-
-	public static Parametres getParametres(){
-		return(parametres);
 	}
 }

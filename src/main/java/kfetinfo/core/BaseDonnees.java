@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.io.File;
 
+import java.io.File;
 import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -44,7 +44,7 @@ import org.apache.commons.io.FilenameUtils;
  * @author Simon Lecutiez - Sœtz
  * @version 1.0
  */
-public class BaseDonnees {
+public final class BaseDonnees {
 
 	//ids des contenus commande correspondant à rien
 	public static final String ID_RIEN_PLAT = "ff56da46-bddd-4e4f-a871-6fa03b0e814b";
@@ -68,7 +68,7 @@ public class BaseDonnees {
 	 * 
 	 * @see Plat
 	 */
-	static public List<Plat> getPlats(){
+	public static final List<Plat> getPlats(){
 
 		return(plats);
 	}
@@ -80,7 +80,7 @@ public class BaseDonnees {
 	 * 
 	 * @see Ingredient
 	 */
-	static public List<Ingredient> getIngredients(){
+	public static final List<Ingredient> getIngredients(){
 
 		return(ingredients);
 	}
@@ -92,7 +92,7 @@ public class BaseDonnees {
 	 * 
 	 * @see Sauce
 	 */
-	static public List<Sauce> getSauces(){
+	public static final List<Sauce> getSauces(){
 
 		return(sauces);
 	}
@@ -104,7 +104,7 @@ public class BaseDonnees {
 	 * 
 	 * @see Boisson
 	 */
-	static public List<Boisson> getBoissons(){
+	public static final List<Boisson> getBoissons(){
 
 		return(boissons);
 	}
@@ -116,7 +116,7 @@ public class BaseDonnees {
 	 * 
 	 * @see SupplementBoisson
 	 */
-	static public List<SupplementBoisson> getSupplementsBoisson(){
+	public static final List<SupplementBoisson> getSupplementsBoisson(){
 
 		return(supplementsBoisson);
 	}
@@ -128,7 +128,7 @@ public class BaseDonnees {
 	 * 
 	 * @see Dessert
 	 */
-	static public List<Dessert> getDesserts(){
+	public static final List<Dessert> getDesserts(){
 
 		return(desserts);
 	}
@@ -140,7 +140,7 @@ public class BaseDonnees {
 	 * 
 	 * @see Membre
 	 */
-	static public List<Membre> getMembres(){
+	public static final List<Membre> getMembres(){
 
 		return(membres);
 	}
@@ -150,7 +150,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Un {@code Plat} correspondant au fait que l'utilisateur n'a pas séléctionné de plat.
 	 */
-	static public Plat getRienPlat(){
+	public static final Plat getRienPlat(){
 
 		Plat plat = new Plat(ID_RIEN_PLAT, "Rien", 0, true, 0, -1, 0, 0, false, 0); //élément par défaut
 
@@ -168,7 +168,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Une {@code Boisson} correspondant au fait que l'utilisateur n'a pas séléctionné de boisson.
 	 */
-	static public Boisson getRienBoisson(){
+	public static final Boisson getRienBoisson(){
 
 		Boisson boisson = new Boisson(ID_RIEN_BOISSON, "Rien", 0, true, 0, -1); //élément par défaut
 
@@ -186,7 +186,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Un {@code SupplementBoisson} correspondant au fait que l'utilisateur n'a pas séléctionné de supplément boisson.
 	 */
-	static public SupplementBoisson getRienSupplementBoisson(){
+	public static final SupplementBoisson getRienSupplementBoisson(){
 
 		SupplementBoisson supplementBoisson = new SupplementBoisson(ID_RIEN_SUPPLEMENT_BOISSON, "Rien", 0, true, 0, -1, 0); //élément par défaut
 
@@ -204,7 +204,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Un {@code Dessert} correspondant au fait que l'utilisateur n'a pas séléctionné de dessert.
 	 */
-	static public Dessert getRienDessert(){
+	public static final Dessert getRienDessert(){
 
 		Dessert dessert = new Dessert(ID_RIEN_DESSERT, "Rien", 0, true, 0, -1, 0); //élément par défaut
 
@@ -224,7 +224,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Le {@code Plat} correspondant.
 	 */
-	static public Plat getPlat(String id){
+	public static final Plat getPlat(String id){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -245,7 +245,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Le {@code Plat} correspondant.
 	 */
-	static public Plat getPlatNom(String nom){
+	public static final Plat getPlatNom(String nom){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -266,7 +266,7 @@ public class BaseDonnees {
 	 * 
 	 * @return L'{@code Ingredient} correspondant.
 	 */
-	static public Ingredient getIngredient(String id){
+	public static final Ingredient getIngredient(String id){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -288,7 +288,7 @@ public class BaseDonnees {
 	 * 
 	 * @return L'{@code Ingredient} correspondant.
 	 */
-	static public Ingredient getIngredientNom(String nom){
+	public static final Ingredient getIngredientNom(String nom){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -309,7 +309,7 @@ public class BaseDonnees {
 	 * 
 	 * @return La {@code Sauce} correspondante.
 	 */
-	static public Sauce getSauce(String id){
+	public static final Sauce getSauce(String id){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -330,7 +330,7 @@ public class BaseDonnees {
 	 * 
 	 * @return La {@code Sauce} correspondante.
 	 */
-	static public Sauce getSauceNom(String nom){
+	public static final Sauce getSauceNom(String nom){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -351,7 +351,7 @@ public class BaseDonnees {
 	 * 
 	 * @return La {@code Boisson} correspondante.
 	 */
-	static public Boisson getBoisson(String id){
+	public static final Boisson getBoisson(String id){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -372,7 +372,7 @@ public class BaseDonnees {
 	 * 
 	 * @return La {@code Boisson} correspondante.
 	 */
-	static public Boisson getBoissonNom(String nom){
+	public static final Boisson getBoissonNom(String nom){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -393,7 +393,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Le {@code SupplementBoisson} correspondant.
 	 */
-	static public SupplementBoisson getSupplementBoisson(String id){
+	public static final SupplementBoisson getSupplementBoisson(String id){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -414,7 +414,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Le {@code SupplementBoisson} correspondant.
 	 */
-	static public SupplementBoisson getSupplementBoissonNom(String nom){
+	public static final SupplementBoisson getSupplementBoissonNom(String nom){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -435,7 +435,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Le {@code Dessert} correspondant.
 	 */
-	static public Dessert getDessert(String id){
+	public static final Dessert getDessert(String id){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -456,7 +456,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Le {@code Dessert} correspondant.
 	 */
-	static public Dessert getDessertNom(String nom){
+	public static final Dessert getDessertNom(String nom){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -477,7 +477,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Le {@code Membre} correspondant.
 	 */
-	static public Membre getMembre(String id){
+	public static final Membre getMembre(String id){
 
 		chargerMembres(); //on recharge la liste des éléments
 
@@ -499,7 +499,7 @@ public class BaseDonnees {
 	 * 
 	 * @return Le {@code Membre} correspondant.
 	 */
-	static public Membre getMembreNomPrenom(String nom, String prenom){
+	public static final Membre getMembreNomPrenom(String nom, String prenom){
 
 		chargerMembres(); //on recharge la liste des éléments
 
@@ -514,22 +514,9 @@ public class BaseDonnees {
 	}
 
 	/**
-	 * Recharge la totalité des listes de contenus commande depuis la base de données.
-	 */
-	static public void chargerMenu(){
-
-		chargerPlats();
-		chargerIngredients();
-		chargerSauces();
-		chargerBoissons();
-		chargerSupplementsBoisson();
-		chargerDesserts();
-	}
-
-	/**
 	 * Affiche la totalité du menu (tous les {@code ContenuCommande} de la base de données) dans la console.
 	 */
-	static public void affMenu(){
+	public static final void affMenu(){
 
 		chargerMenu(); //on recharge la liste des éléments
 
@@ -571,7 +558,7 @@ public class BaseDonnees {
 	/**
 	 * Affiche la liste des membres (tous les {@code Membre} de la base de données) dans la console.
 	 */
-	static public void affMembres(){
+	public static final void affMembres(){
 
 		chargerMembres(); //on recharge la liste des éléments
 
@@ -583,7 +570,7 @@ public class BaseDonnees {
 	/**
 	 * Lit dans la base de données la liste des {@code Plat} et les place dans la liste des plats.
 	 */
-	static private void chargerPlats(){
+	private static final void chargerPlats(){
 
 		plats = new ArrayList<Plat>(); //on réinitialise la liste des plats
 
@@ -609,7 +596,7 @@ public class BaseDonnees {
 	/**
 	 * Lit dans la base de données la liste des {@code Ingredient} et les place dans la liste des ingrédients.
 	 */
-	static private void chargerIngredients(){
+	private static final void chargerIngredients(){
 
 		ingredients = new ArrayList<Ingredient>(); //on réinitialise la liste des ingrédients
 
@@ -635,7 +622,7 @@ public class BaseDonnees {
 	/**
 	 * Lit dans la base de données la liste des {@code Sauce} et les place dans la liste des sauces.
 	 */
-	static private void chargerSauces(){
+	private static final void chargerSauces(){
 
 		sauces = new ArrayList<Sauce>(); //on réinitialise la liste des sauces
 
@@ -661,7 +648,7 @@ public class BaseDonnees {
 	/**
 	 * Lit dans la base de données la liste des {@code Boisson} et les place dans la liste des boissons.
 	 */
-	static private void chargerBoissons(){
+	private static final void chargerBoissons(){
 
 		boissons = new ArrayList<Boisson>(); //on réinitialise la liste des boissons
 
@@ -687,7 +674,7 @@ public class BaseDonnees {
 	/**
 	 * Lit dans la base de données la liste des {@code SupplementBoisson} et les place dans la liste des suppléments boisson.
 	 */
-	static private void chargerSupplementsBoisson(){
+	private static final void chargerSupplementsBoisson(){
 
 		supplementsBoisson = new ArrayList<SupplementBoisson>(); //on réinitialise la liste des suppléments boisson
 
@@ -713,7 +700,7 @@ public class BaseDonnees {
 	/**
 	 * Lit dans la base de données la liste des {@code Dessert} et les place dans la liste des desserts.
 	 */
-	static private void chargerDesserts(){
+	private static final void chargerDesserts(){
 
 		desserts = new ArrayList<Dessert>(); //on réinitialise la liste des desserts
 
@@ -737,9 +724,22 @@ public class BaseDonnees {
 	}
 
 	/**
+	 * Recharge la totalité des listes de contenus commande depuis la base de données.
+	 */
+	public static final void chargerMenu(){
+
+		chargerPlats();
+		chargerIngredients();
+		chargerSauces();
+		chargerBoissons();
+		chargerSupplementsBoisson();
+		chargerDesserts();
+	}
+
+	/**
 	 * Lit dans la base de données la liste des {@code Membre} et les place dans la liste des membres.
 	 */
-	static public void chargerMembres(){
+	public static final void chargerMembres(){
 
 		membres = new ArrayList<Membre>(); //on réinitialise la liste des membres
 

@@ -59,7 +59,7 @@ import javax.swing.JOptionPane;
  * @author Simon Lecutiez - Sœtz
  * @version 1.0
  */
-public class CreateurBase {
+public final class CreateurBase {
 
 	//format de date utilisé dans les fichiers
 	public static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat("dd/MM/yyyy");
@@ -67,7 +67,7 @@ public class CreateurBase {
 	/**
 	 * Initialise la base de données avec des dossiers et des fichiers essentiels au bon déroulement du programme. Elle est appelée à chaque fois que le programme est lancé.
 	 */
-	public static void initialiserBase(){
+	public static final void initialiserBase(){
 
 		File dossier = null;
 
@@ -101,7 +101,7 @@ public class CreateurBase {
 	/**
 	 * Ajoute les <i>riens</i> des contenus commande.
 	 */
-	public static void ajouterRiens(){
+	public static final void ajouterRiens(){
 
 		File dossier = null;
 
@@ -223,7 +223,7 @@ public class CreateurBase {
 	/**
 	 * Ajoute le premier service, indispensable car chaque service va chercher le précédent pour définir certaines de ses valeurs.
 	 */
-	public static void ajouterPremierService(){
+	public static final void ajouterPremierService(){
 
 		Service service = new Service(
 			new Date(0),
@@ -243,7 +243,7 @@ public class CreateurBase {
 	 * 
 	 * @return un {@code JSONObject} avec un nouvel {@code id}.
 	 */
-	private static JSONObject creer(){
+	private static final JSONObject creer(){
 
 		JSONObject objet = new JSONObject();
 		UUID id = UUID.randomUUID(); //on attribue un ID aléatoire à l'objet
@@ -261,7 +261,7 @@ public class CreateurBase {
 	 * 
 	 * @return un {@code JSONObject} prêt à l'emploi pour les contenus commande.
 	 */
-	private static JSONObject creerContenuCommande(String nom, float cout, boolean estDisponible, int priorite){
+	private static final JSONObject creerContenuCommande(String nom, float cout, boolean estDisponible, int priorite){
 
 		JSONObject contenu = creer(); //on récupère l'objet JSON avec l'id et on y ajoute les attributs communs à tous les contenus commande
 		contenu.put("nom", nom);
@@ -285,7 +285,7 @@ public class CreateurBase {
 	 * @param nbMaxSauces le nombre maximal de sauces pouvant être ajoutées au plat.
 	 * @param utilisePain le fait que le plat ait besoin de pain pour être réalisé.
 	 */
-	public static void creerPlat(String nom, float cout, boolean estDisponible, int priorite, float prix, int nbMaxIngredients, int nbMaxSauces, boolean utilisePain) {
+	public static final void creerPlat(String nom, float cout, boolean estDisponible, int priorite, float prix, int nbMaxIngredients, int nbMaxSauces, boolean utilisePain) {
 
 		JSONObject plat = creerContenuCommande(nom, cout, estDisponible, priorite); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 		plat.put("prix", prix); //on y ajoute les attributs spécifiques aux plats
@@ -321,7 +321,7 @@ public class CreateurBase {
 	 * @param nbUtilisations le nombre d'utilisations de l'ingrédient. Non implémenté pour l'instant.
 	 * @param priorite la position de l'ingrédient dans la liste des ingrédients (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 */
-	public static void creerIngredient(String nom, float cout, boolean estDisponible, int priorite){
+	public static final void creerIngredient(String nom, float cout, boolean estDisponible, int priorite){
 
 		JSONObject ingredient = creerContenuCommande(nom, cout, estDisponible, priorite); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 
@@ -353,7 +353,7 @@ public class CreateurBase {
 	 * @param nbUtilisations le nombre d'utilisations de la sauce. Non implémenté pour l'instant.
 	 * @param priorite la position de la sauce dans la liste des sauces (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 */
-	public static void creerSauce(String nom, float cout, boolean estDisponible, int priorite){
+	public static final void creerSauce(String nom, float cout, boolean estDisponible, int priorite){
 
 		JSONObject sauce = creerContenuCommande(nom, cout, estDisponible, priorite); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 
@@ -385,7 +385,7 @@ public class CreateurBase {
 	 * @param nbUtilisations le nombre d'utilisations de la boisson. Non implémenté pour l'instant.
 	 * @param priorite la position de la boisson dans la liste des boissons (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 */
-	public static void creerBoisson(String nom, float cout, boolean estDisponible, int priorite) {
+	public static final void creerBoisson(String nom, float cout, boolean estDisponible, int priorite) {
 
 		JSONObject boisson = creerContenuCommande(nom, cout, estDisponible, priorite); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 
@@ -418,7 +418,7 @@ public class CreateurBase {
 	 * @param priorite la position du supplément boisson dans la liste des suppléments boisson (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 * @param prix le prix que doit payer le client pour ajouter ce supplément boisson à sa boisson.
 	 */
-	public static void creerSupplementBoisson(String nom, float cout, boolean estDisponible, int priorite, float prix) {
+	public static final void creerSupplementBoisson(String nom, float cout, boolean estDisponible, int priorite, float prix) {
 
 		JSONObject supplementBoisson = creerContenuCommande(nom, cout, estDisponible, priorite); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 		supplementBoisson.put("prix", prix); //on y ajoute l'attribut prix
@@ -452,7 +452,7 @@ public class CreateurBase {
 	 * @param priorite la position du dessert dans la liste des desserts (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 * @param prix le prix que doit payer le client pour ajouter ce dessert à sa commande.
 	 */
-	public static void creerDessert(String nom, float cout, boolean estDisponible, int priorite, float prix){
+	public static final void creerDessert(String nom, float cout, boolean estDisponible, int priorite, float prix){
 
 		JSONObject dessert = creerContenuCommande(nom, cout, estDisponible, priorite); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 		dessert.put("prix", prix); //on y ajoute l'attribut prix
@@ -485,7 +485,7 @@ public class CreateurBase {
 	 * @param poste le poste du membre.
 	 * @param dateNaissance la date de naissance du membre.
 	 */
-	public static void creerMembre(String nom, String prenom, String surnom, String poste, Date dateNaissance){
+	public static final void creerMembre(String nom, String prenom, String surnom, String poste, Date dateNaissance){
 
 		JSONObject membre = creer(); //on récupère l'objet JSON avec l'id et on y ajoute les attributs spécifiques aux membres
 		membre.put("nom", nom);
@@ -527,7 +527,7 @@ public class CreateurBase {
 	 * 
 	 * @return un {@code JSONObject} prêt à l'emploi pour les contenus commande.
 	 */
-	private static JSONObject mettreContenuCommandeAJour(String id, String nom, float cout, boolean estDisponible, int priorite){
+	private static final JSONObject mettreContenuCommandeAJour(String id, String nom, float cout, boolean estDisponible, int priorite){
 
 		JSONObject contenu = new JSONObject();
 		contenu.put("id", id);
@@ -544,7 +544,7 @@ public class CreateurBase {
 	 * 
 	 * @param plat le plat à mettre à jour
 	 */
-	public static void mettrePlatAJour(Plat plat){
+	public static final void mettrePlatAJour(Plat plat){
 
 		JSONObject platJson = mettreContenuCommandeAJour(plat.getId(), plat.getNom(), plat.getCout(), plat.getDisponible(), plat.getPriorite()); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 		platJson.put("prix", plat.getPrix()); //on y ajoute les attributs spécifiques aux plats
@@ -585,7 +585,7 @@ public class CreateurBase {
 	 * 
 	 * @param ingredient l'ingrédient à mettre à jour
 	 */
-	public static void mettreIngredientAJour(Ingredient ingredient) {
+	public static final void mettreIngredientAJour(Ingredient ingredient) {
 
 		JSONObject ingredientJson = mettreContenuCommandeAJour(ingredient.getId(), ingredient.getNom(), ingredient.getCout(), ingredient.getDisponible(), ingredient.getPriorite()); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 
@@ -622,7 +622,7 @@ public class CreateurBase {
 	 * 
 	 * @param sauce la sauce à mettre à jour
 	 */
-	public static void mettreSauceAJour(Sauce sauce) {
+	public static final void mettreSauceAJour(Sauce sauce) {
 
 		JSONObject sauceJson = mettreContenuCommandeAJour(sauce.getId(), sauce.getNom(), sauce.getCout(), sauce.getDisponible(), sauce.getPriorite()); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 
@@ -659,7 +659,7 @@ public class CreateurBase {
 	 * 
 	 * @param boisson la boisson à mettre à jour
 	 */
-	public static void mettreBoissonAJour(Boisson boisson) {
+	public static final void mettreBoissonAJour(Boisson boisson) {
 
 		JSONObject boissonJson = mettreContenuCommandeAJour(boisson.getId(), boisson.getNom(), boisson.getCout(), boisson.getDisponible(), boisson.getPriorite()); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 
@@ -696,7 +696,7 @@ public class CreateurBase {
 	 * 
 	 * @param supplementBoisson le supplément boisson à mettre à jour
 	 */
-	public static void mettreSupplementBoissonAJour(SupplementBoisson supplementBoisson) {
+	public static final void mettreSupplementBoissonAJour(SupplementBoisson supplementBoisson) {
 
 		JSONObject supplementBoissonJson = mettreContenuCommandeAJour(supplementBoisson.getId(), supplementBoisson.getNom(), supplementBoisson.getCout(), supplementBoisson.getDisponible(), supplementBoisson.getPriorite()); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 		supplementBoissonJson.put("prix", supplementBoisson.getPrix()); //on y ajoute l'attribut prix
@@ -734,7 +734,7 @@ public class CreateurBase {
 	 * 
 	 * @param dessert le dessert à mettre à jour
 	 */
-	public static void mettreDessertAJour(Dessert dessert) {
+	public static final void mettreDessertAJour(Dessert dessert) {
 
 		JSONObject dessertJson = mettreContenuCommandeAJour(dessert.getId(), dessert.getNom(), dessert.getCout(), dessert.getDisponible(), dessert.getPriorite()); //on récupère l'objet JSON avec les attributs communs à tous les contenus commandes
 		dessertJson.put("prix", dessert.getPrix()); //on y ajoute l'attribut prix
@@ -772,7 +772,7 @@ public class CreateurBase {
 	 * 
 	 * @param membre le membre à mettre à jour
 	 */
-	public static void mettreMembreAJour(Membre membre){
+	public static final void mettreMembreAJour(Membre membre){
 
 		JSONObject membreJson = new JSONObject();
 		membreJson.put("id", membre.getId());
@@ -827,7 +827,7 @@ public class CreateurBase {
 	 * 
 	 * @return un {@code JSONObject} contenant toutes les informations de la commande.
 	 */
-	private static JSONObject objetCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
+	private static final JSONObject objetCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
 
 		JSONObject commande = new JSONObject();
 		commande.put("numero", numero);
@@ -861,11 +861,11 @@ public class CreateurBase {
 	 * @param moment le moment auquel la commande a été créée, utile pour déterminer sa date et donc son emplacement dans l'arborescence de la base de données.
 	 * @param commande la commande à écrire, sous la forme d'un {@code JSONObject}.
 	 */
-	private static void ecrireCommande(int numero, Date moment, JSONObject commande){
+	private static final void ecrireCommande(int numero, Date moment, JSONObject commande){
 
-		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
-		SimpleDateFormat mois = new SimpleDateFormat("MM");
-		SimpleDateFormat jour = new SimpleDateFormat("dd");
+		final SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		final SimpleDateFormat mois = new SimpleDateFormat("MM");
+		final SimpleDateFormat jour = new SimpleDateFormat("dd");
 
 		String zeros = "";
 
@@ -914,7 +914,7 @@ public class CreateurBase {
 	 * @param supplementBoisson le supplément boisson de la commande.
 	 * @param prix le prix que paye le client pour formuler sa commande.
 	 */
-	private static void ajouterCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
+	private static final void ajouterCommande(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix){
 
 		JSONObject commande = objetCommande(numero, moment, plat, ingredients, sauces, dessert, boisson, supplementBoisson, prix); //on crée un JSONObject contenant les informations de la commande
 
@@ -928,7 +928,7 @@ public class CreateurBase {
 	 * 
 	 * @param commande la commande à écrire dans la base de données.
 	 */
-	public static void ajouterCommande(Commande commande){
+	public static final void ajouterCommande(Commande commande){
 
 		ajouterCommande(commande.getNumero(), commande.getMoment(), commande.getPlat(), commande.getIngredients(), commande.getSauces(), commande.getDessert(), commande.getBoisson(), commande.getSupplementBoisson(), commande.getPrix());
 	}
@@ -951,7 +951,7 @@ public class CreateurBase {
 	 * @param momentRealisation le moment où la commande a été réalisée si elle est réalisée.
 	 * @param estDonnee le fait que la commande soit donnée.
 	 */
-	private static void ajouterCommandeAssignee(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix, Membre membre, Date momentAssignation, boolean estRealisee, Date momentRealisation, boolean estDonnee){
+	private static final void ajouterCommandeAssignee(int numero, Date moment, Plat plat, List<Ingredient> ingredients, List<Sauce> sauces, Dessert dessert, Boisson boisson, SupplementBoisson supplementBoisson, float prix, Membre membre, Date momentAssignation, boolean estRealisee, Date momentRealisation, boolean estDonnee){
 
 		JSONObject commandeAssignee = objetCommande(numero, moment, plat, ingredients, sauces, dessert, boisson, supplementBoisson, prix); //on crée un JSONObject contenant les informations de la commande
 
@@ -970,7 +970,7 @@ public class CreateurBase {
 	 * 
 	 * @param commandeAssignee la commande assignée à écrire dans la base de données.
 	 */
-	public static void ajouterCommandeAssignee(CommandeAssignee commandeAssignee){
+	public static final void ajouterCommandeAssignee(CommandeAssignee commandeAssignee){
 
 		ajouterCommandeAssignee(commandeAssignee.getNumero(), commandeAssignee.getMoment(), commandeAssignee.getPlat(), commandeAssignee.getIngredients(), commandeAssignee.getSauces(), commandeAssignee.getDessert(), commandeAssignee.getBoisson(), commandeAssignee.getSupplementBoisson(), commandeAssignee.getPrix(), commandeAssignee.getMembre(), commandeAssignee.getMomentAssignation(), commandeAssignee.getEstRealisee(), commandeAssignee.getMomentRealisation(), commandeAssignee.getEstDonnee());
 	}
@@ -991,7 +991,7 @@ public class CreateurBase {
 	 * 
 	 * @return un {@code JSONObject} contenant toutes les informations du service.
 	 */
-	private static JSONObject objetService(float nbBaguettesUtilisees, float nbBaguettesAchetees, float nbBaguettesReservees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
+	private static final JSONObject objetService(float nbBaguettesUtilisees, float nbBaguettesAchetees, float nbBaguettesReservees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
 
 		JSONObject service = new JSONObject();
 
@@ -1028,11 +1028,11 @@ public class CreateurBase {
 	 * @param date la date du service, utile pour déterminer son emplacement dans l'arborescence de la base de données.
 	 * @param service le service à écrire, sous la forme d'un {@code JSONObject}.
 	 */
-	private static void ecrireService(Date date, JSONObject service){
+	private static final void ecrireService(Date date, JSONObject service){
 
-		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
-		SimpleDateFormat mois = new SimpleDateFormat("MM");
-		SimpleDateFormat jour = new SimpleDateFormat("dd");
+		final SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		final SimpleDateFormat mois = new SimpleDateFormat("MM");
+		final SimpleDateFormat jour = new SimpleDateFormat("dd");
 
 		File dossier = null;
 
@@ -1073,7 +1073,7 @@ public class CreateurBase {
 	 * @param commis une {@code List<Membre>} contenant les membres qui étaient chargés d'assembler les commandes et de préparer les boissons et les desserts lors du service.
 	 * @param confection une {@code List<Membre>} contenant les membres qui étaient chargés de confectionner les plats lors du service.
 	 */
-	private static void ajouterService(float nbBaguettesUtilisees, float nbBaguettesAchetees, float nbBaguettesReservees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
+	private static final void ajouterService(float nbBaguettesUtilisees, float nbBaguettesAchetees, float nbBaguettesReservees, int nbCommandes, Date date, float cout, float revenu, Membre ordi, List<Membre> commis, List<Membre> confection){
 
 		JSONObject service = objetService(nbBaguettesUtilisees, nbBaguettesAchetees, nbBaguettesReservees, nbCommandes, date, cout, revenu, ordi, commis, confection); //on crée un JSONObject contenant les informations du service
 
@@ -1085,7 +1085,7 @@ public class CreateurBase {
 	 * 
 	 * @param service le service à écrire dans la base de données.
 	 */
-	public static void ajouterService(Service service){
+	public static final void ajouterService(Service service){
 
 		ajouterService(service.getNbBaguettesUtilisees(), service.getNbBaguettesAchetees(), service.getNbBaguettesReservees(), service.getNbCommandes(), service.getDate(), service.getCout(), service.getRevenu(), service.getOrdi(), service.getCommis(), service.getConfection());
 	}
@@ -1099,13 +1099,14 @@ public class CreateurBase {
 	 * 
 	 * @return un {@code JSONObject} contenant toutes les informations des paramètres.
 	 */
-	private static JSONObject objetParametres(float prixIngredientSupp, float prixBoisson, float reducMenu){
+	private static final JSONObject objetParametres(float prixIngredientSupp, float prixBoisson, float reducMenu, float coutPain){
 
 		JSONObject parametres = new JSONObject();
 
 		parametres.put("prixIngredientSupp", prixIngredientSupp);
 		parametres.put("prixBoisson", prixBoisson);
 		parametres.put("reducMenu", reducMenu);
+		parametres.put("coutPain", coutPain);
 
 		return(parametres);
 	}
@@ -1115,7 +1116,7 @@ public class CreateurBase {
 	 * 
 	 * @param parametres les paramètres à écrire, sous la forme d'un {@code JSONObject}.
 	 */
-	private static void ecrireParametres(JSONObject parametres){
+	private static final void ecrireParametres(JSONObject parametres){
 
 		File dossier = null;
 
@@ -1149,9 +1150,9 @@ public class CreateurBase {
 	 * @param prixBoisson le prix d'une boisson.
 	 * @param reducMenu le montant de la réduction accordée si le client choisit un plat, une boisson et un dessert pour sa commande.
 	 */
-	private static void ajouterParametres(float prixIngredientSupp, float prixBoisson, float reducMenu){
+	private static final void ajouterParametres(float prixIngredientSupp, float prixBoisson, float reducMenu, float coutPain){
 
-		JSONObject parametres = objetParametres(prixIngredientSupp, prixBoisson, reducMenu); //on crée un JSONObject contenant les informations des paramètres
+		JSONObject parametres = objetParametres(prixIngredientSupp, prixBoisson, reducMenu, coutPain); //on crée un JSONObject contenant les informations des paramètres
 
 		ecrireParametres(parametres); //on écrit les paramètres
 	}
@@ -1161,9 +1162,9 @@ public class CreateurBase {
 	 * 
 	 * @param parametres les paramètres à écrire dans la base de données.
 	 */
-	public static void ajouterParametres(Parametres parametres){
+	public static final void ajouterParametres(){
 
-		ajouterParametres(parametres.getPrixIngredientSupp(), parametres.getPrixBoisson(), parametres.getReducMenu());
+		ajouterParametres(Parametres.getPrixIngredientSupp(), Parametres.getPrixBoisson(), Parametres.getReducMenu(), Parametres.getCoutPain());
 	}
 
 	/**
@@ -1171,7 +1172,7 @@ public class CreateurBase {
 	 * 
 	 * @param plat le plat à supprimer de la base de données.
 	 */
-	public static void supprimerPlat(ContenuCommande plat){
+	public static final void supprimerPlat(ContenuCommande plat){
 
 		File dossier = null;
 
@@ -1190,7 +1191,7 @@ public class CreateurBase {
 	 * 
 	 * @param ingredient l'ingrédient à supprimer de la base de données.
 	 */
-	public static void supprimerIngredient(ContenuCommande ingredient){
+	public static final void supprimerIngredient(ContenuCommande ingredient){
 
 		File dossier = null;
 
@@ -1209,7 +1210,7 @@ public class CreateurBase {
 	 * 
 	 * @param sauce la sauce à supprimer de la base de données.
 	 */
-	public static void supprimerSauce(ContenuCommande sauce){
+	public static final void supprimerSauce(ContenuCommande sauce){
 
 		File dossier = null;
 
@@ -1228,7 +1229,7 @@ public class CreateurBase {
 	 * 
 	 * @param boisson la boisson à retirer de la base de données.
 	 */
-	public static void supprimerBoisson(ContenuCommande boisson){
+	public static final void supprimerBoisson(ContenuCommande boisson){
 
 		File dossier = null;
 
@@ -1247,7 +1248,7 @@ public class CreateurBase {
 	 * 
 	 * @param supplementBoisson le supplément boisson à supprimer de la base de données.
 	 */
-	public static void supprimerSupplementBoisson(ContenuCommande supplementBoisson){
+	public static final void supprimerSupplementBoisson(ContenuCommande supplementBoisson){
 
 		File dossier = null;
 
@@ -1266,7 +1267,7 @@ public class CreateurBase {
 	 * 
 	 * @param dessert le dessert à supprimer de la base de données.
 	 */
-	public static void supprimerDessert(ContenuCommande dessert){
+	public static final void supprimerDessert(ContenuCommande dessert){
 
 		File dossier = null;
 
@@ -1285,7 +1286,7 @@ public class CreateurBase {
 	 * 
 	 * @param membre le membre à supprimer de la base de données.
 	 */
-	public static void supprimerMembre(Membre membre){
+	public static final void supprimerMembre(Membre membre){
 
 		File dossier = null;
 
@@ -1304,11 +1305,11 @@ public class CreateurBase {
 	 * 
 	 * @param commande la commande à retirer de la base de données.
 	 */
-	public static void retirerCommande(Commande commande){
+	public static final void retirerCommande(Commande commande){
 
-		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
-		SimpleDateFormat mois = new SimpleDateFormat("MM");
-		SimpleDateFormat jour = new SimpleDateFormat("dd");
+		final SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		final SimpleDateFormat mois = new SimpleDateFormat("MM");
+		final SimpleDateFormat jour = new SimpleDateFormat("dd");
 
 		String zeros = "";
 

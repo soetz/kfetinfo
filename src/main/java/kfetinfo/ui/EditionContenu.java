@@ -50,6 +50,7 @@ import kfetinfo.core.Core;
 import kfetinfo.core.CreateurBase;
 import kfetinfo.core.Dessert;
 import kfetinfo.core.Ingredient;
+import kfetinfo.core.Parametres;
 import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
 import kfetinfo.core.SupplementBoisson;
@@ -835,7 +836,7 @@ public class EditionContenu {
 		TextField prixIngredientSupplementaireField = new TextField();
 		prixIngredientSupplementaireLabel.setLabelFor(prixIngredientSupplementaireField);
 		prixIngredientSupplementaireField.setPromptText("Prix d'un ingrédient supplémentaire");
-        prixIngredientSupplementaireField.setText("" + numberFormatter.format(core.getParametres().getPrixIngredientSupp()));
+        prixIngredientSupplementaireField.setText("" + numberFormatter.format(Parametres.getPrixIngredientSupp()));
 
         UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>() {
 
@@ -870,7 +871,7 @@ public class EditionContenu {
 		TextField prixBoissonField = new TextField();
 		prixBoissonLabel.setLabelFor(prixBoissonField);
 		prixBoissonField.setPromptText("Prix d'une boisson");
-        prixBoissonField.setText("" + numberFormatter.format(core.getParametres().getPrixBoisson()));
+        prixBoissonField.setText("" + numberFormatter.format(Parametres.getPrixBoisson()));
 
         prixBoissonField.setTextFormatter(new TextFormatter<>(filter));
 
@@ -881,28 +882,42 @@ public class EditionContenu {
 		TextField reducMenuField = new TextField();
 		reducMenuLabel.setLabelFor(reducMenuField);
 		reducMenuField.setPromptText("Montant de la réduction accordée pour un menu");
-        reducMenuField.setText("" + numberFormatter.format(core.getParametres().getReducMenu()));
+        reducMenuField.setText("" + numberFormatter.format(Parametres.getReducMenu()));
 
         reducMenuField.setTextFormatter(new TextFormatter<>(filter));
 
 		reducMenuBox.getChildren().addAll(reducMenuLabel, reducMenuField);
 
+		HBox coutPainBox = new HBox();
+		Label coutPainLabel = new Label("Coût d'une baguette de pain : ");
+		TextField coutPainField = new TextField();
+		coutPainLabel.setLabelFor(coutPainField);
+		coutPainField.setPromptText("Coût d'une baguette de pain");
+        coutPainField.setText("" + numberFormatter.format(Parametres.getCoutPain()));
+
+        coutPainField.setTextFormatter(new TextFormatter<>(filter));
+
+		coutPainBox.getChildren().addAll(coutPainLabel, coutPainField);
+
 		divers.getChildren().add(prixIngredientSupplementaireBox);
 		divers.getChildren().add(prixBoissonBox);
 		divers.getChildren().add(reducMenuBox);
+		divers.getChildren().add(coutPainBox);
 
 		Button enregistrer = new Button("Enregistrer");
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				try {
-					float prixIngredientSupplementaire = (!prixIngredientSupplementaireField.getText().equals("")) ? numberFormatter.parse(prixIngredientSupplementaireField.getText()).floatValue() : 0;
-					float prixBoisson = (!prixBoissonField.getText().equals("")) ? numberFormatter.parse(prixBoissonField.getText()).floatValue() : 0;
-					float reducMenu = (!reducMenuField.getText().equals("")) ? numberFormatter.parse(reducMenuField.getText()).floatValue() : 0;
-					core.getParametres().setPrixIngredientSupp(prixIngredientSupplementaire);
-					core.getParametres().setPrixBoisson(prixBoisson);
-					core.getParametres().setReducMenu(reducMenu);
-					core.getParametres().ecrireFichier();
+					float prixIngredientSupplementaire = (!prixIngredientSupplementaireField.getText().equals("")) ? numberFormatter.parse(prixIngredientSupplementaireField.getText()).floatValue() : Parametres.PRIX_INGREDIENT_SUPP_DEFAUT;
+					float prixBoisson = (!prixBoissonField.getText().equals("")) ? numberFormatter.parse(prixBoissonField.getText()).floatValue() : Parametres.PRIX_BOISSON_DEFAUT;
+					float reducMenu = (!reducMenuField.getText().equals("")) ? numberFormatter.parse(reducMenuField.getText()).floatValue() : Parametres.REDUC_MENU_DEFAUT;
+					float coutPain = (!reducMenuField.getText().equals("")) ? numberFormatter.parse(coutPainField.getText()).floatValue() : Parametres.COUT_PAIN_DEFAUT;
+					Parametres.setPrixIngredientSupp(prixIngredientSupplementaire);
+					Parametres.setPrixBoisson(prixBoisson);
+					Parametres.setReducMenu(reducMenu);
+					Parametres.setCoutPain(coutPain);
+					Parametres.ecrireFichier();
 				}catch (Exception e) {
 					e.printStackTrace();
 				}

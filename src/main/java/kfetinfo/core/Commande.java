@@ -315,24 +315,24 @@ public class Commande {
 	 * 
 	 * @return le prix de la commande.
 	 */
-	public static float prixCommande(Plat plat, List<Ingredient> ingredients, Boisson boisson, SupplementBoisson supplementBoisson, Dessert dessert){
+	public static final float prixCommande(Plat plat, List<Ingredient> ingredients, Boisson boisson, SupplementBoisson supplementBoisson, Dessert dessert){
 
 		float prix = 0f;
 
 		if(!(plat.getId().equals(BaseDonnees.ID_RIEN_PLAT))&&!(boisson.getId().equals(BaseDonnees.ID_RIEN_BOISSON))&&!(dessert.getId().equals(BaseDonnees.ID_RIEN_DESSERT))){ //si la commande contient un plat, une boisson et un dessert, alors le client a droit à une réduction
-			prix -= Core.getParametres().getReducMenu();
+			prix -= Parametres.getReducMenu();
 		}
 
 		prix += plat.getPrix();
 
 		if(ingredients.size() > plat.getNbMaxIngredients()){
-			prix += Core.getParametres().getPrixIngredientSupp() * (ingredients.size() - plat.getNbMaxIngredients());
+			prix += Parametres.getPrixIngredientSupp() * (ingredients.size() - plat.getNbMaxIngredients());
 		}
 
 		prix += dessert.getPrix();
 
 		if(!(boisson.getId().equals(BaseDonnees.ID_RIEN_BOISSON))){
-			prix += Core.getParametres().getPrixBoisson();
+			prix += Parametres.getPrixBoisson();
 		}
 
 		prix += supplementBoisson.getPrix();

@@ -25,7 +25,6 @@ import org.json.simple.parser.JSONParser;
 import java.io.File;
 import java.io.FileReader;
 
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +50,7 @@ import java.util.Date;
  * @author Simon Lecutiez - Sœtz
  * @version 1.0
  */
-public class LecteurBase {
+public final class LecteurBase {
 
 	/**
 	 * Renvoie le contenu d'un fichier de la base de données sous la forme d'un {@code JSONObject}.
@@ -60,7 +59,7 @@ public class LecteurBase {
 	 * 
 	 * @return un {@code JSONObject} contenant toutes les informations du fichier.
 	 */
-	private static JSONObject lireObjet(String path){
+	private static final JSONObject lireObjet(String path){
 
 		JSONParser parser = new JSONParser();
 
@@ -86,7 +85,7 @@ public class LecteurBase {
 	 * 
 	 * @return le {@code Plat} lu.
 	 */
-	public static Plat lirePlat(String nom){
+	public static final Plat lirePlat(String nom){
 
 		JSONObject platJson = new JSONObject();
 
@@ -122,7 +121,7 @@ public class LecteurBase {
 	 * 
 	 * @return l'{@code Ingredient} lu.
 	 */
-	public static Ingredient lireIngredient(String nom){
+	public static final Ingredient lireIngredient(String nom){
 
 		JSONObject ingredientJson = new JSONObject();
 
@@ -154,7 +153,7 @@ public class LecteurBase {
 	 * 
 	 * @return la {@code Sauce} lue.
 	 */
-	public static Sauce lireSauce(String nom){
+	public static final Sauce lireSauce(String nom){
 
 		JSONObject sauceJson = new JSONObject();
 
@@ -186,7 +185,7 @@ public class LecteurBase {
 	 * 
 	 * @return la {@code Boisson} lue.
 	 */
-	public static Boisson lireBoisson(String nom){
+	public static final Boisson lireBoisson(String nom){
 
 		JSONObject boissonJson = new JSONObject();
 
@@ -218,7 +217,7 @@ public class LecteurBase {
 	 * 
 	 * @return le {@code SupplementBoisson} lu.
 	 */
-	public static SupplementBoisson lireSupplementBoisson(String nom){
+	public static final SupplementBoisson lireSupplementBoisson(String nom){
 
 		JSONObject supplementBoissonJson = new JSONObject();
 
@@ -251,7 +250,7 @@ public class LecteurBase {
 	 * 
 	 * @return le {@code Dessert} lu.
 	 */
-	public static Dessert lireDessert(String nom){
+	public static final Dessert lireDessert(String nom){
 
 		JSONObject dessertJson = new JSONObject();
 
@@ -284,7 +283,7 @@ public class LecteurBase {
 	 * 
 	 * @return le {@code Membre} lu.
 	 */
-	public static Membre lireMembre(String nomFichier){
+	public static final Membre lireMembre(String nomFichier){
 
 		JSONObject membreJson = new JSONObject();
 
@@ -328,14 +327,13 @@ public class LecteurBase {
 	 * 
 	 * @return la {@code Commande} lue.
 	 */
-	public static Commande lireCommande(Date moment, int numero){
+	public static final Commande lireCommande(Date moment, int numero){
 
 		JSONObject commandeJson = new JSONObject();
 
-		
-		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
-		SimpleDateFormat mois = new SimpleDateFormat("MM");
-		SimpleDateFormat jour = new SimpleDateFormat("dd");
+		final SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		final SimpleDateFormat mois = new SimpleDateFormat("MM");
+		final SimpleDateFormat jour = new SimpleDateFormat("dd");
 
 		String zeros = "";
 
@@ -399,13 +397,13 @@ public class LecteurBase {
 	 * 
 	 * @return la {@code CommandeAssignée} lue.
 	 */
-	public static CommandeAssignee lireCommandeAssignee(Date moment, int numero){
+	public static final CommandeAssignee lireCommandeAssignee(Date moment, int numero){
 
 		JSONObject commandeJson = new JSONObject();
 
-		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
-		SimpleDateFormat mois = new SimpleDateFormat("MM");
-		SimpleDateFormat jour = new SimpleDateFormat("dd");
+		final SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		final SimpleDateFormat mois = new SimpleDateFormat("MM");
+		final SimpleDateFormat jour = new SimpleDateFormat("dd");
 
 		String zeros = "";
 
@@ -478,13 +476,13 @@ public class LecteurBase {
 	 * 
 	 * @return le {@code Service} lu.
 	 */
-	public static Service lireService(Date date){
+	public static final Service lireService(Date date){
 
 		JSONObject serviceJson = new JSONObject();
 
-		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
-		SimpleDateFormat mois = new SimpleDateFormat("MM");
-		SimpleDateFormat jour = new SimpleDateFormat("dd");
+		final SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		final SimpleDateFormat mois = new SimpleDateFormat("MM");
+		final SimpleDateFormat jour = new SimpleDateFormat("dd");
 
 		File dossier = null;
 		try {
@@ -533,13 +531,11 @@ public class LecteurBase {
 	}
 
 	/**
-	 * Renvoie le contenu du fichier de la base de données stockant les paramètres du logiciel.
-	 * 
-	 * @return les {@code Parametres} lus.
+	 * Modifie les valeurs de la classe {@code Parametres} en utilisant le contenu du fichier de la base de données stockant les paramètres du logiciel.
 	 */
-	public static Parametres lireParametres(){
+	public static final void lireParametres(){
 
-		JSONObject parametresJson = new JSONObject();
+		JSONObject parametresJson;
 
 		File dossier = null;
 		try {
@@ -551,19 +547,11 @@ public class LecteurBase {
 		parametresJson = lireObjet(dossier + "/" + "paramètres.json"); //on récupère l'objet JSON des paramètres lus
 		System.out.println("Lecture de : " + parametresJson); //on écrit dans la console qu'on a lu un fichier
 
-		try {
-			Parametres parametres = new Parametres( //on initialise de nouveaux paramètres avec ses données
-					((Number)parametresJson.get("prixIngredientSupp")).floatValue(),
-					((Number)parametresJson.get("prixBoisson")).floatValue(),
-					((Number)parametresJson.get("reducMenu")).floatValue());
-
-			return(parametres);
-		} catch (Exception e) {
-			e.printStackTrace();
-
-			Parametres parametres = new Parametres(0.3f, 0.5f, 0.3f);
-
-			return(parametres);
+		if(parametresJson != null){ //si le fichier a été lu, on change les valeurs de la classe Parametres
+			Parametres.setPrixIngredientSupp(((Number)parametresJson.get("prixIngredientSupp")).floatValue());
+			Parametres.setPrixBoisson(((Number)parametresJson.get("prixBoisson")).floatValue());
+			Parametres.setReducMenu(((Number)parametresJson.get("reducMenu")).floatValue());
+			Parametres.setCoutPain(((Number)parametresJson.get("coutPain")).floatValue());
 		}
 	}
 
@@ -575,13 +563,13 @@ public class LecteurBase {
 	 * 
 	 * @return l'état assigné de la commande.
 	 */
-	public static boolean estAssignee(Date moment, int numero){
+	public static final boolean estAssignee(Date moment, int numero){
 
 		JSONObject commandeJson = new JSONObject();
 
-		SimpleDateFormat annee = new SimpleDateFormat("yyyy");
-		SimpleDateFormat mois = new SimpleDateFormat("MM");
-		SimpleDateFormat jour = new SimpleDateFormat("dd");
+		final SimpleDateFormat annee = new SimpleDateFormat("yyyy");
+		final SimpleDateFormat mois = new SimpleDateFormat("MM");
+		final SimpleDateFormat jour = new SimpleDateFormat("dd");
 
 		String zeros = "";
 
