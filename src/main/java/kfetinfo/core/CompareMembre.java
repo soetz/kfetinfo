@@ -20,9 +20,24 @@ package kfetinfo.core;
 
 import java.util.Comparator;
 
+/**
+ * <p>CompareMembre est une classe permettant de comparer deux membres, utile pour mettre une liste en ordre en utilisant {@code Collections.sort()}.</p>
+ * <p>Elle implémente {@code Comparator} et sa méthode {@code compare(arg0, arg1)}.</p>
+ * 
+ * @see Comparator
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
 public class CompareMembre implements Comparator<Membre> {
 
+	/**
+	 * Renvoie la position relative du prénom du premier membre passé en paramètres avec celle du second.
+	 * 
+	 * @return la comparaison dans l'ordre alphabétique des prénoms des deux membres.
+	 */
 	public int compare(Membre arg0, Membre arg1) {
+
 		return(arg0.getPrenom().compareTo(arg1.getPrenom()));
 	}
 

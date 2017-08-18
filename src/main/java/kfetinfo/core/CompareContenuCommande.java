@@ -20,15 +20,28 @@ package kfetinfo.core;
 
 import java.util.Comparator;
 
+/**
+ * <p>CompareContenuCommande est une classe permettant de comparer deux contenus commande, utile pour mettre une liste en ordre en utilisant {@code Collections.sort()}.</p>
+ * <p>Elle implémente {@code Comparator} et sa méthode {@code compare(arg0, arg1)}.</p>
+ * 
+ * @see Comparator
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
 public class CompareContenuCommande implements Comparator<ContenuCommande> {
 
+	/**
+	 * Renvoie la différence entre la priorité du premier contenu commande passé en paramètres et celle du second, et s'ils s'ont égaux, compare la position de leur nom dans l'ordre alphabétique.
+	 * 
+	 * @return la différence de priorité entre les contenus commande, et si elles sont égales compare leur nom dans l'ordre alphabétique.
+	 */
 	public int compare(ContenuCommande arg0, ContenuCommande arg1) {
+
 		if(arg0.getPriorite() == (arg1.getPriorite())){
 			return(arg1.getNom().compareTo(arg0.getNom()));
-		}
-		else {
+		} else {
 			return(arg0.getPriorite() - arg1.getPriorite());
 		}
 	}
-
 }
