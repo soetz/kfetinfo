@@ -47,13 +47,13 @@ public final class Resultat {
 	public static final String A_RENDRE = "a-rendre";
 
 	//constantes pour l'affichage
-	public static final Double PADDING_PREVIEW = 4.0;
-	public static final Double MARGIN_PREVIEW = 5.0;
-	public static final Double ESPACE_CONTENUS_COMMANDE = 8.0;
-	public static final Double LARGEUR_CELLULE_TABLEAU = 20.0;
-	public static final Double PADDING_HAUT_TABLEAU = 3.0;
-	public static final Double ESPACE_A_RENDRE = 5.0;
-	public static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
+	private static final Double PADDING_PREVIEW = 4.0;
+	private static final Double MARGIN_PREVIEW = 5.0;
+	private static final Double ESPACE_CONTENUS_COMMANDE = 8.0;
+	private static final Double LARGEUR_CELLULE_TABLEAU = 20.0;
+	private static final Double PADDING_HAUT_TABLEAU = 3.0;
+	private static final Double ESPACE_A_RENDRE = 5.0;
+	private static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
 
 	//comptes de pièces
 	private static int nbUnCent = 0;

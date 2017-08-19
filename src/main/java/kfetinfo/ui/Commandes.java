@@ -37,33 +37,33 @@ public final class Commandes {
 	public static final String PLAT_LISTE_COMMANDES = "plat-liste-commandes";
 
 	//constantes pour l'affichage
-	public static final Double HAUTEUR_COMMANDE_FERMEE = 30.0;
-	public static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 134.0;
-	public static final Double HAUTEUR_AJOUT_BOUTONS = 36.0;
+	private static final Double HAUTEUR_COMMANDE_FERMEE = 30.0;
+	private static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 126.0;
+	private static final Double HAUTEUR_AJOUT_BOUTONS = 36.0;
 
 	//VBox de commandes dans chaque état
-	static VBox commandesRealisees = new VBox();
-	static VBox commandesAssignees = new VBox();
-	static VBox commandesAjoutees = new VBox();
-	static VBox commandesDonnees = new VBox();
+	private static VBox commandesRealisees = new VBox();
+	private static VBox commandesAssignees = new VBox();
+	private static VBox commandesAjoutees = new VBox();
+	private static VBox commandesDonnees = new VBox();
 
 	//listes des commandes des listes de chaque état
-	static List<Integer> listeCommandesRealisees = new ArrayList<Integer>();
-	static List<Integer> listeCommandesAssignees = new ArrayList<Integer>();
-	static List<Integer> listeCommandesAjoutees = new ArrayList<Integer>();
-	static List<Integer> listeCommandesDonnees = new ArrayList<Integer>();
+	private static List<Integer> listeCommandesRealisees = new ArrayList<Integer>();
+	private static List<Integer> listeCommandesAssignees = new ArrayList<Integer>();
+	private static List<Integer> listeCommandesAjoutees = new ArrayList<Integer>();
+	private static List<Integer> listeCommandesDonnees = new ArrayList<Integer>();
 
 	//listes des commandes développées pour chaque état
-	static List<Boolean> devCommandesRealisees = new ArrayList<Boolean>();
-	static List<Boolean> devCommandesAssignees = new ArrayList<Boolean>();
-	static List<Boolean> devCommandesAjoutees = new ArrayList<Boolean>();
-	static List<Boolean> devCommandesDonnees = new ArrayList<Boolean>();
+	private static List<Boolean> devCommandesRealisees = new ArrayList<Boolean>();
+	private static List<Boolean> devCommandesAssignees = new ArrayList<Boolean>();
+	private static List<Boolean> devCommandesAjoutees = new ArrayList<Boolean>();
+	private static List<Boolean> devCommandesDonnees = new ArrayList<Boolean>();
 
 	//listes des contenus de commandes pour chaque état (afin de les développer)
-	static List<VBox> contenusCommandesRealisees = new ArrayList<VBox>();
-	static List<VBox> contenusCommandesAssignees = new ArrayList<VBox>();
-	static List<VBox> contenusCommandesAjoutees = new ArrayList<VBox>();
-	static List<VBox> contenusCommandesDonnees = new ArrayList<VBox>();
+	private static List<VBox> contenusCommandesRealisees = new ArrayList<VBox>();
+	private static List<VBox> contenusCommandesAssignees = new ArrayList<VBox>();
+	private static List<VBox> contenusCommandesAjoutees = new ArrayList<VBox>();
+	private static List<VBox> contenusCommandesDonnees = new ArrayList<VBox>();
 
 	/**
 	 * Crée une {@code Region} permettant d'afficher la liste des commandes formulées pendant le service ainsi que leurs état respectifs.

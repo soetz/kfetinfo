@@ -1,15 +1,11 @@
 package kfetinfo.ui;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
-
-import javax.swing.text.NumberFormatter;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,11 +18,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
@@ -55,23 +48,44 @@ import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
 import kfetinfo.core.SupplementBoisson;
 
-public class EditionContenu {
-	static VBox infosPlats = new VBox();
-	static VBox infosIngredients = new VBox();
-	static VBox infosSauces = new VBox();
-	static VBox infosBoissons = new VBox();
-	static VBox infosSupplementsBoisson = new VBox();
-	static VBox infosDesserts = new VBox();
-	static ListView<ContenuCommande> listeViewPlats;
-	static ListView<ContenuCommande> listeViewIngredients;
-	static ListView<ContenuCommande> listeViewSauces;
-	static ListView<ContenuCommande> listeViewBoissons;
-	static ListView<ContenuCommande> listeViewSupplementsBoisson;
-	static ListView<ContenuCommande> listeViewDesserts;
-	static NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
-	static boolean modifie;
+/**
+ * <p>EditionContenu est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'édition des informations des plats, ingrédients, sauces, boissons, suppléments boisson et desserts de la base de données.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @author karimsqualli96 de GitHub
+ * @version 1.0
+ */
+public final class EditionContenu {
 
+	//listes des informations pour chaque type de contenu (regénéré lorsqu'un contenu est sélectionné)
+	private static final VBox INFOS_PLATS = new VBox();
+	private static final VBox INFOS_INGREDIENTS = new VBox();
+	private static final VBox INFOS_SAUCES = new VBox();
+	private static final VBox INFOS_BOISSONS = new VBox();
+	private static final VBox INFOS_SUPPLEMENTS_BOISSON = new VBox();
+	private static final VBox INFOS_DESSERTS = new VBox();
+
+	//listes de chaque contenu pour les sélectionner
+	private static ListView<ContenuCommande> listeViewPlats;
+	private static ListView<ContenuCommande> listeViewIngredients;
+	private static ListView<ContenuCommande> listeViewSauces;
+	private static ListView<ContenuCommande> listeViewBoissons;
+	private static ListView<ContenuCommande> listeViewSupplementsBoisson;
+	private static ListView<ContenuCommande> listeViewDesserts;
+
+	//pour écrire les nombres en français (avec la virgule au lieu du point)
+	private static final NumberFormat NUMBER_FORMATTER = NumberFormat.getNumberInstance(Locale.FRENCH);
+
+	//variable qu'on mettra à true pour savoir si on doit mettre à jour l'écran de sélection
+	private static boolean modifie;
+
+	/**
+	 * Crée une fenêtre permettant de modifier les information des contenus commandes de la base de données.
+	 * 
+	 * @param core le core du système K'Fet.
+	 */
 	public static void ecran(Core core){
+
 		modifie = false;
 
 		Stage theatre = new Stage();
@@ -81,21 +95,28 @@ public class EditionContenu {
 		Tab tabPlats = new Tab("Plats");
 		tabPlats.setClosable(false);
 		tabPlats.setContent(tabPlats(theatre));
+
 		Tab tabIngredients = new Tab("Ingrédients");
 		tabIngredients.setClosable(false);
 		tabIngredients.setContent(tabIngredients(theatre));
+
 		Tab tabSauces = new Tab("Sauces");
 		tabSauces.setClosable(false);
 		tabSauces.setContent(tabSauces(theatre));
+
 		Tab tabBoissons = new Tab("Boissons");
 		tabBoissons.setClosable(false);
 		tabBoissons.setContent(tabBoissons(theatre));
+
 		Tab tabSupplementsBoisson = new Tab("Suppléments boisson");
+
 		tabSupplementsBoisson.setClosable(false);
 		tabSupplementsBoisson.setContent(tabSupplementsBoisson(theatre));
+
 		Tab tabDesserts = new Tab("Desserts");
 		tabDesserts.setClosable(false);
 		tabDesserts.setContent(tabDesserts(theatre));
+
 		Tab tabDivers = new Tab("Divers");
 		tabDivers.setClosable(false);
 		tabDivers.setContent(tabDivers(core));
@@ -105,7 +126,7 @@ public class EditionContenu {
 		Scene scene = new Scene(tabPane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
 		theatre.setAlwaysOnTop(true);
 		theatre.setResizable(false);
-		theatre.initModality(Modality.APPLICATION_MODAL);
+		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		theatre.setMinWidth(App.LARGEUR_MIN_FENETRE + 16);
 		theatre.setMinHeight(App.HAUTEUR_MIN_FENETRE + 39);
 		theatre.setTitle("Écran de modification du menu");
@@ -121,7 +142,15 @@ public class EditionContenu {
 		});
 	}
 
-	public static Region tabPlats(Stage theatre){
+	/**
+	 * Crée l'onglet plats de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux plats.
+	 * 
+	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
+	 * 
+	 * @return l'onglet de modification des plats.
+	 */
+	private static final Region tabPlats(Stage theatre){
+
 		HBox tab = new HBox();
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
@@ -140,9 +169,9 @@ public class EditionContenu {
 		listeViewPlats.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				if(listeViewPlats.getSelectionModel().getSelectedItem() != null){
-					infosPlats.getChildren().clear();
-					infosPlats.getChildren().addAll(generateurInfosPlat((Plat)listeViewPlats.getSelectionModel().getSelectedItem()));
-					((TextField)((HBox)infosPlats.getChildren().get(1)).getChildren().get(1)).requestFocus();
+					INFOS_PLATS.getChildren().clear();
+					INFOS_PLATS.getChildren().addAll(generateurInfosPlat((Plat)listeViewPlats.getSelectionModel().getSelectedItem()));
+					((TextField)((HBox)INFOS_PLATS.getChildren().get(1)).getChildren().get(1)).requestFocus();
 					if(listeViewPlats.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						supprimer.setDisable(true);
 					} else {
@@ -152,8 +181,8 @@ public class EditionContenu {
 			}
 		});
 
-		infosPlats.getChildren().clear();
-		infosPlats.getChildren().addAll(generateurInfosPlat((Plat)listeViewPlats.getSelectionModel().getSelectedItem()));
+		INFOS_PLATS.getChildren().clear();
+		INFOS_PLATS.getChildren().addAll(generateurInfosPlat((Plat)listeViewPlats.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
@@ -191,29 +220,29 @@ public class EditionContenu {
 			public void handle(ActionEvent ae){
 				try {
 					modifie = true;
-					float cout = (!(((TextField)(((HBox)infosPlats.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosPlats.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
-					float prix = (!(((TextField)(((HBox)infosPlats.getChildren().get(2)).getChildren().get(3))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosPlats.getChildren().get(2)).getChildren().get(3))).getText()).floatValue() : 0;
+					float cout = (!(((TextField)(((HBox)INFOS_PLATS.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_PLATS.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
+					float prix = (!(((TextField)(((HBox)INFOS_PLATS.getChildren().get(2)).getChildren().get(3))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_PLATS.getChildren().get(2)).getChildren().get(3))).getText()).floatValue() : 0;
 					if(listeViewPlats.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						CreateurBase.creerPlat(
-							((TextField)((HBox)infosPlats.getChildren().get(1)).getChildren().get(1)).getText(),
+							((TextField)((HBox)INFOS_PLATS.getChildren().get(1)).getChildren().get(1)).getText(),
 							cout,
 							true,
-							((Integer)((Spinner)(((HBox)infosPlats.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
+							((Integer)((Spinner)(((HBox)INFOS_PLATS.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
 							prix,
-							((Integer)((Spinner)(((HBox)(infosPlats.getChildren().get(4))).getChildren().get(1))).getValue()).intValue(),
-							((Integer)((Spinner)(((HBox)(infosPlats.getChildren().get(5))).getChildren().get(1))).getValue()).intValue(),
-							((CheckBox)((HBox)infosPlats.getChildren().get(6)).getChildren().get(0)).isSelected());
+							((Integer)((Spinner)(((HBox)(INFOS_PLATS.getChildren().get(4))).getChildren().get(1))).getValue()).intValue(),
+							((Integer)((Spinner)(((HBox)(INFOS_PLATS.getChildren().get(5))).getChildren().get(1))).getValue()).intValue(),
+							((CheckBox)((HBox)INFOS_PLATS.getChildren().get(6)).getChildren().get(0)).isSelected());
 					} else {
 						CreateurBase.mettrePlatAJour(new Plat(
 							listeViewPlats.getSelectionModel().getSelectedItem().getId(),
-							((TextField)((HBox)infosPlats.getChildren().get(1)).getChildren().get(1)).getText(),
+							((TextField)((HBox)INFOS_PLATS.getChildren().get(1)).getChildren().get(1)).getText(),
 							cout,
 							listeViewPlats.getSelectionModel().getSelectedItem().getDisponible(),
 							listeViewPlats.getSelectionModel().getSelectedItem().getNbUtilisations(),
-							((Integer)((Spinner)(((HBox)infosPlats.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
-							((Integer)((Spinner)(((HBox)(infosPlats.getChildren().get(4))).getChildren().get(1))).getValue()).intValue(),
-							((Integer)((Spinner)(((HBox)(infosPlats.getChildren().get(5))).getChildren().get(1))).getValue()).intValue(),
-							((CheckBox)((HBox)infosPlats.getChildren().get(6)).getChildren().get(0)).isSelected(),
+							((Integer)((Spinner)(((HBox)INFOS_PLATS.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
+							((Integer)((Spinner)(((HBox)(INFOS_PLATS.getChildren().get(4))).getChildren().get(1))).getValue()).intValue(),
+							((Integer)((Spinner)(((HBox)(INFOS_PLATS.getChildren().get(5))).getChildren().get(1))).getValue()).intValue(),
+							((CheckBox)((HBox)INFOS_PLATS.getChildren().get(6)).getChildren().get(0)).isSelected(),
 							prix));
 					}
 				} catch(Exception e){
@@ -238,19 +267,27 @@ public class EditionContenu {
 		boutons.getChildren().addAll(supprimer, enregistrer);
 
 		AnchorPane disposition = new AnchorPane();
-		AnchorPane.setTopAnchor(infosPlats, 0.0);
-		AnchorPane.setLeftAnchor(infosPlats, 0.0);
+		AnchorPane.setTopAnchor(INFOS_PLATS, 0.0);
+		AnchorPane.setLeftAnchor(INFOS_PLATS, 0.0);
 		AnchorPane.setRightAnchor(boutons, 0.0);
 		AnchorPane.setBottomAnchor(boutons, 0.0);
 
-		disposition.getChildren().addAll(infosPlats, boutons);
+		disposition.getChildren().addAll(INFOS_PLATS, boutons);
 
 		tab.getChildren().addAll(listeViewPlats, disposition);
 
 		return(tab);
 	}
 
-	public static Region tabIngredients(Stage theatre){
+	/**
+	 * Crée l'onglet ingrédients de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux ingrédients.
+	 * 
+	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
+	 * 
+	 * @return l'onglet de modification des ingrédients.
+	 */
+	private static final Region tabIngredients(Stage theatre){
+
 		HBox tab = new HBox();
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
@@ -267,9 +304,9 @@ public class EditionContenu {
 		listeViewIngredients.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				if(listeViewIngredients.getSelectionModel().getSelectedItem() != null){
-					infosIngredients.getChildren().clear();
-					infosIngredients.getChildren().addAll(generateurInfos((Ingredient)listeViewIngredients.getSelectionModel().getSelectedItem()));
-					((TextField)((HBox)infosIngredients.getChildren().get(1)).getChildren().get(1)).requestFocus();
+					INFOS_INGREDIENTS.getChildren().clear();
+					INFOS_INGREDIENTS.getChildren().addAll(generateurInfos((Ingredient)listeViewIngredients.getSelectionModel().getSelectedItem()));
+					((TextField)((HBox)INFOS_INGREDIENTS.getChildren().get(1)).getChildren().get(1)).requestFocus();
 					if(listeViewIngredients.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						supprimer.setDisable(true);
 					} else {
@@ -279,8 +316,8 @@ public class EditionContenu {
 			}
 		});
 
-		infosIngredients.getChildren().clear();
-		infosIngredients.getChildren().addAll(generateurInfos((Ingredient)listeViewIngredients.getSelectionModel().getSelectedItem()));
+		INFOS_INGREDIENTS.getChildren().clear();
+		INFOS_INGREDIENTS.getChildren().addAll(generateurInfos((Ingredient)listeViewIngredients.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
@@ -316,21 +353,21 @@ public class EditionContenu {
 			public void handle(ActionEvent ae){
 				try {
 					modifie = true;
-					float cout = (!(((TextField)(((HBox)infosIngredients.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosIngredients.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
+					float cout = (!(((TextField)(((HBox)INFOS_INGREDIENTS.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_INGREDIENTS.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
 					if(listeViewIngredients.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						CreateurBase.creerIngredient(
-								((TextField)((HBox)infosIngredients.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_INGREDIENTS.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								true,
-								((Integer)((Spinner)(((HBox)infosIngredients.getChildren().get(3)).getChildren().get(1))).getValue()).intValue());
+								((Integer)((Spinner)(((HBox)INFOS_INGREDIENTS.getChildren().get(3)).getChildren().get(1))).getValue()).intValue());
 					} else {
 						CreateurBase.mettreIngredientAJour(new Ingredient(
 								listeViewIngredients.getSelectionModel().getSelectedItem().getId(),
-								((TextField)((HBox)infosIngredients.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_INGREDIENTS.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								listeViewIngredients.getSelectionModel().getSelectedItem().getDisponible(),
 								listeViewIngredients.getSelectionModel().getSelectedItem().getNbUtilisations(),
-								((Integer)((Spinner)(((HBox)infosIngredients.getChildren().get(3)).getChildren().get(1))).getValue()).intValue()));
+								((Integer)((Spinner)(((HBox)INFOS_INGREDIENTS.getChildren().get(3)).getChildren().get(1))).getValue()).intValue()));
 					}
 				} catch(Exception e){
 					e.printStackTrace();
@@ -352,19 +389,26 @@ public class EditionContenu {
 		boutons.getChildren().addAll(supprimer, enregistrer);
 
 		AnchorPane disposition = new AnchorPane();
-		AnchorPane.setTopAnchor(infosIngredients, 0.0);
-		AnchorPane.setLeftAnchor(infosIngredients, 0.0);
+		AnchorPane.setTopAnchor(INFOS_INGREDIENTS, 0.0);
+		AnchorPane.setLeftAnchor(INFOS_INGREDIENTS, 0.0);
 		AnchorPane.setRightAnchor(boutons, 0.0);
 		AnchorPane.setBottomAnchor(boutons, 0.0);
 
-		disposition.getChildren().addAll(infosIngredients, boutons);
+		disposition.getChildren().addAll(INFOS_INGREDIENTS, boutons);
 
 		tab.getChildren().addAll(listeViewIngredients, disposition);
 
 		return(tab);
 	}
 
-	public static Region tabSauces(Stage theatre){
+	/**
+	 * Crée l'onglet sauces de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux sauces.
+	 * 
+	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
+	 * 
+	 * @return l'onglet de modification des sauces.
+	 */
+	private static final Region tabSauces(Stage theatre){
 		HBox tab = new HBox();
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
@@ -381,9 +425,9 @@ public class EditionContenu {
 		listeViewSauces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				if(listeViewSauces.getSelectionModel().getSelectedItem() != null){
-					infosSauces.getChildren().clear();
-					infosSauces.getChildren().addAll(generateurInfos((Sauce)listeViewSauces.getSelectionModel().getSelectedItem()));
-					((TextField)((HBox)infosSauces.getChildren().get(1)).getChildren().get(1)).requestFocus();
+					INFOS_SAUCES.getChildren().clear();
+					INFOS_SAUCES.getChildren().addAll(generateurInfos((Sauce)listeViewSauces.getSelectionModel().getSelectedItem()));
+					((TextField)((HBox)INFOS_SAUCES.getChildren().get(1)).getChildren().get(1)).requestFocus();
 					if(listeViewSauces.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						supprimer.setDisable(true);
 					} else {
@@ -393,8 +437,8 @@ public class EditionContenu {
 			}
 		});
 
-		infosSauces.getChildren().clear();
-		infosSauces.getChildren().addAll(generateurInfos((Sauce)listeViewSauces.getSelectionModel().getSelectedItem()));
+		INFOS_SAUCES.getChildren().clear();
+		INFOS_SAUCES.getChildren().addAll(generateurInfos((Sauce)listeViewSauces.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
@@ -430,21 +474,21 @@ public class EditionContenu {
 			public void handle(ActionEvent ae){
 				try {
 					modifie = true;
-					float cout = (!(((TextField)(((HBox)infosSauces.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosSauces.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
+					float cout = (!(((TextField)(((HBox)INFOS_SAUCES.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_SAUCES.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
 					if(listeViewSauces.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						CreateurBase.creerSauce(
-								((TextField)((HBox)infosSauces.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_SAUCES.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								true,
-								((Integer)((Spinner)(((HBox)infosSauces.getChildren().get(3)).getChildren().get(1))).getValue()).intValue());
+								((Integer)((Spinner)(((HBox)INFOS_SAUCES.getChildren().get(3)).getChildren().get(1))).getValue()).intValue());
 					} else {
 						CreateurBase.mettreSauceAJour(new Sauce(
 								listeViewSauces.getSelectionModel().getSelectedItem().getId(),
-								((TextField)((HBox)infosSauces.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_SAUCES.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								listeViewSauces.getSelectionModel().getSelectedItem().getDisponible(),
 								listeViewSauces.getSelectionModel().getSelectedItem().getNbUtilisations(),
-								((Integer)((Spinner)(((HBox)infosSauces.getChildren().get(3)).getChildren().get(1))).getValue()).intValue()));
+								((Integer)((Spinner)(((HBox)INFOS_SAUCES.getChildren().get(3)).getChildren().get(1))).getValue()).intValue()));
 					}
 				} catch(Exception e){
 					e.printStackTrace();
@@ -466,19 +510,27 @@ public class EditionContenu {
 		boutons.getChildren().addAll(supprimer, enregistrer);
 
 		AnchorPane disposition = new AnchorPane();
-		AnchorPane.setTopAnchor(infosSauces, 0.0);
-		AnchorPane.setLeftAnchor(infosSauces, 0.0);
+		AnchorPane.setTopAnchor(INFOS_SAUCES, 0.0);
+		AnchorPane.setLeftAnchor(INFOS_SAUCES, 0.0);
 		AnchorPane.setRightAnchor(boutons, 0.0);
 		AnchorPane.setBottomAnchor(boutons, 0.0);
 
-		disposition.getChildren().addAll(infosSauces, boutons);
+		disposition.getChildren().addAll(INFOS_SAUCES, boutons);
 
 		tab.getChildren().addAll(listeViewSauces, disposition);
 
 		return(tab);
 	}
 
-	public static Region tabBoissons(Stage theatre){
+	/**
+	 * Crée l'onglet boissons de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux boissons.
+	 * 
+	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
+	 * 
+	 * @return l'onglet de modification des boissons.
+	 */
+	private static final Region tabBoissons(Stage theatre){
+
 		HBox tab = new HBox();
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
@@ -495,9 +547,9 @@ public class EditionContenu {
 		listeViewBoissons.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				if(listeViewBoissons.getSelectionModel().getSelectedItem() != null){
-					infosBoissons.getChildren().clear();
-					infosBoissons.getChildren().addAll(generateurInfos((Boisson)listeViewBoissons.getSelectionModel().getSelectedItem()));
-					((TextField)((HBox)infosBoissons.getChildren().get(1)).getChildren().get(1)).requestFocus();
+					INFOS_BOISSONS.getChildren().clear();
+					INFOS_BOISSONS.getChildren().addAll(generateurInfos((Boisson)listeViewBoissons.getSelectionModel().getSelectedItem()));
+					((TextField)((HBox)INFOS_BOISSONS.getChildren().get(1)).getChildren().get(1)).requestFocus();
 					if(listeViewBoissons.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						supprimer.setDisable(true);
 					} else {
@@ -507,8 +559,8 @@ public class EditionContenu {
 			}
 		});
 
-		infosBoissons.getChildren().clear();
-		infosBoissons.getChildren().addAll(generateurInfos((Boisson)listeViewBoissons.getSelectionModel().getSelectedItem()));
+		INFOS_BOISSONS.getChildren().clear();
+		INFOS_BOISSONS.getChildren().addAll(generateurInfos((Boisson)listeViewBoissons.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
@@ -544,21 +596,21 @@ public class EditionContenu {
 			public void handle(ActionEvent ae){
 				try {
 					modifie = true;
-					float cout = (!(((TextField)(((HBox)infosBoissons.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosBoissons.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
+					float cout = (!(((TextField)(((HBox)INFOS_BOISSONS.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_BOISSONS.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
 					if(listeViewBoissons.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						CreateurBase.creerBoisson(
-								((TextField)((HBox)infosBoissons.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_BOISSONS.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								true,
-								((Integer)((Spinner)(((HBox)infosBoissons.getChildren().get(3)).getChildren().get(1))).getValue()).intValue());
+								((Integer)((Spinner)(((HBox)INFOS_BOISSONS.getChildren().get(3)).getChildren().get(1))).getValue()).intValue());
 					} else {
 						CreateurBase.mettreBoissonAJour(new Boisson(
 								listeViewBoissons.getSelectionModel().getSelectedItem().getId(),
-								((TextField)((HBox)infosBoissons.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_BOISSONS.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								listeViewBoissons.getSelectionModel().getSelectedItem().getDisponible(),
 								listeViewBoissons.getSelectionModel().getSelectedItem().getNbUtilisations(),
-								((Integer)((Spinner)(((HBox)infosBoissons.getChildren().get(3)).getChildren().get(1))).getValue()).intValue()));
+								((Integer)((Spinner)(((HBox)INFOS_BOISSONS.getChildren().get(3)).getChildren().get(1))).getValue()).intValue()));
 					}
 				} catch(Exception e){
 					e.printStackTrace();
@@ -580,19 +632,27 @@ public class EditionContenu {
 		boutons.getChildren().addAll(supprimer, enregistrer);
 
 		AnchorPane disposition = new AnchorPane();
-		AnchorPane.setTopAnchor(infosBoissons, 0.0);
-		AnchorPane.setLeftAnchor(infosBoissons, 0.0);
+		AnchorPane.setTopAnchor(INFOS_BOISSONS, 0.0);
+		AnchorPane.setLeftAnchor(INFOS_BOISSONS, 0.0);
 		AnchorPane.setRightAnchor(boutons, 0.0);
 		AnchorPane.setBottomAnchor(boutons, 0.0);
 
-		disposition.getChildren().addAll(infosBoissons, boutons);
+		disposition.getChildren().addAll(INFOS_BOISSONS, boutons);
 
 		tab.getChildren().addAll(listeViewBoissons, disposition);
 
 		return(tab);
 	}
 
-	public static Region tabSupplementsBoisson(Stage theatre){
+	/**
+	 * Crée l'onglet suppléments boisson de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux suppléments boisson.
+	 * 
+	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
+	 * 
+	 * @return l'onglet de modification des suppléments boisson.
+	 */
+	private static final Region tabSupplementsBoisson(Stage theatre){
+
 		HBox tab = new HBox();
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
@@ -609,9 +669,9 @@ public class EditionContenu {
 		listeViewSupplementsBoisson.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				if(listeViewSupplementsBoisson.getSelectionModel().getSelectedItem() != null){
-					infosSupplementsBoisson.getChildren().clear();
-					infosSupplementsBoisson.getChildren().addAll(generateurInfosSupplementBoisson((SupplementBoisson)listeViewSupplementsBoisson.getSelectionModel().getSelectedItem()));
-					((TextField)((HBox)infosSupplementsBoisson.getChildren().get(1)).getChildren().get(1)).requestFocus();
+					INFOS_SUPPLEMENTS_BOISSON.getChildren().clear();
+					INFOS_SUPPLEMENTS_BOISSON.getChildren().addAll(generateurInfosSupplementBoisson((SupplementBoisson)listeViewSupplementsBoisson.getSelectionModel().getSelectedItem()));
+					((TextField)((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(1)).getChildren().get(1)).requestFocus();
 					if(listeViewSupplementsBoisson.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						supprimer.setDisable(true);
 					} else {
@@ -621,8 +681,8 @@ public class EditionContenu {
 			}
 		});
 
-		infosSupplementsBoisson.getChildren().clear();
-		infosSupplementsBoisson.getChildren().addAll(generateurInfosSupplementBoisson((SupplementBoisson)listeViewSupplementsBoisson.getSelectionModel().getSelectedItem()));
+		INFOS_SUPPLEMENTS_BOISSON.getChildren().clear();
+		INFOS_SUPPLEMENTS_BOISSON.getChildren().addAll(generateurInfosSupplementBoisson((SupplementBoisson)listeViewSupplementsBoisson.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
@@ -658,23 +718,23 @@ public class EditionContenu {
 			public void handle(ActionEvent ae){
 				try {
 					modifie = true;
-					float cout = (!(((TextField)(((HBox)infosSupplementsBoisson.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosSupplementsBoisson.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
-					float prix = (!(((TextField)(((HBox)infosSupplementsBoisson.getChildren().get(2)).getChildren().get(3))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosSupplementsBoisson.getChildren().get(2)).getChildren().get(3))).getText()).floatValue() : 0;
+					float cout = (!(((TextField)(((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
+					float prix = (!(((TextField)(((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(2)).getChildren().get(3))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(2)).getChildren().get(3))).getText()).floatValue() : 0;
 					if(listeViewSupplementsBoisson.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						CreateurBase.creerSupplementBoisson(
-								((TextField)((HBox)infosSupplementsBoisson.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								true,
-								((Integer)((Spinner)(((HBox)infosSupplementsBoisson.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
+								((Integer)((Spinner)(((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
 								prix);
 					} else {
 						CreateurBase.mettreSupplementBoissonAJour(new SupplementBoisson(
 								listeViewSupplementsBoisson.getSelectionModel().getSelectedItem().getId(),
-								((TextField)((HBox)infosSupplementsBoisson.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								listeViewSupplementsBoisson.getSelectionModel().getSelectedItem().getDisponible(),
 								listeViewSupplementsBoisson.getSelectionModel().getSelectedItem().getNbUtilisations(),
-								((Integer)((Spinner)(((HBox)infosSupplementsBoisson.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
+								((Integer)((Spinner)(((HBox)INFOS_SUPPLEMENTS_BOISSON.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
 								prix));
 					}
 				} catch(Exception e){
@@ -697,19 +757,27 @@ public class EditionContenu {
 		boutons.getChildren().addAll(supprimer, enregistrer);
 
 		AnchorPane disposition = new AnchorPane();
-		AnchorPane.setTopAnchor(infosSupplementsBoisson, 0.0);
-		AnchorPane.setLeftAnchor(infosSupplementsBoisson, 0.0);
+		AnchorPane.setTopAnchor(INFOS_SUPPLEMENTS_BOISSON, 0.0);
+		AnchorPane.setLeftAnchor(INFOS_SUPPLEMENTS_BOISSON, 0.0);
 		AnchorPane.setRightAnchor(boutons, 0.0);
 		AnchorPane.setBottomAnchor(boutons, 0.0);
 
-		disposition.getChildren().addAll(infosSupplementsBoisson, boutons);
+		disposition.getChildren().addAll(INFOS_SUPPLEMENTS_BOISSON, boutons);
 
 		tab.getChildren().addAll(listeViewSupplementsBoisson, disposition);
 
 		return(tab);
 	}
 
-	public static Region tabDesserts(Stage theatre){
+	/**
+	 * Crée l'onglet desserts de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux desserts.
+	 * 
+	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
+	 * 
+	 * @return l'onglet de modification des desserts.
+	 */
+	private static final Region tabDesserts(Stage theatre){
+
 		HBox tab = new HBox();
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
@@ -726,9 +794,9 @@ public class EditionContenu {
 		listeViewDesserts.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				if(listeViewDesserts.getSelectionModel().getSelectedItem() != null){
-					infosDesserts.getChildren().clear();
-					infosDesserts.getChildren().addAll(generateurInfosDessert((Dessert)listeViewDesserts.getSelectionModel().getSelectedItem()));
-					((TextField)((HBox)infosDesserts.getChildren().get(1)).getChildren().get(1)).requestFocus();
+					INFOS_DESSERTS.getChildren().clear();
+					INFOS_DESSERTS.getChildren().addAll(generateurInfosDessert((Dessert)listeViewDesserts.getSelectionModel().getSelectedItem()));
+					((TextField)((HBox)INFOS_DESSERTS.getChildren().get(1)).getChildren().get(1)).requestFocus();
 					if(listeViewDesserts.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						supprimer.setDisable(true);
 					} else {
@@ -738,8 +806,8 @@ public class EditionContenu {
 			}
 		});
 
-		infosDesserts.getChildren().clear();
-		infosDesserts.getChildren().addAll(generateurInfosDessert((Dessert)listeViewDesserts.getSelectionModel().getSelectedItem()));
+		INFOS_DESSERTS.getChildren().clear();
+		INFOS_DESSERTS.getChildren().addAll(generateurInfosDessert((Dessert)listeViewDesserts.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
@@ -775,23 +843,23 @@ public class EditionContenu {
 			public void handle(ActionEvent ae){
 				try {
 					modifie = true;
-					float cout = (!(((TextField)(((HBox)infosDesserts.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosDesserts.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
-					float prix = (!(((TextField)(((HBox)infosDesserts.getChildren().get(2)).getChildren().get(3))).getText()).equals("")) ? numberFormatter.parse(((TextField)(((HBox)infosDesserts.getChildren().get(2)).getChildren().get(3))).getText()).floatValue() : 0;
+					float cout = (!(((TextField)(((HBox)INFOS_DESSERTS.getChildren().get(2)).getChildren().get(1))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_DESSERTS.getChildren().get(2)).getChildren().get(1))).getText()).floatValue() : 0;
+					float prix = (!(((TextField)(((HBox)INFOS_DESSERTS.getChildren().get(2)).getChildren().get(3))).getText()).equals("")) ? NUMBER_FORMATTER.parse(((TextField)(((HBox)INFOS_DESSERTS.getChildren().get(2)).getChildren().get(3))).getText()).floatValue() : 0;
 					if(listeViewDesserts.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
 						CreateurBase.creerDessert(
-								((TextField)((HBox)infosDesserts.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_DESSERTS.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								true,
-								((Integer)((Spinner)(((HBox)infosDesserts.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
+								((Integer)((Spinner)(((HBox)INFOS_DESSERTS.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
 								prix);
 					} else {
 						CreateurBase.mettreDessertAJour(new Dessert(
 								listeViewDesserts.getSelectionModel().getSelectedItem().getId(),
-								((TextField)((HBox)infosDesserts.getChildren().get(1)).getChildren().get(1)).getText(),
+								((TextField)((HBox)INFOS_DESSERTS.getChildren().get(1)).getChildren().get(1)).getText(),
 								cout,
 								listeViewDesserts.getSelectionModel().getSelectedItem().getDisponible(),
 								listeViewDesserts.getSelectionModel().getSelectedItem().getNbUtilisations(),
-								((Integer)((Spinner)(((HBox)infosDesserts.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
+								((Integer)((Spinner)(((HBox)INFOS_DESSERTS.getChildren().get(3)).getChildren().get(1))).getValue()).intValue(),
 								prix));
 					}
 				} catch(Exception e){
@@ -814,19 +882,27 @@ public class EditionContenu {
 		boutons.getChildren().addAll(supprimer, enregistrer);
 
 		AnchorPane disposition = new AnchorPane();
-		AnchorPane.setTopAnchor(infosDesserts, 0.0);
-		AnchorPane.setLeftAnchor(infosDesserts, 0.0);
+		AnchorPane.setTopAnchor(INFOS_DESSERTS, 0.0);
+		AnchorPane.setLeftAnchor(INFOS_DESSERTS, 0.0);
 		AnchorPane.setRightAnchor(boutons, 0.0);
 		AnchorPane.setBottomAnchor(boutons, 0.0);
 
-		disposition.getChildren().addAll(infosDesserts, boutons);
+		disposition.getChildren().addAll(INFOS_DESSERTS, boutons);
 
 		tab.getChildren().addAll(listeViewDesserts, disposition);
 
 		return(tab);
 	}
 
-	public static Region tabDivers(Core core){
+	/**
+	 * Crée l'onglet divers de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux paramètres basiques de l'application comme le prix d'une boisson ou la réduction accordée pour un menu.
+	 * 
+	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
+	 * 
+	 * @return l'onglet de modification des divers.
+	 */
+	private static final Region tabDivers(Core core){
+
 		AnchorPane pane = new AnchorPane();
 
 		VBox divers = new VBox();
@@ -836,9 +912,9 @@ public class EditionContenu {
 		TextField prixIngredientSupplementaireField = new TextField();
 		prixIngredientSupplementaireLabel.setLabelFor(prixIngredientSupplementaireField);
 		prixIngredientSupplementaireField.setPromptText("Prix d'un ingrédient supplémentaire");
-        prixIngredientSupplementaireField.setText("" + numberFormatter.format(Parametres.getPrixIngredientSupp()));
+        prixIngredientSupplementaireField.setText("" + NUMBER_FORMATTER.format(Parametres.getPrixIngredientSupp()));
 
-        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>() {
+        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>(){ //ça c'est pas de moi (https://gist.github.com/karimsqualli96/f8d4c2995da8e11496ed) et je l'ai un peu modifié, ça permet de restreindre l'écriture dans le field aux nombres réels en français - merci à karimsqualli96
 
             @Override
             public TextFormatter.Change apply(TextFormatter.Change t) {
@@ -871,7 +947,7 @@ public class EditionContenu {
 		TextField prixBoissonField = new TextField();
 		prixBoissonLabel.setLabelFor(prixBoissonField);
 		prixBoissonField.setPromptText("Prix d'une boisson");
-        prixBoissonField.setText("" + numberFormatter.format(Parametres.getPrixBoisson()));
+        prixBoissonField.setText("" + NUMBER_FORMATTER.format(Parametres.getPrixBoisson()));
 
         prixBoissonField.setTextFormatter(new TextFormatter<>(filter));
 
@@ -882,7 +958,7 @@ public class EditionContenu {
 		TextField reducMenuField = new TextField();
 		reducMenuLabel.setLabelFor(reducMenuField);
 		reducMenuField.setPromptText("Montant de la réduction accordée pour un menu");
-        reducMenuField.setText("" + numberFormatter.format(Parametres.getReducMenu()));
+        reducMenuField.setText("" + NUMBER_FORMATTER.format(Parametres.getReducMenu()));
 
         reducMenuField.setTextFormatter(new TextFormatter<>(filter));
 
@@ -893,7 +969,7 @@ public class EditionContenu {
 		TextField coutPainField = new TextField();
 		coutPainLabel.setLabelFor(coutPainField);
 		coutPainField.setPromptText("Coût d'une baguette de pain");
-        coutPainField.setText("" + numberFormatter.format(Parametres.getCoutPain()));
+        coutPainField.setText("" + NUMBER_FORMATTER.format(Parametres.getCoutPain()));
 
         coutPainField.setTextFormatter(new TextFormatter<>(filter));
 
@@ -909,10 +985,10 @@ public class EditionContenu {
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				try {
-					float prixIngredientSupplementaire = (!prixIngredientSupplementaireField.getText().equals("")) ? numberFormatter.parse(prixIngredientSupplementaireField.getText()).floatValue() : Parametres.PRIX_INGREDIENT_SUPP_DEFAUT;
-					float prixBoisson = (!prixBoissonField.getText().equals("")) ? numberFormatter.parse(prixBoissonField.getText()).floatValue() : Parametres.PRIX_BOISSON_DEFAUT;
-					float reducMenu = (!reducMenuField.getText().equals("")) ? numberFormatter.parse(reducMenuField.getText()).floatValue() : Parametres.REDUC_MENU_DEFAUT;
-					float coutPain = (!reducMenuField.getText().equals("")) ? numberFormatter.parse(coutPainField.getText()).floatValue() : Parametres.COUT_PAIN_DEFAUT;
+					float prixIngredientSupplementaire = (!prixIngredientSupplementaireField.getText().equals("")) ? NUMBER_FORMATTER.parse(prixIngredientSupplementaireField.getText()).floatValue() : Parametres.PRIX_INGREDIENT_SUPP_DEFAUT;
+					float prixBoisson = (!prixBoissonField.getText().equals("")) ? NUMBER_FORMATTER.parse(prixBoissonField.getText()).floatValue() : Parametres.PRIX_BOISSON_DEFAUT;
+					float reducMenu = (!reducMenuField.getText().equals("")) ? NUMBER_FORMATTER.parse(reducMenuField.getText()).floatValue() : Parametres.REDUC_MENU_DEFAUT;
+					float coutPain = (!reducMenuField.getText().equals("")) ? NUMBER_FORMATTER.parse(coutPainField.getText()).floatValue() : Parametres.COUT_PAIN_DEFAUT;
 					Parametres.setPrixIngredientSupp(prixIngredientSupplementaire);
 					Parametres.setPrixBoisson(prixBoisson);
 					Parametres.setReducMenu(reducMenu);
@@ -934,7 +1010,15 @@ public class EditionContenu {
 		return(pane);
 	}
 
-	public static ListView<ContenuCommande> generateurListView(List<ContenuCommande> liste){
+	/**
+	 * Renvoie un {@code ListeView<ContenuCommande>} permettant de sélectionner le contenu à modifier.
+	 * 
+	 * @param liste la liste de contenus commande qu'on utilisera pour créer la liste sélectionnable.
+	 * 
+	 * @return la liste de contenus sélectionnable.
+	 */
+	private static final ListView<ContenuCommande> generateurListView(List<ContenuCommande> liste){
+
 		ListView<ContenuCommande> listView = new ListView();
 
 		listView.getItems().setAll(liste);
@@ -949,7 +1033,15 @@ public class EditionContenu {
 		return(listView);
 	}
 
-	public static List<Node> generateurInfos(ContenuCommande contenu){
+	/**
+	 * Renvoie la liste des informations relatives au contenu commande passé en paramètres modifiables communes à tous les contenus commande ({@code id}, {@code nom}, {@code cout} et {@code priorite}).
+	 * 
+	 * @param contenu le contenu commande à modifier.
+	 * 
+	 * @return la liste des informations modifiables du contenu commande.
+	 */
+	private static final List<Node> generateurInfos(ContenuCommande contenu){
+
 		List<Node> nodes = new ArrayList<Node>();
 
 		HBox idBox = new HBox();
@@ -987,9 +1079,9 @@ public class EditionContenu {
 		TextField coutField = new TextField();
 		coutLabel.setLabelFor(coutField);
 		coutField.setPromptText("Coût");
-        coutField.setText("" + numberFormatter.format(contenu.getCout()));
+        coutField.setText("" + NUMBER_FORMATTER.format(contenu.getCout()));
 
-        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>() {
+        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>(){ //ça c'est pas de moi (https://gist.github.com/karimsqualli96/f8d4c2995da8e11496ed) et je l'ai un peu modifié, ça permet de restreindre l'écriture dans le field aux nombres réels en français - merci à karimsqualli96
 
             @Override
             public TextFormatter.Change apply(TextFormatter.Change t) {
@@ -1034,10 +1126,18 @@ public class EditionContenu {
 		return(nodes);
 	}
 
-	public static List<Node> generateurInfosPlat(Plat plat){
+	/**
+	 * Renvoie la liste des informations relatives au plat passé en paramètres modifiables communes à tous les plats ({@code id}, {@code nom}, {@code cout}, {@code priorite}, {@code prix}, {@code nbMaxIngredients}, {@code nbMaxSauces}, et {@code utilisePain}).
+	 * 
+	 * @param plat le plat à modifier.
+	 * 
+	 * @return la liste des informations modifiables du plat.
+	 */
+	private static final List<Node> generateurInfosPlat(Plat plat){
+
 		List<Node> nodes = generateurInfos(plat);
 
-        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>() {
+        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>(){ //ça c'est pas de moi (https://gist.github.com/karimsqualli96/f8d4c2995da8e11496ed) et je l'ai un peu modifié, ça permet de restreindre l'écriture dans le field aux nombres réels en français - merci à karimsqualli96
 
             @Override
             public TextFormatter.Change apply(TextFormatter.Change t) {
@@ -1065,7 +1165,7 @@ public class EditionContenu {
 		TextField prixField = new TextField();
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
-        prixField.setText("" + numberFormatter.format(plat.getPrix()));
+        prixField.setText("" + NUMBER_FORMATTER.format(plat.getPrix()));
 
         prixField.setTextFormatter(new TextFormatter<>(filter));
 
@@ -1112,10 +1212,18 @@ public class EditionContenu {
 		return(nodes);
 	}
 
-	public static List<Node> generateurInfosSupplementBoisson(SupplementBoisson supplementBoisson){
+	/**
+	 * Renvoie la liste des informations relatives au supplément boisson passé en paramètres modifiables communes à tous les suppléments boisson ({@code id}, {@code nom}, {@code cout}, {@code priorite}, et {@code prix}).
+	 * 
+	 * @param supplementBoisson le supplément boisson à modifier.
+	 * 
+	 * @return la liste des informations modifiables du supplément boisson.
+	 */
+	private static final List<Node> generateurInfosSupplementBoisson(SupplementBoisson supplementBoisson){
+
 		List<Node> nodes = generateurInfos(supplementBoisson);
 
-        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>() {
+        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>(){ //ça c'est pas de moi (https://gist.github.com/karimsqualli96/f8d4c2995da8e11496ed) et je l'ai un peu modifié, ça permet de restreindre l'écriture dans le field aux nombres réels en français - merci à karimsqualli96
 
             @Override
             public TextFormatter.Change apply(TextFormatter.Change t) {
@@ -1143,7 +1251,7 @@ public class EditionContenu {
 		TextField prixField = new TextField();
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
-        prixField.setText("" + numberFormatter.format(supplementBoisson.getPrix()));
+        prixField.setText("" + NUMBER_FORMATTER.format(supplementBoisson.getPrix()));
 
         prixField.setTextFormatter(new TextFormatter<>(filter));
 
@@ -1153,10 +1261,18 @@ public class EditionContenu {
 		return(nodes);
 	}
 
-	public static List<Node> generateurInfosDessert(Dessert dessert){
+	/**
+	 * Renvoie la liste des informations relatives au dessert passé en paramètres modifiables communes à tous les desserts ({@code id}, {@code nom}, {@code cout}, {@code priorite}, et {@code prix}).
+	 * 
+	 * @param dessert le dessert à modifier.
+	 * 
+	 * @return la liste des informations modifiables du dessert.
+	 */
+	private static final List<Node> generateurInfosDessert(Dessert dessert){
+
 		List<Node> nodes = generateurInfos(dessert);
 
-        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>() {
+        UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>(){ //ça c'est pas de moi (https://gist.github.com/karimsqualli96/f8d4c2995da8e11496ed) et je l'ai un peu modifié, ça permet de restreindre l'écriture dans le field aux nombres réels en français - merci à karimsqualli96
 
             @Override
             public TextFormatter.Change apply(TextFormatter.Change t) {
@@ -1184,7 +1300,7 @@ public class EditionContenu {
 		TextField prixField = new TextField();
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
-        prixField.setText("" + numberFormatter.format(dessert.getPrix()));
+        prixField.setText("" + NUMBER_FORMATTER.format(dessert.getPrix()));
 
         prixField.setTextFormatter(new TextFormatter<>(filter));
 

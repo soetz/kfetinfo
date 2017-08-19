@@ -19,7 +19,7 @@ import kfetinfo.core.Core;
  * @author Simon Lecutiez - Sœtz
  * @version 1.0
  */
-public class Menu {
+public final class Menu {
 
 	//classe de style pour l'utilisation du CSS
 	public static final String BOUTON_MENU = "bouton-menu";
@@ -54,7 +54,7 @@ public class Menu {
 		stocks.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		stocks.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
-				Stocks.ecranStocks(core, theatre);
+				Stocks.ecranStocks(theatre);
 			}
 		});
 

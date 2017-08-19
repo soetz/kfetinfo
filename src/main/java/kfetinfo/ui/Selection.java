@@ -57,7 +57,7 @@ public final class Selection {
 
 	//variables utiles pour l'affichage du panneau de développement
 	private static final boolean DEV = true;
-	private static final long[] frameTimes = new long[100];
+	private static final long[] FRAME_TIMES = new long[100];
 	private static int frameTimeIndex = 0 ;
 	private static boolean arrayFilled = false ;
 
@@ -65,15 +65,15 @@ public final class Selection {
 	private static Label compteurBaguettes = new Label();
 
 	//propriétés et listes décrivant les contenus commandes sélectionnés
-	private static final ObjectProperty<Plat> platSelectionne = new SimpleObjectProperty<Plat>();
+	private static final ObjectProperty<Plat> PLAT_SELECTIONNE = new SimpleObjectProperty<Plat>();
 	private static List<Ingredient> ingredientsSelectionnes;
-	private static final BooleanProperty ingredientChange = new SimpleBooleanProperty(); //propriété indiquant uniquement que la liste des ingrédients sélectionnés a changé
+	private static final BooleanProperty INGREDIENT_CHANGE = new SimpleBooleanProperty(); //propriété indiquant uniquement que la liste des ingrédients sélectionnés a changé
 	private static List<Sauce> saucesSelectionnees;
-	private static final BooleanProperty sauceChangee = new SimpleBooleanProperty(); //propriété indiquant uniquement que la liste des sauces sélectionnées a changé
-	private static final ObjectProperty<Boisson> boissonSelectionnee = new SimpleObjectProperty<Boisson>();
-	private static final ObjectProperty<SupplementBoisson> supplementBoissonSelectionne = new SimpleObjectProperty<SupplementBoisson>();
-	private static final ObjectProperty<Dessert> dessertSelectionne = new SimpleObjectProperty<Dessert>();
-	private static final BooleanProperty commandeChangee = new SimpleBooleanProperty(); //propriété indiquant uniquement que le contenu de la commande a changé
+	private static final BooleanProperty SAUCE_CHANGEE = new SimpleBooleanProperty(); //propriété indiquant uniquement que la liste des sauces sélectionnées a changé
+	private static final ObjectProperty<Boisson> BOISSON_SELECTIONNEE = new SimpleObjectProperty<Boisson>();
+	private static final ObjectProperty<SupplementBoisson> SUPPLEMENT_BOISSON_SELECTIONNE = new SimpleObjectProperty<SupplementBoisson>();
+	private static final ObjectProperty<Dessert> DESSERT_SELECTIONNE = new SimpleObjectProperty<Dessert>();
+	private static final BooleanProperty COMMANDE_CHANGEE = new SimpleBooleanProperty(); //propriété indiquant uniquement que le contenu de la commande a changé
 
 	//listes utilisées pour détecter quel contenu est sélectionné (on vient chercher son index dans la liste)
 	private static List<RadioButton> radiosPlats;
@@ -254,8 +254,8 @@ public final class Selection {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosPlats){
 					if(newVal.equals(radio)){
-						platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio))); //on sélectionne le plat correspondant au bouton,
-						commandeChangee.set(!commandeChangee.get()); //on indique que le contenu de la commande a changé
+						PLAT_SELECTIONNE.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio))); //on sélectionne le plat correspondant au bouton,
+						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //on indique que le contenu de la commande a changé
 						if(chargementTermine){
 							grisageIngredients(); //et on grise les ingrédients ou les sauces suivant les spécificités du plat
 							grisageSauces();
@@ -266,7 +266,7 @@ public final class Selection {
 		});
 
 		platSelection.selectToggle(radiosPlats.get(radiosPlats.size() - 1)); //on sélectionne le dernier élément de la liste (« Rien »)
-		platSelectionne.set(BaseDonnees.getPlats().get(radiosPlats.size() - 1));
+		PLAT_SELECTIONNE.set(BaseDonnees.getPlats().get(radiosPlats.size() - 1));
 
 		Label titrePlats = new Label("PLAT");
 		titrePlats.getStyleClass().add(TITRE_GROUPE);
@@ -300,12 +300,12 @@ public final class Selection {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
 					if(checkBox.isSelected()){
 						ingredientsSelectionnes.add(BaseDonnees.getIngredients().get(checksIngredients.indexOf(checkBox)));
-						ingredientChange.set(!ingredientChange.get());
-						commandeChangee.set(!commandeChangee.get());
+						INGREDIENT_CHANGE.set(!INGREDIENT_CHANGE.get());
+						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get());
 					} else {
 						ingredientsSelectionnes.remove(BaseDonnees.getIngredients().get(checksIngredients.indexOf(checkBox)));
-						ingredientChange.set(!ingredientChange.get());
-						commandeChangee.set(!commandeChangee.get());
+						INGREDIENT_CHANGE.set(!INGREDIENT_CHANGE.get());
+						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get());
 					}
 				}
 			});
@@ -366,13 +366,13 @@ public final class Selection {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
 					if(checkBox.isSelected()){
 						saucesSelectionnees.add(BaseDonnees.getSauces().get(checksSauces.indexOf(checkBox)));
-						sauceChangee.set(!sauceChangee.get());
-						commandeChangee.set(!commandeChangee.get());
+						SAUCE_CHANGEE.set(!SAUCE_CHANGEE.get());
+						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get());
 						grisageSauces();
 					} else {
 						saucesSelectionnees.remove(BaseDonnees.getSauces().get(checksSauces.indexOf(checkBox)));
-						sauceChangee.set(!sauceChangee.get());
-						commandeChangee.set(!commandeChangee.get());
+						SAUCE_CHANGEE.set(!SAUCE_CHANGEE.get());
+						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get());
 						grisageSauces();
 					}
 				}
@@ -496,8 +496,8 @@ public final class Selection {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosBoissons){
 					if(newVal.equals(radio)){
-						boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.indexOf(radio))); //on sélectionne la boisson correspondant au bouton,
-						commandeChangee.set(!commandeChangee.get()); //et on indique que le contenu de la commande a changé
+						BOISSON_SELECTIONNEE.set(BaseDonnees.getBoissons().get(radiosBoissons.indexOf(radio))); //on sélectionne la boisson correspondant au bouton,
+						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
 			}
@@ -508,17 +508,17 @@ public final class Selection {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosSupplementsBoisson){
 					if(newVal.equals(radio)){
-						supplementBoissonSelectionne.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.indexOf(radio))); //on sélectionne le supplément boisson correspondant au bouton,
-						commandeChangee.set(!commandeChangee.get()); //et on indique que le contenu de la commande a changé
+						SUPPLEMENT_BOISSON_SELECTIONNE.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.indexOf(radio))); //on sélectionne le supplément boisson correspondant au bouton,
+						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
 			}
 		});
 
 		boissonSelection.selectToggle(radiosBoissons.get(radiosBoissons.size() - 1)); //on sélectionne le dernier élément de la liste (« Rien »)
-		boissonSelectionnee.set(BaseDonnees.getBoissons().get(radiosBoissons.size() - 1));
+		BOISSON_SELECTIONNEE.set(BaseDonnees.getBoissons().get(radiosBoissons.size() - 1));
 		supplementBoissonSelection.selectToggle(radiosSupplementsBoisson.get(radiosSupplementsBoisson.size() - 1)); //on sélectionne le dernier élément de la liste (« Rien »)
-		supplementBoissonSelectionne.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.size() - 1));
+		SUPPLEMENT_BOISSON_SELECTIONNE.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.size() - 1));
 
 		Label titreBoissons = new Label("BOISSON");
 		titreBoissons.getStyleClass().add(TITRE_GROUPE);
@@ -582,15 +582,15 @@ public final class Selection {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosDesserts){
 					if(newVal.equals(radio)){
-						dessertSelectionne.set(BaseDonnees.getDesserts().get(radiosDesserts.indexOf(radio))); //on sélectionne le dessert correspondant au bouton,
-						commandeChangee.set(!commandeChangee.get()); //et on indique que le contenu de la commande a changé
+						DESSERT_SELECTIONNE.set(BaseDonnees.getDesserts().get(radiosDesserts.indexOf(radio))); //on sélectionne le dessert correspondant au bouton,
+						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
 			}
 		});
 
 		dessertSelection.selectToggle(radiosDesserts.get(radiosDesserts.size() - 1)); //on sélectionne le dernier élément de la liste (« Rien »)
-		dessertSelectionne.set(BaseDonnees.getDesserts().get(radiosDesserts.size() - 1));
+		DESSERT_SELECTIONNE.set(BaseDonnees.getDesserts().get(radiosDesserts.size() - 1));
 
 		Label titreDesserts = new Label("DESSERT");
 		titreDesserts.getStyleClass().add(TITRE_GROUPE);
@@ -620,15 +620,15 @@ public final class Selection {
 				
 				@Override
 				public void handle(long now) {
-					long oldFrameTime = frameTimes[frameTimeIndex] ;
-					frameTimes[frameTimeIndex] = now ;
-					frameTimeIndex = (frameTimeIndex + 1) % frameTimes.length ;
+					long oldFrameTime = FRAME_TIMES[frameTimeIndex] ;
+					FRAME_TIMES[frameTimeIndex] = now ;
+					frameTimeIndex = (frameTimeIndex + 1) % FRAME_TIMES.length ;
 					if (frameTimeIndex == 0) {
 						arrayFilled = true ;
 					}
 					if (arrayFilled) {
 						long elapsedNanos = now - oldFrameTime ;
-						long elapsedNanosPerFrame = elapsedNanos / frameTimes.length ;
+						long elapsedNanosPerFrame = elapsedNanos / FRAME_TIMES.length ;
 						double frameRate = 1_000_000_000.0 / elapsedNanosPerFrame ;
 						dev.textProperty().bind(root.widthProperty().asString().concat(" x ").concat(root.heightProperty().asString()).concat(String.format(" - %.1f fps", frameRate)));
 					}
@@ -665,7 +665,7 @@ public final class Selection {
 			check.setSelected(false);
 		}
 
-		ingredientChange.set(!ingredientChange.get());
+		INGREDIENT_CHANGE.set(!INGREDIENT_CHANGE.get());
 
 		saucesSelectionnees = new ArrayList<Sauce>();
 
@@ -673,7 +673,7 @@ public final class Selection {
 			check.setSelected(false);
 		}
 
-		sauceChangee.set(!sauceChangee.get());
+		SAUCE_CHANGEE.set(!SAUCE_CHANGEE.get());
 
 		radiosBoissons.get(radiosBoissons.size() - 1).setSelected(true);
 
@@ -681,7 +681,7 @@ public final class Selection {
 
 		radiosDesserts.get(radiosDesserts.size() - 1).setSelected(true);
 
-		commandeChangee.set(!commandeChangee.get()); //on indique que le contenu de la commande a changé,
+		COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //on indique que le contenu de la commande a changé,
 
 		grisageIngredients(); //et on remet à jour le grisage des ingrédients et sauces
 		grisageSauces();
@@ -703,7 +703,7 @@ public final class Selection {
 	 */
 	private static final void grisageIngredients(){
 
-		if(platSelectionne.get().getNbMaxIngredients() == 0){ //si le nombre max d'ingrédients du plat est 0,
+		if(PLAT_SELECTIONNE.get().getNbMaxIngredients() == 0){ //si le nombre max d'ingrédients du plat est 0,
 			for(CheckBox checkBox : checksIngredients){
 				checkBox.setSelected(false);
 			}
@@ -731,7 +731,7 @@ public final class Selection {
 	 */
 	private static final void grisageSauces(){
 
-		if(platSelectionne.get().getNbMaxSauces() == 0){ //si le nombre max de sauces du plat est 0,
+		if(PLAT_SELECTIONNE.get().getNbMaxSauces() == 0){ //si le nombre max de sauces du plat est 0,
 			for(CheckBox checkBox : checksSauces){ //on décoche tous les checkboxes et on grise toutes les sauces
 				checkBox.setSelected(false);
 			}
@@ -739,14 +739,14 @@ public final class Selection {
 				box.setDisable(true);
 			}
 		} else {
-			if(saucesSelectionnees.size() == platSelectionne.get().getNbMaxSauces()){ //sinon si le nombre de sauces sélectionnées est égal au max du plat, on grise tous les checkboxes non sélectionnés
+			if(saucesSelectionnees.size() == PLAT_SELECTIONNE.get().getNbMaxSauces()){ //sinon si le nombre de sauces sélectionnées est égal au max du plat, on grise tous les checkboxes non sélectionnés
 				for(CheckBox checkBox : checksSauces){
 					if(!checkBox.isSelected()){
 						boxesSauces.get(checksSauces.indexOf(checkBox)).setDisable(true);
 					}
 				}
-			} else if(saucesSelectionnees.size() > platSelectionne.get().getNbMaxSauces()){ //sinon si le nombre de sauces sélectionnées est supérieur au max du plat (ce qui peut arriver lorsqu'on change de plat sélectionné), on décoche progressivement les sauces jusqu'à avoir le bon nombre de sauces cochées
-				while(saucesSelectionnees.size() > platSelectionne.get().getNbMaxSauces()){
+			} else if(saucesSelectionnees.size() > PLAT_SELECTIONNE.get().getNbMaxSauces()){ //sinon si le nombre de sauces sélectionnées est supérieur au max du plat (ce qui peut arriver lorsqu'on change de plat sélectionné), on décoche progressivement les sauces jusqu'à avoir le bon nombre de sauces cochées
+				while(saucesSelectionnees.size() > PLAT_SELECTIONNE.get().getNbMaxSauces()){
 					boolean decoche = false;
 					for(CheckBox check : checksSauces){
 						if(check.isSelected()&&!decoche){
@@ -910,7 +910,7 @@ public final class Selection {
 	 */
 	public static final Plat getPlatSelectionne(){
 
-		return(platSelectionne.get());
+		return(PLAT_SELECTIONNE.get());
 	}
 
 	/**
@@ -920,7 +920,7 @@ public final class Selection {
 	 */
 	public static final void setPlatSelectionne(Plat plat){
 
-		platSelectionne.set(plat);
+		PLAT_SELECTIONNE.set(plat);
 	}
 
 	/**
@@ -930,7 +930,7 @@ public final class Selection {
 	 */
 	public static final ObjectProperty<Plat> platSelectionnePropriete(){
 
-		return(platSelectionne);
+		return(PLAT_SELECTIONNE);
 	}
 
 	/**
@@ -940,7 +940,7 @@ public final class Selection {
 	 */
 	public static final BooleanProperty ingredientChangePropriete(){
 
-		return(ingredientChange);
+		return(INGREDIENT_CHANGE);
 	}
 
 	/**
@@ -960,7 +960,7 @@ public final class Selection {
 	 */
 	public static final BooleanProperty sauceChangeePropriete(){
 
-		return(sauceChangee);
+		return(SAUCE_CHANGEE);
 	}
 
 	/**
@@ -980,7 +980,7 @@ public final class Selection {
 	 */
 	public static final Boisson getBoissonSelectionnee(){
 
-		return(boissonSelectionnee.get());
+		return(BOISSON_SELECTIONNEE.get());
 	}
 
 	/**
@@ -990,7 +990,7 @@ public final class Selection {
 	 */
 	public static final void setBoissonSelectionnee(Boisson boisson){
 
-		boissonSelectionnee.set(boisson);
+		BOISSON_SELECTIONNEE.set(boisson);
 	}
 
 	/**
@@ -1000,7 +1000,7 @@ public final class Selection {
 	 */
 	public static final ObjectProperty<Boisson> boissonSelectionneePropriete(){
 
-		return(boissonSelectionnee);
+		return(BOISSON_SELECTIONNEE);
 	}
 
 	/**
@@ -1010,7 +1010,7 @@ public final class Selection {
 	 */
 	public static final SupplementBoisson getSupplementBoissonSelectionne(){
 
-		return(supplementBoissonSelectionne.get());
+		return(SUPPLEMENT_BOISSON_SELECTIONNE.get());
 	}
 
 	/**
@@ -1020,7 +1020,7 @@ public final class Selection {
 	 */
 	public static final void setSupplementBoissonSelectionne(SupplementBoisson supplementBoisson){
 
-		supplementBoissonSelectionne.set(supplementBoisson);
+		SUPPLEMENT_BOISSON_SELECTIONNE.set(supplementBoisson);
 	}
 
 	/**
@@ -1030,7 +1030,7 @@ public final class Selection {
 	 */
 	public static final ObjectProperty<SupplementBoisson> supplementBoissonSelectionnePropriete(){
 
-		return(supplementBoissonSelectionne);
+		return(SUPPLEMENT_BOISSON_SELECTIONNE);
 	}
 
 	/**
@@ -1040,7 +1040,7 @@ public final class Selection {
 	 */
 	public static final Dessert getDessertSelectionne(){
 
-		return(dessertSelectionne.get());
+		return(DESSERT_SELECTIONNE.get());
 	}
 
 	/**
@@ -1050,7 +1050,7 @@ public final class Selection {
 	 */
 	public static final void setDessertSelectionne(Dessert dessert){
 
-		dessertSelectionne.set(dessert);
+		DESSERT_SELECTIONNE.set(dessert);
 	}
 
 	/**
@@ -1060,7 +1060,7 @@ public final class Selection {
 	 */
 	public static final ObjectProperty<Dessert> dessertSelectionnePropriete(){
 
-		return(dessertSelectionne);
+		return(DESSERT_SELECTIONNE);
 	}
 
 	/**
@@ -1070,6 +1070,6 @@ public final class Selection {
 	 */
 	public static final BooleanProperty commandeChangeePropriete(){
 
-		return(commandeChangee);
+		return(COMMANDE_CHANGEE);
 	}
 }

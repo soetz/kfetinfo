@@ -13,37 +13,46 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Boisson;
 import kfetinfo.core.Core;
-import kfetinfo.core.CreateurBase;
 import kfetinfo.core.Dessert;
 import kfetinfo.core.Ingredient;
 import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
 import kfetinfo.core.SupplementBoisson;
 
-public class Stocks {
-	static List<CheckBox> checkBoxesPlats;
-	static float nbBaguettesAchetees;
-	static float nbBaguettesReservees;
+/**
+ * <p>Stocks est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de l'écran permettant de sélectionner les contenus commande en stocks ainsi que les quantités de pain achetées et réservées aux membres pour le service.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
+public final class Stocks {
 
-	public static void ecranStocks(Core core, Stage ecranPrincipal){
+	//variables transversales qui seront utilisées lors de l'enregistrement
+	private static List<CheckBox> checkBoxesPlats;
+	private static float nbBaguettesAchetees;
+	private static float nbBaguettesReservees;
+
+	/**
+	 * Crée une fenêtre permettant de gérer les stocks de contenus commande et de pain.
+	 * 
+	 * @param ecranPrincipal le {@code Stage} de la fenêtre principal du logiciel.
+	 */
+	public static final void ecranStocks(Stage ecranPrincipal){
+
 		BorderPane pane = new BorderPane();
 
 		HBox selection = new HBox();
@@ -78,34 +87,34 @@ public class Stocks {
 		Label baguettesMembres = new Label("Nombre de baguettes réservées aux membres");
 
 		NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
-		Label nbUtilisees = new Label("" + numberFormatter.format(core.getService().getNbBaguettesUtilisees()));
+		Label nbUtilisees = new Label("" + numberFormatter.format(Core.getService().getNbBaguettesUtilisees()));
 
-		nbBaguettesAchetees = core.getService().getNbBaguettesAchetees();
-		nbBaguettesReservees = core.getService().getNbBaguettesReservees();
+		nbBaguettesAchetees = Core.getService().getNbBaguettesAchetees();
+		nbBaguettesReservees = Core.getService().getNbBaguettesReservees();
 
 		Spinner<Float> spinnerAchetees = new Spinner(new SpinnerValueFactory() {
 			{
-				setValue(core.getService().getNbBaguettesAchetees());
+				setValue(Core.getService().getNbBaguettesAchetees());
 			}
 
-			public void decrement(int steps){
+			public void decrement(int steps){ //lorsque le spinner est décrémenté,
 				final Float value = ((Number)getValue()).floatValue();
 				final float val = (value == null) ? 0 : value;
-				if(val - 0.5*steps >= nbBaguettesReservees + core.getService().getNbBaguettesUtilisees()){
+				if(val - 0.5*steps >= nbBaguettesReservees + Core.getService().getNbBaguettesUtilisees()){ //la valeur diminue de 0,5 si celle-ci est supérieure ou égale au nombre de baguettes réservées + le nombre de baguettes utilisées + 0,5
 					setValue(val - 0.5*steps);
 				}
 			}
 
-			public void increment(int steps){
+			public void increment(int steps){ //lorsque le spinner est incrémenté,
 				final Float value = ((Number)getValue()).floatValue();
 				final float val = (value == null) ? 0 : value;
-				setValue(val + 0.5*steps);
+				setValue(val + 0.5*steps); //la valeur augmente de 0,5
 			}
 		});
 
 		spinnerAchetees.focusedProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				if(!spinnerAchetees.isFocused()){
+				if(!spinnerAchetees.isFocused()){ //lorsque le focus est perdu, on affecte la valeur du spinner à la variable nbBaguettesAchetees
 					Float nbBaguettesAcheteesV = ((Number)spinnerAchetees.getValue()).floatValue();
 					nbBaguettesAchetees = (nbBaguettesAcheteesV == null) ? 0 : nbBaguettesAcheteesV;
 				}
@@ -114,21 +123,21 @@ public class Stocks {
 
 		Spinner<Float> spinnerReservees = new Spinner(new SpinnerValueFactory() {
 			{
-				setValue(core.getService().getNbBaguettesReservees());
+				setValue(Core.getService().getNbBaguettesReservees());
 			}
 
-			public void decrement(int steps){
+			public void decrement(int steps){ //lorsque le spinner est décrémenté,
 				final Float value = ((Number)getValue()).floatValue();
 				final float val = (value == null) ? 0 : value;
-				if(val > 0){
+				if(val >= 0.5){ //la valeur diminue de 0,5 si celle-ci est supérieure ou égale à 0,5
 					setValue(val - 0.5*steps);
 				}
 			}
 
-			public void increment(int steps){
+			public void increment(int steps){ //lorsque le spinner est incrémenté,
 				final Float value = ((Number)getValue()).floatValue();
 				final float val = (value == null) ? 0 : value;
-				if(val + 0.5*steps <= nbBaguettesAchetees - core.getService().getNbBaguettesUtilisees()){
+				if(val + 0.5*steps <= nbBaguettesAchetees - Core.getService().getNbBaguettesUtilisees()){ //la valeur augmente de 0,5 si celle-ci est inférieure ou égale au nombre de baguettes achetées - moins le nombre de baguettes utilisées - 0,5
 					setValue(val + 0.5*steps);
 				}
 			}
@@ -136,7 +145,7 @@ public class Stocks {
 
 		spinnerReservees.focusedProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				if(!spinnerReservees.isFocused()){
+				if(!spinnerReservees.isFocused()){ //lorsque le focus est perdu, on affecte la valeur du spinner à la variable nbBaguettesAchetees
 					Float nbBaguettesReserveesV = ((Number)spinnerReservees.getValue()).floatValue();
 					nbBaguettesReservees = (nbBaguettesReserveesV == null) ? 0 : nbBaguettesReserveesV;
 				}
@@ -146,12 +155,13 @@ public class Stocks {
 		Button appliquer = new Button("Appliquer");
 		appliquer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
-				core.getService().setNbBaguettesAchetees(nbBaguettesAchetees);
-				core.getService().setNbBaguettesReservees(nbBaguettesReservees);
+				Core.getService().setNbBaguettesAchetees(nbBaguettesAchetees);
+				Core.getService().setNbBaguettesReservees(nbBaguettesReservees);
 				for(CheckBox check : checkBoxesPlats){
-					check.setSelected(!check.isSelected());
+					check.setSelected(!check.isSelected()); //ça c'est pour griser les plats qui utilisent du pain si jamais il n'y en a plus, y'a sûrement une meilleure manière mais ça marche et ça m'évite de réfléchir alors ¯\_(ツ)_/¯
 					check.setSelected(!check.isSelected());
 				}
+
 				Selection.refreshCompteurBaguettes();
 			}
 		});
@@ -175,7 +185,7 @@ public class Stocks {
 		Scene scene = new Scene(pane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
 		Stage theatre = new Stage();
 		theatre.setAlwaysOnTop(true);
-		theatre.initModality(Modality.APPLICATION_MODAL);
+		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		theatre.setMinWidth(App.LARGEUR_MIN_FENETRE + 16);
 		theatre.setMinHeight(App.HAUTEUR_MIN_FENETRE + 39);
 		theatre.setTitle("Écran de sélection des éléments disponibles");
@@ -183,7 +193,15 @@ public class Stocks {
 		theatre.show();
 	}
 
-	public static VBox groupePlats(Region parent){
+	/**
+	 * Crée un panneau peuplé de checkboxes permettant de sélectionner les plats disponibles.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return le panneau de sélection des plats disponibles.
+	 */
+	public static final VBox groupePlats(Region parent){
+
 		VBox groupePlats = new VBox();
 
 		VBox listePlats = new VBox();
@@ -199,7 +217,7 @@ public class Stocks {
 				checkBox.selectedProperty().addListener(new ChangeListener() {
 					public void changed(ObservableValue o, Object oldVal, Object newVal){
 						boolean grise = false;
-						if(plat.getUtilisePain()){
+						if(plat.getUtilisePain()){ //si jamais le plat utilise du pain on le grise s'il n'y a plus de pain
 							if(Core.getService().getNbBaguettesRestantes() <= 0){
 								grise = true;
 							}
@@ -244,7 +262,15 @@ public class Stocks {
 		return(groupePlats);
 	}
 
-	public static VBox groupeIngredients(Region parent){
+	/**
+	 * Crée un panneau peuplé de checkboxes permettant de sélectionner les ingrédients disponibles.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return le panneau de sélection des ingrédients disponibles.
+	 */
+	public static final VBox groupeIngredients(Region parent){
+
 		VBox groupeIngredients = new VBox();
 
 		VBox listeIngredients = new VBox();
@@ -290,7 +316,15 @@ public class Stocks {
 		return(groupeIngredients);
 	}
 
-	public static VBox groupeSauces(Region parent){
+	/**
+	 * Crée un panneau peuplé de checkboxes permettant de sélectionner les sauces disponibles.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return le panneau de sélection des sauces disponibles.
+	 */
+	public static final VBox groupeSauces(Region parent){
+
 		VBox groupeSauces = new VBox();
 
 		VBox listeSauces = new VBox();
@@ -336,7 +370,15 @@ public class Stocks {
 		return(groupeSauces);
 	}
 
-	public static VBox groupeBoissons(Region parent){
+	/**
+	 * Crée un panneau peuplé de checkboxes permettant de sélectionner les boissons disponibles.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return le panneau de sélection des boissons disponibles.
+	 */
+	public static final VBox groupeBoissons(Region parent){
+
 		VBox groupeBoissons = new VBox();
 
 		VBox listeBoissons = new VBox();
@@ -384,7 +426,15 @@ public class Stocks {
 		return(groupeBoissons);
 	}
 
-	public static VBox groupeSupplementsBoisson(Region parent){
+	/**
+	 * Crée un panneau peuplé de checkboxes permettant de sélectionner les suppléments boisson disponibles.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return le panneau de sélection des suppléments boisson disponibles.
+	 */
+	public static final VBox groupeSupplementsBoisson(Region parent){
+
 		VBox groupeSupplementsBoisson = new VBox();
 
 		VBox listeSupplementsBoisson = new VBox();
@@ -432,7 +482,15 @@ public class Stocks {
 		return(groupeSupplementsBoisson);
 	}
 
-	public static VBox groupeDesserts(Region parent){
+	/**
+	 * Crée un panneau peuplé de checkboxes permettant de sélectionner les desserts disponibles.
+	 * 
+	 * @param parent le node parent de celui-ci.
+	 * 
+	 * @return le panneau de sélection des desserts disponibles.
+	 */
+	public static final VBox groupeDesserts(Region parent){
+
 		VBox groupeDesserts = new VBox();
 
 		VBox listeDesserts = new VBox();
