@@ -55,7 +55,7 @@ import kfetinfo.core.SupplementBoisson;
  * @author karimsqualli96 de GitHub
  * @version 1.0
  */
-public final class EditionContenu {
+public final class EditionContenus {
 
 	//listes des informations pour chaque type de contenu (regénéré lorsqu'un contenu est sélectionné)
 	private static final VBox INFOS_PLATS = new VBox();

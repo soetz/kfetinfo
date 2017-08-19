@@ -97,9 +97,22 @@ public class Service {
 			nbBaguettesAchetees = vieux.getNbBaguettesAchetees();
 			nbBaguettesReservees = vieux.getNbBaguettesReservees();
 			nbBaguettesBase = nbBaguettesAchetees - nbBaguettesReservees;
+
 			ordi = vieux.getOrdi();
-			commis = vieux.getCommis();
-			confection = vieux.getConfection();
+
+			commis = new ArrayList<Membre>();
+			for(Membre membre : vieux.getCommis()){
+				if((!membre.getId().equals(Membre.ID_MEMBRE_DEFAUT))&&BaseDonnees.getMembres().contains(membre)){
+					commis.add(membre);
+				}
+			}
+
+			confection = new ArrayList<Membre>();
+			for(Membre membre : vieux.getConfection()){
+				if((!membre.getId().equals(Membre.ID_MEMBRE_DEFAUT))&&BaseDonnees.getMembres().contains(membre)){
+					confection.add(membre);
+				}
+			}
 		} else { //sinon
 			this.date = date;
 			commandes = new ArrayList<Commande>();
@@ -482,7 +495,12 @@ public class Service {
 
 		if(!dateDernierService.equals(new Date(0))){
 			Service dernierService = LecteurBase.lireService(dateDernierService);
-			commisDernierService = dernierService.getCommis();
+			
+			for(Membre membre : dernierService.getCommis()){
+				if((!membre.getId().equals(Membre.ID_MEMBRE_DEFAUT))&&(BaseDonnees.getMembres().contains(membre))){
+					commisDernierService.add(membre);
+				}
+			}
 		}
 
 		return(commisDernierService);
@@ -501,7 +519,12 @@ public class Service {
 
 		if(!dateDernierService.equals(new Date(0))){
 			Service dernierService = LecteurBase.lireService(dateDernierService);
-			confectionDernierService = dernierService.getConfection();
+
+			for(Membre membre : dernierService.getConfection()){
+				if((!membre.getId().equals(Membre.ID_MEMBRE_DEFAUT))&&(BaseDonnees.getMembres().contains(membre))){
+					confectionDernierService.add(membre);
+				}
+			}
 		}
 
 		return(confectionDernierService);

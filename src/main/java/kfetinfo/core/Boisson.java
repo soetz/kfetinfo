@@ -19,7 +19,7 @@
 package kfetinfo.core;
 
 /**
- * <p>Boisson est une classe décrivant une boisson pouvant être servie à la K'Fet.</p>
+ * <p>Boisson est une classe décrivant une boisson pouvant être servie à la K'Fet. Elle hérite de {@code ContenuCommande}.</p>
  * 
  * @see ContenuCommande
  * 

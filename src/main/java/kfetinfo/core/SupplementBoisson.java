@@ -19,7 +19,7 @@
 package kfetinfo.core;
 
 /**
- * <p>SupplementBoisson est une classe décrivant un supplément (du sirop, la plupart du temps) pouvant être ajouté à une boisson servie à la K'Fet.</p>
+ * <p>SupplementBoisson est une classe décrivant un supplément (du sirop, la plupart du temps) pouvant être ajouté à une boisson servie à la K'Fet. Elle hérite de {@code ContenuCommande}.</p>
  * <p>Les suppléments boisson ont pour spécificité le fait d'avoir un attribut {@code prix} de type {@code float} décrivant le prix que doit payer le client pour ajouter ce supplément à sa boisson.</p>
  * 
  * @see ContenuCommande

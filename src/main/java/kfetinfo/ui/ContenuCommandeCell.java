@@ -9,8 +9,17 @@ import kfetinfo.core.Plat;
 import kfetinfo.core.Sauce;
 import kfetinfo.core.SupplementBoisson;
 
-public class ContenuCommandeCell extends ListCell<ContenuCommande> {
+/**
+ * <p>ContenuCommandeCell est une classe utilisée pour afficher des objets {@code ContenuCommande} dans des {@code ListView}. Elle hérite de {@code ListCell<ContenuCommande>}, du package {@code javafx.scene.control}.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
+public final class ContenuCommandeCell extends ListCell<ContenuCommande> {
+
+	@Override
 	protected void updateItem(ContenuCommande item, boolean empty){
+
 		super.updateItem(item, empty);
 		setText(null);
 		if(!empty && item != null){

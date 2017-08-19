@@ -14,7 +14,7 @@ import kfetinfo.core.Core;
  * <li>l'écran des stocks,</li>
  * <li>l'écran de modification du menu,</li>
  * <li>l'écran d'administration, et</li>
- * <li>l'écran des graphiques (non implémenté pour l'instant).</li></ul>
+ * <li>l'écran des graphiques (non implémenté pour l'instant).</li></ul></p>
  * 
  * @author Simon Lecutiez - Sœtz
  * @version 1.0
@@ -25,12 +25,12 @@ public final class Menu {
 	public static final String BOUTON_MENU = "bouton-menu";
 
 	/**
-	 * Crée un panneau muni de boutons permettant de faire apparaître les fenêtres secondaires du logiciel.
+	 * Crée une {@code HBox} munie de boutons permettant de faire apparaître les fenêtres secondaires du logiciel.
 	 * 
 	 * @param core le core du système K'Fet.
 	 * @param theatre le {@code Stage} de la fenêtre principal du logiciel.
 	 * 
-	 * @return
+	 * @return le panneau de menu.
 	 */
 	public static final HBox menu(Core core, Stage theatre){
 
@@ -65,7 +65,7 @@ public final class Menu {
 		menuBouton.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		menuBouton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
-				EditionContenu.ecran(core);
+				EditionContenus.ecran(core);
 			}
 		});
 
@@ -76,7 +76,7 @@ public final class Menu {
 		administration.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		administration.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
-				EditionMembre.ecran(core);
+				EditionMembres.ecran(core);
 			}
 		});
 

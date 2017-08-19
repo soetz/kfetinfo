@@ -481,7 +481,7 @@ public final class BaseDonnees {
 
 		chargerMembres(); //on recharge la liste des éléments
 
-		Membre membre = new Membre("f38aa97b-2c4b-491e-be10-884e48fbb6c2", "", "", "", "", new Date(0), 0, 0, 0); //élément par défaut (si on ne trouve aucun élément avec l'id passé en paramètres)
+		Membre membre = new Membre(); //élément par défaut (si on ne trouve aucun élément avec l'id passé en paramètres)
 		for(Membre membreListe : membres){ //pour chaque élément de la liste
 			if(membreListe.getId().equals(id)){ //si l'id correspond l'élément par défaut est remplacé
 				membre = membreListe;
@@ -754,7 +754,10 @@ public final class BaseDonnees {
 		for(File fichier : dossierMembres.listFiles()){ //pour chaque fichier dans le dossier des membres
 			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){ //si le fichier en question est un fichier et que son extension est json
 				Membre membre = LecteurBase.lireMembre(FilenameUtils.removeExtension(fichier.getName())); //on lit le fichier pour obtenir un Membre et on l'ajoute à la liste des membres
-				membres.add(membre);
+
+				if(!membre.getId().equals(Membre.ID_MEMBRE_DEFAUT)){
+					membres.add(membre);
+				}
 			}
 		}
 

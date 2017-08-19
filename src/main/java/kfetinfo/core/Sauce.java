@@ -19,7 +19,7 @@
 package kfetinfo.core;
 
 /**
- * <p>Sauce est une classe décrivant une sauce pouvant être utilisée pour assaisonner un plat pouvant être servi à la K'Fet.</p>
+ * <p>Sauce est une classe décrivant une sauce pouvant être utilisée pour assaisonner un plat pouvant être servi à la K'Fet. Elle hérite de {@code ContenuCommande}.</p>
  * 
  * @see ContenuCommande
  * 

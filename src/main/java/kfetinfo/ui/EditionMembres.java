@@ -36,9 +36,21 @@ import kfetinfo.core.CreateurBase;
 import kfetinfo.core.Membre;
 import kfetinfo.core.Plat;
 
-public class EditionMembre {
+/**
+ * <p>EditionMembres est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'édition des informations des membres de la base de données.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
+public class EditionMembres {
 
-	public static void ecran(Core core){
+	/**
+	 * Crée une fenêtre permettant de modifier les membres de la base de données.
+	 * 
+	 * @param core le core du système K'Fet.
+	 */
+	public static final void ecran(Core core){
+
 		Stage theatre = new Stage();
 
 		HBox pane = new HBox();
@@ -231,7 +243,7 @@ public class EditionMembre {
 		Scene scene = new Scene(pane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
 		theatre.setAlwaysOnTop(true);
 		theatre.setResizable(false);
-		theatre.initModality(Modality.APPLICATION_MODAL);
+		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		theatre.setMinWidth(App.LARGEUR_MIN_FENETRE + 16);
 		theatre.setMinHeight(App.HAUTEUR_MIN_FENETRE + 39);
 		theatre.setTitle("Écran de modification de la liste des membres");

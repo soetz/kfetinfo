@@ -19,7 +19,7 @@
 package kfetinfo.core;
 
 /**
- * <p>Dessert est une classe décrivant un dessert pouvant être servi à la K'Fet.</p>
+ * <p>Dessert est une classe décrivant un dessert pouvant être servi à la K'Fet. Elle hérite de {@code ContenuCommande}.</p>
  * <p>Les desserts ont pour spécificité le fait d'avoir un attribut {@code prix} de type {@code float} décrivant le prix que doit payer le client pour ajouter ce dessert à sa commande.</p>
  * 
  * @see ContenuCommande

@@ -19,7 +19,7 @@
 package kfetinfo.core;
 
 /**
- * <p>Ingredient est une classe décrivant un ingrédient pouvant être inséré dans un plat pouvant être servi à la K'Fet.</p>
+ * <p>Ingredient est une classe décrivant un ingrédient pouvant être inséré dans un plat pouvant être servi à la K'Fet. Elle hérite de {@code ContenuCommande}.</p>
  * 
  * @see ContenuCommande
  * 
