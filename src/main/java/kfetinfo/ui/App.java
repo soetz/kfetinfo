@@ -52,8 +52,8 @@ public class App extends Application{
 	}
 
 	public void start(Stage theatre){
-		Locale.setDefault(Locale.FRENCH);
 		Locale.setDefault(Locale.FRANCE);
+		Locale.setDefault(Locale.FRENCH);
 
 		Core core = new Core();
 

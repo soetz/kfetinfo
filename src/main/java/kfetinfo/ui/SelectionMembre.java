@@ -197,7 +197,7 @@ public class SelectionMembre {
 				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour();
-				EcranConfection.mettreEcransAJour(core);
+				EcranConfection.mettreEcransAJour();
 			}
 		});
 
@@ -255,7 +255,7 @@ public class SelectionMembre {
 				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour();
-				EcranConfection.mettreEcransAJour(core);
+				EcranConfection.mettreEcransAJour();
 			}
 		});
 
@@ -313,7 +313,7 @@ public class SelectionMembre {
 				}
 				core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour();
-				EcranConfection.mettreEcransAJour(core);
+				EcranConfection.mettreEcransAJour();
 			}
 		});
 

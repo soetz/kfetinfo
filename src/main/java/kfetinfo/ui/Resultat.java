@@ -548,7 +548,7 @@ public final class Resultat {
 						Core.getService());
 
 						Core.getService().ajouterCommande(commande); //on l'ajoute
-						EcranConfection.mettreEcransAJour(core); //on met les données de l'écran de confection à jour
+						EcranConfection.mettreEcransAJour(); //on met les données de l'écran de confection à jour
 
 						if(Selection.getPlatSelectionne().getUtilisePain()){ //s'il n'y a plus de pain, on grise les plats qui en utilisent
 							if(Core.getService().getNbBaguettesRestantes() <= 0){
@@ -635,7 +635,7 @@ public final class Resultat {
 				SelectionMembre.selectionConfection1(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						Core.getService().assignation();
-						EcranConfection.mettreEcransAJour(core);
+						EcranConfection.mettreEcransAJour();
 					}
 				});
 			}
@@ -647,7 +647,7 @@ public final class Resultat {
 				SelectionMembre.selectionConfection2(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						Core.getService().assignation();
-						EcranConfection.mettreEcransAJour(core);
+						EcranConfection.mettreEcransAJour();
 					}
 				});
 			}
@@ -659,7 +659,7 @@ public final class Resultat {
 				SelectionMembre.selectionConfection3(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						Core.getService().assignation();
-						EcranConfection.mettreEcransAJour(core);
+						EcranConfection.mettreEcransAJour();
 					}
 				});
 			}
@@ -710,7 +710,7 @@ public final class Resultat {
 	/**
 	 * Remet toutes les pièces de la caisse à zéro.
 	 */
-	public static void resetPieces(){
+	public static final void resetPieces(){
 
 		nbUnCent = 0;
 		nbDeuxCent = 0;
@@ -742,7 +742,7 @@ public final class Resultat {
 	/**
 	 * Met le compte d'argent à rendre à jour. Celui-ci fonctionne de la manière suivante : si le client n'a pas donné assez d'argent, alors le compte affiche « - € », s'il a donné pile la bonne quantité d'argent, il affiche « 0 € » et s'il a donné trop d'argent il indique le montant à rendre au client.
 	 */
-	public static void mettreCompteurAJour(){
+	public static final void mettreCompteurAJour(){
 
 		float totalCommande = Selection.getPrixCommande();
 		float pris = 0f;
@@ -779,7 +779,7 @@ public final class Resultat {
 	/**
 	 * Met l'affichage du label correspondant au membre au poste ordi à jour.
 	 */
-	public static void mettreOrdiAJour(){
+	public static final void mettreOrdiAJour(){
 		if(!Core.getService().getOrdi().getId().equals(Membre.ID_MEMBRE_DEFAUT)){
 			membreOrdi.setText(Core.getService().getOrdi().getBlazeCourt().toUpperCase());
 		} else {
@@ -790,7 +790,7 @@ public final class Resultat {
 	/**
 	 * Met l'affichage des labels correspondant au membres au poste commis à jour.
 	 */
-	public static void mettreCommisAJour(){
+	public static final void mettreCommisAJour(){
 		if(Core.getService().getCommis().size() > 0){
 			membreCommis1.setText(Core.getService().getCommis().get(0).getBlazeCourt().toUpperCase());
 			if(Core.getService().getCommis().size() > 1){
@@ -806,7 +806,7 @@ public final class Resultat {
 	/**
 	 * Met l'affichage des labels correspondant au membres au poste confection à jour.
 	 */
-	public static void mettreConfectionAJour(){
+	public static final void mettreConfectionAJour(){
 		if(Core.getService().getConfection().size() > 0){
 			membreConfection1.setText(Core.getService().getConfection().get(0).getBlazeCourt().toUpperCase());
 			if(Core.getService().getConfection().size() > 1){
