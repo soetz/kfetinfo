@@ -1,17 +1,35 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
+import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Commande;
+import kfetinfo.core.CommandeAssignee;
+import kfetinfo.core.Core;
+import kfetinfo.core.Ingredient;
+import kfetinfo.core.Sauce;
+
 import java.util.List;
+import java.util.ArrayList;
 
-import com.sun.javafx.collections.ObservableListWrapper;
-
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -23,40 +41,57 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import kfetinfo.core.BaseDonnees;
-import kfetinfo.core.Commande;
-import kfetinfo.core.CommandeAssignee;
-import kfetinfo.core.Core;
-import kfetinfo.core.Ingredient;
-import kfetinfo.core.Sauce;
 
-public class Commandes {
+/**
+ * <p>Commandes est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de la liste des commandes du service.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
+public final class Commandes {
+
+	//classes de style pour l'utilisation du CSS
 	public static final String COMMANDE = "commande";
 	public static final String PANNEAU_COMMANDES = "panneau-commandes";
 	public static final String PLAT_LISTE_COMMANDES = "plat-liste-commandes";
 
-	public static final Double HAUTEUR_COMMANDE_FERMEE = 30.0;
-	public static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 134.0;
-	public static final Double HAUTEUR_AJOUT_BOUTONS = 36.0;
+	//constantes pour l'affichage
+	private static final Double HAUTEUR_COMMANDE_FERMEE = 30.0;
+	private static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 126.0;
+	private static final Double HAUTEUR_AJOUT_BOUTONS = 36.0;
 
-	static VBox commandesRealisees = new VBox();
-	static List<Integer> listeCommandesRealisees = new ArrayList<Integer>();
-	static List<Boolean> devCommandesRealisees = new ArrayList<Boolean>();
-	static List<VBox> contenusCommandesRealisees = new ArrayList<VBox>();
-	static VBox commandesAssignees = new VBox();
-	static List<Integer> listeCommandesAssignees = new ArrayList<Integer>();
-	static List<Boolean> devCommandesAssignees = new ArrayList<Boolean>();
-	static List<VBox> contenusCommandesAssignees = new ArrayList<VBox>();
-	static VBox commandesAjoutees = new VBox();
-	static List<Integer> listeCommandesAjoutees = new ArrayList<Integer>();
-	static List<Boolean> devCommandesAjoutees = new ArrayList<Boolean>();
-	static List<VBox> contenusCommandesAjoutees = new ArrayList<VBox>();
-	static VBox commandesDonnees = new VBox();
-	static List<Integer> listeCommandesDonnees = new ArrayList<Integer>();
-	static List<Boolean> devCommandesDonnees = new ArrayList<Boolean>();
-	static List<VBox> contenusCommandesDonnees = new ArrayList<VBox>();
+	//VBox de commandes dans chaque état
+	private static VBox commandesRealisees = new VBox();
+	private static VBox commandesAssignees = new VBox();
+	private static VBox commandesAjoutees = new VBox();
+	private static VBox commandesDonnees = new VBox();
 
-	public static Region commandes(Core core){
+	//listes des commandes des listes de chaque état
+	private static List<Integer> listeCommandesRealisees = new ArrayList<Integer>();
+	private static List<Integer> listeCommandesAssignees = new ArrayList<Integer>();
+	private static List<Integer> listeCommandesAjoutees = new ArrayList<Integer>();
+	private static List<Integer> listeCommandesDonnees = new ArrayList<Integer>();
+
+	//listes des commandes développées pour chaque état
+	private static List<Boolean> devCommandesRealisees = new ArrayList<Boolean>();
+	private static List<Boolean> devCommandesAssignees = new ArrayList<Boolean>();
+	private static List<Boolean> devCommandesAjoutees = new ArrayList<Boolean>();
+	private static List<Boolean> devCommandesDonnees = new ArrayList<Boolean>();
+
+	//listes des contenus de commandes pour chaque état (afin de les développer)
+	private static List<VBox> contenusCommandesRealisees = new ArrayList<VBox>();
+	private static List<VBox> contenusCommandesAssignees = new ArrayList<VBox>();
+	private static List<VBox> contenusCommandesAjoutees = new ArrayList<VBox>();
+	private static List<VBox> contenusCommandesDonnees = new ArrayList<VBox>();
+
+	/**
+	 * Crée une {@code Region} permettant d'afficher la liste des commandes formulées pendant le service ainsi que leurs état respectifs.
+	 * 
+	 * @return la liste des commandes.
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static final Region commandes(){
+
 		ScrollPane panneauCommandes = new ScrollPane();
 		panneauCommandes.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		panneauCommandes.setMinWidth(App.TAILLE_PANNEAU_COMMANDES);
@@ -64,11 +99,11 @@ public class Commandes {
 		panneauCommandes.setHbarPolicy(ScrollBarPolicy.NEVER);
 		panneauCommandes.getStyleClass().add(PANNEAU_COMMANDES);
 
-		for(Commande commande : core.getService().getCommandes()){
+		for(Commande commande : Core.getService().getCommandes()){ //pour chaque commande,
 			if(commande instanceof CommandeAssignee){
 				CommandeAssignee commandeAssignee = (CommandeAssignee)commande;
 				if(commandeAssignee.getEstRealisee()){
-					if(commandeAssignee.getEstDonnee()){ //commande donnée
+					if(commandeAssignee.getEstDonnee()){ //si la commande est donnée,
 						listeCommandesDonnees.add(commandeAssignee.getNumero());
 
 						AnchorPane commandePane = new AnchorPane();
@@ -92,7 +127,7 @@ public class Commandes {
 						plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
 
 						Label confection = new Label();
-						confection.setText(commandeAssignee.getMembre().getBlazeCourt());
+						confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle était affectée
 				
 						VBox contenuCommande = new VBox();
 						contenuCommande.setVisible(false);
@@ -102,7 +137,7 @@ public class Commandes {
 						Label lbSauces = lbSauces(commandeAssignee);
 						lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 						Label lbBoisson = new Label();
-						if(commandeAssignee.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+						if(commandeAssignee.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 							lbBoisson.setText(commandeAssignee.getBoisson().getNom());
 						} else {
 							lbBoisson.setText(commandeAssignee.getBoisson().getNom() + " + " + commandeAssignee.getSupplementBoisson().getNom());
@@ -144,14 +179,14 @@ public class Commandes {
 
 						retirer.setOnAction(new EventHandler<ActionEvent>(){
 							public void handle(ActionEvent a){
-								core.getService().retirerCommande(commande);
-								EcranConfection.mettreEcransAJour(core);
-								Selection.refreshBaguettes(core);
+								Core.getService().retirerCommande(commande);
+								EcranConfection.mettreEcransAJour();
+								Selection.refreshCompteurBaguettes();
 							}
 						});
 
 						commandesDonnees.getChildren().add(commandePane);
-					} else { //commande réalisée
+					} else { //sinon si la commande est réalisée,
 						listeCommandesRealisees.add(commandeAssignee.getNumero());
 
 						AnchorPane commandePane = new AnchorPane();
@@ -175,7 +210,7 @@ public class Commandes {
 						plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
 
 						Label confection = new Label();
-						confection.setText(commandeAssignee.getMembre().getBlazeCourt());
+						confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle était affectée
 				
 						VBox contenuCommande = new VBox();
 						contenuCommande.setVisible(false);
@@ -185,7 +220,7 @@ public class Commandes {
 						Label lbSauces = lbSauces(commandeAssignee);
 						lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 						Label lbBoisson = new Label();
-						if(commandeAssignee.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+						if(commandeAssignee.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 							lbBoisson.setText(commandeAssignee.getBoisson().getNom());
 						} else {
 							lbBoisson.setText(commandeAssignee.getBoisson().getNom() + " + " + commandeAssignee.getSupplementBoisson().getNom());
@@ -200,6 +235,7 @@ public class Commandes {
 						contenusCommandesRealisees.add(contenuCommande);
 						devCommandesRealisees.add(false);
 
+						//et on ajoute un bouton pour indiquer que la commande a été donnée
 						Button boutonDonnee = new Button("Donnée");
 
 						AnchorPane.setTopAnchor(numero, -1.0);
@@ -232,21 +268,21 @@ public class Commandes {
 
 						retirer.setOnAction(new EventHandler<ActionEvent>(){
 							public void handle(ActionEvent a){
-								core.getService().retirerCommande(commande);
-								EcranConfection.mettreEcransAJour(core);
-								Selection.refreshBaguettes(core);
+								Core.getService().retirerCommande(commande);
+								EcranConfection.mettreEcransAJour();
+								Selection.refreshCompteurBaguettes();
 							}
 						});
 
 						boutonDonnee.setOnAction(new EventHandler<ActionEvent>(){
 							public void handle(ActionEvent a){
-								commandeAssignee.donnee(core.getService());
+								commandeAssignee.donnee(Core.getService());
 							}
 						});
 
 						commandesRealisees.getChildren().add(commandePane);
 					}
-				} else { //commande assignée
+				} else { //sinon si la commande est assignée,
 					listeCommandesAssignees.add(commandeAssignee.getNumero());
 
 					AnchorPane commandePane = new AnchorPane();
@@ -270,7 +306,7 @@ public class Commandes {
 					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
 
 					Label confection = new Label();
-					confection.setText(commandeAssignee.getMembre().getBlazeCourt());
+					confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle est affectée
 			
 					VBox contenuCommande = new VBox();
 					contenuCommande.setVisible(false);
@@ -280,7 +316,7 @@ public class Commandes {
 					Label lbSauces = lbSauces(commandeAssignee);
 					lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 					Label lbBoisson = new Label();
-					if(commandeAssignee.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+					if(commandeAssignee.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 						lbBoisson.setText(commandeAssignee.getBoisson().getNom());
 					} else {
 						lbBoisson.setText(commandeAssignee.getBoisson().getNom() + " + " + commandeAssignee.getSupplementBoisson().getNom());
@@ -295,6 +331,7 @@ public class Commandes {
 					contenusCommandesAssignees.add(contenuCommande);
 					devCommandesAssignees.add(false);
 
+					//et on ajoute un bouton pour indiquer que la commande est réalisée, et un autre pour indiquer qu'elle est donnée
 					Button boutonRealisee = new Button("Réalisée");
 					Button boutonDonnee = new Button("Donnée");
 
@@ -331,28 +368,28 @@ public class Commandes {
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour(core);
-							Selection.refreshBaguettes(core);
+							Core.getService().retirerCommande(commande);
+							EcranConfection.mettreEcransAJour();
+							Selection.refreshCompteurBaguettes();
 						}
 					});
 
 					boutonRealisee.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							commandeAssignee.realisee(core.getService());
-							EcranConfection.mettreEcransAJour(core);
+							commandeAssignee.realisee(Core.getService());
+							EcranConfection.mettreEcransAJour();
 						}
 					});
 
 					boutonDonnee.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							commandeAssignee.donnee(core.getService());
+							commandeAssignee.donnee(Core.getService());
 						}
 					});
 
 					commandesAssignees.getChildren().add(commandePane);
 				}
-			} else { //commande ajoutée
+			} else { //sinon alors la commande est simplement ajoutée
 				listeCommandesAjoutees.add(commande.getNumero());
 
 				AnchorPane commandePane = new AnchorPane();
@@ -383,7 +420,7 @@ public class Commandes {
 				Label lbSauces = lbSauces(commande);
 				lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 				Label lbBoisson = new Label();
-				if(commande.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+				if(commande.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 					lbBoisson.setText(commande.getBoisson().getNom());
 				} else {
 					lbBoisson.setText(commande.getBoisson().getNom() + " + " + commande.getSupplementBoisson().getNom());
@@ -422,9 +459,9 @@ public class Commandes {
 
 				retirer.setOnAction(new EventHandler<ActionEvent>(){
 					public void handle(ActionEvent a){
-						core.getService().retirerCommande(commande);
-						EcranConfection.mettreEcransAJour(core);
-						Selection.refreshBaguettes(core);
+						Core.getService().retirerCommande(commande);
+						EcranConfection.mettreEcransAJour();
+						Selection.refreshCompteurBaguettes();
 					}
 				});
 
@@ -440,7 +477,8 @@ public class Commandes {
 		commandes.getChildren().addAll(commandesRealisees, commandesAssignees, commandesAjoutees, commandesDonnees);
 		panneauCommandes.setContent(commandes);
 
-		core.getService().nouvelleCommandePropriete().addListener(new ChangeListener() {
+		//si une nouvelle commande est ajoutée, on l'ajoute à la liste des nouvelles commandes
+		Core.getService().nouvelleCommandePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				Commande commande = (newVal != null) ? (Commande)newVal : new Commande();
 				listeCommandesAjoutees.add(commande.getNumero());
@@ -473,7 +511,7 @@ public class Commandes {
 				Label lbSauces = lbSauces(commande);
 				lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 				Label lbBoisson = new Label();
-				if(commande.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+				if(commande.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 					lbBoisson.setText(commande.getBoisson().getNom());
 				} else {
 					lbBoisson.setText(commande.getBoisson().getNom() + " + " + commande.getSupplementBoisson().getNom());
@@ -512,9 +550,9 @@ public class Commandes {
 
 				retirer.setOnAction(new EventHandler<ActionEvent>(){
 					public void handle(ActionEvent a){
-						core.getService().retirerCommande(commande);
-						EcranConfection.mettreEcransAJour(core);
-						Selection.refreshBaguettes(core);
+						Core.getService().retirerCommande(commande);
+						EcranConfection.mettreEcransAJour();
+						Selection.refreshCompteurBaguettes();
 					}
 				});
 
@@ -522,9 +560,8 @@ public class Commandes {
 			}
 		});
 
-		//###################################################################
-
-		core.getService().nouvelleCommandeAssigneePropriete().addListener(new ChangeListener() {
+		//si une commande est nouvellement assignée, on la retire de la retire de la liste des commandes ajoutées et on l'ajoute à la liste des commandes assignées
+		Core.getService().nouvelleCommandeAssigneePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				CommandeAssignee commande = (newVal != null) ? (CommandeAssignee)newVal : null;
 				if(commande != null){
@@ -575,7 +612,7 @@ public class Commandes {
 					Label lbSauces = lbSauces(commande);
 					lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 					Label lbBoisson = new Label();
-					if(commande.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+					if(commande.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 						lbBoisson.setText(commande.getBoisson().getNom());
 					} else {
 						lbBoisson.setText(commande.getBoisson().getNom() + " + " + commande.getSupplementBoisson().getNom());
@@ -626,22 +663,26 @@ public class Commandes {
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour(core);
-							Selection.refreshBaguettes(core);
+							Core.getService().retirerCommande(commande);
+							EcranConfection.mettreEcransAJour();
+							Selection.refreshCompteurBaguettes();
 						}
 					});
 
 					boutonRealisee.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							commande.realisee(core.getService());
-							EcranConfection.mettreEcransAJour(core);
+							Commande cmd = Core.getService().getCommande(commande.getNumero()); //on re-récupère la commande assignée correspondant au numéro parce que sinon ça bugge (vu qu'on doit changer l'objet Commande de la liste de commandes du Service en CommandeAssignee il considère que c'est un autre objet et donc le fait qu'on modifie les valeurs des attributs de la commande assignée via ses propres méthodes l'applique pas à celui de la liste, ou un truc comme ça
+							CommandeAssignee cmdA = (CommandeAssignee)cmd;
+							cmdA.realisee(Core.getService());
+							EcranConfection.mettreEcransAJour();
 						}
 					});
 
 					boutonDonnee.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							commande.donnee(core.getService());
+							Commande cmd = Core.getService().getCommande(commande.getNumero()); //on re-récupère la commande assignée correspondant au numéro parce que sinon ça bugge (vu qu'on doit changer l'objet Commande de la liste de commandes du Service en CommandeAssignee il considère que c'est un autre objet et donc le fait qu'on modifie les valeurs des attributs de la commande assignée via ses propres méthodes l'applique pas à celui de la liste, ou un truc comme ça
+							CommandeAssignee cmdA = (CommandeAssignee)cmd;
+							cmdA.donnee(Core.getService());
 						}
 					});
 
@@ -650,9 +691,8 @@ public class Commandes {
 			}
 		});
 
-		//###################################################################
-
-		core.getService().nouvelleCommandeRealiseePropriete().addListener(new ChangeListener() {
+		//si une commande est nouvellement réalisée, on la retire de la retire de la liste des commandes assignées et on l'ajoute à la liste des commandes réalisées
+		Core.getService().nouvelleCommandeRealiseePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				CommandeAssignee commande = (newVal != null) ? (CommandeAssignee)newVal : null;
 				if(commande != null){
@@ -703,7 +743,7 @@ public class Commandes {
 					Label lbSauces = lbSauces(commande);
 					lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 					Label lbBoisson = new Label();
-					if(commande.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+					if(commande.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 						lbBoisson.setText(commande.getBoisson().getNom());
 					} else {
 						lbBoisson.setText(commande.getBoisson().getNom() + " + " + commande.getSupplementBoisson().getNom());
@@ -750,15 +790,17 @@ public class Commandes {
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour(core);
-							Selection.refreshBaguettes(core);
+							Core.getService().retirerCommande(commande);
+							EcranConfection.mettreEcransAJour();
+							Selection.refreshCompteurBaguettes();
 						}
 					});
 
 					boutonDonnee.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							commande.donnee(core.getService());
+							Commande cmd = Core.getService().getCommande(commande.getNumero()); //on re-récupère la commande assignée correspondant au numéro parce que sinon ça bugge (vu qu'on doit changer l'objet Commande de la liste de commandes du Service en CommandeAssignee il considère que c'est un autre objet et donc le fait qu'on modifie les valeurs des attributs de la commande assignée via ses propres méthodes l'applique pas à celui de la liste, ou un truc comme ça
+							CommandeAssignee cmdA = (CommandeAssignee)cmd;
+							cmdA.donnee(Core.getService());
 						}
 					});
 
@@ -767,9 +809,8 @@ public class Commandes {
 			}
 		});
 
-		//###################################################################
-
-		core.getService().nouvelleCommandeDonneePropriete().addListener(new ChangeListener() {
+		//si une commande est nouvellement donnée, on la retire de la retire de la liste des commandes assignées ou de celle des commandes réalisées et on l'ajoute à la liste des commandes données
+		Core.getService().nouvelleCommandeDonneePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				CommandeAssignee commande = (newVal != null) ? (CommandeAssignee)newVal : null;
 				if(commande != null){
@@ -834,7 +875,7 @@ public class Commandes {
 					Label lbSauces = lbSauces(commande);
 					lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 					Label lbBoisson = new Label();
-					if(commande.getSupplementBoisson().getId().equals("fa03180b-95ad-4a5b-84f2-cbdc2beae920")){
+					if(commande.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 						lbBoisson.setText(commande.getBoisson().getNom());
 					} else {
 						lbBoisson.setText(commande.getBoisson().getNom() + " + " + commande.getSupplementBoisson().getNom());
@@ -876,9 +917,9 @@ public class Commandes {
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour(core);
-							Selection.refreshBaguettes(core);
+							Core.getService().retirerCommande(commande);
+							EcranConfection.mettreEcransAJour();
+							Selection.refreshCompteurBaguettes();
 						}
 					});
 
@@ -887,9 +928,8 @@ public class Commandes {
 			}
 		});
 
-		//###################################################################
-
-		core.getService().nouvelleCommandeRetireePropriete().addListener(new ChangeListener() {
+		//si une commande est nouvellement retirée, on la retire de la retire de toutes les listes
+		Core.getService().nouvelleCommandeRetireePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				Commande commande = (newVal != null) ? (Commande)newVal : null;
 				if(commande != null){
@@ -954,7 +994,15 @@ public class Commandes {
 		return(panneauCommandes);
 	}
 
-	private static Label lbIngredients(Commande commande){
+	/**
+	 * Renvoie un {@code Label} affichant la liste des ingrédients de la commande passée en paramètres sur une ligne.
+	 * 
+	 * @param commande la commande dont on souhaite extraire la liste des ingrédients.
+	 * 
+	 * @return un label avec la liste des ingrédients sur une ligne.
+	 */
+	private static final Label lbIngredients(Commande commande){
+
 		Label lbIngredients = new Label();
 
 		String nomsIngredients = "";
@@ -973,7 +1021,14 @@ public class Commandes {
 		return(lbIngredients);
 	}
 
-	private static Label lbSauces(Commande commande){
+	/**
+	 * Renvoie un {@code Label} affichant la liste des sauces de la commande passée en paramètres sur une ligne.
+	 * 
+	 * @param commande la commande dont on souhaite extraire la liste des sauces.
+	 * 
+	 * @return un label avec la liste des sauces sur une ligne.
+	 */
+	private static final Label lbSauces(Commande commande){
 		Label lbSauces = new Label();
 
 		String nomsSauces = "";

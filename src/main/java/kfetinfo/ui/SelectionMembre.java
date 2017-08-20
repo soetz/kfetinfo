@@ -1,28 +1,54 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.util.ArrayList;
+import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Core;
+import kfetinfo.core.Membre;
+
 import java.util.List;
+import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import kfetinfo.core.BaseDonnees;
-import kfetinfo.core.Core;
-import kfetinfo.core.Membre;
 
-public class SelectionMembre {
-	private static Membre membreSelectionne;
-	public static void selectionOrdi(Core core){
+/**
+ * <p>SelectionMembre est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à la création de fenêtres permettant de sélectionner les membres participant au service.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
+public final class SelectionMembre {
+
+	/**
+	 * Crée une fenêtre permettant de sélectionner le membre qui s'occupera de prendre les commandes pendant le service.
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static final void selectionOrdi(){
+
 		VBox root = new VBox();
 
 		final TableView<Membre> table = new TableView();
@@ -41,8 +67,8 @@ public class SelectionMembre {
 
 		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				core.getService().setOrdi(table.getSelectionModel().getSelectedItem());
-				Resultat.mettreOrdiAJour(core);
+				Core.getService().setOrdi(table.getSelectionModel().getSelectedItem());
+				Resultat.mettreOrdiAJour();
 			}
 		});
 
@@ -53,16 +79,21 @@ public class SelectionMembre {
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
-		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	public static void selectionCommis1(Core core){
+	/**
+	 * Crée une fenêtre permettant de sélectionner le premier commis du service.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final void selectionCommis1(){
+
 		VBox root = new VBox();
 
-		List<Membre> commisDebut = core.getService().getCommis();
+		List<Membre> commisDebut = Core.getService().getCommis();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -82,17 +113,17 @@ public class SelectionMembre {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				List<Membre> commis = new ArrayList<Membre>();
 				if(commisDebut.size() >= 2){
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						commis.add(table.getSelectionModel().getSelectedItem());
 					}
 					commis.add(commisDebut.get(1));
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						commis.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setCommis(commis);
-				Resultat.mettreCommisAJour(core);
+				Core.getService().setCommis(commis);
+				Resultat.mettreCommisAJour();
 			}
 		});
 
@@ -102,16 +133,21 @@ public class SelectionMembre {
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
-		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	public static void selectionCommis2(Core core){
+	/**
+	 * Crée une fenêtre permettant de sélectionner le second commis du service.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final void selectionCommis2(){
+
 		VBox root = new VBox();
 
-		List<Membre> commisDebut = core.getService().getCommis();
+		List<Membre> commisDebut = Core.getService().getCommis();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -132,16 +168,16 @@ public class SelectionMembre {
 				List<Membre> commis = new ArrayList<Membre>();
 				if(commisDebut.size() >= 1){
 					commis.add(commisDebut.get(0));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						commis.add(table.getSelectionModel().getSelectedItem());
 					}
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						commis.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setCommis(commis);
-				Resultat.mettreCommisAJour(core);
+				Core.getService().setCommis(commis);
+				Resultat.mettreCommisAJour();
 			}
 		});
 
@@ -151,16 +187,21 @@ public class SelectionMembre {
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
-		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();
 	}
 
-	public static Stage selectionConfection1(Core core){
+	/**
+	 * Crée une fenêtre permettant de sélectionner le premier confection du service.
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static final Stage selectionConfection1(){
+
 		VBox root = new VBox();
 
-		List<Membre> confectionDebut = core.getService().getConfection();
+		List<Membre> confectionDebut = Core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -180,24 +221,24 @@ public class SelectionMembre {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				List<Membre> confection = new ArrayList<Membre>();
 				if(confectionDebut.size() >= 3){
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 					confection.add(confectionDebut.get(1));
 					confection.add(confectionDebut.get(2));
 				} else if(confectionDebut.size() >= 2){
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 					confection.add(confectionDebut.get(1));
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setConfection(confection);
-				Resultat.mettreConfectionAJour(core);
-				EcranConfection.mettreEcransAJour(core);
+				Core.getService().setConfection(confection);
+				Resultat.mettreConfectionAJour();
+				EcranConfection.mettreEcransAJour();
 			}
 		});
 
@@ -207,7 +248,7 @@ public class SelectionMembre {
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
-		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();
@@ -215,10 +256,15 @@ public class SelectionMembre {
 		return(stage);
 	}
 
-	public static Stage selectionConfection2(Core core){
+	/**
+	 * Crée une fenêtre permettant de sélectionner le deuxième confection du service.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final Stage selectionConfection2(){
+
 		VBox root = new VBox();
 
-		List<Membre> confectionDebut = core.getService().getConfection();
+		List<Membre> confectionDebut = Core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -239,23 +285,23 @@ public class SelectionMembre {
 				List<Membre> confection = new ArrayList<Membre>();
 				if(confectionDebut.size() >= 3){
 					confection.add(confectionDebut.get(0));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 					confection.add(confectionDebut.get(2));
 				} else if(confectionDebut.size() >= 1){
 					confection.add(confectionDebut.get(0));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setConfection(confection);
-				Resultat.mettreConfectionAJour(core);
-				EcranConfection.mettreEcransAJour(core);
+				Core.getService().setConfection(confection);
+				Resultat.mettreConfectionAJour();
+				EcranConfection.mettreEcransAJour();
 			}
 		});
 
@@ -265,7 +311,7 @@ public class SelectionMembre {
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
-		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();
@@ -273,10 +319,15 @@ public class SelectionMembre {
 		return(stage);
 	}
 
-	public static Stage selectionConfection3(Core core){
+	/**
+	 * Crée une fenêtre permettant de sélectionner le troisième confection du service.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final Stage selectionConfection3(){
+
 		VBox root = new VBox();
 
-		List<Membre> confectionDebut = core.getService().getConfection();
+		List<Membre> confectionDebut = Core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -298,22 +349,22 @@ public class SelectionMembre {
 				if(confectionDebut.size() >= 2){
 					confection.add(confectionDebut.get(0));
 					confection.add(confectionDebut.get(1));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				} else if(confectionDebut.size() >= 1){
 					confection.add(confectionDebut.get(0));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")){
+					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setConfection(confection);
-				Resultat.mettreConfectionAJour(core);
-				EcranConfection.mettreEcransAJour(core);
+				Core.getService().setConfection(confection);
+				Resultat.mettreConfectionAJour();
+				EcranConfection.mettreEcransAJour();
 			}
 		});
 
@@ -323,7 +374,7 @@ public class SelectionMembre {
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
-		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		stage.setTitle("Selection du membre");
 		stage.setScene(scene);
 		stage.show();

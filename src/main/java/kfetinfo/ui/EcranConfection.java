@@ -1,7 +1,32 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.util.ArrayList;
+import kfetinfo.core.Commande;
+import kfetinfo.core.CommandeAssignee;
+import kfetinfo.core.Core;
+import kfetinfo.core.Ingredient;
+import kfetinfo.core.Membre;
+import kfetinfo.core.Sauce;
+
 import java.util.List;
+import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,17 +38,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import kfetinfo.core.Commande;
-import kfetinfo.core.CommandeAssignee;
-import kfetinfo.core.Core;
-import kfetinfo.core.Ingredient;
-import kfetinfo.core.Membre;
-import kfetinfo.core.Sauce;
 
+/**
+ * <p>EcranConfection est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de l'écran servant aux membres confectionnant les commandes à récupérer les informations sur les commandes à confectionner du logiciel.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
 public class EcranConfection {
-	public static List<HBox> listeConfection = new ArrayList<HBox>();
 
-	public static void ecranConfection(Core core, Stage ecranPrincipal){
+	//la liste des contenus des écrans de confection, comme ça on peut en avoir plusieurs et les mettre à jour
+	private static final List<HBox> LISTE_CONFECTION = new ArrayList<HBox>();
+
+	/**
+	 * Crée une nouvelle fenêtre de confection, c'est à dire une fenêtre permettant aux membres à récupérer les informations des commandes.
+	 * 
+	 * @param ecranPrincipal le {@code Stage} de l'écran principal.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final void ecranConfection(Stage ecranPrincipal){
+
 		BorderPane ecran = new BorderPane();
 
 		Label titre = new Label("En cours de confection…");
@@ -32,9 +66,9 @@ public class EcranConfection {
 		HBox confection = new HBox();
 		confection.minWidthProperty().bind(ecran.widthProperty());
 		confection.maxWidthProperty().bind(confection.minWidthProperty());
-		listeConfection.add(confection);
+		LISTE_CONFECTION.add(confection); //on ajoute la HBox à la liste des contenus de fenêtre
 
-		mettreEcransAJour(core);
+		mettreEcransAJour();
 
 		ecran.setCenter(confection);
 
@@ -48,7 +82,7 @@ public class EcranConfection {
 
 		ecranPrincipal.showingProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				if(ecranPrincipal.isShowing()==false){
+				if(ecranPrincipal.isShowing() == false){
 					theatre.close();
 				}
 			}
@@ -56,21 +90,29 @@ public class EcranConfection {
 
 		theatre.showingProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				if(theatre.isShowing()==false){
-					listeConfection.remove(confection);
+				if(theatre.isShowing() == false){
+					LISTE_CONFECTION.remove(confection);
 				}
 			}
 		});
 	}
 
-	public static Region commandeRealisation(Core core, int numero){
+	/**
+	 * Crée une {@code Region} affichant le contenu d'une commande étant en train d'être confectionnée.
+	 * 
+	 * @param numero la position du membre dans la liste des membres confection du service (commence à 0).
+	 * 
+	 * @return une commande en train d'être réalisée.
+	 */
+	public static final Region commandeRealisation(int numero){
+
 		VBox commandeBox = new VBox();
 
-		Membre membre = core.getService().getConfection().get(numero);
+		Membre membre = Core.getService().getConfection().get(numero);
 
 		CommandeAssignee commande = null;
 
-		for(Commande commandeBoucle : core.getService().getCommandes()){
+		for(Commande commandeBoucle : Core.getService().getCommandes()){
 			if(commandeBoucle instanceof CommandeAssignee){
 				CommandeAssignee commandeAssignee = (CommandeAssignee)commandeBoucle;
 				if(commandeAssignee.getMembre().equals(membre)){
@@ -142,13 +184,17 @@ public class EcranConfection {
 		return(commandeBox);
 	}
 
-	public static void mettreEcransAJour(Core core){
-		for(HBox confection : listeConfection){
+	/**
+	 * Met les écrans de confection à jour des commandes qui doivent être confectionnées.
+	 */
+	public static final void mettreEcransAJour(){
+
+		for(HBox confection : LISTE_CONFECTION){
 			confection.getChildren().clear();
 
 			int i;
-			for(i = 0; i < core.getService().getConfection().size(); i++){
-				confection.getChildren().add(commandeRealisation(core, i));
+			for(i = 0; i < Core.getService().getConfection().size(); i++){
+				confection.getChildren().add(commandeRealisation(i));
 			}
 		}
 	}

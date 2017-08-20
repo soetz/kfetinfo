@@ -18,33 +18,49 @@
 
 package kfetinfo.core;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+/**
+ * <p>Core est une classe qui permet d'initialiser le système de K'Fet.</p>
+ * 
+ * @author Simon Lecutiez - Sœtz
+ * @version 1.0
+ */
 public class Core {
-	static Service service;
-	static Parametres parametres;
 
+	//le service en cours de la K'Fet
+	private static Service service;
+
+	/**
+	 * <p>Constructeur Core.</p>
+	 * <p>Crée un nouveau core, initialise la base de données et crée un nouveau service.</p>
+	 */
 	public Core(){
-		parametres = new Parametres();
-		service = new Service(new Date());
 
 		init();
+
+		Parametres.initialiser();
+		service = new Service(new Date());
+		service.assignation();
 	}
 
+	/**
+	 * Initialise la base de données.
+	 */
 	private void init(){
+
 		CreateurBase.initialiserBase();
 		BaseDonnees.chargerMenu();
 		BaseDonnees.chargerMembres();
-		service.recharger();
 	}
 
+	/**
+	 * Renvoie le {@code Service} en cours de la K'Fet.
+	 * 
+	 * @return le service en cours de la K'Fet.
+	 */
 	public static Service getService(){
-		return(service);
-	}
 
-	public static Parametres getParametres(){
-		return(parametres);
+		return(service);
 	}
 }
