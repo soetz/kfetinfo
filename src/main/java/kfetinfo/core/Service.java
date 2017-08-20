@@ -18,23 +18,24 @@
 
 package kfetinfo.core;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
+
+import java.text.SimpleDateFormat;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.FilenameUtils;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * <p>Service est une classe décrivant un service effectué à la K'Fet.</p>

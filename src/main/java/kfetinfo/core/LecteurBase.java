@@ -18,18 +18,19 @@
 
 package kfetinfo.core;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import java.util.Date;
+
+import java.text.SimpleDateFormat;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
 import java.io.File;
 import java.io.FileReader;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * <p>LecteurBase est une classe constituée uniquement de méthodes statiques utiles à la gestion de la lecture des fichiers de la base de données.</p>

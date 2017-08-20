@@ -1,9 +1,38 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
+import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Boisson;
+import kfetinfo.core.Core;
+import kfetinfo.core.Dessert;
+import kfetinfo.core.Ingredient;
+import kfetinfo.core.Plat;
+import kfetinfo.core.Sauce;
+import kfetinfo.core.SupplementBoisson;
+
 import java.util.List;
+import java.util.ArrayList;
+
 import java.util.Locale;
+
+import java.text.NumberFormat;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,14 +53,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kfetinfo.core.BaseDonnees;
-import kfetinfo.core.Boisson;
-import kfetinfo.core.Core;
-import kfetinfo.core.Dessert;
-import kfetinfo.core.Ingredient;
-import kfetinfo.core.Plat;
-import kfetinfo.core.Sauce;
-import kfetinfo.core.SupplementBoisson;
 
 /**
  * <p>Stocks est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de l'écran permettant de sélectionner les contenus commande en stocks ainsi que les quantités de pain achetées et réservées aux membres pour le service.</p>
@@ -51,6 +72,7 @@ public final class Stocks {
 	 * 
 	 * @param ecranPrincipal le {@code Stage} de la fenêtre principal du logiciel.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final void ecranStocks(Stage ecranPrincipal){
 
 		BorderPane pane = new BorderPane();
@@ -200,6 +222,7 @@ public final class Stocks {
 	 * 
 	 * @return le panneau de sélection des plats disponibles.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final VBox groupePlats(Region parent){
 
 		VBox groupePlats = new VBox();
@@ -269,6 +292,7 @@ public final class Stocks {
 	 * 
 	 * @return le panneau de sélection des ingrédients disponibles.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final VBox groupeIngredients(Region parent){
 
 		VBox groupeIngredients = new VBox();
@@ -323,6 +347,7 @@ public final class Stocks {
 	 * 
 	 * @return le panneau de sélection des sauces disponibles.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final VBox groupeSauces(Region parent){
 
 		VBox groupeSauces = new VBox();
@@ -377,6 +402,7 @@ public final class Stocks {
 	 * 
 	 * @return le panneau de sélection des boissons disponibles.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final VBox groupeBoissons(Region parent){
 
 		VBox groupeBoissons = new VBox();
@@ -433,6 +459,7 @@ public final class Stocks {
 	 * 
 	 * @return le panneau de sélection des suppléments boisson disponibles.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final VBox groupeSupplementsBoisson(Region parent){
 
 		VBox groupeSupplementsBoisson = new VBox();
@@ -489,6 +516,7 @@ public final class Stocks {
 	 * 
 	 * @return le panneau de sélection des desserts disponibles.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final VBox groupeDesserts(Region parent){
 
 		VBox groupeDesserts = new VBox();

@@ -1,8 +1,36 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.text.NumberFormat;
+import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Commande;
+import kfetinfo.core.Core;
+import kfetinfo.core.Ingredient;
+import kfetinfo.core.Membre;
+import kfetinfo.core.Plat;
+import kfetinfo.core.Sauce;
+
 import java.util.Date;
+
 import java.util.Locale;
+
+import java.text.NumberFormat;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,13 +50,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
-import kfetinfo.core.BaseDonnees;
-import kfetinfo.core.Commande;
-import kfetinfo.core.Core;
-import kfetinfo.core.Ingredient;
-import kfetinfo.core.Membre;
-import kfetinfo.core.Plat;
-import kfetinfo.core.Sauce;
 
 /**
  * <p>Resultat est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage des sections « prévisualisation de la commande », « caisse » et « équipe » du logiciel.</p>
@@ -99,20 +120,18 @@ public final class Resultat {
 	 * Crée une {@code Region} permettant de prévisualiser la commande en train d'être formulée, et de gérer la caisse et l'équipe du service.
 	 * 
 	 * @param root le parent du panneau.
-	 * @param core le core du système K'Fet.
-	 * 
 	 * @return le panneau de prévisualisation, de caisse et d'équipe.
 	 */
-	public static final Region resultat(Region root, Core core){
+	public static final Region resultat(Region root){
 
 		BorderPane resultat = new BorderPane();
 
 		resultat.minWidthProperty().bind(root.widthProperty());
 		resultat.maxWidthProperty().bind(resultat.minWidthProperty());
 
-		Region gauche = previsualisationCommande(resultat, core);
-		Region milieu = caisse(core);
-		Region droite = equipe(resultat, core);
+		Region gauche = previsualisationCommande(resultat);
+		Region milieu = caisse();
+		Region droite = equipe(resultat);
 
 		gauche.setMaxHeight(Double.MAX_VALUE);
 		milieu.setMaxHeight(Double.MAX_VALUE);
@@ -140,11 +159,10 @@ public final class Resultat {
 	 * Crée une {@code Region} permettant de prévisualiser la commande en train d'être formulée. Apparaissent la liste des contenus commande de la commande, son numéro et son prix.
 	 * 
 	 * @param parent le node parent de celui-ci.
-	 * @param core le core du système K'Fet.
-	 * 
 	 * @return le panneau de prévisualisation de la commande.
 	 */
-	public static final Region previsualisationCommande(Region parent, Core core){
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final Region previsualisationCommande(Region parent){
 
 		StackPane commandePreview = new StackPane();
 
@@ -163,17 +181,17 @@ public final class Resultat {
 		HBox numeroEtPlat = new HBox();
 		numeroEtPlat.setSpacing(App.ESPACE_NUMERO_PLAT);
 
-		Label numero = new Label("" + (core.getService().getDernierNumeroCommande() + 1));
+		Label numero = new Label("" + (Core.getService().getDernierNumeroCommande() + 1));
 
 		//le label numero montre le numéro de la prochaine commande quand une commande est ajoutée ou retirée
-		core.getService().nouvelleCommandePropriete().addListener(new ChangeListener(){
+		Core.getService().nouvelleCommandePropriete().addListener(new ChangeListener(){
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				numero.setText("" + (core.getService().getDernierNumeroCommande() + 1));
+				numero.setText("" + (Core.getService().getDernierNumeroCommande() + 1));
 			}
 		});
-		core.getService().nouvelleCommandeRetireePropriete().addListener(new ChangeListener(){
+		Core.getService().nouvelleCommandeRetireePropriete().addListener(new ChangeListener(){
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				numero.setText("" + (core.getService().getDernierNumeroCommande() + 1));
+				numero.setText("" + (Core.getService().getDernierNumeroCommande() + 1));
 			}
 		});
 
@@ -326,11 +344,9 @@ public final class Resultat {
 	/**
 	 * Crée un panneau permettant de gérer la caisse. Il est composé de boutons correspondant aux pièces que donnent les clients et fournit un affichage de la quantité d'argent à rendre au client.
 	 * 
-	 * @param core le core du système K'Fet.
-	 * 
 	 * @return le panneau de gestion de la caisse.
 	 */
-	public static final Region caisse(Core core){
+	public static final Region caisse(){
 
 		BorderPane separation = new BorderPane();
 
@@ -583,11 +599,9 @@ public final class Resultat {
 	 * Crée un panneau permettant de gérer l'équipe actuelle du service, c'est à dire de visualiser les membres réalisant le service et de les sélectionner.
 	 * 
 	 * @param parent le node parent de celui-ci.
-	 * @param core le core du système K'Fet.
-	 * 
 	 * @return le panneau de gestion de l'équipe.
 	 */
-	public static final Region equipe(Region parent, Core core){
+	public static final Region equipe(Region parent){
 
 		AnchorPane layout = new AnchorPane();
 
@@ -611,28 +625,28 @@ public final class Resultat {
 		Button boutonOrdi = new Button("Modifier");
 		boutonOrdi.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionOrdi(core);
+				SelectionMembre.selectionOrdi();
 			}
 		});
 
 		Button boutonCommis1 = new Button("Modifier");
 		boutonCommis1.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionCommis1(core);
+				SelectionMembre.selectionCommis1();
 			}
 		});
 
 		Button boutonCommis2 = new Button("Modifier");
 		boutonCommis2.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionCommis2(core);
+				SelectionMembre.selectionCommis2();
 			}
 		});
 
 		Button boutonConfection1 = new Button("Modifier");
 		boutonConfection1.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionConfection1(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
+				SelectionMembre.selectionConfection1().setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						Core.getService().assignation();
 						EcranConfection.mettreEcransAJour();
@@ -644,7 +658,7 @@ public final class Resultat {
 		Button boutonConfection2 = new Button("Modifier");
 		boutonConfection2.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionConfection2(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
+				SelectionMembre.selectionConfection2().setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						Core.getService().assignation();
 						EcranConfection.mettreEcransAJour();
@@ -656,7 +670,7 @@ public final class Resultat {
 		Button boutonConfection3 = new Button("Modifier");
 		boutonConfection3.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
-				SelectionMembre.selectionConfection3(core).setOnCloseRequest(new EventHandler<WindowEvent>() {
+				SelectionMembre.selectionConfection3().setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent e){
 						Core.getService().assignation();
 						EcranConfection.mettreEcransAJour();

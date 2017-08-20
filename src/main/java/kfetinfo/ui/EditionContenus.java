@@ -1,11 +1,43 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
+import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Boisson;
+import kfetinfo.core.ContenuCommande;
+import kfetinfo.core.CreateurBase;
+import kfetinfo.core.Dessert;
+import kfetinfo.core.Ingredient;
+import kfetinfo.core.Parametres;
+import kfetinfo.core.Plat;
+import kfetinfo.core.Sauce;
+import kfetinfo.core.SupplementBoisson;
+
 import java.util.List;
+import java.util.ArrayList;
+
 import java.util.Locale;
+
 import java.util.Optional;
 import java.util.function.UnaryOperator;
+
+import java.text.NumberFormat;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,17 +68,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import kfetinfo.core.BaseDonnees;
-import kfetinfo.core.Boisson;
-import kfetinfo.core.ContenuCommande;
-import kfetinfo.core.Core;
-import kfetinfo.core.CreateurBase;
-import kfetinfo.core.Dessert;
-import kfetinfo.core.Ingredient;
-import kfetinfo.core.Parametres;
-import kfetinfo.core.Plat;
-import kfetinfo.core.Sauce;
-import kfetinfo.core.SupplementBoisson;
 
 /**
  * <p>EditionContenu est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'édition des informations des plats, ingrédients, sauces, boissons, suppléments boisson et desserts de la base de données.</p>
@@ -81,10 +102,8 @@ public final class EditionContenus {
 
 	/**
 	 * Crée une fenêtre permettant de modifier les information des contenus commandes de la base de données.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
-	public static void ecran(Core core){
+	public static void ecran(){
 
 		modifie = false;
 
@@ -119,7 +138,7 @@ public final class EditionContenus {
 
 		Tab tabDivers = new Tab("Divers");
 		tabDivers.setClosable(false);
-		tabDivers.setContent(tabDivers(core));
+		tabDivers.setContent(tabDivers());
 
 		tabPane.getTabs().setAll(tabPlats, tabIngredients, tabSauces, tabBoissons, tabSupplementsBoisson, tabDesserts, tabDivers);
 
@@ -136,7 +155,7 @@ public final class EditionContenus {
 		theatre.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we){
 				if(modifie){
-					App.mettreSelectionAJour(core);
+					App.mettreSelectionAJour();
 				}
 			}
 		});
@@ -149,6 +168,7 @@ public final class EditionContenus {
 	 * 
 	 * @return l'onglet de modification des plats.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabPlats(Stage theatre){
 
 		HBox tab = new HBox();
@@ -286,6 +306,7 @@ public final class EditionContenus {
 	 * 
 	 * @return l'onglet de modification des ingrédients.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabIngredients(Stage theatre){
 
 		HBox tab = new HBox();
@@ -408,6 +429,7 @@ public final class EditionContenus {
 	 * 
 	 * @return l'onglet de modification des sauces.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static final Region tabSauces(Stage theatre){
 		HBox tab = new HBox();
 		Button supprimer = new Button("Supprimer");
@@ -529,6 +551,7 @@ public final class EditionContenus {
 	 * 
 	 * @return l'onglet de modification des boissons.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static final Region tabBoissons(Stage theatre){
 
 		HBox tab = new HBox();
@@ -651,6 +674,7 @@ public final class EditionContenus {
 	 * 
 	 * @return l'onglet de modification des suppléments boisson.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabSupplementsBoisson(Stage theatre){
 
 		HBox tab = new HBox();
@@ -776,6 +800,7 @@ public final class EditionContenus {
 	 * 
 	 * @return l'onglet de modification des desserts.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabDesserts(Stage theatre){
 
 		HBox tab = new HBox();
@@ -896,12 +921,11 @@ public final class EditionContenus {
 
 	/**
 	 * Crée l'onglet divers de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux paramètres basiques de l'application comme le prix d'une boisson ou la réduction accordée pour un menu.
-	 * 
 	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
 	 * 
 	 * @return l'onglet de modification des divers.
 	 */
-	private static final Region tabDivers(Core core){
+	private static final Region tabDivers(){
 
 		AnchorPane pane = new AnchorPane();
 
@@ -1017,6 +1041,7 @@ public final class EditionContenus {
 	 * 
 	 * @return la liste de contenus sélectionnable.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final ListView<ContenuCommande> generateurListView(List<ContenuCommande> liste){
 
 		ListView<ContenuCommande> listView = new ListView();

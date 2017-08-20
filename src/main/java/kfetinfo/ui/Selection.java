@@ -1,16 +1,44 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
+import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Boisson;
+import kfetinfo.core.Commande;
+import kfetinfo.core.Core;
+import kfetinfo.core.Dessert;
+import kfetinfo.core.Ingredient;
+import kfetinfo.core.Plat;
+import kfetinfo.core.Sauce;
+import kfetinfo.core.SupplementBoisson;
+
 import java.util.List;
+import java.util.ArrayList;
+
 import java.util.Locale;
+
+import java.text.NumberFormat;
 
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,15 +56,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
-import kfetinfo.core.BaseDonnees;
-import kfetinfo.core.Boisson;
-import kfetinfo.core.Commande;
-import kfetinfo.core.Core;
-import kfetinfo.core.Dessert;
-import kfetinfo.core.Ingredient;
-import kfetinfo.core.Plat;
-import kfetinfo.core.Sauce;
-import kfetinfo.core.SupplementBoisson;
 
 /**
  * <p>Selection est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de la section « sélection du contenu de la commande » du logiciel.</p>
@@ -106,11 +125,9 @@ public final class Selection {
 	 * Crée une {@code Region} permettant de sélectionner le contenu de la nouvelle commande.
 	 * 
 	 * @param root le parent du panneau.
-	 * @param core le core du système K'Fet.
-	 * 
 	 * @return le panneau de sélection de contenus commande.
 	 */
-	public static final Region selection(Region root, Core core){
+	public static final Region selection(Region root){
 
 		chargementTermine = false;
 
@@ -170,7 +187,7 @@ public final class Selection {
 		selection.getStyleClass().add("selection");
 		selection.setPadding(new Insets(PADDING_SELECTION));
 
-		AnchorPane baguettes = compteurBaguettesRestantes(root, core);
+		AnchorPane baguettes = compteurBaguettesRestantes(root);
 
 		superposition.getChildren().addAll(baguettes, selection);
 
@@ -188,6 +205,7 @@ public final class Selection {
 	 * 
 	 * @return un panneau permettant de sélectionner le plat de la commande.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final VBox groupePlats(Region parent){
 
 		VBox groupePlats = new VBox();
@@ -285,6 +303,7 @@ public final class Selection {
 	 * 
 	 * @return un panneau permettant de sélectionner l'ingrédient de la commande.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final VBox groupeIngredients(Region parent){
 
 		VBox groupeIngredients = new VBox();
@@ -349,6 +368,7 @@ public final class Selection {
 	 * 
 	 * @return un panneau permettant de sélectionner la sauce de la commande.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final VBox groupeSauces(Region parent){
 
 		VBox groupeSauces = new VBox();
@@ -415,6 +435,7 @@ public final class Selection {
 	 * 
 	 * @return un panneau permettant de sélectionner la boisson et le supplément boisson de la commande.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final VBox groupeBoissons(Region parent){
 
 		VBox groupeBoissons = new VBox();
@@ -537,6 +558,7 @@ public final class Selection {
 	 * 
 	 * @return un panneau permettant de sélectionner le dessert de la commande.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final VBox groupeDesserts(Region parent){
 
 		VBox groupeDesserts = new VBox();
@@ -606,11 +628,9 @@ public final class Selection {
 	 * Crée un {@code AnchorPane} avec un compteur de baguettes de pain restantes placé en bas à gauche. Ce panneau affiche également des informations utiles au développement si celles-ci sont activées.
 	 * 
 	 * @param root le node racine de la fenêtre dans lequel ce panneau est placé.
-	 * @param core le core du système K'Fet.
-	 * 
 	 * @return un panneau avec un compteur de baguettes restantes.
 	 */
-	public static final AnchorPane compteurBaguettesRestantes(Region root, Core core){
+	public static final AnchorPane compteurBaguettesRestantes(Region root){
 
 		AnchorPane compteurBaguettesPane = new AnchorPane();
 
@@ -689,8 +709,6 @@ public final class Selection {
 
 	/**
 	 * Remet à jour le compteur de baguettes restantes.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
 	public static final void refreshCompteurBaguettes(){
 

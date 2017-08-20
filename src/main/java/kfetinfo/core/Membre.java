@@ -18,9 +18,9 @@
 
 package kfetinfo.core;
 
-import java.util.Date;
-
 import java.util.Objects;
+
+import java.util.Date;
 
 /**
  * <p>Membre est une classe décrivant une personne pouvant participer au service de la K'Fet.</p>

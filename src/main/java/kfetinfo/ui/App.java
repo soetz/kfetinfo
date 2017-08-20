@@ -1,4 +1,24 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
+
+import kfetinfo.core.Core;
 
 import java.util.Locale;
 
@@ -7,7 +27,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import kfetinfo.core.Core;
 
 /**
  * <p>App est la classe principale du logiciel. Elle hérite de {@code Application}, du package {@code javafx.application}. C'est ici que tout commence, que le node racine du SceneGraph est créé et que l'instruction est donnée au Core de démarrer la base de données.</p>
@@ -53,12 +72,13 @@ public final class App extends Application{
 		Locale.setDefault(Locale.FRANCE);
 		Locale.setDefault(Locale.FRENCH);
 
+		@SuppressWarnings("unused")
 		Core core = new Core(); //on démarre le système K'Fet et la base de données
 
 		root = null;
 
 		try {
-			root = ecranPrincipal(core, theatre);
+			root = ecranPrincipal(theatre);
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -83,23 +103,21 @@ public final class App extends Application{
 	 * <li>la partie liste des commandes,</li>
 	 * <li>la partie résultat (prévisualisation de la commande, gestion de la caisse, sélection de l'équipe), et</li>
 	 * <li>le menu permettant de faire apparaître les autres fenêtres du logiciel (confection, stocks, menu, administration, graphiques).</li></ul></p>
-	 * 
-	 * @param core le core du système K'Fet.
 	 * @param theatre la fenêtre principale du logiciel.
 	 * 
 	 * @return le panneau de l'écran principal.
 	 */
-	private static final BorderPane ecranPrincipal(Core core, Stage theatre){
+	private static final BorderPane ecranPrincipal(Stage theatre){
 
 		BorderPane racine = new BorderPane();
 
-		Region haut = Menu.menu(core, theatre);
+		Region haut = Menu.menu(theatre);
 
-		Region droite = Commandes.commandes(core);
+		Region droite = Commandes.commandes();
 
-		Region centre = Selection.selection(racine, core);
+		Region centre = Selection.selection(racine);
 
-		Region bas = Resultat.resultat(racine, core);
+		Region bas = Resultat.resultat(racine);
 
 		racine.setTop(haut);
 		racine.setRight(droite);
@@ -111,12 +129,10 @@ public final class App extends Application{
 
 	/**
 	 * Recrée le panneau sélection au cas où il y ait eu des modifications de la base de données des contenus commandes.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
-	public static final void mettreSelectionAJour(Core core){
+	public static final void mettreSelectionAJour(){
 
-		root.setCenter(Selection.selection(root, core));
+		root.setCenter(Selection.selection(root));
 		Selection.resetSelection();
 	}
 }

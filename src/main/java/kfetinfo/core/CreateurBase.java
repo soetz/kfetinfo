@@ -18,6 +18,14 @@
 
 package kfetinfo.core;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+import java.util.UUID;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
@@ -28,14 +36,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.apache.commons.io.FilenameUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.UUID;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.JOptionPane;
 

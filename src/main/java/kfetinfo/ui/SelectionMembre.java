@@ -1,7 +1,29 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.util.ArrayList;
+import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Core;
+import kfetinfo.core.Membre;
+
 import java.util.List;
+import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -12,9 +34,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kfetinfo.core.BaseDonnees;
-import kfetinfo.core.Core;
-import kfetinfo.core.Membre;
 
 /**
  * <p>SelectionMembre est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à la création de fenêtres permettant de sélectionner les membres participant au service.</p>
@@ -26,10 +45,9 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le membre qui s'occupera de prendre les commandes pendant le service.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
-	public static final void selectionOrdi(Core core){
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static final void selectionOrdi(){
 
 		VBox root = new VBox();
 
@@ -49,7 +67,7 @@ public final class SelectionMembre {
 
 		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				core.getService().setOrdi(table.getSelectionModel().getSelectedItem());
+				Core.getService().setOrdi(table.getSelectionModel().getSelectedItem());
 				Resultat.mettreOrdiAJour();
 			}
 		});
@@ -69,14 +87,13 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le premier commis du service.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
-	public static final void selectionCommis1(Core core){
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final void selectionCommis1(){
 
 		VBox root = new VBox();
 
-		List<Membre> commisDebut = core.getService().getCommis();
+		List<Membre> commisDebut = Core.getService().getCommis();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -105,7 +122,7 @@ public final class SelectionMembre {
 						commis.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setCommis(commis);
+				Core.getService().setCommis(commis);
 				Resultat.mettreCommisAJour();
 			}
 		});
@@ -124,14 +141,13 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le second commis du service.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
-	public static final void selectionCommis2(Core core){
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final void selectionCommis2(){
 
 		VBox root = new VBox();
 
-		List<Membre> commisDebut = core.getService().getCommis();
+		List<Membre> commisDebut = Core.getService().getCommis();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -160,7 +176,7 @@ public final class SelectionMembre {
 						commis.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setCommis(commis);
+				Core.getService().setCommis(commis);
 				Resultat.mettreCommisAJour();
 			}
 		});
@@ -179,14 +195,13 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le premier confection du service.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
-	public static final Stage selectionConfection1(Core core){
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static final Stage selectionConfection1(){
 
 		VBox root = new VBox();
 
-		List<Membre> confectionDebut = core.getService().getConfection();
+		List<Membre> confectionDebut = Core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -221,7 +236,7 @@ public final class SelectionMembre {
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setConfection(confection);
+				Core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour();
 				EcranConfection.mettreEcransAJour();
 			}
@@ -243,14 +258,13 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le deuxième confection du service.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
-	public static final Stage selectionConfection2(Core core){
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final Stage selectionConfection2(){
 
 		VBox root = new VBox();
 
-		List<Membre> confectionDebut = core.getService().getConfection();
+		List<Membre> confectionDebut = Core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -285,7 +299,7 @@ public final class SelectionMembre {
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setConfection(confection);
+				Core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour();
 				EcranConfection.mettreEcransAJour();
 			}
@@ -307,14 +321,13 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le troisième confection du service.
-	 * 
-	 * @param core le core du système K'Fet.
 	 */
-	public static final Stage selectionConfection3(Core core){
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static final Stage selectionConfection3(){
 
 		VBox root = new VBox();
 
-		List<Membre> confectionDebut = core.getService().getConfection();
+		List<Membre> confectionDebut = Core.getService().getConfection();
 
 		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
@@ -349,7 +362,7 @@ public final class SelectionMembre {
 						confection.add(table.getSelectionModel().getSelectedItem());
 					}
 				}
-				core.getService().setConfection(confection);
+				Core.getService().setConfection(confection);
 				Resultat.mettreConfectionAJour();
 				EcranConfection.mettreEcransAJour();
 			}

@@ -41,6 +41,7 @@ public class Core {
 
 		Parametres.initialiser();
 		service = new Service(new Date());
+		service.assignation();
 	}
 
 	/**

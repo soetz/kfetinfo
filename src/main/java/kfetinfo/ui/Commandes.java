@@ -1,7 +1,32 @@
+/*
+ * kfetinfo - Logiciel pour la K'Fet du BDE Info de l'IUT Lyon 1
+ *  Copyright (C) 2017 Simon Lecutiez
+
+ *  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+ *  This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package kfetinfo.ui;
 
-import java.util.ArrayList;
+import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Commande;
+import kfetinfo.core.CommandeAssignee;
+import kfetinfo.core.Core;
+import kfetinfo.core.Ingredient;
+import kfetinfo.core.Sauce;
+
 import java.util.List;
+import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,12 +41,6 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import kfetinfo.core.BaseDonnees;
-import kfetinfo.core.Commande;
-import kfetinfo.core.CommandeAssignee;
-import kfetinfo.core.Core;
-import kfetinfo.core.Ingredient;
-import kfetinfo.core.Sauce;
 
 /**
  * <p>Commandes est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de la liste des commandes du service.</p>
@@ -68,11 +87,10 @@ public final class Commandes {
 	/**
 	 * Crée une {@code Region} permettant d'afficher la liste des commandes formulées pendant le service ainsi que leurs état respectifs.
 	 * 
-	 * @param core le core du système K'Fet.
-	 * 
 	 * @return la liste des commandes.
 	 */
-	public static final Region commandes(Core core){
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static final Region commandes(){
 
 		ScrollPane panneauCommandes = new ScrollPane();
 		panneauCommandes.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -532,7 +550,7 @@ public final class Commandes {
 
 				retirer.setOnAction(new EventHandler<ActionEvent>(){
 					public void handle(ActionEvent a){
-						core.getService().retirerCommande(commande);
+						Core.getService().retirerCommande(commande);
 						EcranConfection.mettreEcransAJour();
 						Selection.refreshCompteurBaguettes();
 					}
@@ -543,7 +561,7 @@ public final class Commandes {
 		});
 
 		//si une commande est nouvellement assignée, on la retire de la retire de la liste des commandes ajoutées et on l'ajoute à la liste des commandes assignées
-		core.getService().nouvelleCommandeAssigneePropriete().addListener(new ChangeListener() {
+		Core.getService().nouvelleCommandeAssigneePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				CommandeAssignee commande = (newVal != null) ? (CommandeAssignee)newVal : null;
 				if(commande != null){
@@ -645,7 +663,7 @@ public final class Commandes {
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							core.getService().retirerCommande(commande);
+							Core.getService().retirerCommande(commande);
 							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
@@ -653,14 +671,18 @@ public final class Commandes {
 
 					boutonRealisee.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							commande.realisee(core.getService());
+							Commande cmd = Core.getService().getCommande(commande.getNumero()); //on re-récupère la commande assignée correspondant au numéro parce que sinon ça bugge (vu qu'on doit changer l'objet Commande de la liste de commandes du Service en CommandeAssignee il considère que c'est un autre objet et donc le fait qu'on modifie les valeurs des attributs de la commande assignée via ses propres méthodes l'applique pas à celui de la liste, ou un truc comme ça
+							CommandeAssignee cmdA = (CommandeAssignee)cmd;
+							cmdA.realisee(Core.getService());
 							EcranConfection.mettreEcransAJour();
 						}
 					});
 
 					boutonDonnee.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							commande.donnee(core.getService());
+							Commande cmd = Core.getService().getCommande(commande.getNumero()); //on re-récupère la commande assignée correspondant au numéro parce que sinon ça bugge (vu qu'on doit changer l'objet Commande de la liste de commandes du Service en CommandeAssignee il considère que c'est un autre objet et donc le fait qu'on modifie les valeurs des attributs de la commande assignée via ses propres méthodes l'applique pas à celui de la liste, ou un truc comme ça
+							CommandeAssignee cmdA = (CommandeAssignee)cmd;
+							cmdA.donnee(Core.getService());
 						}
 					});
 
@@ -670,7 +692,7 @@ public final class Commandes {
 		});
 
 		//si une commande est nouvellement réalisée, on la retire de la retire de la liste des commandes assignées et on l'ajoute à la liste des commandes réalisées
-		core.getService().nouvelleCommandeRealiseePropriete().addListener(new ChangeListener() {
+		Core.getService().nouvelleCommandeRealiseePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				CommandeAssignee commande = (newVal != null) ? (CommandeAssignee)newVal : null;
 				if(commande != null){
@@ -768,7 +790,7 @@ public final class Commandes {
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							core.getService().retirerCommande(commande);
+							Core.getService().retirerCommande(commande);
 							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
@@ -776,7 +798,9 @@ public final class Commandes {
 
 					boutonDonnee.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							commande.donnee(core.getService());
+							Commande cmd = Core.getService().getCommande(commande.getNumero()); //on re-récupère la commande assignée correspondant au numéro parce que sinon ça bugge (vu qu'on doit changer l'objet Commande de la liste de commandes du Service en CommandeAssignee il considère que c'est un autre objet et donc le fait qu'on modifie les valeurs des attributs de la commande assignée via ses propres méthodes l'applique pas à celui de la liste, ou un truc comme ça
+							CommandeAssignee cmdA = (CommandeAssignee)cmd;
+							cmdA.donnee(Core.getService());
 						}
 					});
 
@@ -786,7 +810,7 @@ public final class Commandes {
 		});
 
 		//si une commande est nouvellement donnée, on la retire de la retire de la liste des commandes assignées ou de celle des commandes réalisées et on l'ajoute à la liste des commandes données
-		core.getService().nouvelleCommandeDonneePropriete().addListener(new ChangeListener() {
+		Core.getService().nouvelleCommandeDonneePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				CommandeAssignee commande = (newVal != null) ? (CommandeAssignee)newVal : null;
 				if(commande != null){
@@ -893,7 +917,7 @@ public final class Commandes {
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
-							core.getService().retirerCommande(commande);
+							Core.getService().retirerCommande(commande);
 							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
@@ -905,7 +929,7 @@ public final class Commandes {
 		});
 
 		//si une commande est nouvellement retirée, on la retire de la retire de toutes les listes
-		core.getService().nouvelleCommandeRetireePropriete().addListener(new ChangeListener() {
+		Core.getService().nouvelleCommandeRetireePropriete().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				Commande commande = (newVal != null) ? (Commande)newVal : null;
 				if(commande != null){
