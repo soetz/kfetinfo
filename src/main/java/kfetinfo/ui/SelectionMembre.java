@@ -25,13 +25,10 @@ import kfetinfo.core.Membre;
 import java.util.List;
 import java.util.ArrayList;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -49,32 +46,28 @@ public final class SelectionMembre {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final void selectionOrdi(){
 
-		VBox root = new VBox();
-
-		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
 		List<Membre> membres = new ArrayList<Membre>();
 		membres.add(personne);
 		membres.addAll(BaseDonnees.getMembres());
-		table.getItems().setAll(membres);
-		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
-		nomColonne.setCellValueFactory(param -> {
-			final Membre membre = param.getValue();
-			return new SimpleStringProperty(membre.getBlaze());
-		});
-		table.getColumns().setAll(nomColonne);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getItems().setAll(membres);
+
+		listeMembres.setCellFactory(lv -> new MembreModificationCell());
+
+		listeMembres.setMaxWidth(250);
+		listeMembres.setMinWidth(250);
+		listeMembres.setPrefHeight(350);
+
+		listeMembres.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
-				Core.getService().setOrdi(table.getSelectionModel().getSelectedItem());
+				Core.getService().setOrdi(listeMembres.getSelectionModel().getSelectedItem());
 				Resultat.mettreOrdiAJour();
 			}
 		});
 
-		root.getChildren().add(table);
-
-		Scene scene = new Scene(root, 250, 350);
+		Scene scene = new Scene(listeMembres, 250, 350);
 		Stage stage = new Stage();
 
 		stage.setResizable(false);
@@ -91,35 +84,33 @@ public final class SelectionMembre {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final void selectionCommis1(){
 
-		VBox root = new VBox();
-
 		List<Membre> commisDebut = Core.getService().getCommis();
 
-		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
 		List<Membre> membres = new ArrayList<Membre>();
 		membres.add(personne);
 		membres.addAll(BaseDonnees.getMembres());
-		table.getItems().setAll(membres);
-		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
-		nomColonne.setCellValueFactory(param -> {
-			final Membre membre = param.getValue();
-			return new SimpleStringProperty(membre.getBlaze());
-		});
-		table.getColumns().setAll(nomColonne);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getItems().setAll(membres);
+
+		listeMembres.setCellFactory(lv -> new MembreModificationCell());
+
+		listeMembres.setMaxWidth(250);
+		listeMembres.setMinWidth(250);
+		listeMembres.setPrefHeight(350);
+
+		listeMembres.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				List<Membre> commis = new ArrayList<Membre>();
 				if(commisDebut.size() >= 2){
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						commis.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						commis.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 					commis.add(commisDebut.get(1));
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						commis.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						commis.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				}
 				Core.getService().setCommis(commis);
@@ -127,9 +118,7 @@ public final class SelectionMembre {
 			}
 		});
 
-		root.getChildren().add(table);
-
-		Scene scene = new Scene(root, 250, 350);
+		Scene scene = new Scene(listeMembres, 250, 350);
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -145,35 +134,33 @@ public final class SelectionMembre {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final void selectionCommis2(){
 
-		VBox root = new VBox();
-
 		List<Membre> commisDebut = Core.getService().getCommis();
 
-		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
 		List<Membre> membres = new ArrayList<Membre>();
 		membres.add(personne);
 		membres.addAll(BaseDonnees.getMembres());
-		table.getItems().setAll(membres);
-		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
-		nomColonne.setCellValueFactory(param -> {
-			final Membre membre = param.getValue();
-			return new SimpleStringProperty(membre.getBlaze());
-		});
-		table.getColumns().setAll(nomColonne);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getItems().setAll(membres);
+
+		listeMembres.setCellFactory(lv -> new MembreModificationCell());
+
+		listeMembres.setMaxWidth(250);
+		listeMembres.setMinWidth(250);
+		listeMembres.setPrefHeight(350);
+
+		listeMembres.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				List<Membre> commis = new ArrayList<Membre>();
 				if(commisDebut.size() >= 1){
 					commis.add(commisDebut.get(0));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						commis.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						commis.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						commis.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						commis.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				}
 				Core.getService().setCommis(commis);
@@ -181,9 +168,7 @@ public final class SelectionMembre {
 			}
 		});
 
-		root.getChildren().add(table);
-
-		Scene scene = new Scene(root, 250, 350);
+		Scene scene = new Scene(listeMembres, 250, 350);
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -199,41 +184,39 @@ public final class SelectionMembre {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final Stage selectionConfection1(){
 
-		VBox root = new VBox();
-
 		List<Membre> confectionDebut = Core.getService().getConfection();
 
-		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
 		List<Membre> membres = new ArrayList<Membre>();
 		membres.add(personne);
 		membres.addAll(BaseDonnees.getMembres());
-		table.getItems().setAll(membres);
-		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
-		nomColonne.setCellValueFactory(param -> {
-			final Membre membre = param.getValue();
-			return new SimpleStringProperty(membre.getBlaze());
-		});
-		table.getColumns().setAll(nomColonne);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getItems().setAll(membres);
+
+		listeMembres.setCellFactory(lv -> new MembreModificationCell());
+
+		listeMembres.setMaxWidth(250);
+		listeMembres.setMinWidth(250);
+		listeMembres.setPrefHeight(350);
+
+		listeMembres.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				List<Membre> confection = new ArrayList<Membre>();
 				if(confectionDebut.size() >= 3){
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 					confection.add(confectionDebut.get(1));
 					confection.add(confectionDebut.get(2));
 				} else if(confectionDebut.size() >= 2){
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 					confection.add(confectionDebut.get(1));
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				}
 				Core.getService().setConfection(confection);
@@ -242,9 +225,7 @@ public final class SelectionMembre {
 			}
 		});
 
-		root.getChildren().add(table);
-
-		Scene scene = new Scene(root, 250, 350);
+		Scene scene = new Scene(listeMembres, 250, 350);
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -262,41 +243,39 @@ public final class SelectionMembre {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final Stage selectionConfection2(){
 
-		VBox root = new VBox();
-
 		List<Membre> confectionDebut = Core.getService().getConfection();
 
-		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
 		List<Membre> membres = new ArrayList<Membre>();
 		membres.add(personne);
 		membres.addAll(BaseDonnees.getMembres());
-		table.getItems().setAll(membres);
-		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
-		nomColonne.setCellValueFactory(param -> {
-			final Membre membre = param.getValue();
-			return new SimpleStringProperty(membre.getBlaze());
-		});
-		table.getColumns().setAll(nomColonne);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getItems().setAll(membres);
+
+		listeMembres.setCellFactory(lv -> new MembreModificationCell());
+
+		listeMembres.setMaxWidth(250);
+		listeMembres.setMinWidth(250);
+		listeMembres.setPrefHeight(350);
+
+		listeMembres.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				List<Membre> confection = new ArrayList<Membre>();
 				if(confectionDebut.size() >= 3){
 					confection.add(confectionDebut.get(0));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 					confection.add(confectionDebut.get(2));
 				} else if(confectionDebut.size() >= 1){
 					confection.add(confectionDebut.get(0));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				}
 				Core.getService().setConfection(confection);
@@ -305,9 +284,7 @@ public final class SelectionMembre {
 			}
 		});
 
-		root.getChildren().add(table);
-
-		Scene scene = new Scene(root, 250, 350);
+		Scene scene = new Scene(listeMembres, 250, 350);
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -325,41 +302,39 @@ public final class SelectionMembre {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final Stage selectionConfection3(){
 
-		VBox root = new VBox();
-
 		List<Membre> confectionDebut = Core.getService().getConfection();
 
-		final TableView<Membre> table = new TableView();
 		Membre personne = new Membre();
 		List<Membre> membres = new ArrayList<Membre>();
 		membres.add(personne);
 		membres.addAll(BaseDonnees.getMembres());
-		table.getItems().setAll(membres);
-		final TableColumn<Membre, String> nomColonne = new TableColumn<>("Nom");
-		nomColonne.setCellValueFactory(param -> {
-			final Membre membre = param.getValue();
-			return new SimpleStringProperty(membre.getBlaze());
-		});
-		table.getColumns().setAll(nomColonne);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-		table.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getItems().setAll(membres);
+
+		listeMembres.setCellFactory(lv -> new MembreModificationCell());
+
+		listeMembres.setMaxWidth(250);
+		listeMembres.setMinWidth(250);
+		listeMembres.setPrefHeight(350);
+
+		listeMembres.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				List<Membre> confection = new ArrayList<Membre>();
 				if(confectionDebut.size() >= 2){
 					confection.add(confectionDebut.get(0));
 					confection.add(confectionDebut.get(1));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				} else if(confectionDebut.size() >= 1){
 					confection.add(confectionDebut.get(0));
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				} else {
-					if(!table.getSelectionModel().getSelectedItem().getId().equals("f38aa97b-2c4b-491e-be10-884e48fbb6c2")&&BaseDonnees.getMembres().contains(table.getSelectionModel().getSelectedItem())){
-						confection.add(table.getSelectionModel().getSelectedItem());
+					if(!listeMembres.getSelectionModel().getSelectedItem().getId().equals(Membre.ID_MEMBRE_DEFAUT)&&BaseDonnees.getMembres().contains(listeMembres.getSelectionModel().getSelectedItem())){
+						confection.add(listeMembres.getSelectionModel().getSelectedItem());
 					}
 				}
 				Core.getService().setConfection(confection);
@@ -368,9 +343,7 @@ public final class SelectionMembre {
 			}
 		});
 
-		root.getChildren().add(table);
-
-		Scene scene = new Scene(root, 250, 350);
+		Scene scene = new Scene(listeMembres, 250, 350);
 		Stage stage = new Stage();
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);

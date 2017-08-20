@@ -62,6 +62,9 @@ import javafx.stage.Stage;
  */
 public class EditionMembres {
 
+	//id par défaut des nouveaux membres
+	public static final String ID_NOUVEAU = "Sera généré au moment de l'enregistrement";
+
 	/**
 	 * Crée une fenêtre permettant de modifier les membres de la base de données.
 	 */
@@ -72,17 +75,16 @@ public class EditionMembres {
 
 		HBox pane = new HBox();
 
-		Membre nouveau = new Membre("Sera généré au moment de l'enregistrement", "", "", "", "", new Date(), 0, 0, 0);
+		Membre nouveau = new Membre(ID_NOUVEAU, "", "", "", "", new Date(), 0, 0, 0);
 		List<Membre> liste = new ArrayList<Membre>();
 		liste.add(nouveau);
-		for(Membre membre : BaseDonnees.getMembres()){
-			liste.add(membre);
-		}
+		liste.addAll(BaseDonnees.getMembres());
+
 		ListView<Membre> listeMembres = new ListView();
 		listeMembres.getItems().setAll(liste);
 		listeMembres.getSelectionModel().select(0);
 
-		listeMembres.setCellFactory(lv -> new MembreCell());
+		listeMembres.setCellFactory(lv -> new MembreModificationCell());
 
 		listeMembres.setMaxWidth(250);
 		listeMembres.setMinWidth(250);
@@ -97,7 +99,7 @@ public class EditionMembres {
 		idField.setText(listeMembres.getSelectionModel().getSelectedItem().getId());
 		idField.setDisable(true);
 		Button idCopierBouton = new Button("Copier");
-		if(listeMembres.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
+		if(listeMembres.getSelectionModel().getSelectedItem().getId().equals(ID_NOUVEAU)){
 			idCopierBouton.setDisable(true);
 		}
 		idCopierBouton.setOnAction(new EventHandler<ActionEvent>() {
@@ -156,7 +158,7 @@ public class EditionMembres {
 
 		HBox boutons = new HBox();
 		Button supprimer = new Button("Supprimer");
-		if(listeMembres.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
+		if(listeMembres.getSelectionModel().getSelectedItem().getId().equals(ID_NOUVEAU)){
 			supprimer.setDisable(true);
 		}
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
@@ -172,7 +174,7 @@ public class EditionMembres {
 						CreateurBase.supprimerMembre(listeMembres.getSelectionModel().getSelectedItem());
 						BaseDonnees.chargerMembres();
 
-						Membre nouveau = new Membre("Sera généré au moment de l'enregistrement", "", "", "", "", new Date(), 0, 0, 0);
+						Membre nouveau = new Membre(ID_NOUVEAU, "", "", "", "", new Date(), 0, 0, 0);
 						List<Membre> liste = new ArrayList<Membre>();
 						liste.add(nouveau);
 						for(Membre membre : BaseDonnees.getMembres()){
@@ -191,7 +193,7 @@ public class EditionMembres {
 			public void handle(ActionEvent ae){
 				Instant instant = dateNaissancePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
 				Date dateNaissance = Date.from(instant);
-				if(listeMembres.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
+				if(listeMembres.getSelectionModel().getSelectedItem().getId().equals(ID_NOUVEAU)){
 					CreateurBase.creerMembre(
 						nomField.getText(),
 						prenomField.getText(),
@@ -212,7 +214,7 @@ public class EditionMembres {
 				}
 
 				BaseDonnees.chargerMembres();
-				Membre nouveau = new Membre("Sera généré au moment de l'enregistrement", "", "", "", "", new Date(), 0, 0, 0);
+				Membre nouveau = new Membre(ID_NOUVEAU, "", "", "", "", new Date(), 0, 0, 0);
 				List<Membre> liste = new ArrayList<Membre>();
 				liste.add(nouveau);
 				for(Membre membre : BaseDonnees.getMembres()){
@@ -244,7 +246,7 @@ public class EditionMembres {
 					LocalDate dateInitiale = listeMembres.getSelectionModel().getSelectedItem().getDateNaissance().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 					dateNaissancePicker.setValue(dateInitiale);
 					surnomField.requestFocus();
-					if(listeMembres.getSelectionModel().getSelectedItem().getId().equals("Sera généré au moment de l'enregistrement")){
+					if(listeMembres.getSelectionModel().getSelectedItem().getId().equals(ID_NOUVEAU)){
 						idCopierBouton.setDisable(true);
 						supprimer.setDisable(true);
 					} else {
