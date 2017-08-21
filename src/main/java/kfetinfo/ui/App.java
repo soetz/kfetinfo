@@ -92,7 +92,12 @@ public final class App extends Application{
 
 		theatre.setScene(scene);
 
-		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/style.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/menu.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/commandes.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/selection.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/resultat.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/graphiques.css").toExternalForm());
 
 		theatre.show();
 	}

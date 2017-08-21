@@ -1,0 +1,12 @@
+.commandes-commande {
+	-fx-border-color : "#101010";
+	-fx-border-width : 1;
+}
+
+.commandes-plat-liste {
+	-fx-cursor : hand;
+}
+
+.commandes-panneau {
+	-fx-focus-color : transparent;
+}

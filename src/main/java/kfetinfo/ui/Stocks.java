@@ -205,6 +205,10 @@ public final class Stocks {
 		pane.setBottom(baguettes);
 
 		Scene scene = new Scene(pane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
+
+		scene.getStylesheets().add(Stocks.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(Stocks.class.getResource("../../Interface/Stylesheets/stocks.css").toExternalForm());
+
 		Stage theatre = new Stage();
 		theatre.setAlwaysOnTop(true);
 		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal

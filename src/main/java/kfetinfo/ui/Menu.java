@@ -39,7 +39,7 @@ import javafx.stage.Stage;
 public final class Menu {
 
 	//classe de style pour l'utilisation du CSS
-	public static final String BOUTON_MENU = "bouton-menu";
+	public static final String BOUTON = "menu-bouton";
 
 	/**
 	 * Crée une {@code HBox} munie de boutons permettant de faire apparaître les fenêtres secondaires du logiciel.
@@ -53,7 +53,7 @@ public final class Menu {
 
 		Button confection = new Button("_Confection"); //C est une touche mnémonique pour ce bouton
 		confection.setMnemonicParsing(true);
-		confection.getStyleClass().add(BOUTON_MENU);
+		confection.getStyleClass().add(BOUTON);
 		confection.prefHeightProperty().bind(menu.heightProperty());
 		confection.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		confection.setOnAction(new EventHandler<ActionEvent>() {
@@ -64,7 +64,7 @@ public final class Menu {
 
 		Button stocks = new Button("S_tocks"); //T est une touche mnémonique pour ce bouton
 		stocks.setMnemonicParsing(true);
-		stocks.getStyleClass().add(BOUTON_MENU);
+		stocks.getStyleClass().add(BOUTON);
 		stocks.prefHeightProperty().bind(menu.heightProperty());
 		stocks.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		stocks.setOnAction(new EventHandler<ActionEvent>() {
@@ -75,7 +75,7 @@ public final class Menu {
 
 		Button menuBouton = new Button("_Menu"); //M est une touche mnémonique pour ce bouton
 		menuBouton.setMnemonicParsing(true);
-		menuBouton.getStyleClass().add(BOUTON_MENU);
+		menuBouton.getStyleClass().add(BOUTON);
 		menuBouton.prefHeightProperty().bind(menu.heightProperty());
 		menuBouton.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		menuBouton.setOnAction(new EventHandler<ActionEvent>() {
@@ -86,7 +86,7 @@ public final class Menu {
 
 		Button administration = new Button("A_dministration"); //D est une touche mnémonique pour ce bouton
 		administration.setMnemonicParsing(true);
-		administration.getStyleClass().add(BOUTON_MENU);
+		administration.getStyleClass().add(BOUTON);
 		administration.prefHeightProperty().bind(menu.heightProperty());
 		administration.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		administration.setOnAction(new EventHandler<ActionEvent>() {
@@ -96,7 +96,7 @@ public final class Menu {
 		});
 
 		Button graphiques = new Button("_Graphiques"); //G est une touche mnémonique pour ce bouton
-		graphiques.getStyleClass().add(BOUTON_MENU);
+		graphiques.getStyleClass().add(BOUTON);
 		graphiques.prefHeightProperty().bind(menu.heightProperty());
 		graphiques.prefWidthProperty().bind(menu.widthProperty().divide(5));
 

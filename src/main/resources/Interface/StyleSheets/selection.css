@@ -1,0 +1,10 @@
+.selection-liste-contenu-commande {
+	-fx-background-color : "#f0f0f0";
+	-fx-border-color : "#101010";
+	-fx-border-width : 1;
+}
+
+.selection-titre-groupe-contenu-commande {
+	-fx-font : bold 12px "sans-serif";
+	-fx-alignment : center;
+}

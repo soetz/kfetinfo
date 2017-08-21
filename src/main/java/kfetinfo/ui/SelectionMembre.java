@@ -36,7 +36,7 @@ import javafx.stage.Stage;
  * <p>SelectionMembre est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à la création de fenêtres permettant de sélectionner les membres participant au service.</p>
  * 
  * @author Simon Lecutiez - Sœtz
- * @version 1.0
+ * @version 1.1
  */
 public final class SelectionMembre {
 
@@ -68,6 +68,10 @@ public final class SelectionMembre {
 		});
 
 		Scene scene = new Scene(listeMembres, 250, 350);
+
+		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/selection membre.css").toExternalForm());
+
 		Stage stage = new Stage();
 
 		stage.setResizable(false);

@@ -51,9 +51,9 @@ import javafx.scene.layout.VBox;
 public final class Commandes {
 
 	//classes de style pour l'utilisation du CSS
-	public static final String COMMANDE = "commande";
-	public static final String PANNEAU_COMMANDES = "panneau-commandes";
-	public static final String PLAT_LISTE_COMMANDES = "plat-liste-commandes";
+	public static final String COMMANDE = "commandes-commande";
+	public static final String PANNEAU = "commandes-panneau";
+	public static final String PLAT_LISTE = "commandes-plat-liste";
 
 	//constantes pour l'affichage
 	private static final Double HAUTEUR_COMMANDE_FERMEE = 30.0;
@@ -97,7 +97,7 @@ public final class Commandes {
 		panneauCommandes.setMinWidth(App.TAILLE_PANNEAU_COMMANDES);
 		panneauCommandes.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		panneauCommandes.setHbarPolicy(ScrollBarPolicy.NEVER);
-		panneauCommandes.getStyleClass().add(PANNEAU_COMMANDES);
+		panneauCommandes.getStyleClass().add(PANNEAU);
 
 		for(Commande commande : Core.getService().getCommandes()){ //pour chaque commande,
 			if(commande instanceof CommandeAssignee){
@@ -124,7 +124,7 @@ public final class Commandes {
 						plat.setMaxHeight(Control.USE_PREF_SIZE);
 						plat.setMaxWidth(Double.MAX_VALUE);
 						plat.getStyleClass().add(App.PLAT_COMMANDE);
-						plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+						plat.getStyleClass().add(PLAT_LISTE);
 
 						Label confection = new Label();
 						confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle était affectée
@@ -207,7 +207,7 @@ public final class Commandes {
 						plat.setMaxHeight(Control.USE_PREF_SIZE);
 						plat.setMaxWidth(Double.MAX_VALUE);
 						plat.getStyleClass().add(App.PLAT_COMMANDE);
-						plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+						plat.getStyleClass().add(PLAT_LISTE);
 
 						Label confection = new Label();
 						confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle était affectée
@@ -303,7 +303,7 @@ public final class Commandes {
 					plat.setMaxHeight(Control.USE_PREF_SIZE);
 					plat.setMaxWidth(Double.MAX_VALUE);
 					plat.getStyleClass().add(App.PLAT_COMMANDE);
-					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+					plat.getStyleClass().add(PLAT_LISTE);
 
 					Label confection = new Label();
 					confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle est affectée
@@ -410,7 +410,7 @@ public final class Commandes {
 				plat.setMaxHeight(Control.USE_PREF_SIZE);
 				plat.setMaxWidth(Double.MAX_VALUE);
 				plat.getStyleClass().add(App.PLAT_COMMANDE);
-				plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+				plat.getStyleClass().add(PLAT_LISTE);
 		
 				VBox contenuCommande = new VBox();
 				contenuCommande.setVisible(false);
@@ -501,7 +501,7 @@ public final class Commandes {
 				plat.setMaxHeight(Control.USE_PREF_SIZE);
 				plat.setMaxWidth(Double.MAX_VALUE);
 				plat.getStyleClass().add(App.PLAT_COMMANDE);
-				plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+				plat.getStyleClass().add(PLAT_LISTE);
 		
 				VBox contenuCommande = new VBox();
 				contenuCommande.setVisible(false);
@@ -551,12 +551,12 @@ public final class Commandes {
 				retirer.setOnAction(new EventHandler<ActionEvent>(){
 					public void handle(ActionEvent a){
 						Core.getService().retirerCommande(commande);
-						EcranConfection.mettreEcransAJour();
 						Selection.refreshCompteurBaguettes();
 					}
 				});
 
 				commandesAjoutees.getChildren().add(commandePane);
+				EcranConfection.mettreEcransAJour();
 			}
 		});
 
@@ -599,7 +599,7 @@ public final class Commandes {
 					plat.setMaxHeight(Control.USE_PREF_SIZE);
 					plat.setMaxWidth(Double.MAX_VALUE);
 					plat.getStyleClass().add(App.PLAT_COMMANDE);
-					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+					plat.getStyleClass().add(PLAT_LISTE);
 
 					Label confection = new Label();
 					confection.setText(commande.getMembre().getBlazeCourt());
@@ -664,7 +664,6 @@ public final class Commandes {
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
 					});
@@ -674,7 +673,6 @@ public final class Commandes {
 							Commande cmd = Core.getService().getCommande(commande.getNumero()); //on re-récupère la commande assignée correspondant au numéro parce que sinon ça bugge (vu qu'on doit changer l'objet Commande de la liste de commandes du Service en CommandeAssignee il considère que c'est un autre objet et donc le fait qu'on modifie les valeurs des attributs de la commande assignée via ses propres méthodes l'applique pas à celui de la liste, ou un truc comme ça
 							CommandeAssignee cmdA = (CommandeAssignee)cmd;
 							cmdA.realisee(Core.getService());
-							EcranConfection.mettreEcransAJour();
 						}
 					});
 
@@ -687,6 +685,7 @@ public final class Commandes {
 					});
 
 					commandesAssignees.getChildren().add(commandePane);
+					EcranConfection.mettreEcransAJour();
 				}
 			}
 		});
@@ -730,7 +729,7 @@ public final class Commandes {
 					plat.setMaxHeight(Control.USE_PREF_SIZE);
 					plat.setMaxWidth(Double.MAX_VALUE);
 					plat.getStyleClass().add(App.PLAT_COMMANDE);
-					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+					plat.getStyleClass().add(PLAT_LISTE);
 
 					Label confection = new Label();
 					confection.setText(commande.getMembre().getBlazeCourt());
@@ -791,7 +790,6 @@ public final class Commandes {
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
 					});
@@ -805,6 +803,7 @@ public final class Commandes {
 					});
 
 					commandesRealisees.getChildren().add(commandePane);
+					EcranConfection.mettreEcransAJour();
 				}
 			}
 		});
@@ -862,7 +861,7 @@ public final class Commandes {
 					plat.setMaxHeight(Control.USE_PREF_SIZE);
 					plat.setMaxWidth(Double.MAX_VALUE);
 					plat.getStyleClass().add(App.PLAT_COMMANDE);
-					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+					plat.getStyleClass().add(PLAT_LISTE);
 
 					Label confection = new Label();
 					confection.setText(commande.getMembre().getBlazeCourt());
@@ -918,12 +917,12 @@ public final class Commandes {
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
 					});
 
 					commandesDonnees.getChildren().add(commandePane);
+					EcranConfection.mettreEcransAJour();
 				}
 			}
 		});
@@ -988,6 +987,8 @@ public final class Commandes {
 					if(k != -1){
 						listeCommandesDonnees.remove(k);
 					}
+
+					EcranConfection.mettreEcransAJour();
 				}
 			}});
 

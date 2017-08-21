@@ -1,0 +1,23 @@
+.resultat-fond-commande-preview {
+	-fx-background-color : "#fff0b0";
+	-fx-border-color : "#101010";
+	-fx-border-width : 1;
+}
+
+.resultat-contenu-commande-preview {
+	-fx-font : 12px "sans-serif";
+}
+
+.resultat-prix-commande-preview {
+	-fx-font : bold 26px "sans-serif";
+	-fx-text-fill : "#f01010";
+}
+
+.resultat-nombre-pieces {
+	-fx-alignment : center;
+}
+
+.resultat-a-rendre {
+	-fx-font : bold 14px "sans-serif";
+	-fx-alignment : center;
+}

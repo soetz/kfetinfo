@@ -260,6 +260,10 @@ public class EditionMembres {
 		pane.getChildren().addAll(listeMembres, disposition);
 
 		Scene scene = new Scene(pane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
+
+		scene.getStylesheets().add(EditionMembres.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(EditionMembres.class.getResource("../../Interface/Stylesheets/edition membres.css").toExternalForm());
+
 		theatre.setAlwaysOnTop(true);
 		theatre.setResizable(false);
 		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal

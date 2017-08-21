@@ -143,6 +143,10 @@ public final class EditionContenus {
 		tabPane.getTabs().setAll(tabPlats, tabIngredients, tabSauces, tabBoissons, tabSupplementsBoisson, tabDesserts, tabDivers);
 
 		Scene scene = new Scene(tabPane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
+
+		scene.getStylesheets().add(EditionContenus.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(EditionContenus.class.getResource("../../Interface/Stylesheets/edition contenus.css").toExternalForm());
+
 		theatre.setAlwaysOnTop(true);
 		theatre.setResizable(false);
 		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal

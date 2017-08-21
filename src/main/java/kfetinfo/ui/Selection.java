@@ -67,8 +67,8 @@ import javafx.scene.shape.Line;
 public final class Selection {
 
 	//classes de style pour l'utilisation du CSS
-	public static final String LISTE_CONTENU_COMMANDE = "liste-contenu-commande";
-	public static final String TITRE_GROUPE = "titre-groupe-contenu-commande";
+	public static final String LISTE_CONTENU_COMMANDE = "selection-liste-contenu-commande";
+	public static final String TITRE_GROUPE = "selection-titre-groupe-contenu-commande";
 
 	//constantes pour l'affichage
 	private static final Double ESPACE_GROUPES = 4.0;

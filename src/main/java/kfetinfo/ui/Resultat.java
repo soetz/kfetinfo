@@ -60,12 +60,11 @@ import javafx.stage.WindowEvent;
 public final class Resultat {
 
 	//classes de style pour l'utilisation du CSS
-	public static final String COMMANDE_PREVIEW = "commande-preview";
-	public static final String FOND_COMMANDE_PREVIEW = "fond-commande-preview";
-	public static final String CONTENU_COMMANDE_PREVIEW = "contenu-commande-preview";
-	public static final String PRIX_COMMANDE_PREVIEW = "prix-commande-preview";
-	public static final String NOMBRE_PIECES = "nombre-pieces";
-	public static final String A_RENDRE = "a-rendre";
+	public static final String FOND_COMMANDE_PREVIEW = "resultat-fond-commande-preview";
+	public static final String CONTENU_COMMANDE_PREVIEW = "resultat-contenu-commande-preview";
+	public static final String PRIX_COMMANDE_PREVIEW = "resultat-prix-commande-preview";
+	public static final String NOMBRE_PIECES = "resultat-nombre-pieces";
+	public static final String A_RENDRE = "resultat-a-rendre";
 
 	//constantes pour l'affichage
 	private static final Double PADDING_PREVIEW = 4.0;
@@ -168,7 +167,6 @@ public final class Resultat {
 
 		commandePreview.setPadding(new Insets(PADDING_PREVIEW));
 		commandePreview.maxWidthProperty().bind(parent.widthProperty().divide(3).subtract(2*PADDING_PREVIEW));
-		commandePreview.getStyleClass().add(COMMANDE_PREVIEW);
 
 		Region fond = new Region();
 
