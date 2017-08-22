@@ -49,6 +49,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.WindowEvent;
 
 /**
@@ -73,17 +74,24 @@ public final class Resultat {
 	private static final String BOUTON_AJOUTER = "resultat-bouton-ajouter";
 	private static final String POSTE = "resultat-poste";
 	private static final String MEMBRE_EQUIPE = "resultat-membre-equipe";
+	private static final String FOND_MEMBRE_EQUIPE = "resultat-fond-membre-equipe";
+	private static final String SUPERPOSITION_MEMBRE_EQUIPE = "resultat-superposition-membre-equipe";
 	private static final String BOUTON_MODIFIER = "resultat-bouton-modifier";
 
 	//constantes pour l'affichage
-	private static final Double PADDING_PREVIEW = 4.0;
-	private static final Double MARGIN_PREVIEW = 5.0;
+	private static final Double PADDING_PREVIEW = 8.0;
+	private static final Double MARGIN_PREVIEW = 8.0;
 	private static final Double ESPACE_CONTENUS_COMMANDE = 8.0;
 	private static final Double LARGEUR_CELLULE_TABLEAU = 20.0;
 	private static final Double PADDING_HAUT_TABLEAU = 3.0;
 	private static final Double ESPACE_A_RENDRE = 5.0;
 	private static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
 	private static final Double PADDING_HAUT_RESET = 20.0;
+	private static final Double ESPACE_HAUT_GRIDS = 2.0;
+	private static final Double ESPACE_MEMBRE_HORIZONTAL = 5.0;
+	private static final Double ESPACE_MEMBRE_VERTICAL = 3.0;
+	private static final Double HAUTEUR_MEMBRE = 25.0;
+	private static final Double DECALAGE_MEMBRE = 8.0;
 
 	//comptes de pièces
 	private static int nbUnCent = 0;
@@ -336,15 +344,30 @@ public final class Resultat {
 			}
 		});
 
-		prix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
-
-		AnchorPane.setBottomAnchor(prix, MARGIN_PREVIEW);
+		AnchorPane.setBottomAnchor(prix, 0.0);
 		AnchorPane.setRightAnchor(prix, MARGIN_PREVIEW);
 
 		fixationPrix.getChildren().add(prix);
 
+		prix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
+
+		AnchorPane fixationFondPrix = new AnchorPane();
+		
+		Region fondPrix = new Region();
+		fondPrix.setPrefWidth(68);
+		fondPrix.setPrefHeight(38);
+		fondPrix.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		fondPrix.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		fondPrix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
+
+		AnchorPane.setBottomAnchor(fondPrix, 0.0);
+		AnchorPane.setRightAnchor(fondPrix, 0.0);
+
+		fixationFondPrix.getChildren().add(fondPrix);
+
 		commandePreview.getChildren().add(fond);
 		commandePreview.getChildren().add(commande);
+		commandePreview.getChildren().add(fixationFondPrix);
 		commandePreview.getChildren().add(fixationPrix);
 
 		return(commandePreview);
@@ -360,6 +383,7 @@ public final class Resultat {
 		BorderPane separation = new BorderPane();
 
 		GridPane pieces = new GridPane();
+		pieces.setTranslateY(ESPACE_HAUT_GRIDS);
 
 		pieces.setTranslateY(PADDING_HAUT_TABLEAU);
 		pieces.setHgap(LARGEUR_CELLULE_TABLEAU);
@@ -645,21 +669,101 @@ public final class Resultat {
 		AnchorPane layout = new AnchorPane();
 
 		GridPane membres = new GridPane();
-		membres.setHgap(5.0); //TODO changer ça en constante
-		membres.setVgap(3.0);
+		membres.setTranslateY(ESPACE_HAUT_GRIDS);
+		membres.setTranslateX(-ESPACE_HAUT_GRIDS);
+		membres.setHgap(ESPACE_MEMBRE_HORIZONTAL);
+		membres.setVgap(ESPACE_MEMBRE_VERTICAL);
 
 		Label ordi = new Label("Ordi");
+		ordi.setMinHeight(HAUTEUR_MEMBRE);
 		Label commis1 = new Label("Commis #1");
+		commis1.setMinHeight(HAUTEUR_MEMBRE);
 		Label commis2 = new Label("Commis #2");
+		commis2.setMinHeight(HAUTEUR_MEMBRE);
 		Label confection1 = new Label("Confection #1");
+		confection1.setMinHeight(HAUTEUR_MEMBRE);
 		Label confection2 = new Label("Confection #2");
+		confection2.setMinHeight(HAUTEUR_MEMBRE);
 		Label confection3 = new Label("Confection #3");
+		confection3.setMinHeight(HAUTEUR_MEMBRE);
+
+		StackPane supOrdi = new StackPane();
+		supOrdi.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondOrdi = new Region();
+		fondOrdi.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondOrdi.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supOrdi.getChildren().add(fondOrdi);
+
 		membreOrdi = new Label("---");
+		membreOrdi.setTranslateX(DECALAGE_MEMBRE); //TODO -> constante
+
+		supOrdi.getChildren().add(membreOrdi);
+
+		StackPane supCommis1 = new StackPane();
+		supCommis1.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondCommis1 = new Region();
+		fondCommis1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondCommis1.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supCommis1.getChildren().add(fondCommis1);
+
 		membreCommis1 = new Label("---");
+		membreCommis1.setTranslateX(DECALAGE_MEMBRE);
+
+		supCommis1.getChildren().add(membreCommis1);
+
+		StackPane supCommis2 = new StackPane();
+		supCommis2.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondCommis2 = new Region();
+		fondCommis2.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondCommis2.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supCommis2.getChildren().add(fondCommis2);
+
 		membreCommis2 = new Label("---");
+		membreCommis2.setTranslateX(DECALAGE_MEMBRE);
+
+		supCommis2.getChildren().add(membreCommis2);
+
+		StackPane supConfection1 = new StackPane();
+		supConfection1.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondConfection1 = new Region();
+		fondConfection1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondConfection1.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supConfection1.getChildren().add(fondConfection1);
+
 		membreConfection1 = new Label("---");
+		membreConfection1.setTranslateX(DECALAGE_MEMBRE);
+
+		supConfection1.getChildren().add(membreConfection1);
+
+		StackPane supConfection2 = new StackPane();
+		supConfection2.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondConfection2 = new Region();
+		fondConfection2.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondConfection2.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supConfection2.getChildren().add(fondConfection2);
+
 		membreConfection2 = new Label("---");
+		membreConfection2.setTranslateX(DECALAGE_MEMBRE);
+
+		supConfection2.getChildren().add(membreConfection2);
+
+		StackPane supConfection3 = new StackPane();
+		supConfection3.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondConfection3 = new Region();
+		fondConfection3.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondConfection3.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supConfection3.getChildren().add(fondConfection3);
+
 		membreConfection3 = new Label("---");
+		membreConfection3.setTranslateX(DECALAGE_MEMBRE);
+
+		supConfection3.getChildren().add(membreConfection3);
 
 		ordi.getStyleClass().add(POSTE);
 		commis1.getStyleClass().add(POSTE);
@@ -675,6 +779,9 @@ public final class Resultat {
 		membreConfection3.getStyleClass().add(MEMBRE_EQUIPE);
 
 		Button boutonOrdi = new Button("Modifier");
+		boutonOrdi.setMaxHeight(10);
+		boutonOrdi.setPrefHeight(10);
+		boutonOrdi.setTranslateY(-1);
 		boutonOrdi.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionOrdi();
@@ -682,6 +789,9 @@ public final class Resultat {
 		});
 
 		Button boutonCommis1 = new Button("Modifier");
+		boutonCommis1.setMaxHeight(24);
+		boutonCommis1.setPrefHeight(24);
+		boutonCommis1.setTranslateY(-1);
 		boutonCommis1.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionCommis1();
@@ -689,6 +799,9 @@ public final class Resultat {
 		});
 
 		Button boutonCommis2 = new Button("Modifier");
+		boutonCommis2.setMaxHeight(24);
+		boutonCommis2.setPrefHeight(24);
+		boutonCommis2.setTranslateY(-1);
 		boutonCommis2.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionCommis2();
@@ -696,6 +809,9 @@ public final class Resultat {
 		});
 
 		Button boutonConfection1 = new Button("Modifier");
+		boutonConfection1.setMaxHeight(24);
+		boutonConfection1.setPrefHeight(24);
+		boutonConfection1.setTranslateY(-1);
 		boutonConfection1.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection1().setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -708,6 +824,9 @@ public final class Resultat {
 		});
 
 		Button boutonConfection2 = new Button("Modifier");
+		boutonConfection2.setMaxHeight(24);
+		boutonConfection2.setPrefHeight(24);
+		boutonConfection2.setTranslateY(-1);
 		boutonConfection2.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection2().setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -720,6 +839,9 @@ public final class Resultat {
 		});
 
 		Button boutonConfection3 = new Button("Modifier");
+		boutonConfection3.setMaxHeight(24);
+		boutonConfection3.setPrefHeight(24);
+		boutonConfection3.setTranslateY(-1);
 		boutonConfection3.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection3().setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -751,22 +873,22 @@ public final class Resultat {
 		mettreConfectionAJour();
 
 		membres.add(ordi, 0, 0);
-		membres.add(membreOrdi, 1, 0);
+		membres.add(supOrdi, 1, 0);
 		membres.add(boutonOrdi, 2, 0);
 		membres.add(commis1, 0, 1);
-		membres.add(membreCommis1, 1, 1);
+		membres.add(supCommis1, 1, 1);
 		membres.add(boutonCommis1, 2, 1);
 		membres.add(commis2, 0, 2);
-		membres.add(membreCommis2, 1, 2);
+		membres.add(supCommis2, 1, 2);
 		membres.add(boutonCommis2, 2, 2);
 		membres.add(confection1, 0, 3);
-		membres.add(membreConfection1, 1, 3);
+		membres.add(supConfection1, 1, 3);
 		membres.add(boutonConfection1, 2, 3);
 		membres.add(confection2, 0, 4);
-		membres.add(membreConfection2, 1, 4);
+		membres.add(supConfection2, 1, 4);
 		membres.add(boutonConfection2, 2, 4);
 		membres.add(confection3, 0, 5);
-		membres.add(membreConfection3, 1, 5);
+		membres.add(supConfection3, 1, 5);
 		membres.add(boutonConfection3, 2, 5);
 
 		ColumnConstraints nePasGrow = new ColumnConstraints(); //on indique que les colonnes à l'extérieur du tableau (les labels et les boutons) ne doivent pas grander si le tableau est redimensionné mais que la colonne du milieu (le blaze court du membre sélectionné) si

@@ -27,7 +27,12 @@
 
 .resultat-prix-commande-preview {
 	-fx-font : bold 26px "Source Sans";
-	-fx-text-fill : ajoutee;
+    -fx-background-color : chakra-turquoise;
+	-fx-text-fill : light;
+}
+
+.resultat-fond-prix-commande-preview {
+    
 }
 
 .resultat-nombre-pieces {
@@ -123,13 +128,21 @@
 }
 
 .resultat-poste {
-    -fx-font : 12px "Source Sans";
+    -fx-font : bold 13px "Source Sans";
     -fx-text-fill : light;
 }
 
 .resultat-membre-equipe {
-    -fx-font : bold 12px "Source sans";
-    -fx-text-fill : light;
+    -fx-font : italic 13px "Source sans";
+    -fx-text-fill : chakra-turquoise;
+}
+
+.resultat-fond-membre-equipe {
+    -fx-background-color : darker;
+}
+
+.resultat-superposition-membre-equipe {
+    -fx-alignment : center-left;
 }
 
 .resultat-bouton-modifier {
