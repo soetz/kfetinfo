@@ -1,39 +1,61 @@
+@font-face {
+	font-family : "Source Sans";
+	src : url("../Fonts/SourceSansVariable-Roman.ttf");
+}
+
+.root {
+    light : rgb(236, 245, 244);
+    cus-lightgrey : rgb(228, 234, 233);
+    cus-grey : rgb(205, 211, 210);
+    dark : rgb(59, 68, 67);
+    darker : rgb(40, 46, 45);
+    sea-glass : rgb(159, 246, 237);
+    chakra-turquoise : rgb(14, 231, 200);
+    chakra-blue : rgb(18, 177, 242);
+    light-chakra-blue : rgb(106, 202, 242);
+    ajoutee : rgb(255, 51, 51);
+    assignee : rgb(252, 160, 0);
+    realisee : rgb(86, 178, 45);
+    donnee : rgb(77, 77, 255);
+}
+
+.fond {
+    -fx-background-color : light;
+}
+
 .numero-commande-ajoutee {
 	-fx-alignment : center;
-	-fx-background-color : "#f01010";
-	-fx-border-color : "#101010";
-	-fx-border-width : 1;
-	-fx-font : bold 15px "sans-serif"; 
-	-fx-text-fill : "#f0f0f0";
+	-fx-background-color : ajoutee;
+	-fx-font : bold 15px "Source Sans"; 
+	-fx-text-fill : light;
 }
 
 .numero-commande-assignee {
 	-fx-alignment : center;
-	-fx-background-color : "#f08010";
-	-fx-border-color : "#101010";
-	-fx-border-width : 1;
-	-fx-font : bold 15px "sans-serif"; 
-	-fx-text-fill : "#f0f0f0";
+	-fx-background-color : assignee;
+	-fx-font : bold 15px "Source Sans"; 
+	-fx-text-fill : light;
 }
 
 .numero-commande-realisee {
 	-fx-alignment : center;
-	-fx-background-color : "#10d010";
-	-fx-border-color : "#101010";
-	-fx-border-width : 1;
-	-fx-font : bold 15px "sans-serif"; 
-	-fx-text-fill : "#f0f0f0";
+	-fx-background-color : realisee;
+	-fx-font : bold 15px "Source Sans"; 
+	-fx-text-fill : light;
 }
 
 .numero-commande-donnee {
 	-fx-alignment : center;
-	-fx-background-color : "#1010f0";
-	-fx-border-color : "#101010";
-	-fx-border-width : 1;
-	-fx-font : bold 15px "sans-serif"; 
-	-fx-text-fill : "#f0f0f0";
+	-fx-background-color : donnee;
+	-fx-font : bold 15px "Source Sans"; 
+	-fx-text-fill : light;
 }
 
 .plat-commande {
-	-fx-font : bold 12px "sans-serif";
+	-fx-font : bold 14px "Source Sans";
+}
+
+.bouton {
+    -fx-background-radius : 0;
+    -fx-cursor : hand;
 }

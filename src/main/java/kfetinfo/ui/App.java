@@ -45,6 +45,9 @@ public final class App extends Application{
 	public static final String NUMERO_COMMANDE_REALISEE = "numero-commande-realisee";
 	public static final String NUMERO_COMMANDE_DONNEE = "numero-commande-donnee";
 	public static final String PLAT_COMMANDE = "plat-commande";
+	public static final String BOUTON = "bouton";
+	private static final String ROOT = "root";
+	private static final String FOND = "fond";
 
 	//constantes pour l'affichage
 	public static final Double LARGEUR_MIN_FENETRE = 800.0;
@@ -98,6 +101,9 @@ public final class App extends Application{
 		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/selection.css").toExternalForm());
 		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/resultat.css").toExternalForm());
 		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/graphiques.css").toExternalForm());
+
+		root.getStyleClass().add(ROOT);
+		root.getStyleClass().add(FOND);
 
 		theatre.show();
 	}

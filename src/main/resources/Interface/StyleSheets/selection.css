@@ -1,10 +1,9 @@
 .selection-liste-contenu-commande {
-	-fx-background-color : "#f0f0f0";
-	-fx-border-color : "#101010";
-	-fx-border-width : 1;
+	-fx-background-color : light;
 }
 
 .selection-titre-groupe-contenu-commande {
-	-fx-font : bold 12px "sans-serif";
+	-fx-font : bold 12px "Source Sans";
 	-fx-alignment : center;
+    -fx-text-fill : dark;
 }

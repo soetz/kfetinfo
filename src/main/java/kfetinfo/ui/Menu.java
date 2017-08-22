@@ -54,6 +54,7 @@ public final class Menu {
 		Button confection = new Button("_Confection"); //C est une touche mnémonique pour ce bouton
 		confection.setMnemonicParsing(true);
 		confection.getStyleClass().add(BOUTON);
+		confection.getStyleClass().add(App.BOUTON);
 		confection.prefHeightProperty().bind(menu.heightProperty());
 		confection.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		confection.setOnAction(new EventHandler<ActionEvent>() {
@@ -65,6 +66,7 @@ public final class Menu {
 		Button stocks = new Button("S_tocks"); //T est une touche mnémonique pour ce bouton
 		stocks.setMnemonicParsing(true);
 		stocks.getStyleClass().add(BOUTON);
+		stocks.getStyleClass().add(App.BOUTON);
 		stocks.prefHeightProperty().bind(menu.heightProperty());
 		stocks.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		stocks.setOnAction(new EventHandler<ActionEvent>() {
@@ -76,6 +78,7 @@ public final class Menu {
 		Button menuBouton = new Button("_Menu"); //M est une touche mnémonique pour ce bouton
 		menuBouton.setMnemonicParsing(true);
 		menuBouton.getStyleClass().add(BOUTON);
+		menuBouton.getStyleClass().add(App.BOUTON);
 		menuBouton.prefHeightProperty().bind(menu.heightProperty());
 		menuBouton.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		menuBouton.setOnAction(new EventHandler<ActionEvent>() {
@@ -87,6 +90,7 @@ public final class Menu {
 		Button administration = new Button("A_dministration"); //D est une touche mnémonique pour ce bouton
 		administration.setMnemonicParsing(true);
 		administration.getStyleClass().add(BOUTON);
+		administration.getStyleClass().add(App.BOUTON);
 		administration.prefHeightProperty().bind(menu.heightProperty());
 		administration.prefWidthProperty().bind(menu.widthProperty().divide(5));
 		administration.setOnAction(new EventHandler<ActionEvent>() {
@@ -97,6 +101,7 @@ public final class Menu {
 
 		Button graphiques = new Button("_Graphiques"); //G est une touche mnémonique pour ce bouton
 		graphiques.getStyleClass().add(BOUTON);
+		graphiques.getStyleClass().add(App.BOUTON);
 		graphiques.prefHeightProperty().bind(menu.heightProperty());
 		graphiques.prefWidthProperty().bind(menu.widthProperty().divide(5));
 

@@ -1,13 +1,11 @@
 .menu-bouton {
-	-fx-background-color : "#101010";
-	-fx-border-color : "#f0f0f0";
-	-fx-border-width : 1;
-	-fx-font : bold 14px "sans-serif";
-	-fx-text-fill : "#f0f0f0";
+	-fx-background-color : dark;
+	-fx-font : bold 14px "Source Sans";
+	-fx-text-fill : light;
 	-fx-cursor : hand;
 }
 
 .menu-bouton:hover {
-	-fx-text-fill : "#d0d0d0";
-	-fx-border-color : "#d0d0d0";
+	-fx-text-fill : sea-glass;
+	-fx-background-color : darker;
 }

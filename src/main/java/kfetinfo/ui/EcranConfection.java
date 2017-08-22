@@ -127,6 +127,7 @@ public class EcranConfection {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				if(theatre.isShowing() == false){
 					LISTE_REALISATION.remove(realisation);
+					LISTE_AUTRE.remove(autre);
 					LISTE_FENETRES.remove(theatre);
 				}
 			}

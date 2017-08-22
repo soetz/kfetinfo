@@ -60,11 +60,20 @@ import javafx.stage.WindowEvent;
 public final class Resultat {
 
 	//classes de style pour l'utilisation du CSS
-	public static final String FOND_COMMANDE_PREVIEW = "resultat-fond-commande-preview";
-	public static final String CONTENU_COMMANDE_PREVIEW = "resultat-contenu-commande-preview";
-	public static final String PRIX_COMMANDE_PREVIEW = "resultat-prix-commande-preview";
-	public static final String NOMBRE_PIECES = "resultat-nombre-pieces";
-	public static final String A_RENDRE = "resultat-a-rendre";
+	private static final String PANNEAU = "resultat-panneau";
+	private static final String FOND_COMMANDE_PREVIEW = "resultat-fond-commande-preview";
+	private static final String CONTENU_COMMANDE_PREVIEW = "resultat-contenu-commande-preview";
+	private static final String PRIX_COMMANDE_PREVIEW = "resultat-prix-commande-preview";
+	private static final String NOMBRE_PIECES = "resultat-nombre-pieces";
+	private static final String A_RENDRE = "resultat-a-rendre";
+	private static final String CENT_ROUGE = "resultat-cent-rouge";
+	private static final String CENT_JAUNE = "resultat-cent-jaune";
+	private static final String EUROS = "resultat-euros";
+	private static final String BOUTON_RESET = "resultat-bouton-reset";
+	private static final String BOUTON_AJOUTER = "resultat-bouton-ajouter";
+	private static final String POSTE = "resultat-poste";
+	private static final String MEMBRE_EQUIPE = "resultat-membre-equipe";
+	private static final String BOUTON_MODIFIER = "resultat-bouton-modifier";
 
 	//constantes pour l'affichage
 	private static final Double PADDING_PREVIEW = 4.0;
@@ -74,6 +83,7 @@ public final class Resultat {
 	private static final Double PADDING_HAUT_TABLEAU = 3.0;
 	private static final Double ESPACE_A_RENDRE = 5.0;
 	private static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
+	private static final Double PADDING_HAUT_RESET = 20.0;
 
 	//comptes de pièces
 	private static int nbUnCent = 0;
@@ -128,6 +138,8 @@ public final class Resultat {
 		resultat.minWidthProperty().bind(root.widthProperty());
 		resultat.maxWidthProperty().bind(resultat.minWidthProperty());
 
+		resultat.getStyleClass().add(PANNEAU);
+
 		Region gauche = previsualisationCommande(resultat);
 		Region milieu = caisse();
 		Region droite = equipe(resultat);
@@ -166,7 +178,6 @@ public final class Resultat {
 		StackPane commandePreview = new StackPane();
 
 		commandePreview.setPadding(new Insets(PADDING_PREVIEW));
-		commandePreview.maxWidthProperty().bind(parent.widthProperty().divide(3).subtract(2*PADDING_PREVIEW));
 
 		Region fond = new Region();
 
@@ -366,6 +377,30 @@ public final class Resultat {
 		Button boutonDixEuros = new Button("10€");
 		Button boutonVingtEuros = new Button("20€");
 
+		boutonUnCent.getStyleClass().add(App.BOUTON);
+		boutonDeuxCent.getStyleClass().add(App.BOUTON);
+		boutonCinqCent.getStyleClass().add(App.BOUTON);
+		boutonDixCent.getStyleClass().add(App.BOUTON);
+		boutonVingtCent.getStyleClass().add(App.BOUTON);
+		boutonCinquanteCent.getStyleClass().add(App.BOUTON);
+		boutonUnEuro.getStyleClass().add(App.BOUTON);
+		boutonDeuxEuros.getStyleClass().add(App.BOUTON);
+		boutonCinqEuros.getStyleClass().add(App.BOUTON);
+		boutonDixEuros.getStyleClass().add(App.BOUTON);
+		boutonVingtEuros.getStyleClass().add(App.BOUTON);
+
+		boutonUnCent.getStyleClass().add(CENT_ROUGE);
+		boutonDeuxCent.getStyleClass().add(CENT_ROUGE);
+		boutonCinqCent.getStyleClass().add(CENT_ROUGE);
+		boutonDixCent.getStyleClass().add(CENT_JAUNE);
+		boutonVingtCent.getStyleClass().add(CENT_JAUNE);
+		boutonCinquanteCent.getStyleClass().add(CENT_JAUNE);
+		boutonUnEuro.getStyleClass().add(EUROS);
+		boutonDeuxEuros.getStyleClass().add(EUROS);
+		boutonCinqEuros.setId("billet-cinq-euros");
+		boutonDixEuros.setId("billet-dix-euros");
+		boutonVingtEuros.setId("billet-vingt-euros");
+
 		//pour chaque bouton, on définit qu'un clic augmente de 1 le compte de nombre de pièces correspondant
 		boutonUnCent.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e){
@@ -517,7 +552,7 @@ public final class Resultat {
 
 		VBox aRendreAjouter = new VBox();
 
-		aRendreAjouter.setTranslateX(PADDING_HAUT_TABLEAU);
+		aRendreAjouter.setTranslateY(PADDING_HAUT_RESET);
 		aRendreAjouter.setSpacing(ESPACE_A_RENDRE);
 		aRendreAjouter.minWidthProperty().bind(separation.widthProperty().subtract(pieces.widthProperty()));
 		aRendreAjouter.maxWidthProperty().bind(aRendreAjouter.minWidthProperty());
@@ -529,8 +564,11 @@ public final class Resultat {
 			}
 		});
 
-		boutonReset.minWidthProperty().bind(aRendreAjouter.widthProperty().subtract(4));
+		boutonReset.minWidthProperty().bind(aRendreAjouter.widthProperty().subtract(4).divide(1.5));
 		boutonReset.maxWidthProperty().bind(boutonReset.minWidthProperty());
+		boutonReset.translateXProperty().bind(aRendreAjouter.widthProperty().subtract(boutonReset.widthProperty()).divide(2));
+		boutonReset.getStyleClass().add(App.BOUTON);
+		boutonReset.getStyleClass().add(BOUTON_RESET);
 
 		Label aRendre = new Label("À rendre :");
 		aRendre.getStyleClass().add(A_RENDRE);
@@ -546,8 +584,11 @@ public final class Resultat {
 		ajouterBouton.setDisable(true);
 		ajouterBouton.minWidthProperty().bind(boutonReset.minWidthProperty());
 		ajouterBouton.maxWidthProperty().bind(ajouterBouton.minWidthProperty());
-		ajouterBouton.setMinHeight(App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER);
-		ajouterBouton.setMaxHeight(App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER);	
+		ajouterBouton.setMinHeight((App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER)/2);
+		ajouterBouton.setMaxHeight((App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER)/2);
+		ajouterBouton.translateXProperty().bind(aRendreAjouter.widthProperty().subtract(boutonReset.widthProperty()).divide(2));
+		ajouterBouton.getStyleClass().add(App.BOUTON);
+		ajouterBouton.getStyleClass().add(BOUTON_AJOUTER);
 
 		ajouterBouton.setOnAction(new EventHandler<ActionEvent>(){ //au déclenchement du bouton,
 			public void handle(ActionEvent event) {
@@ -620,6 +661,19 @@ public final class Resultat {
 		membreConfection2 = new Label("---");
 		membreConfection3 = new Label("---");
 
+		ordi.getStyleClass().add(POSTE);
+		commis1.getStyleClass().add(POSTE);
+		commis2.getStyleClass().add(POSTE);
+		confection1.getStyleClass().add(POSTE);
+		confection2.getStyleClass().add(POSTE);
+		confection3.getStyleClass().add(POSTE);
+		membreOrdi.getStyleClass().add(MEMBRE_EQUIPE);
+		membreCommis1.getStyleClass().add(MEMBRE_EQUIPE);
+		membreCommis2.getStyleClass().add(MEMBRE_EQUIPE);
+		membreConfection1.getStyleClass().add(MEMBRE_EQUIPE);
+		membreConfection2.getStyleClass().add(MEMBRE_EQUIPE);
+		membreConfection3.getStyleClass().add(MEMBRE_EQUIPE);
+
 		Button boutonOrdi = new Button("Modifier");
 		boutonOrdi.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
@@ -676,6 +730,19 @@ public final class Resultat {
 				});
 			}
 		});
+
+		boutonOrdi.getStyleClass().add(App.BOUTON);
+		boutonCommis1.getStyleClass().add(App.BOUTON);
+		boutonCommis2.getStyleClass().add(App.BOUTON);
+		boutonConfection1.getStyleClass().add(App.BOUTON);
+		boutonConfection2.getStyleClass().add(App.BOUTON);
+		boutonConfection3.getStyleClass().add(App.BOUTON);
+		boutonOrdi.getStyleClass().add(BOUTON_MODIFIER);
+		boutonCommis1.getStyleClass().add(BOUTON_MODIFIER);
+		boutonCommis2.getStyleClass().add(BOUTON_MODIFIER);
+		boutonConfection1.getStyleClass().add(BOUTON_MODIFIER);
+		boutonConfection2.getStyleClass().add(BOUTON_MODIFIER);
+		boutonConfection3.getStyleClass().add(BOUTON_MODIFIER);
 
 		mettreOrdiAJour();
 

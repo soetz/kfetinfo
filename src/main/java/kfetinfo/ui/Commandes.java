@@ -56,7 +56,7 @@ public final class Commandes {
 	public static final String PLAT_LISTE = "commandes-plat-liste";
 
 	//constantes pour l'affichage
-	private static final Double HAUTEUR_COMMANDE_FERMEE = 30.0;
+	private static final Double HAUTEUR_COMMANDE_FERMEE = 32.0;
 	private static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 126.0;
 	private static final Double HAUTEUR_AJOUT_BOUTONS = 36.0;
 
@@ -152,8 +152,8 @@ public final class Commandes {
 						contenusCommandesDonnees.add(contenuCommande);
 						devCommandesDonnees.add(false);
 
-						AnchorPane.setTopAnchor(numero, -1.0);
-						AnchorPane.setLeftAnchor(numero, -1.0);
+						AnchorPane.setTopAnchor(numero, -0.0);
+						AnchorPane.setLeftAnchor(numero, 0.0);
 						AnchorPane.setTopAnchor(plat, 0.0);
 						AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 						AnchorPane.setTopAnchor(confection, 0.0);
@@ -238,8 +238,8 @@ public final class Commandes {
 						//et on ajoute un bouton pour indiquer que la commande a été donnée
 						Button boutonDonnee = new Button("Donnée");
 
-						AnchorPane.setTopAnchor(numero, -1.0);
-						AnchorPane.setLeftAnchor(numero, -1.0);
+						AnchorPane.setTopAnchor(numero, 0.0);
+						AnchorPane.setLeftAnchor(numero, 0.0);
 						AnchorPane.setTopAnchor(plat, 0.0);
 						AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 						AnchorPane.setTopAnchor(confection, 0.0);
@@ -335,8 +335,8 @@ public final class Commandes {
 					Button boutonRealisee = new Button("Réalisée");
 					Button boutonDonnee = new Button("Donnée");
 
-					AnchorPane.setTopAnchor(numero, -1.0);
-					AnchorPane.setLeftAnchor(numero, -1.0);
+					AnchorPane.setTopAnchor(numero, 0.0);
+					AnchorPane.setLeftAnchor(numero, 0.0);
 					AnchorPane.setTopAnchor(plat, 0.0);
 					AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 					AnchorPane.setTopAnchor(confection, 0.0);
@@ -435,8 +435,8 @@ public final class Commandes {
 				contenusCommandesAjoutees.add(contenuCommande);
 				devCommandesAjoutees.add(false);
 		
-				AnchorPane.setTopAnchor(numero, -1.0);
-				AnchorPane.setLeftAnchor(numero, -1.0);
+				AnchorPane.setTopAnchor(numero, 0.0);
+				AnchorPane.setLeftAnchor(numero, 0.0);
 				AnchorPane.setTopAnchor(plat, 0.0);
 				AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 				AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
@@ -526,8 +526,8 @@ public final class Commandes {
 				contenusCommandesAjoutees.add(contenuCommande);
 				devCommandesAjoutees.add(false);
 		
-				AnchorPane.setTopAnchor(numero, -1.0);
-				AnchorPane.setLeftAnchor(numero, -1.0);
+				AnchorPane.setTopAnchor(numero, 0.0);
+				AnchorPane.setLeftAnchor(numero, 0.0);
 				AnchorPane.setTopAnchor(plat, 0.0);
 				AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 				AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
@@ -630,8 +630,8 @@ public final class Commandes {
 					Button boutonRealisee = new Button("Réalisée");
 					Button boutonDonnee = new Button("Donnée");
 
-					AnchorPane.setTopAnchor(numero, -1.0);
-					AnchorPane.setLeftAnchor(numero, -1.0);
+					AnchorPane.setTopAnchor(numero, 0.0);
+					AnchorPane.setLeftAnchor(numero, 0.0);
 					AnchorPane.setTopAnchor(plat, 0.0);
 					AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 					AnchorPane.setTopAnchor(confection, 0.0);
@@ -759,8 +759,8 @@ public final class Commandes {
 
 					Button boutonDonnee = new Button("Donnée");
 
-					AnchorPane.setTopAnchor(numero, -1.0);
-					AnchorPane.setLeftAnchor(numero, -1.0);
+					AnchorPane.setTopAnchor(numero, 0.0);
+					AnchorPane.setLeftAnchor(numero, 0.0);
 					AnchorPane.setTopAnchor(plat, 0.0);
 					AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 					AnchorPane.setTopAnchor(confection, 0.0);
@@ -889,8 +889,8 @@ public final class Commandes {
 					contenusCommandesDonnees.add(contenuCommande);
 					devCommandesDonnees.add(false);
 
-					AnchorPane.setTopAnchor(numero, -1.0);
-					AnchorPane.setLeftAnchor(numero, -1.0);
+					AnchorPane.setTopAnchor(numero, 0.0);
+					AnchorPane.setLeftAnchor(numero, 0.0);
 					AnchorPane.setTopAnchor(plat, 0.0);
 					AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 					AnchorPane.setTopAnchor(confection, 0.0);
