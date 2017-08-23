@@ -3,7 +3,55 @@
 }
 
 .selection-titre-groupe-contenu-commande {
-	-fx-font : bold 12px "Source Sans";
+	-fx-font : bold 13px "Source Sans";
 	-fx-alignment : center;
-    -fx-text-fill : dark;
+    -fx-text-fill : light;
+}
+
+.selection-radio .radio {
+    -fx-background-color : light;
+    -fx-border-color : dark;
+    -fx-border-width : 1px;
+    -fx-border-radius : 10px;
+    -fx-padding : 3px;
+}
+
+.selection-radio .dot {
+    -fx-background-radius : 10px;
+    -fx-padding : 3px;
+    -fx-translate-y : -1px;
+}
+
+.selection-radio:selected .dot {
+    -fx-background-color : dark;
+}
+
+.selection-radio:focused .radio {
+    -fx-border-color : chakra-blue;
+}
+
+.selection-box:hover {
+    -fx-background-color : sea-glass;
+}
+
+.selection-box:box-selectionnee {
+    -fx-background-color : chakra-turquoise;
+}
+
+.selection-box:box-selectionnee .selection-element-label {
+    -fx-font : bold 13px "Source Sans";
+    -fx-text-fill : light;
+}
+
+.selection-element-label {
+    -fx-font : 13px "Source Sans";
+}
+
+.selection-gauche-element {
+    -fx-background-color : transparent;
+}
+
+.selection-compteur-baguettes {
+    -fx-font : bold 16px "Source Sans";
+    -fx-text-fill : light;
 }

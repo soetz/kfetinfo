@@ -46,15 +46,16 @@ public final class App extends Application{
 	public static final String NUMERO_COMMANDE_DONNEE = "numero-commande-donnee";
 	public static final String PLAT_COMMANDE = "plat-commande";
 	public static final String BOUTON = "bouton";
+	public static final String CHECKBOX = "checkbox";
 	private static final String ROOT = "root";
 	private static final String FOND = "fond";
 
 	//constantes pour l'affichage
 	public static final Double LARGEUR_MIN_FENETRE = 800.0;
-	public static final Double HAUTEUR_MIN_FENETRE = 600.0;
+	public static final Double HAUTEUR_MIN_FENETRE = 670.0;
 	public static final Double TAILLE_PANNEAU_MENU = 25.0;
 	public static final Double TAILLE_PANNEAU_COMMANDES = 250.0;
-	public static final Double TAILLE_PANNEAU_RESULTAT = 173.0;
+	public static final Double TAILLE_PANNEAU_RESULTAT = 182.0;
 	public static final Double TAILLE_NUMERO_COMMANDE = 30.0;
 	public static final Double ESPACE_NUMERO_PLAT = 5.0;
 

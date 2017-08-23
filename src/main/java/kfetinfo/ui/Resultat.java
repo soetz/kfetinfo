@@ -81,13 +81,15 @@ public final class Resultat {
 	//constantes pour l'affichage
 	private static final Double PADDING_PREVIEW = 8.0;
 	private static final Double MARGIN_PREVIEW = 8.0;
+	private static final Double LARGEUR_FOND_PRIX = 68.0;
+	private static final Double HAUTEUR_FOND_PRIX = 38.0;
 	private static final Double ESPACE_CONTENUS_COMMANDE = 8.0;
 	private static final Double LARGEUR_CELLULE_TABLEAU = 20.0;
 	private static final Double PADDING_HAUT_TABLEAU = 3.0;
 	private static final Double ESPACE_A_RENDRE = 5.0;
 	private static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
 	private static final Double PADDING_HAUT_RESET = 20.0;
-	private static final Double ESPACE_HAUT_GRIDS = 2.0;
+	private static final Double ESPACE_HAUT_GRIDS = 0.0;
 	private static final Double ESPACE_MEMBRE_HORIZONTAL = 5.0;
 	private static final Double ESPACE_MEMBRE_VERTICAL = 3.0;
 	private static final Double HAUTEUR_MEMBRE = 25.0;
@@ -352,10 +354,10 @@ public final class Resultat {
 		prix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
 
 		AnchorPane fixationFondPrix = new AnchorPane();
-		
+
 		Region fondPrix = new Region();
-		fondPrix.setPrefWidth(68);
-		fondPrix.setPrefHeight(38);
+		fondPrix.setPrefWidth(LARGEUR_FOND_PRIX);
+		fondPrix.setPrefHeight(HAUTEUR_FOND_PRIX);
 		fondPrix.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 		fondPrix.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 		fondPrix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);

@@ -7,10 +7,11 @@
     light : rgb(236, 245, 244);
     cus-lightgrey : rgb(228, 234, 233);
     cus-grey : rgb(205, 211, 210);
+    less-dark : rgb(89, 102, 101);
     dark : rgb(59, 68, 67);
     darker : rgb(40, 46, 45);
     sea-glass : rgb(159, 246, 237);
-    chakra-turquoise : rgb(14, 231, 200);
+    chakra-turquoise : rgb(4, 204, 175);
     chakra-blue : rgb(18, 177, 242);
     light-chakra-blue : rgb(106, 202, 242);
     ajoutee : rgb(255, 51, 51);
@@ -20,7 +21,7 @@
 }
 
 .fond {
-    -fx-background-color : light;
+    -fx-background-color : less-dark;
 }
 
 .numero-commande-ajoutee {
@@ -57,5 +58,28 @@
 
 .bouton {
     -fx-background-radius : 0;
+    -fx-border-width : 1px;
+    -fx-border-color : transparent;
     -fx-cursor : hand;
+}
+
+.checkbox .box {
+    -fx-background-color : light;
+    -fx-border-color : dark;
+    -fx-border-width : 1px;
+    -fx-padding : 0.1em;
+    -fx-translate-y : 1px;
+}
+
+.checkbox:focused .box {
+    -fx-border-color : chakra-blue;
+}
+
+.checkbox .box .mark {
+    -fx-padding : 5px;
+    -fx-shape : "M 176 464 L 512 136.1 L 439.9 64 L 192 312 L 80 205 L 0 288 L 176 464";
+}
+
+.bouton:focused {
+    -fx-border-color : chakra-blue;
 }

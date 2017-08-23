@@ -369,6 +369,7 @@ public final class Commandes {
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
+							Core.getService().assignation();
 							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
@@ -664,6 +665,7 @@ public final class Commandes {
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
+							Core.getService().assignation();
 							Selection.refreshCompteurBaguettes();
 						}
 					});

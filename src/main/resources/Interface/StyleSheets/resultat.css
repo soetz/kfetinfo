@@ -127,6 +127,10 @@
     -fx-background-color : light-chakra-blue;
 }
 
+.resultat-bouton-ajouter:focused {
+    -fx-border-color : chakra-turquoise;
+}
+
 .resultat-poste {
     -fx-font : bold 13px "Source Sans";
     -fx-text-fill : light;
