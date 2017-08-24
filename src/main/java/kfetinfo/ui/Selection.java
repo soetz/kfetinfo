@@ -70,9 +70,6 @@ public final class Selection {
 	public static final String LISTE_CONTENU_COMMANDE = "selection-liste-contenu-commande";
 	public static final String TITRE_GROUPE = "selection-titre-groupe-contenu-commande";
 	public static final String RADIO = "selection-radio";
-	public static final String BOX = "selection-box";
-	public static final String ELEMENT_LABEL = "selection-element-label";
-	public static final String GAUCHE_ELEMENT_S = "selection-gauche-element";
 	public static final String ESPACE_HAUT_BAS_LISTE_S = "selection-espace-haut-bas-liste";
 	public static final String COMPTEUR_BAGUETTES = "selection-compteur-baguettes";
 
@@ -236,10 +233,10 @@ public final class Selection {
 		int i = 0;
 		for(Plat plat : BaseDonnees.getPlats()){
 			HBox box = new HBox();
-			box.getStyleClass().add(BOX);
+			box.getStyleClass().add(App.SELECTION_BOX);
 
 			Region gauche = new Region();
-			gauche.getStyleClass().add(GAUCHE_ELEMENT_S);
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
 			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
 			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -251,7 +248,7 @@ public final class Selection {
 			radiosPlats.add(radio);
 
 			Label label = new Label();
-			label.getStyleClass().add(ELEMENT_LABEL);
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 			if(mnemoniquesUtilisees.contains(plat.getNom().toUpperCase().substring(0, 1))){ //si la mnémonique n'est pas déjà utilisée, on l'ajoute
 				label.setText(plat.getNom());
 				label.setMnemonicParsing(false);
@@ -356,10 +353,10 @@ public final class Selection {
 
 		for (Ingredient ingredient : BaseDonnees.getIngredients()){
 			HBox box = new HBox();
-			box.getStyleClass().add(BOX);
+			box.getStyleClass().add(App.SELECTION_BOX);
 
 			Region gauche = new Region();
-			gauche.getStyleClass().add(GAUCHE_ELEMENT_S);
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
 			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
 			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -387,7 +384,7 @@ public final class Selection {
 			});
 
 			Label label = new Label(ingredient.getNom());
-			label.getStyleClass().add(ELEMENT_LABEL);
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 
 			//lorsque l'utilisateur clique sur le Label de nom de l'ingrédient, on sélectionne la checkbox correspondante
 			box.setOnMouseClicked(new EventHandler<Event>() {
@@ -450,10 +447,10 @@ public final class Selection {
 
 		for(Sauce sauce : BaseDonnees.getSauces()){
 			HBox box = new HBox();
-			box.getStyleClass().add(BOX);
+			box.getStyleClass().add(App.SELECTION_BOX);
 
 			Region gauche = new Region();
-			gauche.getStyleClass().add(GAUCHE_ELEMENT_S);
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
 			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
 			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -483,7 +480,7 @@ public final class Selection {
 			});
 
 			Label label = new Label(sauce.getNom());
-			label.getStyleClass().add(ELEMENT_LABEL);
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 
 			//lorsque l'utilisateur clique sur le Label de nom de la sauce, on sélectionne la checkbox correspondante
 			box.setOnMouseClicked(new EventHandler<Event>() {
@@ -548,10 +545,10 @@ public final class Selection {
 
 		for(Boisson boisson : BaseDonnees.getBoissons()){
 			HBox box = new HBox();
-			box.getStyleClass().add(BOX);
+			box.getStyleClass().add(App.SELECTION_BOX);
 
 			Region gauche = new Region();
-			gauche.getStyleClass().add(GAUCHE_ELEMENT_S);
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
 			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
 			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -563,7 +560,7 @@ public final class Selection {
 			radiosBoissons.add(radio);
 
 			Label label = new Label(boisson.getNom());
-			label.getStyleClass().add(ELEMENT_LABEL);
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 
 			//lorsque l'utilisateur clique sur la boîte de nom de la boisson, on sélectionne le radio correspondant
 			box.setOnMouseClicked(new EventHandler<Event>() {
@@ -593,10 +590,10 @@ public final class Selection {
 
 		for(SupplementBoisson supplementBoisson : BaseDonnees.getSupplementsBoisson()){
 			HBox box = new HBox();
-			box.getStyleClass().add(BOX);
+			box.getStyleClass().add(App.SELECTION_BOX);
 
 			Region gauche = new Region();
-			gauche.getStyleClass().add(GAUCHE_ELEMENT_S);
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
 			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
 			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -608,7 +605,7 @@ public final class Selection {
 			radiosSupplementsBoisson.add(radio);
 
 			Label label = new Label(supplementBoisson.getNom());
-			label.getStyleClass().add(ELEMENT_LABEL);
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 
 			//lorsque l'utilisateur clique sur la boîte de nom du supplément boisson, on sélectionne le radio correspondant
 			box.setOnMouseClicked(new EventHandler<Event>() {
@@ -708,10 +705,10 @@ public final class Selection {
 
 		for(Dessert dessert : BaseDonnees.getDesserts()){
 			HBox box = new HBox();
-			box.getStyleClass().add(BOX);
+			box.getStyleClass().add(App.SELECTION_BOX);
 
 			Region gauche = new Region();
-			gauche.getStyleClass().add(GAUCHE_ELEMENT_S);
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
 			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
 			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -723,7 +720,7 @@ public final class Selection {
 			radiosDesserts.add(radio);
 
 			Label label = new Label(dessert.getNom());
-			label.getStyleClass().add(ELEMENT_LABEL);
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 
 			//lorsque l'utilisateur clique sur la boîte de nom du dessert, on sélectionne le radio correspondant
 			box.setOnMouseClicked(new EventHandler<Event>() {

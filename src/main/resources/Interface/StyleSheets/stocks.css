@@ -1,0 +1,52 @@
+.stocks-fond {
+    -fx-background-color : less-dark;
+}
+
+.stocks-baguettes {
+    -fx-background-color : dark;
+}
+
+.stocks-texte-baguettes {
+    -fx-font : 14px "Source Sans";
+    -fx-text-fill : light;
+}
+
+.stocks-baguettes-utilisees {
+    -fx-alignment : center;
+}
+
+.stocks-groupe {
+    -fx-background-color : light;
+}
+
+.stocks-titre-groupe {
+    -fx-alignment : center;
+    -fx-font : bold 14px "Source Sans";
+    -fx-text-fill : light;
+}
+
+.stocks-bouton-appliquer {
+    -fx-font : bold 14px "Source Sans";
+    -fx-background-color : chakra-blue;
+    -fx-text-fill : light;
+}
+
+.stocks-bouton-appliquer:hover {
+    -fx-background-color : light-chakra-blue;
+}
+
+.stocks-bouton-appliquer:focused {
+    -fx-border-color : chakra-turquoise;
+}
+
+.selection-box:box-deselectionnee {
+    -fx-background-color : light-chakra-blue;
+}
+
+.selection-box:box-deselectionnee:hover {
+    -fx-background-color : sea-glass;
+}
+
+.selection-box:box-deselectionnee .selection-element-label {
+    -fx-opacity : 0.5;
+}

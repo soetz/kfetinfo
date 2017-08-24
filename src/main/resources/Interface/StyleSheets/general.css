@@ -70,6 +70,10 @@
     -fx-background-color : cus-lightgrey;
 }
 
+.bouton:focused {
+    -fx-border-color : chakra-blue;
+}
+
 .checkbox .box {
     -fx-background-color : light;
     -fx-border-color : dark;
@@ -87,6 +91,70 @@
     -fx-shape : "M 176 464 L 512 136.1 L 439.9 64 L 192 312 L 80 205 L 0 288 L 176 464";
 }
 
-.bouton:focused {
+.selection-box:hover {
+    -fx-background-color : sea-glass;
+}
+
+.selection-box:box-selectionnee {
+    -fx-background-color : chakra-turquoise;
+}
+
+.selection-box:box-selectionnee .selection-element-label {
+    -fx-font : bold 13px "Source Sans";
+    -fx-text-fill : light;
+}
+
+.selection-element-label {
+    -fx-font : 13px "Source Sans";
+    -fx-text-fill : dark;
+}
+
+.selection-gauche-element {
+    -fx-background-color : transparent;
+}
+
+.cus-spinner {
+    -fx-border-color : transparent;
+    -fx-border-width : 1;
+    -fx-background-radius : 0;
+}
+
+.cus-spinner:focused {
     -fx-border-color : chakra-blue;
+}
+
+.cus-spinner .text-field {
+    -fx-background-color : light;
+    -fx-font : 12px "Source Sans";
+    -fx-text-fill : dark;
+    -fx-background-radius : 0;
+    -fx-highlight-fill : chakra-turquoise;
+    -fx-highlight-text-fill : light;
+    -fx-prompt-text-fill : less-dark;
+}
+
+.cus-spinner .increment-arrow-button {
+    -fx-background-color : cus-grey;
+    -fx-background-radius : 0;
+}
+
+.cus-spinner .increment-arrow-button:hover {
+    -fx-background-color : cus-lightgrey;
+}
+
+.cus-spinner .increment-arrow-button .increment-arrow {
+    -fx-fill : dark;
+}
+
+.cus-spinner .decrement-arrow-button {
+    -fx-background-color : cus-grey;
+    -fx-background-radius : 0;
+}
+
+.cus-spinner .decrement-arrow-button:hover {
+    -fx-background-color : cus-lightgrey;
+}
+
+.cus-spinner .decrement-arrow-button .decrement-arrow {
+    -fx-fill : dark;
 }

@@ -47,6 +47,10 @@ public final class App extends Application{
 	public static final String PLAT_COMMANDE = "plat-commande";
 	public static final String BOUTON = "bouton";
 	public static final String CHECKBOX = "checkbox";
+	public static final String SELECTION_BOX = "selection-box";
+	public static final String SELECTION_ELEMENT_LABEL = "selection-element-label";
+	public static final String SELECTION_GAUCHE_ELEMENT_S = "selection-gauche-element";
+	public static final String SPINNER = "cus-spinner";
 	private static final String ROOT = "root";
 	private static final String FOND = "fond";
 

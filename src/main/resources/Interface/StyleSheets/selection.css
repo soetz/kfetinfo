@@ -30,28 +30,6 @@
     -fx-border-color : chakra-blue;
 }
 
-.selection-box:hover {
-    -fx-background-color : sea-glass;
-}
-
-.selection-box:box-selectionnee {
-    -fx-background-color : chakra-turquoise;
-}
-
-.selection-box:box-selectionnee .selection-element-label {
-    -fx-font : bold 13px "Source Sans";
-    -fx-text-fill : light;
-}
-
-.selection-element-label {
-    -fx-font : 13px "Source Sans";
-    -fx-text-fill : dark;
-}
-
-.selection-gauche-element {
-    -fx-background-color : transparent;
-}
-
 .selection-compteur-baguettes {
     -fx-font : bold 16px "Source Sans";
     -fx-text-fill : light;
