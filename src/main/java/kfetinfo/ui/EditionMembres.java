@@ -193,6 +193,7 @@ public class EditionMembres {
 			public void handle(ActionEvent ae){
 				Instant instant = dateNaissancePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
 				Date dateNaissance = Date.from(instant);
+
 				if(listeMembres.getSelectionModel().getSelectedItem().getId().equals(ID_NOUVEAU)){
 					CreateurBase.creerMembre(
 						nomField.getText(),

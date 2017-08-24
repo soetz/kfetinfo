@@ -790,6 +790,7 @@ public final class CreateurBase {
 		membreJson.put("id", membre.getId());
 		membreJson.put("nom", membre.getNom());
 		membreJson.put("prenom", membre.getPrenom());
+		membreJson.put("surnom", membre.getSurnom());
 		membreJson.put("poste", membre.getPoste());
 		membreJson.put("dateNaissance", FORMAT_DATE.format(membre.getDateNaissance()));
 		membreJson.put("nbCommandes", membre.getNbCommandes());

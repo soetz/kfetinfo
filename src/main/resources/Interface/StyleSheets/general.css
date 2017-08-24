@@ -57,10 +57,15 @@
 }
 
 .bouton {
+    -fx-background-color : cus-grey;
     -fx-background-radius : 0;
     -fx-border-width : 1px;
     -fx-border-color : transparent;
     -fx-cursor : hand;
+}
+
+.bouton:hover {
+    -fx-background-color : cus-lightgrey;
 }
 
 .checkbox .box {

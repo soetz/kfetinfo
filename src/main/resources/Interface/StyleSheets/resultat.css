@@ -109,12 +109,7 @@
 
 .resultat-bouton-reset {
     -fx-font : 12px "Source Sans";
-    -fx-background-color : cus-grey;
     -fx-text-fill : dark;
-}
-
-.resultat-bouton-reset:hover {
-    -fx-background-color : cus-lightgrey;
 }
 
 .resultat-bouton-ajouter {
@@ -151,10 +146,5 @@
 
 .resultat-bouton-modifier {
     -fx-font : 12px "Source Sans";
-    -fx-background-color : cus-grey;
     -fx-text-fill : dark;
-}
-
-.resultat-bouton-modifier:hover {
-    -fx-background-color : cus-lightgrey;
 }

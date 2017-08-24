@@ -123,13 +123,14 @@ public final class App extends Application{
 
 		BorderPane racine = new BorderPane();
 
-		Region haut = Menu.menu(theatre);
-
 		Region droite = Commandes.commandes();
+		droite.setTranslateY(1);
 
 		Region centre = Selection.selection(racine);
 
 		Region bas = Resultat.resultat(racine);
+
+		Region haut = Menu.menu(theatre);
 
 		racine.setTop(haut);
 		racine.setRight(droite);
