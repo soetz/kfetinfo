@@ -52,6 +52,7 @@ public final class SelectionMembre {
 		membres.addAll(BaseDonnees.getMembres());
 
 		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getStyleClass().add(App.LISTVIEW);
 		listeMembres.getItems().setAll(membres);
 
 		listeMembres.setCellFactory(lv -> new MembreModificationCell());

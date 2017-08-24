@@ -78,6 +78,13 @@ import javafx.stage.WindowEvent;
  */
 public final class EditionContenus {
 
+	//classes de style pour l'utilisation du CSS
+	private static final String FOND = "ec-menu-fond";
+	private static final String LABEL = "ec-menu-label";
+
+	//constantes pour l'affichage
+	private static final Double ESPACEMENT_ELEMENTS = 8.0;
+
 	//listes des informations pour chaque type de contenu (regénéré lorsqu'un contenu est sélectionné)
 	private static final VBox INFOS_PLATS = new VBox();
 	private static final VBox INFOS_INGREDIENTS = new VBox();
@@ -175,7 +182,10 @@ public final class EditionContenus {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabPlats(Stage theatre){
 
+		INFOS_PLATS.setSpacing(ESPACEMENT_ELEMENTS);
+
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
 
@@ -183,7 +193,7 @@ public final class EditionContenus {
 		List<ContenuCommande> liste = new ArrayList<ContenuCommande>();
 		liste.add(nouveau);
 		for(Plat plat : BaseDonnees.getPlats()){
-			if(!plat.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b")){
+			if(!plat.getId().equals(BaseDonnees.ID_RIEN_PLAT)){
 				liste.add(plat);
 			}
 		}
@@ -314,6 +324,7 @@ public final class EditionContenus {
 	private static final Region tabIngredients(Stage theatre){
 
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
 
@@ -435,7 +446,9 @@ public final class EditionContenus {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static final Region tabSauces(Stage theatre){
+
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
 
@@ -559,6 +572,7 @@ public final class EditionContenus {
 	private static final Region tabBoissons(Stage theatre){
 
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
 
@@ -566,7 +580,9 @@ public final class EditionContenus {
 		List<ContenuCommande> liste = new ArrayList<ContenuCommande>();
 		liste.add(nouveau);
 		for(Boisson boisson : BaseDonnees.getBoissons()){
-			liste.add(boisson);
+			if(!boisson.getId().equals(BaseDonnees.ID_RIEN_BOISSON)){
+				liste.add(boisson);
+			}
 		}
 
 		listeViewBoissons = generateurListView(liste);
@@ -682,6 +698,7 @@ public final class EditionContenus {
 	private static final Region tabSupplementsBoisson(Stage theatre){
 
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
 
@@ -689,7 +706,9 @@ public final class EditionContenus {
 		List<ContenuCommande> liste = new ArrayList<ContenuCommande>();
 		liste.add(nouveau);
 		for(SupplementBoisson supplementBoisson : BaseDonnees.getSupplementsBoisson()){
-			liste.add(supplementBoisson);
+			if(!supplementBoisson.getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
+				liste.add(supplementBoisson);
+			}
 		}
 
 		listeViewSupplementsBoisson = generateurListView(liste);
@@ -808,6 +827,7 @@ public final class EditionContenus {
 	private static final Region tabDesserts(Stage theatre){
 
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
 		supprimer.setDisable(true);
 
@@ -815,7 +835,9 @@ public final class EditionContenus {
 		List<ContenuCommande> liste = new ArrayList<ContenuCommande>();
 		liste.add(nouveau);
 		for(Dessert dessert : BaseDonnees.getDesserts()){
-			liste.add(dessert);
+			if(!dessert.getId().equals(BaseDonnees.ID_RIEN_DESSERT)){
+				liste.add(dessert);
+			}
 		}
 
 		listeViewDesserts = generateurListView(liste);
@@ -932,12 +954,15 @@ public final class EditionContenus {
 	private static final Region tabDivers(){
 
 		AnchorPane pane = new AnchorPane();
+		pane.getStyleClass().add(FOND);
 
 		VBox divers = new VBox();
 
 		HBox prixIngredientSupplementaireBox = new HBox();
 		Label prixIngredientSupplementaireLabel = new Label("Prix d'un ingrédient supplémentaire : ");
+		prixIngredientSupplementaireLabel.getStyleClass().add(LABEL);
 		TextField prixIngredientSupplementaireField = new TextField();
+		prixIngredientSupplementaireField.getStyleClass().add(App.FIELD);
 		prixIngredientSupplementaireLabel.setLabelFor(prixIngredientSupplementaireField);
 		prixIngredientSupplementaireField.setPromptText("Prix d'un ingrédient supplémentaire");
         prixIngredientSupplementaireField.setText("" + NUMBER_FORMATTER.format(Parametres.getPrixIngredientSupp()));
@@ -972,7 +997,9 @@ public final class EditionContenus {
 
 		HBox prixBoissonBox = new HBox();
 		Label prixBoissonLabel = new Label("Prix d'une boisson : ");
+		prixBoissonLabel.getStyleClass().add(LABEL);
 		TextField prixBoissonField = new TextField();
+		prixBoissonField.getStyleClass().add(App.FIELD);
 		prixBoissonLabel.setLabelFor(prixBoissonField);
 		prixBoissonField.setPromptText("Prix d'une boisson");
         prixBoissonField.setText("" + NUMBER_FORMATTER.format(Parametres.getPrixBoisson()));
@@ -983,7 +1010,9 @@ public final class EditionContenus {
 
 		HBox reducMenuBox = new HBox();
 		Label reducMenuLabel = new Label("Montant de la réduction accordée pour un menu : ");
+		reducMenuLabel.getStyleClass().add(LABEL);
 		TextField reducMenuField = new TextField();
+		reducMenuField.getStyleClass().add(App.FIELD);
 		reducMenuLabel.setLabelFor(reducMenuField);
 		reducMenuField.setPromptText("Montant de la réduction accordée pour un menu");
         reducMenuField.setText("" + NUMBER_FORMATTER.format(Parametres.getReducMenu()));
@@ -994,7 +1023,9 @@ public final class EditionContenus {
 
 		HBox coutPainBox = new HBox();
 		Label coutPainLabel = new Label("Coût d'une baguette de pain : ");
+		coutPainLabel.getStyleClass().add(LABEL);
 		TextField coutPainField = new TextField();
+		coutPainField.getStyleClass().add(App.FIELD);
 		coutPainLabel.setLabelFor(coutPainField);
 		coutPainField.setPromptText("Coût d'une baguette de pain");
         coutPainField.setText("" + NUMBER_FORMATTER.format(Parametres.getCoutPain()));
@@ -1049,6 +1080,7 @@ public final class EditionContenus {
 	private static final ListView<ContenuCommande> generateurListView(List<ContenuCommande> liste){
 
 		ListView<ContenuCommande> listView = new ListView();
+		listView.getStyleClass().add(App.LISTVIEW);
 
 		listView.getItems().setAll(liste);
 		listView.getSelectionModel().select(liste.get(0));
@@ -1075,11 +1107,15 @@ public final class EditionContenus {
 
 		HBox idBox = new HBox();
 		Label idLabel = new Label("Identificateur : ");
+		idLabel.getStyleClass().add(LABEL);
 		TextField idField = new TextField();
+		idField.getStyleClass().add(App.FIELD);
+		idField.getStyleClass().add(App.CODE);
 		idLabel.setLabelFor(idField);
 		idField.setText(contenu.getId());
 		idField.setDisable(true);
 		Button idCopierBouton = new Button("Copier");
+		idCopierBouton.getStyleClass().add(App.BOUTON);
 		if(contenu.getId().equals("Sera généré au moment de l'enregistrement")){
 			idCopierBouton.setDisable(true);
 		}
@@ -1096,7 +1132,9 @@ public final class EditionContenus {
 
 		HBox nomBox = new HBox();
 		Label nomLabel = new Label("Nom : ");
+		nomLabel.getStyleClass().add(LABEL);
 		TextField nomField = new TextField();
+		nomField.getStyleClass().add(App.FIELD);
 		nomLabel.setLabelFor(nomField);
 		nomField.setPromptText("Nom");
 		nomField.setText(contenu.getNom());
@@ -1105,7 +1143,9 @@ public final class EditionContenus {
 
 		HBox coutBox = new HBox();
 		Label coutLabel = new Label("Coût : ");
+		coutLabel.getStyleClass().add(LABEL);
 		TextField coutField = new TextField();
+		coutField.getStyleClass().add(App.FIELD);
 		coutLabel.setLabelFor(coutField);
 		coutField.setPromptText("Coût");
         coutField.setText("" + NUMBER_FORMATTER.format(contenu.getCout()));
@@ -1140,7 +1180,9 @@ public final class EditionContenus {
 
 		HBox prioriteBox = new HBox();
 		Label prioriteLabel = new Label("Priorité : ");
+		prioriteLabel.getStyleClass().add(LABEL);
 		Spinner<Integer> prioriteSpinner = new Spinner<Integer>();
+		prioriteSpinner.getStyleClass().add(App.SPINNER);
 		prioriteLabel.setLabelFor(prioriteSpinner);
 		SpinnerValueFactory<Integer> usineAValeurs = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, contenu.getPriorite());
 		prioriteSpinner.setValueFactory(usineAValeurs);
@@ -1191,7 +1233,9 @@ public final class EditionContenus {
         };
 
 		Label prixLabel = new Label("Prix : ");
+		prixLabel.getStyleClass().add(LABEL);
 		TextField prixField = new TextField();
+		prixField.getStyleClass().add(App.FIELD);
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
         prixField.setText("" + NUMBER_FORMATTER.format(plat.getPrix()));
@@ -1203,7 +1247,9 @@ public final class EditionContenus {
 
 		HBox nbMaxIngredientsBox = new HBox();
 		Label nbMaxIngredientsLabel = new Label("Nombre maximal d'ingrédients : ");
+		nbMaxIngredientsLabel.getStyleClass().add(LABEL);
 		Spinner<Integer> nbMaxIngredientsSpinner = new Spinner<Integer>();
+		nbMaxIngredientsSpinner.getStyleClass().add(App.SPINNER);
 		nbMaxIngredientsLabel.setLabelFor(nbMaxIngredientsSpinner);
 		SpinnerValueFactory<Integer> usineAValeursIngredients = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, plat.getNbMaxIngredients());
 		nbMaxIngredientsSpinner.setValueFactory(usineAValeursIngredients);
@@ -1212,7 +1258,9 @@ public final class EditionContenus {
 
 		HBox nbMaxSaucesBox = new HBox();
 		Label nbMaxSaucesLabel = new Label("Nombre maximal de sauces : ");
+		nbMaxSaucesLabel.getStyleClass().add(LABEL);
 		Spinner<Integer> nbMaxSaucesSpinner = new Spinner<Integer>();
+		nbMaxSaucesSpinner.getStyleClass().add(App.SPINNER);
 		nbMaxSaucesLabel.setLabelFor(nbMaxSaucesSpinner);
 		SpinnerValueFactory<Integer> usineAValeursSauces = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, plat.getNbMaxSauces());
 		nbMaxSaucesSpinner.setValueFactory(usineAValeursSauces);
@@ -1221,10 +1269,12 @@ public final class EditionContenus {
 
 		HBox utilisePainBox = new HBox();
 		CheckBox utilisePainCheckBox = new CheckBox();
+		utilisePainCheckBox.getStyleClass().add(App.CHECKBOX);
 		if(plat.getUtilisePain()){
 			utilisePainCheckBox.setSelected(true);
 		}
 		Label utilisePainLabel = new Label("Utilise du pain");
+		utilisePainLabel.getStyleClass().add(LABEL);
 		utilisePainLabel.setLabelFor(utilisePainCheckBox);
 		utilisePainLabel.setOnMouseClicked(new EventHandler<Event>() {
 			public void handle(Event e){
@@ -1277,7 +1327,9 @@ public final class EditionContenus {
         };
 
 		Label prixLabel = new Label("Prix : ");
+		prixLabel.getStyleClass().add(LABEL);
 		TextField prixField = new TextField();
+		prixField.getStyleClass().add(App.FIELD);
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
         prixField.setText("" + NUMBER_FORMATTER.format(supplementBoisson.getPrix()));
@@ -1326,7 +1378,9 @@ public final class EditionContenus {
         };
 
 		Label prixLabel = new Label("Prix : ");
+		prixLabel.getStyleClass().add(LABEL);
 		TextField prixField = new TextField();
+		prixField.getStyleClass().add(App.FIELD);
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
         prixField.setText("" + NUMBER_FORMATTER.format(dessert.getPrix()));

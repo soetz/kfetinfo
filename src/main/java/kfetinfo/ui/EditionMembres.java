@@ -81,6 +81,7 @@ public class EditionMembres {
 		liste.addAll(BaseDonnees.getMembres());
 
 		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getStyleClass().add(App.LISTVIEW);
 		listeMembres.getItems().setAll(liste);
 		listeMembres.getSelectionModel().select(0);
 

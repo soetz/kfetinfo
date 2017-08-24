@@ -21,34 +21,30 @@
 }
 
 .resultat-contenu-commande-preview {
-	-fx-font : 14px "Source Sans";
+	-fx-font : 15px "Source Sans Pro";
     -fx-text-fill : dark;
 }
 
 .resultat-prix-commande-preview {
-	-fx-font : bold 26px "Source Sans";
+	-fx-font : bold 28px "Source Sans Pro";
     -fx-background-color : chakra-turquoise;
 	-fx-text-fill : light;
 }
 
-.resultat-fond-prix-commande-preview {
-    
-}
-
 .resultat-nombre-pieces {
 	-fx-alignment : center;
-    -fx-font : 12px "Source Sans";
+    -fx-font : 13px "Source Sans Pro";
     -fx-text-fill : light;
 }
 
 .resultat-a-rendre {
 	-fx-alignment : center;
-	-fx-font : bold 14px "Source Sans";
+	-fx-font : bold 15px "Source Sans Pro";
     -fx-text-fill : light;
 }
 
 .resultat-cent-rouge {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 14px "Source Sans Pro";
     -fx-background-color : copper;
     -fx-text-fill : light;
 }
@@ -58,7 +54,7 @@
 }
 
 .resultat-cent-jaune {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 14px "Source Sans Pro";
     -fx-background-color : nordic-gold;
     -fx-text-fill : light;
 }
@@ -68,7 +64,7 @@
 }
 
 .resultat-euros {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 14px "Source Sans Pro";
     -fx-background-color : nickel;
     -fx-text-fill : light;
 }
@@ -78,7 +74,7 @@
 }
 
 #billet-cinq-euros {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 14px "Source Sans Pro";
     -fx-background-color : five-euros;
     -fx-text-fill : light;
 }
@@ -88,7 +84,7 @@
 }
 
 #billet-dix-euros {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 14px "Source Sans Pro";
     -fx-background-color : ten-euros;
     -fx-text-fill : light;
 }
@@ -98,7 +94,7 @@
 }
 
 #billet-vingt-euros {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 14px "Source Sans Pro";
     -fx-background-color : twenty-euros;
     -fx-text-fill : light;
 }
@@ -108,12 +104,11 @@
 }
 
 .resultat-bouton-reset {
-    -fx-font : 12px "Source Sans";
     -fx-text-fill : dark;
 }
 
 .resultat-bouton-ajouter {
-    -fx-font : bold 14px "Source Sans";
+    -fx-font : bold 15px "Source Sans Pro";
     -fx-background-color : chakra-blue;
     -fx-text-fill : light;
 }
@@ -127,12 +122,12 @@
 }
 
 .resultat-poste {
-    -fx-font : bold 13px "Source Sans";
+    -fx-font : bold 15px "Source Sans Pro";
     -fx-text-fill : light;
 }
 
 .resultat-membre-equipe {
-    -fx-font : italic 13px "Source sans";
+    -fx-font : italic 14px "Source Sans Pro";
     -fx-text-fill : chakra-turquoise;
 }
 
@@ -145,6 +140,6 @@
 }
 
 .resultat-bouton-modifier {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 13px "Source Sans Pro";
     -fx-text-fill : dark;
 }

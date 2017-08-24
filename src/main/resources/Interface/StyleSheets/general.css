@@ -1,7 +1,31 @@
 @font-face {
-	font-family : "Source Sans";
-	src : url("../Fonts/SourceSansVariable-Roman.ttf");
+	src : url("../Fonts/SourceSansPro-Regular.ttf");
 }
+
+
+@font-face {
+    src : url("../Fonts/SourceSansPro-Italic.ttf");
+}
+
+
+@font-face {
+    src : url("../Fonts/SourceSansPro-Bold.ttf");
+}
+
+
+@font-face {
+    src : url("../Fonts/SourceSansPro-BoldItalic.ttf");
+}
+
+@font-face {
+	src : url("../Fonts/SourceCodePro-Regular.ttf");
+}
+
+/*
+@font-face {
+    font-family : Code;
+    src : url("../Fonts/SourceCodePro-Regular.ttf")
+}*/
 
 .root {
     light : rgb(236, 245, 244);
@@ -27,37 +51,38 @@
 .numero-commande-ajoutee {
 	-fx-alignment : center;
 	-fx-background-color : ajoutee;
-	-fx-font : bold 15px "Source Sans"; 
+	-fx-font : bold 16px "Source Sans Pro"; 
 	-fx-text-fill : light;
 }
 
 .numero-commande-assignee {
 	-fx-alignment : center;
 	-fx-background-color : assignee;
-	-fx-font : bold 15px "Source Sans"; 
+	-fx-font : bold 16px "Source Sans Pro"; 
 	-fx-text-fill : light;
 }
 
 .numero-commande-realisee {
 	-fx-alignment : center;
 	-fx-background-color : realisee;
-	-fx-font : bold 15px "Source Sans"; 
+	-fx-font : bold 16px "Source Sans Pro"; 
 	-fx-text-fill : light;
 }
 
 .numero-commande-donnee {
 	-fx-alignment : center;
 	-fx-background-color : donnee;
-	-fx-font : bold 15px "Source Sans"; 
+	-fx-font : bold 16px "Source Sans Pro"; 
 	-fx-text-fill : light;
 }
 
 .plat-commande {
-	-fx-font : bold 14px "Source Sans";
+	-fx-font : bold 15px "Source Sans Pro";
     -fx-text-fill : dark;
 }
 
 .bouton {
+	-fx-font : 13px "Source Sans Pro";
     -fx-background-color : cus-grey;
     -fx-background-radius : 0;
     -fx-border-width : 1px;
@@ -100,12 +125,12 @@
 }
 
 .selection-box:box-selectionnee .selection-element-label {
-    -fx-font : bold 13px "Source Sans";
+    -fx-font : bold 14px "Source Sans Pro";
     -fx-text-fill : light;
 }
 
 .selection-element-label {
-    -fx-font : 13px "Source Sans";
+    -fx-font : 14px "Source Sans Pro";
     -fx-text-fill : dark;
 }
 
@@ -113,9 +138,25 @@
     -fx-background-color : transparent;
 }
 
+.field {
+    -fx-background-color : light;
+    -fx-font : 14px "Source Sans Pro";
+    -fx-text-fill : dark;
+    -fx-background-radius : 0;
+    -fx-highlight-fill : chakra-turquoise;
+    -fx-highlight-text-fill : light;
+    -fx-prompt-text-fill : less-dark;
+    -fx-border-color : transparent;
+    -fx-border-width : 1px;
+}
+
+.field:focused {
+	-fx-border-color : chakra-blue;
+}
+
 .cus-spinner {
     -fx-border-color : transparent;
-    -fx-border-width : 1;
+    -fx-border-width : 1px;
     -fx-background-radius : 0;
 }
 
@@ -125,7 +166,7 @@
 
 .cus-spinner .text-field {
     -fx-background-color : light;
-    -fx-font : 12px "Source Sans";
+    -fx-font : 14px "Source Sans Pro";
     -fx-text-fill : dark;
     -fx-background-radius : 0;
     -fx-highlight-fill : chakra-turquoise;
@@ -157,4 +198,78 @@
 
 .cus-spinner .decrement-arrow-button .decrement-arrow {
     -fx-fill : dark;
+}
+
+.listview {
+    -fx-border-color : transparent;
+    -fx-border-width : 1px;
+}
+
+.listview:focused {
+    -fx-border-color : chakra-blue;
+}
+
+.listview .list-cell {
+	-fx-font : 14px "Source Sans Pro";
+    -fx-text-fill : dark;
+}
+
+.listview .list-cell:even {
+    -fx-background-color : light;
+}
+
+.listview .list-cell:odd {
+    -fx-background-color : cus-lightgrey;
+}
+
+.listview .list-cell:hover {
+    -fx-background-color : sea-glass;
+}
+
+.listview .list-cell:focused {
+    -fx-background-color : chakra-turquoise;
+    -fx-text-fill : light;
+}
+
+.listview .scroll-bar .track {
+    -fx-background-color : cus-grey;
+}
+
+.listview .scroll-bar .thumb {
+    -fx-background-color : less-dark;
+    -fx-background-radius : 0px;
+}
+
+.listview .scroll-bar .thumb:hover {
+    -fx-background-color : dark;
+}
+
+.listview .scroll-bar .thumb:pressed {
+    -fx-background-color : dark;
+}
+
+.listview .scroll-bar .increment-button {
+    -fx-background-color : transparent;
+    -fx-background-radius : 0em;
+    -fx-padding : 0 10 0 0;
+}
+
+.listview .scroll-bar .increment-button .increment-arrow {
+    -fx-shape : " ";
+    -fx-padding : 0;
+}
+
+.listview .scroll-bar .decrement-button {
+    -fx-background-color : transparent;
+    -fx-background-radius : 0em;
+    -fx-padding : 0 10 0 0;
+}
+
+.listview .scroll-bar .decrement-button .decrement-arrow {
+    -fx-shape : " ";
+    -fx-padding : 0;
+}
+
+.code {
+	-fx-font : 13px "Source Code Pro";
 }

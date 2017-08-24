@@ -4,14 +4,14 @@
 
 .ec-confection-titre {
 	-fx-alignment : center;
-    -fx-font : italic bold 20px "Source Sans";
+    -fx-font : italic bold 20px "Source Sans Pro";
     -fx-text-fill : light;
 }
 
 .ec-confection-membre {
     -fx-alignment : center;
     -fx-background-color : dark;
-    -fx-font : bold 14px "Source Sans";
+    -fx-font : bold 16px "Source Sans Pro";
     -fx-text-fill : light;
 }
 
@@ -25,12 +25,12 @@
 }
 
 .ec-confection-categorie-contenu {
-    -fx-font : bold 14px "Source Sans";
+    -fx-font : bold 16px "Source Sans Pro";
     -fx-text-fill : dark;
 }
 
 .ec-confection-confection-contenu {
-    -fx-font : 14px "Source Sans";
+    -fx-font : 16px "Source Sans Pro";
     -fx-text-fill : dark;
 }
 
@@ -39,12 +39,12 @@
 }
 
 .ec-confection-autre-membre {
-    -fx-font : italic 13px "Source Sans";
+    -fx-font : italic 13px "Source Sans Pro";
     -fx-text-fill : dark;
 }
 
 .ec-confection-autre-contenu {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 13px "Source Sans Pro";
     -fx-text-fill : dark;
 }
 

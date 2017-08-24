@@ -71,8 +71,8 @@ public final class Commandes {
 	private static final Double HAUTEUR_AJOUT_BOUTONS = 36.0;
 	private static final Double TAILLE_SEPARATION = 8.0;
 	private static final Double DECALAGE_CONTENU = 2.0;
-	private static final Double DECALAGE_BOUTON_RETIRER = 45.0;
-	private static final Double LARGEUR_BOUTON_LISTE = 130.0;
+	private static final Double DECALAGE_BOUTON_RETIRER = 40.0;
+	private static final Double LARGEUR_BOUTON_LISTE = 140.0;
 
 	//VBox de commandes dans chaque état
 	private static VBox commandesRealisees = new VBox();
@@ -301,7 +301,7 @@ public final class Commandes {
 						AnchorPane.setRightAnchor(confection, 2.0);
 						AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 						AnchorPane.setLeftAnchor(contenuCommande, 3.0);
-						AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+						AnchorPane.setRightAnchor(boutonDonnee, 45.0);
 						AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
 
 						commandePane.getChildren().add(numero);
@@ -415,9 +415,9 @@ public final class Commandes {
 					AnchorPane.setRightAnchor(confection, 2.0);
 					AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 					AnchorPane.setLeftAnchor(contenuCommande, 3.0);
-					AnchorPane.setLeftAnchor(boutonRealisee, 50.0);
+					AnchorPane.setLeftAnchor(boutonRealisee, 45.0);
 					AnchorPane.setBottomAnchor(boutonRealisee, 7.0);
-					AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+					AnchorPane.setRightAnchor(boutonDonnee, 45.0);
 					AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
 
 					commandePane.getChildren().add(numero);
@@ -757,9 +757,9 @@ public final class Commandes {
 					AnchorPane.setRightAnchor(confection, 2.0);
 					AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 					AnchorPane.setLeftAnchor(contenuCommande, 3.0);
-					AnchorPane.setLeftAnchor(boutonRealisee, 50.0);
+					AnchorPane.setLeftAnchor(boutonRealisee, 45.0);
 					AnchorPane.setBottomAnchor(boutonRealisee, 7.0);
-					AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+					AnchorPane.setRightAnchor(boutonDonnee, 45.0);
 					AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
 
 					commandePane.getChildren().add(numero);
@@ -904,7 +904,7 @@ public final class Commandes {
 					AnchorPane.setRightAnchor(confection, 2.0);
 					AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 					AnchorPane.setLeftAnchor(contenuCommande, 3.0);
-					AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+					AnchorPane.setRightAnchor(boutonDonnee, 45.0);
 					AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
 
 					commandePane.getChildren().add(numero);

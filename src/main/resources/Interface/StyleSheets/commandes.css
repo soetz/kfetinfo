@@ -58,12 +58,12 @@
 }
 
 .commandes-confection {
-    -fx-font : italic 13px "Source Sans";
+    -fx-font : italic 13px "Source Sans Pro";
     -fx-fill : dark;
 }
 
 .commandes-contenu {
-    -fx-font : 12px "Source Sans";
+    -fx-font : 13px "Source Sans Pro";
     -fx-fill : dark;
 }
 

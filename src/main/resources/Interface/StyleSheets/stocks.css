@@ -7,7 +7,7 @@
 }
 
 .stocks-texte-baguettes {
-    -fx-font : 14px "Source Sans";
+    -fx-font : 16px "Source Sans Pro";
     -fx-text-fill : light;
 }
 
@@ -21,12 +21,12 @@
 
 .stocks-titre-groupe {
     -fx-alignment : center;
-    -fx-font : bold 14px "Source Sans";
+    -fx-font : bold 16px "Source Sans Pro";
     -fx-text-fill : light;
 }
 
 .stocks-bouton-appliquer {
-    -fx-font : bold 14px "Source Sans";
+    -fx-font : bold 16px "Source Sans Pro";
     -fx-background-color : chakra-blue;
     -fx-text-fill : light;
 }

@@ -77,7 +77,7 @@ public final class Stocks {
 	protected static final PseudoClass BOX_DESELECTIONNEE = PseudoClass.getPseudoClass("box-deselectionnee");
 
 	//constantes pour l'affichage
-	private static final Double ESPACE_GROUPES = 4.0;
+	private static final Double ESPACE_GROUPES = 6.0;
 	private static final Double ESPACE_HAUT_BAS_LISTE = 4.0;
 	private static final Double GAUCHE_ELEMENT = 4.0;
 	private static final Double TAILLE_PANNEAU_BAGUETTES = 120.0;
@@ -104,6 +104,7 @@ public final class Stocks {
 
 		HBox selection = new HBox();
 		selection.setSpacing(ESPACE_GROUPES);
+		selection.setTranslateX(ESPACE_GROUPES/2);
 
 		checkBoxesPlats = new ArrayList<CheckBox>();
 
@@ -277,7 +278,7 @@ public final class Stocks {
 	public static final VBox groupePlats(Region parent){
 
 		VBox groupePlats = new VBox();
-		groupePlats.prefWidthProperty().bind(parent.widthProperty().subtract(5*ESPACE_GROUPES).divide(6));
+		groupePlats.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
 		groupePlats.setMaxWidth(Double.MAX_VALUE);
 
 		VBox listePlats = new VBox();
@@ -382,7 +383,7 @@ public final class Stocks {
 	public static final VBox groupeIngredients(Region parent){
 
 		VBox groupeIngredients = new VBox();
-		groupeIngredients.prefWidthProperty().bind(parent.widthProperty().subtract(5*ESPACE_GROUPES).divide(6));
+		groupeIngredients.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
 		groupeIngredients.maxWidthProperty().bind(groupeIngredients.prefWidthProperty());
 		groupeIngredients.minWidthProperty().bind(groupeIngredients.prefWidthProperty());
 
@@ -475,7 +476,7 @@ public final class Stocks {
 	public static final VBox groupeSauces(Region parent){
 
 		VBox groupeSauces = new VBox();
-		groupeSauces.prefWidthProperty().bind(parent.widthProperty().subtract(5*ESPACE_GROUPES).divide(6));
+		groupeSauces.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
 		groupeSauces.maxWidthProperty().bind(groupeSauces.prefWidthProperty());
 		groupeSauces.minWidthProperty().bind(groupeSauces.prefWidthProperty());
 
@@ -568,7 +569,7 @@ public final class Stocks {
 	public static final VBox groupeBoissons(Region parent){
 
 		VBox groupeBoissons = new VBox();
-		groupeBoissons.prefWidthProperty().bind(parent.widthProperty().subtract(5*ESPACE_GROUPES).divide(6));
+		groupeBoissons.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
 		groupeBoissons.maxWidthProperty().bind(groupeBoissons.prefWidthProperty());
 		groupeBoissons.minWidthProperty().bind(groupeBoissons.prefWidthProperty());
 
@@ -663,7 +664,7 @@ public final class Stocks {
 	public static final VBox groupeSupplementsBoisson(Region parent){
 
 		VBox groupeSupplementsBoisson = new VBox();
-		groupeSupplementsBoisson.prefWidthProperty().bind(parent.widthProperty().subtract(5*ESPACE_GROUPES).divide(6));
+		groupeSupplementsBoisson.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
 		groupeSupplementsBoisson.maxWidthProperty().bind(groupeSupplementsBoisson.prefWidthProperty());
 		groupeSupplementsBoisson.minWidthProperty().bind(groupeSupplementsBoisson.prefWidthProperty());
 
@@ -758,7 +759,7 @@ public final class Stocks {
 	public static final VBox groupeDesserts(Region parent){
 
 		VBox groupeDesserts = new VBox();
-		groupeDesserts.prefWidthProperty().bind(parent.widthProperty().subtract(5*ESPACE_GROUPES).divide(6));
+		groupeDesserts.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
 		groupeDesserts.setMaxWidth(Double.MAX_VALUE);
 
 		VBox listeDesserts = new VBox();

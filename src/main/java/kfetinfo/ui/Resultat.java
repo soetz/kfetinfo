@@ -83,7 +83,7 @@ public final class Resultat {
 	private static final Double LARGEUR_FOND_PRIX = 68.0;
 	private static final Double HAUTEUR_FOND_PRIX = 38.0;
 	private static final Double ESPACE_CONTENUS_COMMANDE = 8.0;
-	private static final Double LARGEUR_CELLULE_TABLEAU = 20.0;
+	private static final Double LARGEUR_CELLULE_TABLEAU = 22.0;
 	private static final Double PADDING_HAUT_TABLEAU = 3.0;
 	private static final Double ESPACE_A_RENDRE = 5.0;
 	private static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
