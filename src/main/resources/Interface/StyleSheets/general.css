@@ -54,6 +54,7 @@
 
 .plat-commande {
 	-fx-font : bold 14px "Source Sans";
+    -fx-text-fill : dark;
 }
 
 .bouton {
@@ -61,6 +62,7 @@
     -fx-background-radius : 0;
     -fx-border-width : 1px;
     -fx-border-color : transparent;
+    -fx-text-fill : dark;
     -fx-cursor : hand;
 }
 

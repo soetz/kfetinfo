@@ -1,3 +1,53 @@
+.ec-confection-ecran {
+    -fx-background-color : dark;
+}
+
 .ec-confection-titre {
 	-fx-alignment : center;
+    -fx-font : italic bold 20px "Source Sans";
+    -fx-text-fill : light;
+}
+
+.ec-confection-membre {
+    -fx-alignment : center;
+    -fx-background-color : dark;
+    -fx-font : bold 14px "Source Sans";
+    -fx-text-fill : light;
+}
+
+.ec-confection-confection {
+    -fx-background-color : light;
+}
+
+.ec-confection-aucune-realisation {
+    -fx-alignment : center;
+    -fx-text-fill : dark;
+}
+
+.ec-confection-categorie-contenu {
+    -fx-font : bold 14px "Source Sans";
+    -fx-text-fill : dark;
+}
+
+.ec-confection-confection-contenu {
+    -fx-font : 14px "Source Sans";
+    -fx-text-fill : dark;
+}
+
+.ec-confection-autre {
+    -fx-background-color : light;
+}
+
+.ec-confection-autre-membre {
+    -fx-font : italic 13px "Source Sans";
+    -fx-text-fill : dark;
+}
+
+.ec-confection-autre-contenu {
+    -fx-font : 12px "Source Sans";
+    -fx-text-fill : dark;
+}
+
+.ec-confection-espacement {
+    -fx-background-color : transparent;
 }

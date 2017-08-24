@@ -49,7 +49,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.WindowEvent;
 
 /**
@@ -698,7 +697,7 @@ public final class Resultat {
 		supOrdi.getChildren().add(fondOrdi);
 
 		membreOrdi = new Label("---");
-		membreOrdi.setTranslateX(DECALAGE_MEMBRE); //TODO -> constante
+		membreOrdi.setTranslateX(DECALAGE_MEMBRE);
 
 		supOrdi.getChildren().add(membreOrdi);
 

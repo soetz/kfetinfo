@@ -52,7 +52,7 @@ public final class App extends Application{
 
 	//constantes pour l'affichage
 	public static final Double LARGEUR_MIN_FENETRE = 800.0;
-	public static final Double HAUTEUR_MIN_FENETRE = 670.0;
+	public static final Double HAUTEUR_MIN_FENETRE = 700.0;
 	public static final Double TAILLE_PANNEAU_MENU = 25.0;
 	public static final Double TAILLE_PANNEAU_COMMANDES = 250.0;
 	public static final Double TAILLE_PANNEAU_RESULTAT = 182.0;

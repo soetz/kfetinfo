@@ -45,6 +45,7 @@
 
 .selection-element-label {
     -fx-font : 13px "Source Sans";
+    -fx-text-fill : dark;
 }
 
 .selection-gauche-element {

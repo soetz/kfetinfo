@@ -54,11 +54,30 @@ import javafx.stage.Stage;
 public class EcranConfection {
 
 	//classes de style pour l'utilisation du CSS
+	private static final String ECRAN = "ec-confection-ecran";
 	private static final String TITRE = "ec-confection-titre";
+	private static final String MEMBRE = "ec-confection-membre";
+	private static final String CONFECTION = "ec-confection-confection";
+	private static final String AUCUNE_REALISATION = "ec-confection-aucune-realisation";
+	private static final String CATEGORIE_CONTENU = "ec-confection-categorie-contenu";
+	private static final String CONTENU_CONFECTION = "ec-confection-confection-contenu";
+	private static final String AUTRE = "ec-confection-autre";
+	private static final String AUTRE_MEMBRE = "ec-confection-autre-membre";
+	private static final String CONTENU_AUTRE = "ec-confection-autre-contenu";
+	private static final String ESPACEMENT = "ec-confection-espacement";
 
 	//constantes pour l'affichage
+	private static final Double ESPACE_CATEGORIES = 10.0;
+	private static final Double ESPACE_CONFECTION = 6.0;
+	private static final Double ESPACE_CONTENU_CONFECTION = 2.0;
+	private static final Double DECALAGE_CATEGORIE_CONTENU = 8.0;
+	private static final Double DECALAGE_CONTENU = 16.0;
+	private static final Double ESPACE_FIN_COMMANDE = 4.0;
+	private static final Double ESPACE_AUTRE = 6.0;
+	private static final Double DECALAGE_CONTENU_AUTRE = 2.0;
 	private static final Double LARGEUR_COMMANDE = 200.0;
 	private static final Double HAUTEUR_COMMANDE = 100.0;
+	
 
 	//la liste des contenus des écrans de confection, comme ça on peut en avoir plusieurs et les mettre à jour
 	private static final List<HBox> LISTE_REALISATION = new ArrayList<HBox>();
@@ -78,6 +97,8 @@ public class EcranConfection {
 	public static final void ecranConfection(Stage ecranPrincipal){
 
 		VBox ecran = new VBox();
+		ecran.getStyleClass().add(ECRAN);
+		ecran.setSpacing(ESPACE_CATEGORIES);
 
 		Label titre = new Label("En cours de confection…");
 		titre.setMaxWidth(Double.MAX_VALUE);
@@ -86,6 +107,7 @@ public class EcranConfection {
 		ecran.getChildren().add(titre);
 
 		HBox realisation = new HBox();
+		realisation.setSpacing(ESPACE_CONFECTION);
 		realisation.minWidthProperty().bind(ecran.widthProperty());
 		realisation.maxWidthProperty().bind(realisation.minWidthProperty());
 		LISTE_REALISATION.add(realisation); //on ajoute la HBox à la liste des contenus des écrans de confection
@@ -93,6 +115,8 @@ public class EcranConfection {
 		ecran.getChildren().add(realisation);
 
 		FlowPane autre = new FlowPane();
+		autre.setHgap(ESPACE_AUTRE);
+		autre.setVgap(ESPACE_AUTRE);
 		autre.minWidthProperty().bind(ecran.widthProperty());
 		autre.maxWidthProperty().bind(autre.minWidthProperty());
 		LISTE_AUTRE.add(autre); //on ajoute le FlowPane à la liste des contenus des écrans pour commis
@@ -144,6 +168,8 @@ public class EcranConfection {
 	private static final Region commandeRealisation(int numero, int fenetre){
 
 		VBox commandeBox = new VBox();
+		commandeBox.setSpacing(ESPACE_CONTENU_CONFECTION);
+		commandeBox.getStyleClass().add(CONFECTION);
 
 		Membre membre = Core.getService().getConfection().get(numero);
 
@@ -161,11 +187,14 @@ public class EcranConfection {
 		}
 
 		Label nomMembre = new Label(membre.getBlaze());
+		nomMembre.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		nomMembre.getStyleClass().add(MEMBRE);
 		commandeBox.getChildren().add(nomMembre);
 
 		if(commande != null){
 
 			HBox numeroEtPlat = new HBox();
+			numeroEtPlat.setTranslateY(-ESPACE_CONTENU_CONFECTION);
 
 			Label numeroCommande = new Label("" + commande.getNumero());
 			numeroCommande.setPrefSize(App.TAILLE_NUMERO_COMMANDE, App.TAILLE_NUMERO_COMMANDE);
@@ -185,41 +214,66 @@ public class EcranConfection {
 
 			commandeBox.getChildren().add(numeroEtPlat);
 
-			Label sauces = new Label("Sauces : ");
+			Label sauces = new Label("Sauces :");
+			sauces.setTranslateX(DECALAGE_CATEGORIE_CONTENU);
+			sauces.getStyleClass().add(CATEGORIE_CONTENU);
 			commandeBox.getChildren().add(sauces);
 
 			for(Sauce sauce : commande.getSauces()){
 				Label label = new Label(sauce.getNom());
+				label.setTranslateX(DECALAGE_CONTENU);
+				label.getStyleClass().add(CONTENU_CONFECTION);
 				commandeBox.getChildren().add(label);
 			}
 
-			Label ingredients = new Label("Ingredients : ");
+			Label ingredients = new Label("Ingredients :");
+			ingredients.setTranslateX(DECALAGE_CATEGORIE_CONTENU);
+			ingredients.getStyleClass().add(CATEGORIE_CONTENU);
 			commandeBox.getChildren().add(ingredients);
 
 			for(Ingredient ingredient : commande.getIngredients()){
 				Label label = new Label(ingredient.getNom());
+				label.setTranslateX(DECALAGE_CONTENU);
+				label.getStyleClass().add(CONTENU_CONFECTION);
 				commandeBox.getChildren().add(label);
 			}
 
-			Label boisson = new Label("Boisson : ");
+			Label boisson = new Label("Boisson :");
+			boisson.setTranslateX(DECALAGE_CATEGORIE_CONTENU);
+			boisson.getStyleClass().add(CATEGORIE_CONTENU);
 			Label boissonLabel = new Label(commande.getBoisson().getNom() + " + " + commande.getSupplementBoisson().getNom());
+			boissonLabel.setTranslateX(DECALAGE_CONTENU);
+			boissonLabel.getStyleClass().add(CONTENU_CONFECTION);
 
 			commandeBox.getChildren().add(boisson);
 			commandeBox.getChildren().add(boissonLabel);
 
-			Label dessert = new Label("Dessert : ");
+			Label dessert = new Label("Dessert :");
+			dessert.setTranslateX(DECALAGE_CATEGORIE_CONTENU);
+			dessert.getStyleClass().add(CATEGORIE_CONTENU);
 			Label dessertLabel = new Label(commande.getDessert().getNom());
+			dessertLabel.setTranslateX(DECALAGE_CONTENU);
+			dessertLabel.getStyleClass().add(CONTENU_CONFECTION);
 
 			commandeBox.getChildren().add(dessert);
 			commandeBox.getChildren().add(dessertLabel);
 
 		} else {
 			Label rien = new Label("Ce membre ne réalise actuellement aucune commande");
+			rien.setMaxWidth(Double.MAX_VALUE);
+			rien.getStyleClass().add(CATEGORIE_CONTENU);
+			rien.getStyleClass().add(AUCUNE_REALISATION);
 
 			commandeBox.getChildren().add(rien);
 		}
 
-		commandeBox.maxWidthProperty().bind(LISTE_FENETRES.get(fenetre).widthProperty().divide(Core.getService().getConfection().size()));
+		Region espaceFin = new Region();
+		espaceFin.setMinHeight(ESPACE_FIN_COMMANDE);
+		espaceFin.setMaxWidth(1);
+		espaceFin.getStyleClass().add(ESPACEMENT);
+		commandeBox.getChildren().add(espaceFin);
+
+		commandeBox.maxWidthProperty().bind(LISTE_FENETRES.get(fenetre).widthProperty().divide(Core.getService().getConfection().size()).subtract(4*ESPACE_CONFECTION/Core.getService().getConfection().size() + (Core.getService().getConfection().size() - 1)*ESPACE_CONFECTION));
 		commandeBox.minWidthProperty().bind(commandeBox.maxWidthProperty());
 
 		return(commandeBox);
@@ -248,15 +302,15 @@ public class EcranConfection {
 		IntegerProperty nbDivisions = new SimpleIntegerProperty();
 		nbDivisions.bind(LISTE_FENETRES.get(fenetre).widthProperty().divide(LARGEUR_COMMANDE));
 		DoubleProperty reste = new SimpleDoubleProperty();
-		reste.bind(LISTE_FENETRES.get(fenetre).widthProperty().subtract(nbDivisions.multiply(LARGEUR_COMMANDE)));
+		reste.bind(LISTE_FENETRES.get(fenetre).widthProperty().subtract(nbDivisions.multiply(LARGEUR_COMMANDE).add(nbDivisions.subtract(1).multiply(ESPACE_AUTRE))).subtract(2));
 
 		AnchorPane commandePane = new AnchorPane();
+		commandePane.getStyleClass().add(AUTRE);
 
 		commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		commandePane.setPrefHeight(HAUTEUR_COMMANDE);
-		commandePane.prefWidthProperty().bind(reste.divide(nbDivisions).add(LARGEUR_COMMANDE).subtract(5));
+		commandePane.prefWidthProperty().bind(reste.divide(nbDivisions).add(LARGEUR_COMMANDE).subtract(nbDivisions.subtract(1).multiply(ESPACE_AUTRE).divide(nbDivisions)));
 		commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
-		commandePane.getStyleClass().add(Commandes.COMMANDE);
 
 		Label numeroCommande = new Label("" + numero);
 		numeroCommande.setPrefSize(App.TAILLE_NUMERO_COMMANDE, App.TAILLE_NUMERO_COMMANDE);
@@ -274,6 +328,7 @@ public class EcranConfection {
 		}
 
 		Label plat = new Label(commande.getPlat().getNom().toUpperCase());
+		plat.setTranslateX(DECALAGE_CONTENU_AUTRE);
 		plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 		plat.setMinHeight(Control.USE_PREF_SIZE);
 		plat.setMaxHeight(Control.USE_PREF_SIZE);
@@ -283,23 +338,29 @@ public class EcranConfection {
 		Label confection = new Label();
 		if(assignee){
 			confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle était affectée
+			confection.getStyleClass().add(AUTRE_MEMBRE);
 		}
 
 		VBox contenuCommande = new VBox();
 
 		Label lbIngredients = lbIngredients(commande);
-		lbIngredients.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 36);
+		lbIngredients.maxWidthProperty().bind(commandePane.widthProperty().subtract(DECALAGE_CONTENU_AUTRE));
+		lbIngredients.setTranslateX(DECALAGE_CONTENU_AUTRE);
+		lbIngredients.getStyleClass().add(CONTENU_AUTRE);
 		Label lbSauces = lbSauces(commande);
-		lbSauces.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
+		lbSauces.setTranslateX(DECALAGE_CONTENU_AUTRE);
+		lbSauces.getStyleClass().add(CONTENU_AUTRE);
 		Label lbBoisson = new Label();
+		lbBoisson.setTranslateX(DECALAGE_CONTENU_AUTRE);
+		lbBoisson.getStyleClass().add(CONTENU_AUTRE);
 		if(commande.getSupplementBoisson().getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
 			lbBoisson.setText(commande.getBoisson().getNom());
 		} else {
 			lbBoisson.setText(commande.getBoisson().getNom() + " + " + commande.getSupplementBoisson().getNom());
 		}
-		lbBoisson.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 		Label lbDessert = new Label(commande.getDessert().getNom());
-		lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
+		lbDessert.setTranslateX(DECALAGE_CONTENU_AUTRE);
+		lbDessert.getStyleClass().add(CONTENU_AUTRE);
 		
 		contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert);
 
@@ -381,9 +442,23 @@ public class EcranConfection {
 		for(HBox box : LISTE_REALISATION){
 			box.getChildren().clear();
 
+			Region gauche = new Region();
+			gauche.setMinWidth(ESPACE_CONFECTION);
+			gauche.setMaxHeight(1);
+			gauche.getStyleClass().add(ESPACEMENT);
+
+			box.getChildren().add(gauche);
+
 			for(Membre membreConf : Core.getService().getConfection()){
 				box.getChildren().add(commandeRealisation(Core.getService().getConfection().indexOf(membreConf), LISTE_REALISATION.indexOf(box)));
 			}
+
+			Region droite = new Region();
+			droite.setMinWidth(ESPACE_CONFECTION);
+			droite.setMaxHeight(1);
+			droite.getStyleClass().add(ESPACEMENT);
+
+			box.getChildren().add(droite);
 		}
 
 		List<Integer> ajoutees = new ArrayList<Integer>();
