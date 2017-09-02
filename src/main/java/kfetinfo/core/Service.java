@@ -761,7 +761,7 @@ public class Service {
 		List<Membre> membresOccupes = new ArrayList<Membre>();
 
 		for(Commande commande : commandes){
-			if(commande.getClass().equals(CommandeAssignee.class)){ //on établit déjà la liste des membres qui sont occupés
+			if(commande instanceof CommandeAssignee){ //on établit déjà la liste des membres qui sont occupés
 				CommandeAssignee commandeAssignee = (CommandeAssignee)commande;
 				if(!commandeAssignee.getEstRealisee()){
 					membresOccupes.add(commandeAssignee.getMembre());
