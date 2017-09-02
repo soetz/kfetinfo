@@ -60,21 +60,39 @@ import javafx.stage.WindowEvent;
 public final class Resultat {
 
 	//classes de style pour l'utilisation du CSS
-	public static final String COMMANDE_PREVIEW = "commande-preview";
-	public static final String FOND_COMMANDE_PREVIEW = "fond-commande-preview";
-	public static final String CONTENU_COMMANDE_PREVIEW = "contenu-commande-preview";
-	public static final String PRIX_COMMANDE_PREVIEW = "prix-commande-preview";
-	public static final String NOMBRE_PIECES = "nombre-pieces";
-	public static final String A_RENDRE = "a-rendre";
+	private static final String PANNEAU = "resultat-panneau";
+	private static final String FOND_COMMANDE_PREVIEW = "resultat-fond-commande-preview";
+	private static final String CONTENU_COMMANDE_PREVIEW = "resultat-contenu-commande-preview";
+	private static final String PRIX_COMMANDE_PREVIEW = "resultat-prix-commande-preview";
+	private static final String NOMBRE_PIECES = "resultat-nombre-pieces";
+	private static final String A_RENDRE = "resultat-a-rendre";
+	private static final String CENT_ROUGE = "resultat-cent-rouge";
+	private static final String CENT_JAUNE = "resultat-cent-jaune";
+	private static final String EUROS = "resultat-euros";
+	private static final String BOUTON_RESET = "resultat-bouton-reset";
+	private static final String BOUTON_AJOUTER = "resultat-bouton-ajouter";
+	private static final String POSTE = "resultat-poste";
+	private static final String MEMBRE_EQUIPE = "resultat-membre-equipe";
+	private static final String FOND_MEMBRE_EQUIPE = "resultat-fond-membre-equipe";
+	private static final String SUPERPOSITION_MEMBRE_EQUIPE = "resultat-superposition-membre-equipe";
+	private static final String BOUTON_MODIFIER = "resultat-bouton-modifier";
 
 	//constantes pour l'affichage
-	private static final Double PADDING_PREVIEW = 4.0;
-	private static final Double MARGIN_PREVIEW = 5.0;
+	private static final Double PADDING_PREVIEW = 8.0;
+	private static final Double MARGIN_PREVIEW = 8.0;
+	private static final Double LARGEUR_FOND_PRIX = 68.0;
+	private static final Double HAUTEUR_FOND_PRIX = 38.0;
 	private static final Double ESPACE_CONTENUS_COMMANDE = 8.0;
-	private static final Double LARGEUR_CELLULE_TABLEAU = 20.0;
+	private static final Double LARGEUR_CELLULE_TABLEAU = 22.0;
 	private static final Double PADDING_HAUT_TABLEAU = 3.0;
 	private static final Double ESPACE_A_RENDRE = 5.0;
 	private static final Double ESPACE_BAS_BOUTON_AJOUTER = 10.0;
+	private static final Double PADDING_HAUT_RESET = 20.0;
+	private static final Double ESPACE_HAUT_GRIDS = 0.0;
+	private static final Double ESPACE_MEMBRE_HORIZONTAL = 5.0;
+	private static final Double ESPACE_MEMBRE_VERTICAL = 3.0;
+	private static final Double HAUTEUR_MEMBRE = 25.0;
+	private static final Double DECALAGE_MEMBRE = 8.0;
 
 	//comptes de pièces
 	private static int nbUnCent = 0;
@@ -129,6 +147,8 @@ public final class Resultat {
 		resultat.minWidthProperty().bind(root.widthProperty());
 		resultat.maxWidthProperty().bind(resultat.minWidthProperty());
 
+		resultat.getStyleClass().add(PANNEAU);
+
 		Region gauche = previsualisationCommande(resultat);
 		Region milieu = caisse();
 		Region droite = equipe(resultat);
@@ -167,8 +187,6 @@ public final class Resultat {
 		StackPane commandePreview = new StackPane();
 
 		commandePreview.setPadding(new Insets(PADDING_PREVIEW));
-		commandePreview.maxWidthProperty().bind(parent.widthProperty().divide(3).subtract(2*PADDING_PREVIEW));
-		commandePreview.getStyleClass().add(COMMANDE_PREVIEW);
 
 		Region fond = new Region();
 
@@ -327,15 +345,30 @@ public final class Resultat {
 			}
 		});
 
-		prix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
-
-		AnchorPane.setBottomAnchor(prix, MARGIN_PREVIEW);
+		AnchorPane.setBottomAnchor(prix, 0.0);
 		AnchorPane.setRightAnchor(prix, MARGIN_PREVIEW);
 
 		fixationPrix.getChildren().add(prix);
 
+		prix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
+
+		AnchorPane fixationFondPrix = new AnchorPane();
+
+		Region fondPrix = new Region();
+		fondPrix.setPrefWidth(LARGEUR_FOND_PRIX);
+		fondPrix.setPrefHeight(HAUTEUR_FOND_PRIX);
+		fondPrix.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		fondPrix.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		fondPrix.getStyleClass().add(PRIX_COMMANDE_PREVIEW);
+
+		AnchorPane.setBottomAnchor(fondPrix, 0.0);
+		AnchorPane.setRightAnchor(fondPrix, 0.0);
+
+		fixationFondPrix.getChildren().add(fondPrix);
+
 		commandePreview.getChildren().add(fond);
 		commandePreview.getChildren().add(commande);
+		commandePreview.getChildren().add(fixationFondPrix);
 		commandePreview.getChildren().add(fixationPrix);
 
 		return(commandePreview);
@@ -351,6 +384,7 @@ public final class Resultat {
 		BorderPane separation = new BorderPane();
 
 		GridPane pieces = new GridPane();
+		pieces.setTranslateY(ESPACE_HAUT_GRIDS);
 
 		pieces.setTranslateY(PADDING_HAUT_TABLEAU);
 		pieces.setHgap(LARGEUR_CELLULE_TABLEAU);
@@ -367,6 +401,30 @@ public final class Resultat {
 		Button boutonCinqEuros = new Button("5€");
 		Button boutonDixEuros = new Button("10€");
 		Button boutonVingtEuros = new Button("20€");
+
+		boutonUnCent.getStyleClass().add(App.BOUTON);
+		boutonDeuxCent.getStyleClass().add(App.BOUTON);
+		boutonCinqCent.getStyleClass().add(App.BOUTON);
+		boutonDixCent.getStyleClass().add(App.BOUTON);
+		boutonVingtCent.getStyleClass().add(App.BOUTON);
+		boutonCinquanteCent.getStyleClass().add(App.BOUTON);
+		boutonUnEuro.getStyleClass().add(App.BOUTON);
+		boutonDeuxEuros.getStyleClass().add(App.BOUTON);
+		boutonCinqEuros.getStyleClass().add(App.BOUTON);
+		boutonDixEuros.getStyleClass().add(App.BOUTON);
+		boutonVingtEuros.getStyleClass().add(App.BOUTON);
+
+		boutonUnCent.getStyleClass().add(CENT_ROUGE);
+		boutonDeuxCent.getStyleClass().add(CENT_ROUGE);
+		boutonCinqCent.getStyleClass().add(CENT_ROUGE);
+		boutonDixCent.getStyleClass().add(CENT_JAUNE);
+		boutonVingtCent.getStyleClass().add(CENT_JAUNE);
+		boutonCinquanteCent.getStyleClass().add(CENT_JAUNE);
+		boutonUnEuro.getStyleClass().add(EUROS);
+		boutonDeuxEuros.getStyleClass().add(EUROS);
+		boutonCinqEuros.setId("billet-cinq-euros");
+		boutonDixEuros.setId("billet-dix-euros");
+		boutonVingtEuros.setId("billet-vingt-euros");
 
 		//pour chaque bouton, on définit qu'un clic augmente de 1 le compte de nombre de pièces correspondant
 		boutonUnCent.setOnAction(new EventHandler<ActionEvent>() {
@@ -519,7 +577,7 @@ public final class Resultat {
 
 		VBox aRendreAjouter = new VBox();
 
-		aRendreAjouter.setTranslateX(PADDING_HAUT_TABLEAU);
+		aRendreAjouter.setTranslateY(PADDING_HAUT_RESET);
 		aRendreAjouter.setSpacing(ESPACE_A_RENDRE);
 		aRendreAjouter.minWidthProperty().bind(separation.widthProperty().subtract(pieces.widthProperty()));
 		aRendreAjouter.maxWidthProperty().bind(aRendreAjouter.minWidthProperty());
@@ -531,8 +589,11 @@ public final class Resultat {
 			}
 		});
 
-		boutonReset.minWidthProperty().bind(aRendreAjouter.widthProperty().subtract(4));
+		boutonReset.minWidthProperty().bind(aRendreAjouter.widthProperty().subtract(4).divide(1.5));
 		boutonReset.maxWidthProperty().bind(boutonReset.minWidthProperty());
+		boutonReset.translateXProperty().bind(aRendreAjouter.widthProperty().subtract(boutonReset.widthProperty()).divide(2));
+		boutonReset.getStyleClass().add(App.BOUTON);
+		boutonReset.getStyleClass().add(BOUTON_RESET);
 
 		Label aRendre = new Label("À rendre :");
 		aRendre.getStyleClass().add(A_RENDRE);
@@ -548,8 +609,11 @@ public final class Resultat {
 		ajouterBouton.setDisable(true);
 		ajouterBouton.minWidthProperty().bind(boutonReset.minWidthProperty());
 		ajouterBouton.maxWidthProperty().bind(ajouterBouton.minWidthProperty());
-		ajouterBouton.setMinHeight(App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER);
-		ajouterBouton.setMaxHeight(App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER);	
+		ajouterBouton.setMinHeight((App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER)/2);
+		ajouterBouton.setMaxHeight((App.TAILLE_PANNEAU_RESULTAT - 55 - 3*ESPACE_A_RENDRE - ESPACE_BAS_BOUTON_AJOUTER)/2);
+		ajouterBouton.translateXProperty().bind(aRendreAjouter.widthProperty().subtract(boutonReset.widthProperty()).divide(2));
+		ajouterBouton.getStyleClass().add(App.BOUTON);
+		ajouterBouton.getStyleClass().add(BOUTON_AJOUTER);
 
 		ajouterBouton.setOnAction(new EventHandler<ActionEvent>(){ //au déclenchement du bouton,
 			public void handle(ActionEvent event) {
@@ -606,23 +670,119 @@ public final class Resultat {
 		AnchorPane layout = new AnchorPane();
 
 		GridPane membres = new GridPane();
-		membres.setHgap(5.0); //TODO changer ça en constante
-		membres.setVgap(3.0);
+		membres.setTranslateY(ESPACE_HAUT_GRIDS);
+		membres.setTranslateX(-ESPACE_HAUT_GRIDS);
+		membres.setHgap(ESPACE_MEMBRE_HORIZONTAL);
+		membres.setVgap(ESPACE_MEMBRE_VERTICAL);
 
 		Label ordi = new Label("Ordi");
+		ordi.setMinHeight(HAUTEUR_MEMBRE);
 		Label commis1 = new Label("Commis #1");
+		commis1.setMinHeight(HAUTEUR_MEMBRE);
 		Label commis2 = new Label("Commis #2");
+		commis2.setMinHeight(HAUTEUR_MEMBRE);
 		Label confection1 = new Label("Confection #1");
+		confection1.setMinHeight(HAUTEUR_MEMBRE);
 		Label confection2 = new Label("Confection #2");
+		confection2.setMinHeight(HAUTEUR_MEMBRE);
 		Label confection3 = new Label("Confection #3");
+		confection3.setMinHeight(HAUTEUR_MEMBRE);
+
+		StackPane supOrdi = new StackPane();
+		supOrdi.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondOrdi = new Region();
+		fondOrdi.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondOrdi.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supOrdi.getChildren().add(fondOrdi);
+
 		membreOrdi = new Label("---");
+		membreOrdi.setTranslateX(DECALAGE_MEMBRE);
+
+		supOrdi.getChildren().add(membreOrdi);
+
+		StackPane supCommis1 = new StackPane();
+		supCommis1.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondCommis1 = new Region();
+		fondCommis1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondCommis1.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supCommis1.getChildren().add(fondCommis1);
+
 		membreCommis1 = new Label("---");
+		membreCommis1.setTranslateX(DECALAGE_MEMBRE);
+
+		supCommis1.getChildren().add(membreCommis1);
+
+		StackPane supCommis2 = new StackPane();
+		supCommis2.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondCommis2 = new Region();
+		fondCommis2.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondCommis2.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supCommis2.getChildren().add(fondCommis2);
+
 		membreCommis2 = new Label("---");
+		membreCommis2.setTranslateX(DECALAGE_MEMBRE);
+
+		supCommis2.getChildren().add(membreCommis2);
+
+		StackPane supConfection1 = new StackPane();
+		supConfection1.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondConfection1 = new Region();
+		fondConfection1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondConfection1.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supConfection1.getChildren().add(fondConfection1);
+
 		membreConfection1 = new Label("---");
+		membreConfection1.setTranslateX(DECALAGE_MEMBRE);
+
+		supConfection1.getChildren().add(membreConfection1);
+
+		StackPane supConfection2 = new StackPane();
+		supConfection2.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondConfection2 = new Region();
+		fondConfection2.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondConfection2.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supConfection2.getChildren().add(fondConfection2);
+
 		membreConfection2 = new Label("---");
+		membreConfection2.setTranslateX(DECALAGE_MEMBRE);
+
+		supConfection2.getChildren().add(membreConfection2);
+
+		StackPane supConfection3 = new StackPane();
+		supConfection3.getStyleClass().add(SUPERPOSITION_MEMBRE_EQUIPE);
+		Region fondConfection3 = new Region();
+		fondConfection3.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		fondConfection3.getStyleClass().add(FOND_MEMBRE_EQUIPE);
+
+		supConfection3.getChildren().add(fondConfection3);
+
 		membreConfection3 = new Label("---");
+		membreConfection3.setTranslateX(DECALAGE_MEMBRE);
+
+		supConfection3.getChildren().add(membreConfection3);
+
+		ordi.getStyleClass().add(POSTE);
+		commis1.getStyleClass().add(POSTE);
+		commis2.getStyleClass().add(POSTE);
+		confection1.getStyleClass().add(POSTE);
+		confection2.getStyleClass().add(POSTE);
+		confection3.getStyleClass().add(POSTE);
+		membreOrdi.getStyleClass().add(MEMBRE_EQUIPE);
+		membreCommis1.getStyleClass().add(MEMBRE_EQUIPE);
+		membreCommis2.getStyleClass().add(MEMBRE_EQUIPE);
+		membreConfection1.getStyleClass().add(MEMBRE_EQUIPE);
+		membreConfection2.getStyleClass().add(MEMBRE_EQUIPE);
+		membreConfection3.getStyleClass().add(MEMBRE_EQUIPE);
 
 		Button boutonOrdi = new Button("Modifier");
+		boutonOrdi.setMaxHeight(10);
+		boutonOrdi.setPrefHeight(10);
+		boutonOrdi.setTranslateY(-1);
 		boutonOrdi.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionOrdi();
@@ -630,6 +790,9 @@ public final class Resultat {
 		});
 
 		Button boutonCommis1 = new Button("Modifier");
+		boutonCommis1.setMaxHeight(24);
+		boutonCommis1.setPrefHeight(24);
+		boutonCommis1.setTranslateY(-1);
 		boutonCommis1.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionCommis1();
@@ -637,6 +800,9 @@ public final class Resultat {
 		});
 
 		Button boutonCommis2 = new Button("Modifier");
+		boutonCommis2.setMaxHeight(24);
+		boutonCommis2.setPrefHeight(24);
+		boutonCommis2.setTranslateY(-1);
 		boutonCommis2.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionCommis2();
@@ -644,6 +810,9 @@ public final class Resultat {
 		});
 
 		Button boutonConfection1 = new Button("Modifier");
+		boutonConfection1.setMaxHeight(24);
+		boutonConfection1.setPrefHeight(24);
+		boutonConfection1.setTranslateY(-1);
 		boutonConfection1.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection1().setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -656,6 +825,9 @@ public final class Resultat {
 		});
 
 		Button boutonConfection2 = new Button("Modifier");
+		boutonConfection2.setMaxHeight(24);
+		boutonConfection2.setPrefHeight(24);
+		boutonConfection2.setTranslateY(-1);
 		boutonConfection2.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection2().setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -668,6 +840,9 @@ public final class Resultat {
 		});
 
 		Button boutonConfection3 = new Button("Modifier");
+		boutonConfection3.setMaxHeight(24);
+		boutonConfection3.setPrefHeight(24);
+		boutonConfection3.setTranslateY(-1);
 		boutonConfection3.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent a){
 				SelectionMembre.selectionConfection3().setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -679,6 +854,19 @@ public final class Resultat {
 			}
 		});
 
+		boutonOrdi.getStyleClass().add(App.BOUTON);
+		boutonCommis1.getStyleClass().add(App.BOUTON);
+		boutonCommis2.getStyleClass().add(App.BOUTON);
+		boutonConfection1.getStyleClass().add(App.BOUTON);
+		boutonConfection2.getStyleClass().add(App.BOUTON);
+		boutonConfection3.getStyleClass().add(App.BOUTON);
+		boutonOrdi.getStyleClass().add(BOUTON_MODIFIER);
+		boutonCommis1.getStyleClass().add(BOUTON_MODIFIER);
+		boutonCommis2.getStyleClass().add(BOUTON_MODIFIER);
+		boutonConfection1.getStyleClass().add(BOUTON_MODIFIER);
+		boutonConfection2.getStyleClass().add(BOUTON_MODIFIER);
+		boutonConfection3.getStyleClass().add(BOUTON_MODIFIER);
+
 		mettreOrdiAJour();
 
 		mettreCommisAJour();
@@ -686,22 +874,22 @@ public final class Resultat {
 		mettreConfectionAJour();
 
 		membres.add(ordi, 0, 0);
-		membres.add(membreOrdi, 1, 0);
+		membres.add(supOrdi, 1, 0);
 		membres.add(boutonOrdi, 2, 0);
 		membres.add(commis1, 0, 1);
-		membres.add(membreCommis1, 1, 1);
+		membres.add(supCommis1, 1, 1);
 		membres.add(boutonCommis1, 2, 1);
 		membres.add(commis2, 0, 2);
-		membres.add(membreCommis2, 1, 2);
+		membres.add(supCommis2, 1, 2);
 		membres.add(boutonCommis2, 2, 2);
 		membres.add(confection1, 0, 3);
-		membres.add(membreConfection1, 1, 3);
+		membres.add(supConfection1, 1, 3);
 		membres.add(boutonConfection1, 2, 3);
 		membres.add(confection2, 0, 4);
-		membres.add(membreConfection2, 1, 4);
+		membres.add(supConfection2, 1, 4);
 		membres.add(boutonConfection2, 2, 4);
 		membres.add(confection3, 0, 5);
-		membres.add(membreConfection3, 1, 5);
+		membres.add(supConfection3, 1, 5);
 		membres.add(boutonConfection3, 2, 5);
 
 		ColumnConstraints nePasGrow = new ColumnConstraints(); //on indique que les colonnes à l'extérieur du tableau (les labels et les boutons) ne doivent pas grander si le tableau est redimensionné mais que la colonne du milieu (le blaze court du membre sélectionné) si

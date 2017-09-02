@@ -34,31 +34,45 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.SVGPath;
 
 /**
  * <p>Commandes est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de la liste des commandes du service.</p>
  * 
  * @author Simon Lecutiez - Sœtz
- * @version 1.0
+ * @version 1.1
  */
 public final class Commandes {
 
 	//classes de style pour l'utilisation du CSS
-	public static final String COMMANDE = "commande";
-	public static final String PANNEAU_COMMANDES = "panneau-commandes";
-	public static final String PLAT_LISTE_COMMANDES = "plat-liste-commandes";
+	private static final String COMMANDE = "commandes-commande";
+	private static final String PANNEAU = "commandes-panneau";
+	private static final String PLAT_LISTE = "commandes-plat-liste";
+	private static final String CONFECTION = "commandes-confection";
+	private static final String CONTENU = "commandes-contenu";
+	private static final String SEPARATION_PRIMAIRE = "commandes-separation-primaire";
+	private static final String SEPARATION_SECONDAIRE = "commandes-separation-secondaire";
+	private static final String FLECHE = "commandes-fleche";
 
 	//constantes pour l'affichage
-	private static final Double HAUTEUR_COMMANDE_FERMEE = 30.0;
-	private static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 126.0;
+	private static final Double LARGEUR_SCROLLBAR = 12.0;
+	private static final Double LARGEUR_MIN_PLAT = 118.0;
+	private static final Double HAUTEUR_COMMANDE_FERMEE = App.TAILLE_NUMERO_COMMANDE;
+	private static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 130.0;
 	private static final Double HAUTEUR_AJOUT_BOUTONS = 36.0;
+	private static final Double TAILLE_SEPARATION = 8.0;
+	private static final Double DECALAGE_CONTENU = 2.0;
+	private static final Double DECALAGE_BOUTON_RETIRER = 40.0;
+	private static final Double LARGEUR_BOUTON_LISTE = 140.0;
 
 	//VBox de commandes dans chaque état
 	private static VBox commandesRealisees = new VBox();
@@ -92,12 +106,23 @@ public final class Commandes {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final Region commandes(){
 
+		HBox pan = new HBox();
+
+		Region separation1 = new Region();
+		separation1.getStyleClass().add(SEPARATION_PRIMAIRE);
+		separation1.setPrefSize(TAILLE_SEPARATION/2, Double.MAX_VALUE);
+		pan.getChildren().add(separation1);
+		Region separation2 = new Region();
+		separation2.getStyleClass().add(SEPARATION_SECONDAIRE);
+		separation2.setPrefSize(TAILLE_SEPARATION/2, Double.MAX_VALUE);
+		pan.getChildren().add(separation2);
+
 		ScrollPane panneauCommandes = new ScrollPane();
 		panneauCommandes.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-		panneauCommandes.setMinWidth(App.TAILLE_PANNEAU_COMMANDES);
+		panneauCommandes.setMinWidth(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION);
 		panneauCommandes.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		panneauCommandes.setHbarPolicy(ScrollBarPolicy.NEVER);
-		panneauCommandes.getStyleClass().add(PANNEAU_COMMANDES);
+		panneauCommandes.getStyleClass().add(PANNEAU);
 
 		for(Commande commande : Core.getService().getCommandes()){ //pour chaque commande,
 			if(commande instanceof CommandeAssignee){
@@ -108,7 +133,7 @@ public final class Commandes {
 
 						AnchorPane commandePane = new AnchorPane();
 						commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-						commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+						commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE);
 						commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 						commandePane.getStyleClass().add(COMMANDE);
 				
@@ -122,14 +147,24 @@ public final class Commandes {
 						plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 						plat.setMinHeight(Control.USE_PREF_SIZE);
 						plat.setMaxHeight(Control.USE_PREF_SIZE);
+						plat.setMinWidth(LARGEUR_MIN_PLAT);
 						plat.setMaxWidth(Double.MAX_VALUE);
 						plat.getStyleClass().add(App.PLAT_COMMANDE);
-						plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+						plat.getStyleClass().add(PLAT_LISTE);
+						SVGPath fleche = new SVGPath();
+						fleche.getStyleClass().add(FLECHE);
+						fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
+						plat.setGraphic(fleche);
+						plat.setGraphicTextGap(App.ESPACE_NUMERO_PLAT);
+						plat.setContentDisplay(ContentDisplay.RIGHT);
 
 						Label confection = new Label();
+						confection.getStyleClass().add(CONFECTION);
 						confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle était affectée
 				
 						VBox contenuCommande = new VBox();
+						contenuCommande.setTranslateX(DECALAGE_CONTENU);
+						contenuCommande.getStyleClass().add(CONTENU);
 						contenuCommande.setVisible(false);
 				
 						Label lbIngredients = lbIngredients(commandeAssignee);
@@ -147,13 +182,16 @@ public final class Commandes {
 						lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 
 						Button retirer = new Button("Retirer");
+						retirer.getStyleClass().add(App.BOUTON);
+						retirer.setTranslateX(DECALAGE_BOUTON_RETIRER);
+						retirer.setMinWidth(LARGEUR_BOUTON_LISTE);
 				
 						contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert, retirer);
 						contenusCommandesDonnees.add(contenuCommande);
 						devCommandesDonnees.add(false);
 
-						AnchorPane.setTopAnchor(numero, -1.0);
-						AnchorPane.setLeftAnchor(numero, -1.0);
+						AnchorPane.setTopAnchor(numero, -0.0);
+						AnchorPane.setLeftAnchor(numero, 0.0);
 						AnchorPane.setTopAnchor(plat, 0.0);
 						AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 						AnchorPane.setTopAnchor(confection, 0.0);
@@ -170,11 +208,13 @@ public final class Commandes {
 							public void handle(Event e){
 								devCommandesDonnees.set(commandesDonnees.getChildren().indexOf(commandePane), !devCommandesDonnees.get(commandesDonnees.getChildren().indexOf(commandePane)));
 								if(devCommandesDonnees.get(commandesDonnees.getChildren().indexOf(commandePane))){
-									commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_DEVELOPPEE);
+									commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_DEVELOPPEE);
 									contenusCommandesDonnees.get(commandesDonnees.getChildren().indexOf(commandePane)).setVisible(true);
+									fleche.setContent("M 7.9 6.2 L 0 6.2 L 4 2.2Z");
 								} else {
-									commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+									commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE);
 									contenusCommandesDonnees.get(commandesDonnees.getChildren().indexOf(commandePane)).setVisible(false);
+									fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
 								}}});
 
 						retirer.setOnAction(new EventHandler<ActionEvent>(){
@@ -191,7 +231,7 @@ public final class Commandes {
 
 						AnchorPane commandePane = new AnchorPane();
 						commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-						commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
+						commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
 						commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 						commandePane.getStyleClass().add(COMMANDE);
 				
@@ -205,14 +245,24 @@ public final class Commandes {
 						plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 						plat.setMinHeight(Control.USE_PREF_SIZE);
 						plat.setMaxHeight(Control.USE_PREF_SIZE);
+						plat.setMinWidth(LARGEUR_MIN_PLAT);
 						plat.setMaxWidth(Double.MAX_VALUE);
 						plat.getStyleClass().add(App.PLAT_COMMANDE);
-						plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+						plat.getStyleClass().add(PLAT_LISTE);
+						SVGPath fleche = new SVGPath();
+						fleche.getStyleClass().add(FLECHE);
+						fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
+						plat.setGraphic(fleche);
+						plat.setGraphicTextGap(App.ESPACE_NUMERO_PLAT);
+						plat.setContentDisplay(ContentDisplay.RIGHT);
 
 						Label confection = new Label();
+						confection.getStyleClass().add(CONFECTION);
 						confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle était affectée
 				
 						VBox contenuCommande = new VBox();
+						contenuCommande.setTranslateX(DECALAGE_CONTENU);
+						contenuCommande.getStyleClass().add(CONTENU);
 						contenuCommande.setVisible(false);
 				
 						Label lbIngredients = lbIngredients(commandeAssignee);
@@ -230,6 +280,9 @@ public final class Commandes {
 						lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 				
 						Button retirer = new Button("Retirer");
+						retirer.getStyleClass().add(App.BOUTON);
+						retirer.setTranslateX(DECALAGE_BOUTON_RETIRER);
+						retirer.setMinWidth(LARGEUR_BOUTON_LISTE);
 						
 						contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert, retirer);
 						contenusCommandesRealisees.add(contenuCommande);
@@ -237,16 +290,18 @@ public final class Commandes {
 
 						//et on ajoute un bouton pour indiquer que la commande a été donnée
 						Button boutonDonnee = new Button("Donnée");
+						boutonDonnee.getStyleClass().add(App.BOUTON);
+						boutonDonnee.setMinWidth(LARGEUR_BOUTON_LISTE);
 
-						AnchorPane.setTopAnchor(numero, -1.0);
-						AnchorPane.setLeftAnchor(numero, -1.0);
+						AnchorPane.setTopAnchor(numero, 0.0);
+						AnchorPane.setLeftAnchor(numero, 0.0);
 						AnchorPane.setTopAnchor(plat, 0.0);
 						AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 						AnchorPane.setTopAnchor(confection, 0.0);
 						AnchorPane.setRightAnchor(confection, 2.0);
 						AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 						AnchorPane.setLeftAnchor(contenuCommande, 3.0);
-						AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+						AnchorPane.setRightAnchor(boutonDonnee, 45.0);
 						AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
 
 						commandePane.getChildren().add(numero);
@@ -259,11 +314,13 @@ public final class Commandes {
 							public void handle(Event e){
 								devCommandesRealisees.set(commandesRealisees.getChildren().indexOf(commandePane), !devCommandesRealisees.get(commandesRealisees.getChildren().indexOf(commandePane)));
 								if(devCommandesRealisees.get(commandesRealisees.getChildren().indexOf(commandePane))){
-									commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_DEVELOPPEE + HAUTEUR_AJOUT_BOUTONS);
+									commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_DEVELOPPEE + HAUTEUR_AJOUT_BOUTONS);
 									contenusCommandesRealisees.get(commandesRealisees.getChildren().indexOf(commandePane)).setVisible(true);
+									fleche.setContent("M 7.9 6.2 L 0 6.2 L 4 2.2Z");
 								} else {
-									commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
+									commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
 									contenusCommandesRealisees.get(commandesRealisees.getChildren().indexOf(commandePane)).setVisible(false);
+									fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
 								}}});
 
 						retirer.setOnAction(new EventHandler<ActionEvent>(){
@@ -287,7 +344,7 @@ public final class Commandes {
 
 					AnchorPane commandePane = new AnchorPane();
 					commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
+					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
 					commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 					commandePane.getStyleClass().add(COMMANDE);
 			
@@ -301,14 +358,24 @@ public final class Commandes {
 					plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 					plat.setMinHeight(Control.USE_PREF_SIZE);
 					plat.setMaxHeight(Control.USE_PREF_SIZE);
+					plat.setMinWidth(LARGEUR_MIN_PLAT);
 					plat.setMaxWidth(Double.MAX_VALUE);
 					plat.getStyleClass().add(App.PLAT_COMMANDE);
-					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+					plat.getStyleClass().add(PLAT_LISTE);
+					SVGPath fleche = new SVGPath();
+					fleche.getStyleClass().add(FLECHE);
+					fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
+					plat.setGraphic(fleche);
+					plat.setGraphicTextGap(App.ESPACE_NUMERO_PLAT);
+					plat.setContentDisplay(ContentDisplay.RIGHT);
 
 					Label confection = new Label();
+					confection.getStyleClass().add(CONFECTION);
 					confection.setText(commandeAssignee.getMembre().getBlazeCourt()); //on inscrit le blaze court de la personne à qui elle est affectée
 			
 					VBox contenuCommande = new VBox();
+					contenuCommande.setTranslateX(DECALAGE_CONTENU);
+					contenuCommande.getStyleClass().add(CONTENU);
 					contenuCommande.setVisible(false);
 			
 					Label lbIngredients = lbIngredients(commandeAssignee);
@@ -326,6 +393,9 @@ public final class Commandes {
 					lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 			
 					Button retirer = new Button("Retirer");
+					retirer.getStyleClass().add(App.BOUTON);
+					retirer.setTranslateX(DECALAGE_BOUTON_RETIRER);
+					retirer.setMinWidth(LARGEUR_BOUTON_LISTE);
 					
 					contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert, retirer);
 					contenusCommandesAssignees.add(contenuCommande);
@@ -333,19 +403,21 @@ public final class Commandes {
 
 					//et on ajoute un bouton pour indiquer que la commande est réalisée, et un autre pour indiquer qu'elle est donnée
 					Button boutonRealisee = new Button("Réalisée");
+					boutonRealisee.getStyleClass().add(App.BOUTON);
 					Button boutonDonnee = new Button("Donnée");
+					boutonDonnee.getStyleClass().add(App.BOUTON);
 
-					AnchorPane.setTopAnchor(numero, -1.0);
-					AnchorPane.setLeftAnchor(numero, -1.0);
+					AnchorPane.setTopAnchor(numero, 0.0);
+					AnchorPane.setLeftAnchor(numero, 0.0);
 					AnchorPane.setTopAnchor(plat, 0.0);
 					AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 					AnchorPane.setTopAnchor(confection, 0.0);
 					AnchorPane.setRightAnchor(confection, 2.0);
 					AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 					AnchorPane.setLeftAnchor(contenuCommande, 3.0);
-					AnchorPane.setLeftAnchor(boutonRealisee, 50.0);
+					AnchorPane.setLeftAnchor(boutonRealisee, 45.0);
 					AnchorPane.setBottomAnchor(boutonRealisee, 7.0);
-					AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+					AnchorPane.setRightAnchor(boutonDonnee, 45.0);
 					AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
 
 					commandePane.getChildren().add(numero);
@@ -359,16 +431,19 @@ public final class Commandes {
 						public void handle(Event e){
 							devCommandesAssignees.set(commandesAssignees.getChildren().indexOf(commandePane), !devCommandesAssignees.get(commandesAssignees.getChildren().indexOf(commandePane)));
 							if(devCommandesAssignees.get(commandesAssignees.getChildren().indexOf(commandePane))){
-								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_DEVELOPPEE + HAUTEUR_AJOUT_BOUTONS);
+								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_DEVELOPPEE + HAUTEUR_AJOUT_BOUTONS);
 								contenusCommandesAssignees.get(commandesAssignees.getChildren().indexOf(commandePane)).setVisible(true);
+								fleche.setContent("M 7.9 6.2 L 0 6.2 L 4 2.2Z");
 							} else {
-								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
+								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
 								contenusCommandesAssignees.get(commandesAssignees.getChildren().indexOf(commandePane)).setVisible(false);
+								fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
 							}}});
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
+							Core.getService().assignation();
 							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
@@ -394,7 +469,7 @@ public final class Commandes {
 
 				AnchorPane commandePane = new AnchorPane();
 				commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-				commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+				commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE);
 				commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 				commandePane.getStyleClass().add(COMMANDE);
 		
@@ -408,11 +483,20 @@ public final class Commandes {
 				plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 				plat.setMinHeight(Control.USE_PREF_SIZE);
 				plat.setMaxHeight(Control.USE_PREF_SIZE);
+				plat.setMinWidth(LARGEUR_MIN_PLAT);
 				plat.setMaxWidth(Double.MAX_VALUE);
 				plat.getStyleClass().add(App.PLAT_COMMANDE);
-				plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+				plat.getStyleClass().add(PLAT_LISTE);
+				SVGPath fleche = new SVGPath();
+				fleche.getStyleClass().add(FLECHE);
+				fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
+				plat.setGraphic(fleche);
+				plat.setGraphicTextGap(App.ESPACE_NUMERO_PLAT);
+				plat.setContentDisplay(ContentDisplay.RIGHT);
 		
 				VBox contenuCommande = new VBox();
+				contenuCommande.setTranslateX(DECALAGE_CONTENU);
+				contenuCommande.getStyleClass().add(CONTENU);
 				contenuCommande.setVisible(false);
 		
 				Label lbIngredients = lbIngredients(commande);
@@ -430,13 +514,16 @@ public final class Commandes {
 				lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 		
 				Button retirer = new Button("Retirer");
+				retirer.getStyleClass().add(App.BOUTON);
+				retirer.setTranslateX(DECALAGE_BOUTON_RETIRER);
+				retirer.setMinWidth(LARGEUR_BOUTON_LISTE);
 				
 				contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert, retirer);
 				contenusCommandesAjoutees.add(contenuCommande);
 				devCommandesAjoutees.add(false);
 		
-				AnchorPane.setTopAnchor(numero, -1.0);
-				AnchorPane.setLeftAnchor(numero, -1.0);
+				AnchorPane.setTopAnchor(numero, 0.0);
+				AnchorPane.setLeftAnchor(numero, 0.0);
 				AnchorPane.setTopAnchor(plat, 0.0);
 				AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 				AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
@@ -450,11 +537,13 @@ public final class Commandes {
 					public void handle(Event e){
 						devCommandesAjoutees.set(commandesAjoutees.getChildren().indexOf(commandePane), !devCommandesAjoutees.get(commandesAjoutees.getChildren().indexOf(commandePane)));
 						if(devCommandesAjoutees.get(commandesAjoutees.getChildren().indexOf(commandePane))){
-							commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_DEVELOPPEE);
+							commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_DEVELOPPEE);
 							contenusCommandesAjoutees.get(commandesAjoutees.getChildren().indexOf(commandePane)).setVisible(true);
+							fleche.setContent("M 7.9 6.2 L 0 6.2 L 4 2.2Z");
 						} else {
-							commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+							commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE);
 							contenusCommandesAjoutees.get(commandesAjoutees.getChildren().indexOf(commandePane)).setVisible(false);
+							fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
 						}}});
 
 				retirer.setOnAction(new EventHandler<ActionEvent>(){
@@ -475,6 +564,7 @@ public final class Commandes {
 		commandesDonnees.setSpacing(-1.0);
 		VBox commandes = new VBox();
 		commandes.getChildren().addAll(commandesRealisees, commandesAssignees, commandesAjoutees, commandesDonnees);
+		commandes.setSpacing(-1);
 		panneauCommandes.setContent(commandes);
 
 		//si une nouvelle commande est ajoutée, on l'ajoute à la liste des nouvelles commandes
@@ -485,7 +575,7 @@ public final class Commandes {
 
 				AnchorPane commandePane = new AnchorPane();
 				commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-				commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+				commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE);
 				commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 				commandePane.getStyleClass().add(COMMANDE);
 		
@@ -499,11 +589,20 @@ public final class Commandes {
 				plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 				plat.setMinHeight(Control.USE_PREF_SIZE);
 				plat.setMaxHeight(Control.USE_PREF_SIZE);
+				plat.setMinWidth(LARGEUR_MIN_PLAT);
 				plat.setMaxWidth(Double.MAX_VALUE);
 				plat.getStyleClass().add(App.PLAT_COMMANDE);
-				plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+				plat.getStyleClass().add(PLAT_LISTE);
+				SVGPath fleche = new SVGPath();
+				fleche.getStyleClass().add(FLECHE);
+				fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
+				plat.setGraphic(fleche);
+				plat.setGraphicTextGap(App.ESPACE_NUMERO_PLAT);
+				plat.setContentDisplay(ContentDisplay.RIGHT);
 		
 				VBox contenuCommande = new VBox();
+				contenuCommande.setTranslateX(DECALAGE_CONTENU);
+				contenuCommande.getStyleClass().add(CONTENU);
 				contenuCommande.setVisible(false);
 		
 				Label lbIngredients = lbIngredients(commande);
@@ -521,13 +620,16 @@ public final class Commandes {
 				lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 		
 				Button retirer = new Button("Retirer");
+				retirer.getStyleClass().add(App.BOUTON);
+				retirer.setTranslateX(DECALAGE_BOUTON_RETIRER);
+				retirer.setMinWidth(LARGEUR_BOUTON_LISTE);
 				
 				contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert, retirer);
 				contenusCommandesAjoutees.add(contenuCommande);
 				devCommandesAjoutees.add(false);
 		
-				AnchorPane.setTopAnchor(numero, -1.0);
-				AnchorPane.setLeftAnchor(numero, -1.0);
+				AnchorPane.setTopAnchor(numero, 0.0);
+				AnchorPane.setLeftAnchor(numero, 0.0);
 				AnchorPane.setTopAnchor(plat, 0.0);
 				AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 				AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
@@ -541,22 +643,24 @@ public final class Commandes {
 					public void handle(Event e){
 						devCommandesAjoutees.set(commandesAjoutees.getChildren().indexOf(commandePane), !devCommandesAjoutees.get(commandesAjoutees.getChildren().indexOf(commandePane)));
 						if(devCommandesAjoutees.get(commandesAjoutees.getChildren().indexOf(commandePane))){
-							commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_DEVELOPPEE);
+							commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_DEVELOPPEE);
 							contenusCommandesAjoutees.get(commandesAjoutees.getChildren().indexOf(commandePane)).setVisible(true);
+							fleche.setContent("M 7.9 6.2 L 0 6.2 L 4 2.2Z");
 						} else {
-							commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+							commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE);
 							contenusCommandesAjoutees.get(commandesAjoutees.getChildren().indexOf(commandePane)).setVisible(false);
+							fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
 						}}});
 
 				retirer.setOnAction(new EventHandler<ActionEvent>(){
 					public void handle(ActionEvent a){
 						Core.getService().retirerCommande(commande);
-						EcranConfection.mettreEcransAJour();
 						Selection.refreshCompteurBaguettes();
 					}
 				});
 
 				commandesAjoutees.getChildren().add(commandePane);
+				EcranConfection.mettreEcransAJour();
 			}
 		});
 
@@ -583,7 +687,7 @@ public final class Commandes {
 
 					AnchorPane commandePane = new AnchorPane();
 					commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
+					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
 					commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 					commandePane.getStyleClass().add(COMMANDE);
 			
@@ -597,14 +701,24 @@ public final class Commandes {
 					plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 					plat.setMinHeight(Control.USE_PREF_SIZE);
 					plat.setMaxHeight(Control.USE_PREF_SIZE);
+					plat.setMinWidth(LARGEUR_MIN_PLAT);
 					plat.setMaxWidth(Double.MAX_VALUE);
 					plat.getStyleClass().add(App.PLAT_COMMANDE);
-					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+					plat.getStyleClass().add(PLAT_LISTE);
+					SVGPath fleche = new SVGPath();
+					fleche.getStyleClass().add(FLECHE);
+					fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
+					plat.setGraphic(fleche);
+					plat.setGraphicTextGap(App.ESPACE_NUMERO_PLAT);
+					plat.setContentDisplay(ContentDisplay.RIGHT);
 
 					Label confection = new Label();
+					confection.getStyleClass().add(CONFECTION);
 					confection.setText(commande.getMembre().getBlazeCourt());
 			
 					VBox contenuCommande = new VBox();
+					contenuCommande.setTranslateX(DECALAGE_CONTENU);
+					contenuCommande.getStyleClass().add(CONTENU);
 					contenuCommande.setVisible(false);
 			
 					Label lbIngredients = lbIngredients(commande);
@@ -622,25 +736,30 @@ public final class Commandes {
 					lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 			
 					Button retirer = new Button("Retirer");
+					retirer.getStyleClass().add(App.BOUTON);
+					retirer.setTranslateX(DECALAGE_BOUTON_RETIRER);
+					retirer.setMinWidth(LARGEUR_BOUTON_LISTE);
 					
 					contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert, retirer);
 					contenusCommandesAssignees.add(contenuCommande);
 					devCommandesAssignees.add(false);
 
 					Button boutonRealisee = new Button("Réalisée");
+					boutonRealisee.getStyleClass().add(App.BOUTON);
 					Button boutonDonnee = new Button("Donnée");
+					boutonDonnee.getStyleClass().add(App.BOUTON);
 
-					AnchorPane.setTopAnchor(numero, -1.0);
-					AnchorPane.setLeftAnchor(numero, -1.0);
+					AnchorPane.setTopAnchor(numero, 0.0);
+					AnchorPane.setLeftAnchor(numero, 0.0);
 					AnchorPane.setTopAnchor(plat, 0.0);
 					AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 					AnchorPane.setTopAnchor(confection, 0.0);
 					AnchorPane.setRightAnchor(confection, 2.0);
 					AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 					AnchorPane.setLeftAnchor(contenuCommande, 3.0);
-					AnchorPane.setLeftAnchor(boutonRealisee, 50.0);
+					AnchorPane.setLeftAnchor(boutonRealisee, 45.0);
 					AnchorPane.setBottomAnchor(boutonRealisee, 7.0);
-					AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+					AnchorPane.setRightAnchor(boutonDonnee, 45.0);
 					AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
 
 					commandePane.getChildren().add(numero);
@@ -654,17 +773,19 @@ public final class Commandes {
 						public void handle(Event e){
 							devCommandesAssignees.set(commandesAssignees.getChildren().indexOf(commandePane), !devCommandesAssignees.get(commandesAssignees.getChildren().indexOf(commandePane)));
 							if(devCommandesAssignees.get(commandesAssignees.getChildren().indexOf(commandePane))){
-								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_DEVELOPPEE + HAUTEUR_AJOUT_BOUTONS);
+								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_DEVELOPPEE + HAUTEUR_AJOUT_BOUTONS);
 								contenusCommandesAssignees.get(commandesAssignees.getChildren().indexOf(commandePane)).setVisible(true);
+								fleche.setContent("M 7.9 6.2 L 0 6.2 L 4 2.2Z");
 							} else {
-								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
+								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
 								contenusCommandesAssignees.get(commandesAssignees.getChildren().indexOf(commandePane)).setVisible(false);
+								fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
 							}}});
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour();
+							Core.getService().assignation();
 							Selection.refreshCompteurBaguettes();
 						}
 					});
@@ -674,7 +795,6 @@ public final class Commandes {
 							Commande cmd = Core.getService().getCommande(commande.getNumero()); //on re-récupère la commande assignée correspondant au numéro parce que sinon ça bugge (vu qu'on doit changer l'objet Commande de la liste de commandes du Service en CommandeAssignee il considère que c'est un autre objet et donc le fait qu'on modifie les valeurs des attributs de la commande assignée via ses propres méthodes l'applique pas à celui de la liste, ou un truc comme ça
 							CommandeAssignee cmdA = (CommandeAssignee)cmd;
 							cmdA.realisee(Core.getService());
-							EcranConfection.mettreEcransAJour();
 						}
 					});
 
@@ -687,6 +807,7 @@ public final class Commandes {
 					});
 
 					commandesAssignees.getChildren().add(commandePane);
+					EcranConfection.mettreEcransAJour();
 				}
 			}
 		});
@@ -714,7 +835,7 @@ public final class Commandes {
 
 					AnchorPane commandePane = new AnchorPane();
 					commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
+					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
 					commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 					commandePane.getStyleClass().add(COMMANDE);
 			
@@ -728,14 +849,24 @@ public final class Commandes {
 					plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 					plat.setMinHeight(Control.USE_PREF_SIZE);
 					plat.setMaxHeight(Control.USE_PREF_SIZE);
+					plat.setMinWidth(LARGEUR_MIN_PLAT);
 					plat.setMaxWidth(Double.MAX_VALUE);
 					plat.getStyleClass().add(App.PLAT_COMMANDE);
-					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+					plat.getStyleClass().add(PLAT_LISTE);
+					SVGPath fleche = new SVGPath();
+					fleche.getStyleClass().add(FLECHE);
+					fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
+					plat.setGraphic(fleche);
+					plat.setGraphicTextGap(App.ESPACE_NUMERO_PLAT);
+					plat.setContentDisplay(ContentDisplay.RIGHT);
 
 					Label confection = new Label();
+					confection.getStyleClass().add(CONFECTION);
 					confection.setText(commande.getMembre().getBlazeCourt());
 			
 					VBox contenuCommande = new VBox();
+					contenuCommande.setTranslateX(DECALAGE_CONTENU);
+					contenuCommande.getStyleClass().add(CONTENU);
 					contenuCommande.setVisible(false);
 			
 					Label lbIngredients = lbIngredients(commande);
@@ -753,22 +884,27 @@ public final class Commandes {
 					lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 			
 					Button retirer = new Button("Retirer");
+					retirer.getStyleClass().add(App.BOUTON);
+					retirer.setTranslateX(DECALAGE_BOUTON_RETIRER);
+					retirer.setMinWidth(LARGEUR_BOUTON_LISTE);
 					
 					contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert, retirer);
 					contenusCommandesRealisees.add(contenuCommande);
 					devCommandesRealisees.add(false);
 
 					Button boutonDonnee = new Button("Donnée");
+					boutonDonnee.getStyleClass().add(App.BOUTON);
+					boutonDonnee.setMinWidth(LARGEUR_BOUTON_LISTE);
 
-					AnchorPane.setTopAnchor(numero, -1.0);
-					AnchorPane.setLeftAnchor(numero, -1.0);
+					AnchorPane.setTopAnchor(numero, 0.0);
+					AnchorPane.setLeftAnchor(numero, 0.0);
 					AnchorPane.setTopAnchor(plat, 0.0);
 					AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 					AnchorPane.setTopAnchor(confection, 0.0);
 					AnchorPane.setRightAnchor(confection, 2.0);
 					AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 					AnchorPane.setLeftAnchor(contenuCommande, 3.0);
-					AnchorPane.setRightAnchor(boutonDonnee, 50.0);
+					AnchorPane.setRightAnchor(boutonDonnee, 45.0);
 					AnchorPane.setBottomAnchor(boutonDonnee, 7.0);
 
 					commandePane.getChildren().add(numero);
@@ -781,17 +917,18 @@ public final class Commandes {
 						public void handle(Event e){
 							devCommandesRealisees.set(commandesRealisees.getChildren().indexOf(commandePane), !devCommandesRealisees.get(commandesRealisees.getChildren().indexOf(commandePane)));
 							if(devCommandesRealisees.get(commandesRealisees.getChildren().indexOf(commandePane))){
-								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_DEVELOPPEE + HAUTEUR_AJOUT_BOUTONS);
+								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_DEVELOPPEE + HAUTEUR_AJOUT_BOUTONS);
 								contenusCommandesRealisees.get(commandesRealisees.getChildren().indexOf(commandePane)).setVisible(true);
+								fleche.setContent("M 7.9 6.2 L 0 6.2 L 4 2.2Z");
 							} else {
-								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
+								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE + HAUTEUR_AJOUT_BOUTONS);
 								contenusCommandesRealisees.get(commandesRealisees.getChildren().indexOf(commandePane)).setVisible(false);
+								fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
 							}}});
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
 					});
@@ -805,6 +942,7 @@ public final class Commandes {
 					});
 
 					commandesRealisees.getChildren().add(commandePane);
+					EcranConfection.mettreEcransAJour();
 				}
 			}
 		});
@@ -846,7 +984,7 @@ public final class Commandes {
 
 					AnchorPane commandePane = new AnchorPane();
 					commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+					commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE);
 					commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
 					commandePane.getStyleClass().add(COMMANDE);
 			
@@ -860,14 +998,24 @@ public final class Commandes {
 					plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 					plat.setMinHeight(Control.USE_PREF_SIZE);
 					plat.setMaxHeight(Control.USE_PREF_SIZE);
+					plat.setMinWidth(LARGEUR_MIN_PLAT);
 					plat.setMaxWidth(Double.MAX_VALUE);
 					plat.getStyleClass().add(App.PLAT_COMMANDE);
-					plat.getStyleClass().add(PLAT_LISTE_COMMANDES);
+					plat.getStyleClass().add(PLAT_LISTE);
+					SVGPath fleche = new SVGPath();
+					fleche.getStyleClass().add(FLECHE);
+					fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
+					plat.setGraphic(fleche);
+					plat.setGraphicTextGap(App.ESPACE_NUMERO_PLAT);
+					plat.setContentDisplay(ContentDisplay.RIGHT);
 
 					Label confection = new Label();
+					confection.getStyleClass().add(CONFECTION);
 					confection.setText(commande.getMembre().getBlazeCourt());
 			
 					VBox contenuCommande = new VBox();
+					contenuCommande.setTranslateX(DECALAGE_CONTENU);
+					contenuCommande.getStyleClass().add(CONTENU);
 					contenuCommande.setVisible(false);
 			
 					Label lbIngredients = lbIngredients(commande);
@@ -885,13 +1033,16 @@ public final class Commandes {
 					lbDessert.setMaxWidth(App.TAILLE_PANNEAU_COMMANDES - 6);
 			
 					Button retirer = new Button("Retirer");
+					retirer.getStyleClass().add(App.BOUTON);
+					retirer.setTranslateX(DECALAGE_BOUTON_RETIRER);
+					retirer.setMinWidth(LARGEUR_BOUTON_LISTE);
 					
 					contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert, retirer);
 					contenusCommandesDonnees.add(contenuCommande);
 					devCommandesDonnees.add(false);
 
-					AnchorPane.setTopAnchor(numero, -1.0);
-					AnchorPane.setLeftAnchor(numero, -1.0);
+					AnchorPane.setTopAnchor(numero, 0.0);
+					AnchorPane.setLeftAnchor(numero, 0.0);
 					AnchorPane.setTopAnchor(plat, 0.0);
 					AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 					AnchorPane.setTopAnchor(confection, 0.0);
@@ -908,22 +1059,24 @@ public final class Commandes {
 						public void handle(Event e){
 							devCommandesDonnees.set(commandesDonnees.getChildren().indexOf(commandePane), !devCommandesDonnees.get(commandesDonnees.getChildren().indexOf(commandePane)));
 							if(devCommandesDonnees.get(commandesDonnees.getChildren().indexOf(commandePane))){
-								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_DEVELOPPEE);
+								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_DEVELOPPEE);
 								contenusCommandesDonnees.get(commandesDonnees.getChildren().indexOf(commandePane)).setVisible(true);
+								fleche.setContent("M 7.9 6.2 L 0 6.2 L 4 2.2Z");
 							} else {
-								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - 15, HAUTEUR_COMMANDE_FERMEE);
+								commandePane.setPrefSize(App.TAILLE_PANNEAU_COMMANDES - TAILLE_SEPARATION - LARGEUR_SCROLLBAR, HAUTEUR_COMMANDE_FERMEE);
 								contenusCommandesDonnees.get(commandesDonnees.getChildren().indexOf(commandePane)).setVisible(false);
+								fleche.setContent("M 0 2.2 L 7.9 2.2 L 4 6.2Z");
 							}}});
 
 					retirer.setOnAction(new EventHandler<ActionEvent>(){
 						public void handle(ActionEvent a){
 							Core.getService().retirerCommande(commande);
-							EcranConfection.mettreEcransAJour();
 							Selection.refreshCompteurBaguettes();
 						}
 					});
 
 					commandesDonnees.getChildren().add(commandePane);
+					EcranConfection.mettreEcransAJour();
 				}
 			}
 		});
@@ -988,10 +1141,13 @@ public final class Commandes {
 					if(k != -1){
 						listeCommandesDonnees.remove(k);
 					}
+
+					EcranConfection.mettreEcransAJour();
 				}
 			}});
 
-		return(panneauCommandes);
+		pan.getChildren().add(panneauCommandes);
+		return(pan);
 	}
 
 	/**

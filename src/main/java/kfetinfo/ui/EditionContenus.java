@@ -78,6 +78,25 @@ import javafx.stage.WindowEvent;
  */
 public final class EditionContenus {
 
+	//classes de style pour l'utilisation du CSS
+	private static final String FOND = "ec-menu-fond";
+	private static final String LABEL = "ec-menu-label";
+	private static final String ONGLETS = "ec-menu-onglets";
+	private static final String DARK_CHECKBOX = "ec-menu-dark-checkbox";
+	private static final String BOUTON_ENREGISTRER = "ec-menu-bouton-enregistrer";
+
+	//constantes pour l'affichage
+	private static final Double ESPACEMENT_ELEMENTS = 8.0;
+	private static final Double ESPACEMENT_LABELS_FIELDS = 4.0;
+	private static final Double TRANSLATION_HORIZONTALE_ELEMENTS = 10.0;
+	private static final Double TRANSLATION_VERTICALE_ELEMENTS = 10.0;
+	private static final Double TRANSLATION_VERTICALE_LABELS = 4.0;
+	private static final Double LARGEUR_ID_FIELD = 350.0;
+	private static final Double LARGREUR_SPINNERS = 70.0;
+	private static final Double LARGREUR_COUT_PRIX_FIELDS = 54.0;
+	private static final Double DECALAGE_HORIZONTAL_BOUTONS = 10.0;
+	private static final Double DECALAGE_VERTICAL_BOUTONS = 10.0;
+
 	//listes des informations pour chaque type de contenu (regénéré lorsqu'un contenu est sélectionné)
 	private static final VBox INFOS_PLATS = new VBox();
 	private static final VBox INFOS_INGREDIENTS = new VBox();
@@ -111,6 +130,8 @@ public final class EditionContenus {
 
 		TabPane tabPane = new TabPane();
 
+		tabPane.getStyleClass().add(ONGLETS);
+
 		Tab tabPlats = new Tab("Plats");
 		tabPlats.setClosable(false);
 		tabPlats.setContent(tabPlats(theatre));
@@ -143,6 +164,10 @@ public final class EditionContenus {
 		tabPane.getTabs().setAll(tabPlats, tabIngredients, tabSauces, tabBoissons, tabSupplementsBoisson, tabDesserts, tabDivers);
 
 		Scene scene = new Scene(tabPane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
+
+		scene.getStylesheets().add(EditionContenus.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(EditionContenus.class.getResource("../../Interface/Stylesheets/edition contenus.css").toExternalForm());
+
 		theatre.setAlwaysOnTop(true);
 		theatre.setResizable(false);
 		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
@@ -171,15 +196,22 @@ public final class EditionContenus {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabPlats(Stage theatre){
 
+		INFOS_PLATS.setSpacing(ESPACEMENT_ELEMENTS);
+		INFOS_PLATS.setTranslateX(TRANSLATION_HORIZONTALE_ELEMENTS);
+		INFOS_PLATS.setTranslateY(TRANSLATION_VERTICALE_ELEMENTS);
+
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
+		supprimer.getStyleClass().add(App.BOUTON);
+		supprimer.setTranslateY(1);
 		supprimer.setDisable(true);
 
 		Plat nouveau = new Plat("Sera généré au moment de l'enregistrement", "", 0, true, 0, 0, 0, 0, false, 0);
 		List<ContenuCommande> liste = new ArrayList<ContenuCommande>();
 		liste.add(nouveau);
 		for(Plat plat : BaseDonnees.getPlats()){
-			if(!plat.getId().equals("ff56da46-bddd-4e4f-a871-6fa03b0e814b")){
+			if(!plat.getId().equals(BaseDonnees.ID_RIEN_PLAT)){
 				liste.add(plat);
 			}
 		}
@@ -205,6 +237,7 @@ public final class EditionContenus {
 		INFOS_PLATS.getChildren().addAll(generateurInfosPlat((Plat)listeViewPlats.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
+		boutons.setSpacing(ESPACEMENT_ELEMENTS);
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -235,6 +268,8 @@ public final class EditionContenus {
 		});
 
 		Button enregistrer = new Button("Enregistrer");
+		enregistrer.getStyleClass().add(App.BOUTON);
+		enregistrer.getStyleClass().add(BOUTON_ENREGISTRER);
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
@@ -289,8 +324,8 @@ public final class EditionContenus {
 		AnchorPane disposition = new AnchorPane();
 		AnchorPane.setTopAnchor(INFOS_PLATS, 0.0);
 		AnchorPane.setLeftAnchor(INFOS_PLATS, 0.0);
-		AnchorPane.setRightAnchor(boutons, 0.0);
-		AnchorPane.setBottomAnchor(boutons, 0.0);
+		AnchorPane.setRightAnchor(boutons, DECALAGE_HORIZONTAL_BOUTONS);
+		AnchorPane.setBottomAnchor(boutons, DECALAGE_VERTICAL_BOUTONS);
 
 		disposition.getChildren().addAll(INFOS_PLATS, boutons);
 
@@ -309,8 +344,15 @@ public final class EditionContenus {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabIngredients(Stage theatre){
 
+		INFOS_INGREDIENTS.setSpacing(ESPACEMENT_ELEMENTS);
+		INFOS_INGREDIENTS.setTranslateX(TRANSLATION_HORIZONTALE_ELEMENTS);
+		INFOS_INGREDIENTS.setTranslateY(TRANSLATION_VERTICALE_ELEMENTS);
+
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
+		supprimer.getStyleClass().add(App.BOUTON);
+		supprimer.setTranslateY(1);
 		supprimer.setDisable(true);
 
 		Ingredient nouveau = new Ingredient("Sera généré au moment de l'enregistrement", "", 0, true, 0, 0);
@@ -341,6 +383,7 @@ public final class EditionContenus {
 		INFOS_INGREDIENTS.getChildren().addAll(generateurInfos((Ingredient)listeViewIngredients.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
+		boutons.setSpacing(ESPACEMENT_ELEMENTS);
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -369,6 +412,8 @@ public final class EditionContenus {
 		});
 
 		Button enregistrer = new Button("Enregistrer");
+		enregistrer.getStyleClass().add(App.BOUTON);
+		enregistrer.getStyleClass().add(BOUTON_ENREGISTRER);
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
@@ -412,8 +457,8 @@ public final class EditionContenus {
 		AnchorPane disposition = new AnchorPane();
 		AnchorPane.setTopAnchor(INFOS_INGREDIENTS, 0.0);
 		AnchorPane.setLeftAnchor(INFOS_INGREDIENTS, 0.0);
-		AnchorPane.setRightAnchor(boutons, 0.0);
-		AnchorPane.setBottomAnchor(boutons, 0.0);
+		AnchorPane.setRightAnchor(boutons, DECALAGE_HORIZONTAL_BOUTONS);
+		AnchorPane.setBottomAnchor(boutons, DECALAGE_VERTICAL_BOUTONS);
 
 		disposition.getChildren().addAll(INFOS_INGREDIENTS, boutons);
 
@@ -431,8 +476,16 @@ public final class EditionContenus {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static final Region tabSauces(Stage theatre){
+
+		INFOS_SAUCES.setSpacing(ESPACEMENT_ELEMENTS);
+		INFOS_SAUCES.setTranslateX(TRANSLATION_HORIZONTALE_ELEMENTS);
+		INFOS_SAUCES.setTranslateY(TRANSLATION_VERTICALE_ELEMENTS);
+
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
+		supprimer.getStyleClass().add(App.BOUTON);
+		supprimer.setTranslateY(1);
 		supprimer.setDisable(true);
 
 		Sauce nouveau = new Sauce("Sera généré au moment de l'enregistrement", "", 0, true, 0, 0);
@@ -463,6 +516,7 @@ public final class EditionContenus {
 		INFOS_SAUCES.getChildren().addAll(generateurInfos((Sauce)listeViewSauces.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
+		boutons.setSpacing(ESPACEMENT_ELEMENTS);
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -491,6 +545,8 @@ public final class EditionContenus {
 		});
 
 		Button enregistrer = new Button("Enregistrer");
+		enregistrer.getStyleClass().add(App.BOUTON);
+		enregistrer.getStyleClass().add(BOUTON_ENREGISTRER);
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
@@ -534,8 +590,8 @@ public final class EditionContenus {
 		AnchorPane disposition = new AnchorPane();
 		AnchorPane.setTopAnchor(INFOS_SAUCES, 0.0);
 		AnchorPane.setLeftAnchor(INFOS_SAUCES, 0.0);
-		AnchorPane.setRightAnchor(boutons, 0.0);
-		AnchorPane.setBottomAnchor(boutons, 0.0);
+		AnchorPane.setRightAnchor(boutons, DECALAGE_HORIZONTAL_BOUTONS);
+		AnchorPane.setBottomAnchor(boutons, DECALAGE_VERTICAL_BOUTONS);
 
 		disposition.getChildren().addAll(INFOS_SAUCES, boutons);
 
@@ -554,15 +610,24 @@ public final class EditionContenus {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static final Region tabBoissons(Stage theatre){
 
+		INFOS_BOISSONS.setSpacing(ESPACEMENT_ELEMENTS);
+		INFOS_BOISSONS.setTranslateX(TRANSLATION_HORIZONTALE_ELEMENTS);
+		INFOS_BOISSONS.setTranslateY(TRANSLATION_VERTICALE_ELEMENTS);
+
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
+		supprimer.getStyleClass().add(App.BOUTON);
+		supprimer.setTranslateY(1);
 		supprimer.setDisable(true);
 
 		Boisson nouveau = new Boisson("Sera généré au moment de l'enregistrement", "", 0, true, 0, 0);
 		List<ContenuCommande> liste = new ArrayList<ContenuCommande>();
 		liste.add(nouveau);
 		for(Boisson boisson : BaseDonnees.getBoissons()){
-			liste.add(boisson);
+			if(!boisson.getId().equals(BaseDonnees.ID_RIEN_BOISSON)){
+				liste.add(boisson);
+			}
 		}
 
 		listeViewBoissons = generateurListView(liste);
@@ -586,6 +651,7 @@ public final class EditionContenus {
 		INFOS_BOISSONS.getChildren().addAll(generateurInfos((Boisson)listeViewBoissons.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
+		boutons.setSpacing(ESPACEMENT_ELEMENTS);
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -614,6 +680,8 @@ public final class EditionContenus {
 		});
 
 		Button enregistrer = new Button("Enregistrer");
+		enregistrer.getStyleClass().add(App.BOUTON);
+		enregistrer.getStyleClass().add(BOUTON_ENREGISTRER);
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
@@ -657,8 +725,8 @@ public final class EditionContenus {
 		AnchorPane disposition = new AnchorPane();
 		AnchorPane.setTopAnchor(INFOS_BOISSONS, 0.0);
 		AnchorPane.setLeftAnchor(INFOS_BOISSONS, 0.0);
-		AnchorPane.setRightAnchor(boutons, 0.0);
-		AnchorPane.setBottomAnchor(boutons, 0.0);
+		AnchorPane.setRightAnchor(boutons, DECALAGE_HORIZONTAL_BOUTONS);
+		AnchorPane.setBottomAnchor(boutons, DECALAGE_VERTICAL_BOUTONS);
 
 		disposition.getChildren().addAll(INFOS_BOISSONS, boutons);
 
@@ -677,15 +745,24 @@ public final class EditionContenus {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabSupplementsBoisson(Stage theatre){
 
+		INFOS_SUPPLEMENTS_BOISSON.setSpacing(ESPACEMENT_ELEMENTS);
+		INFOS_SUPPLEMENTS_BOISSON.setTranslateX(TRANSLATION_HORIZONTALE_ELEMENTS);
+		INFOS_SUPPLEMENTS_BOISSON.setTranslateY(TRANSLATION_VERTICALE_ELEMENTS);
+
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
+		supprimer.getStyleClass().add(App.BOUTON);
+		supprimer.setTranslateY(1);
 		supprimer.setDisable(true);
 
 		SupplementBoisson nouveau = new SupplementBoisson("Sera généré au moment de l'enregistrement", "", 0, true, 0, 0, 0);
 		List<ContenuCommande> liste = new ArrayList<ContenuCommande>();
 		liste.add(nouveau);
 		for(SupplementBoisson supplementBoisson : BaseDonnees.getSupplementsBoisson()){
-			liste.add(supplementBoisson);
+			if(!supplementBoisson.getId().equals(BaseDonnees.ID_RIEN_SUPPLEMENT_BOISSON)){
+				liste.add(supplementBoisson);
+			}
 		}
 
 		listeViewSupplementsBoisson = generateurListView(liste);
@@ -709,6 +786,7 @@ public final class EditionContenus {
 		INFOS_SUPPLEMENTS_BOISSON.getChildren().addAll(generateurInfosSupplementBoisson((SupplementBoisson)listeViewSupplementsBoisson.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
+		boutons.setSpacing(ESPACEMENT_ELEMENTS);
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -737,6 +815,8 @@ public final class EditionContenus {
 		});
 
 		Button enregistrer = new Button("Enregistrer");
+		enregistrer.getStyleClass().add(App.BOUTON);
+		enregistrer.getStyleClass().add(BOUTON_ENREGISTRER);
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
@@ -783,8 +863,8 @@ public final class EditionContenus {
 		AnchorPane disposition = new AnchorPane();
 		AnchorPane.setTopAnchor(INFOS_SUPPLEMENTS_BOISSON, 0.0);
 		AnchorPane.setLeftAnchor(INFOS_SUPPLEMENTS_BOISSON, 0.0);
-		AnchorPane.setRightAnchor(boutons, 0.0);
-		AnchorPane.setBottomAnchor(boutons, 0.0);
+		AnchorPane.setRightAnchor(boutons, DECALAGE_HORIZONTAL_BOUTONS);
+		AnchorPane.setBottomAnchor(boutons, DECALAGE_VERTICAL_BOUTONS);
 
 		disposition.getChildren().addAll(INFOS_SUPPLEMENTS_BOISSON, boutons);
 
@@ -803,15 +883,24 @@ public final class EditionContenus {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static final Region tabDesserts(Stage theatre){
 
+		INFOS_DESSERTS.setSpacing(ESPACEMENT_ELEMENTS);
+		INFOS_DESSERTS.setTranslateX(TRANSLATION_HORIZONTALE_ELEMENTS);
+		INFOS_DESSERTS.setTranslateY(TRANSLATION_VERTICALE_ELEMENTS);
+
 		HBox tab = new HBox();
+		tab.getStyleClass().add(FOND);
 		Button supprimer = new Button("Supprimer");
+		supprimer.getStyleClass().add(App.BOUTON);
+		supprimer.setTranslateY(1);
 		supprimer.setDisable(true);
 
 		Dessert nouveau = new Dessert("Sera généré au moment de l'enregistrement", "", 0, true, 0, 0, 0);
 		List<ContenuCommande> liste = new ArrayList<ContenuCommande>();
 		liste.add(nouveau);
 		for(Dessert dessert : BaseDonnees.getDesserts()){
-			liste.add(dessert);
+			if(!dessert.getId().equals(BaseDonnees.ID_RIEN_DESSERT)){
+				liste.add(dessert);
+			}
 		}
 
 		listeViewDesserts = generateurListView(liste);
@@ -835,6 +924,7 @@ public final class EditionContenus {
 		INFOS_DESSERTS.getChildren().addAll(generateurInfosDessert((Dessert)listeViewDesserts.getSelectionModel().getSelectedItem()));
 
 		HBox boutons = new HBox();
+		boutons.setSpacing(ESPACEMENT_ELEMENTS);
 		supprimer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -863,6 +953,8 @@ public final class EditionContenus {
 		});
 
 		Button enregistrer = new Button("Enregistrer");
+		enregistrer.getStyleClass().add(App.BOUTON);
+		enregistrer.getStyleClass().add(BOUTON_ENREGISTRER);
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
@@ -909,8 +1001,8 @@ public final class EditionContenus {
 		AnchorPane disposition = new AnchorPane();
 		AnchorPane.setTopAnchor(INFOS_DESSERTS, 0.0);
 		AnchorPane.setLeftAnchor(INFOS_DESSERTS, 0.0);
-		AnchorPane.setRightAnchor(boutons, 0.0);
-		AnchorPane.setBottomAnchor(boutons, 0.0);
+		AnchorPane.setRightAnchor(boutons, DECALAGE_HORIZONTAL_BOUTONS);
+		AnchorPane.setBottomAnchor(boutons, DECALAGE_VERTICAL_BOUTONS);
 
 		disposition.getChildren().addAll(INFOS_DESSERTS, boutons);
 
@@ -928,12 +1020,22 @@ public final class EditionContenus {
 	private static final Region tabDivers(){
 
 		AnchorPane pane = new AnchorPane();
+		pane.getStyleClass().add(FOND);
 
 		VBox divers = new VBox();
 
+		divers.setSpacing(ESPACEMENT_ELEMENTS);
+		divers.setTranslateX(TRANSLATION_HORIZONTALE_ELEMENTS);
+		divers.setTranslateY(TRANSLATION_VERTICALE_ELEMENTS);
+
 		HBox prixIngredientSupplementaireBox = new HBox();
+		prixIngredientSupplementaireBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label prixIngredientSupplementaireLabel = new Label("Prix d'un ingrédient supplémentaire : ");
+		prixIngredientSupplementaireLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
+		prixIngredientSupplementaireLabel.getStyleClass().add(LABEL);
 		TextField prixIngredientSupplementaireField = new TextField();
+		prixIngredientSupplementaireField.getStyleClass().add(App.FIELD);
+		prixIngredientSupplementaireField.setMaxWidth(LARGREUR_COUT_PRIX_FIELDS);
 		prixIngredientSupplementaireLabel.setLabelFor(prixIngredientSupplementaireField);
 		prixIngredientSupplementaireField.setPromptText("Prix d'un ingrédient supplémentaire");
         prixIngredientSupplementaireField.setText("" + NUMBER_FORMATTER.format(Parametres.getPrixIngredientSupp()));
@@ -967,8 +1069,13 @@ public final class EditionContenus {
 		prixIngredientSupplementaireBox.getChildren().addAll(prixIngredientSupplementaireLabel, prixIngredientSupplementaireField);
 
 		HBox prixBoissonBox = new HBox();
+		prixBoissonBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label prixBoissonLabel = new Label("Prix d'une boisson : ");
+		prixBoissonLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
+		prixBoissonLabel.getStyleClass().add(LABEL);
 		TextField prixBoissonField = new TextField();
+		prixBoissonField.getStyleClass().add(App.FIELD);
+		prixBoissonField.setMaxWidth(LARGREUR_COUT_PRIX_FIELDS);
 		prixBoissonLabel.setLabelFor(prixBoissonField);
 		prixBoissonField.setPromptText("Prix d'une boisson");
         prixBoissonField.setText("" + NUMBER_FORMATTER.format(Parametres.getPrixBoisson()));
@@ -978,8 +1085,13 @@ public final class EditionContenus {
 		prixBoissonBox.getChildren().addAll(prixBoissonLabel, prixBoissonField);
 
 		HBox reducMenuBox = new HBox();
+		reducMenuBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label reducMenuLabel = new Label("Montant de la réduction accordée pour un menu : ");
+		reducMenuLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
+		reducMenuLabel.getStyleClass().add(LABEL);
 		TextField reducMenuField = new TextField();
+		reducMenuField.getStyleClass().add(App.FIELD);
+		reducMenuField.setMaxWidth(LARGREUR_COUT_PRIX_FIELDS);
 		reducMenuLabel.setLabelFor(reducMenuField);
 		reducMenuField.setPromptText("Montant de la réduction accordée pour un menu");
         reducMenuField.setText("" + NUMBER_FORMATTER.format(Parametres.getReducMenu()));
@@ -989,8 +1101,13 @@ public final class EditionContenus {
 		reducMenuBox.getChildren().addAll(reducMenuLabel, reducMenuField);
 
 		HBox coutPainBox = new HBox();
+		coutPainBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label coutPainLabel = new Label("Coût d'une baguette de pain : ");
+		coutPainLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
+		coutPainLabel.getStyleClass().add(LABEL);
 		TextField coutPainField = new TextField();
+		coutPainField.getStyleClass().add(App.FIELD);
+		coutPainField.setMaxWidth(LARGREUR_COUT_PRIX_FIELDS);
 		coutPainLabel.setLabelFor(coutPainField);
 		coutPainField.setPromptText("Coût d'une baguette de pain");
         coutPainField.setText("" + NUMBER_FORMATTER.format(Parametres.getCoutPain()));
@@ -1005,6 +1122,8 @@ public final class EditionContenus {
 		divers.getChildren().add(coutPainBox);
 
 		Button enregistrer = new Button("Enregistrer");
+		enregistrer.getStyleClass().add(App.BOUTON);
+		enregistrer.getStyleClass().add(BOUTON_ENREGISTRER);
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
@@ -1026,8 +1145,8 @@ public final class EditionContenus {
 
 		AnchorPane.setTopAnchor(divers, 0.0);
 		AnchorPane.setLeftAnchor(divers, 0.0);
-		AnchorPane.setRightAnchor(enregistrer, 0.0);
-		AnchorPane.setBottomAnchor(enregistrer, 0.0);
+		AnchorPane.setRightAnchor(enregistrer, DECALAGE_HORIZONTAL_BOUTONS);
+		AnchorPane.setBottomAnchor(enregistrer, DECALAGE_VERTICAL_BOUTONS);
 
 		pane.getChildren().addAll(divers, enregistrer);
 		
@@ -1045,6 +1164,7 @@ public final class EditionContenus {
 	private static final ListView<ContenuCommande> generateurListView(List<ContenuCommande> liste){
 
 		ListView<ContenuCommande> listView = new ListView();
+		listView.getStyleClass().add(App.LISTVIEW);
 
 		listView.getItems().setAll(liste);
 		listView.getSelectionModel().select(liste.get(0));
@@ -1070,12 +1190,19 @@ public final class EditionContenus {
 		List<Node> nodes = new ArrayList<Node>();
 
 		HBox idBox = new HBox();
+		idBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label idLabel = new Label("Identificateur : ");
+		idLabel.getStyleClass().add(LABEL);
+		idLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField idField = new TextField();
+		idField.setMinWidth(LARGEUR_ID_FIELD);
+		idField.getStyleClass().add(App.FIELD);
+		idField.getStyleClass().add(App.CODE);
 		idLabel.setLabelFor(idField);
 		idField.setText(contenu.getId());
 		idField.setDisable(true);
 		Button idCopierBouton = new Button("Copier");
+		idCopierBouton.getStyleClass().add(App.BOUTON);
 		if(contenu.getId().equals("Sera généré au moment de l'enregistrement")){
 			idCopierBouton.setDisable(true);
 		}
@@ -1091,8 +1218,12 @@ public final class EditionContenus {
 		idBox.getChildren().addAll(idLabel, idField, idCopierBouton);
 
 		HBox nomBox = new HBox();
+		nomBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label nomLabel = new Label("Nom : ");
+		nomLabel.getStyleClass().add(LABEL);
+		nomLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField nomField = new TextField();
+		nomField.getStyleClass().add(App.FIELD);
 		nomLabel.setLabelFor(nomField);
 		nomField.setPromptText("Nom");
 		nomField.setText(contenu.getNom());
@@ -1100,8 +1231,13 @@ public final class EditionContenus {
 		nomBox.getChildren().addAll(nomLabel, nomField);
 
 		HBox coutBox = new HBox();
+		coutBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label coutLabel = new Label("Coût : ");
+		coutLabel.getStyleClass().add(LABEL);
+		coutLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField coutField = new TextField();
+		coutField.getStyleClass().add(App.FIELD);
+		coutField.setMaxWidth(LARGREUR_COUT_PRIX_FIELDS);
 		coutLabel.setLabelFor(coutField);
 		coutField.setPromptText("Coût");
         coutField.setText("" + NUMBER_FORMATTER.format(contenu.getCout()));
@@ -1135,8 +1271,13 @@ public final class EditionContenus {
 		coutBox.getChildren().addAll(coutLabel, coutField);
 
 		HBox prioriteBox = new HBox();
+		prioriteBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label prioriteLabel = new Label("Priorité : ");
+		prioriteLabel.getStyleClass().add(LABEL);
+		prioriteLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		Spinner<Integer> prioriteSpinner = new Spinner<Integer>();
+		prioriteSpinner.getStyleClass().add(App.SPINNER);
+		prioriteSpinner.setMaxWidth(LARGREUR_SPINNERS);
 		prioriteLabel.setLabelFor(prioriteSpinner);
 		SpinnerValueFactory<Integer> usineAValeurs = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, contenu.getPriorite());
 		prioriteSpinner.setValueFactory(usineAValeurs);
@@ -1187,7 +1328,11 @@ public final class EditionContenus {
         };
 
 		Label prixLabel = new Label("Prix : ");
+		prixLabel.getStyleClass().add(LABEL);
+		prixLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField prixField = new TextField();
+		prixField.getStyleClass().add(App.FIELD);
+		prixField.setMaxWidth(LARGREUR_COUT_PRIX_FIELDS);
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
         prixField.setText("" + NUMBER_FORMATTER.format(plat.getPrix()));
@@ -1195,11 +1340,16 @@ public final class EditionContenus {
         prixField.setTextFormatter(new TextFormatter<>(filter));
 
 		HBox coutPrixBox = (HBox)nodes.get(2);
+		coutPrixBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		coutPrixBox.getChildren().addAll(prixLabel, prixField);
 
 		HBox nbMaxIngredientsBox = new HBox();
 		Label nbMaxIngredientsLabel = new Label("Nombre maximal d'ingrédients : ");
+		nbMaxIngredientsLabel.getStyleClass().add(LABEL);
+		nbMaxIngredientsLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		Spinner<Integer> nbMaxIngredientsSpinner = new Spinner<Integer>();
+		nbMaxIngredientsSpinner.getStyleClass().add(App.SPINNER);
+		nbMaxIngredientsSpinner.setMaxWidth(LARGREUR_SPINNERS);
 		nbMaxIngredientsLabel.setLabelFor(nbMaxIngredientsSpinner);
 		SpinnerValueFactory<Integer> usineAValeursIngredients = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, plat.getNbMaxIngredients());
 		nbMaxIngredientsSpinner.setValueFactory(usineAValeursIngredients);
@@ -1207,8 +1357,13 @@ public final class EditionContenus {
 		nbMaxIngredientsBox.getChildren().addAll(nbMaxIngredientsLabel, nbMaxIngredientsSpinner);
 
 		HBox nbMaxSaucesBox = new HBox();
+		nbMaxSaucesBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label nbMaxSaucesLabel = new Label("Nombre maximal de sauces : ");
+		nbMaxSaucesLabel.getStyleClass().add(LABEL);
+		nbMaxSaucesLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		Spinner<Integer> nbMaxSaucesSpinner = new Spinner<Integer>();
+		nbMaxSaucesSpinner.getStyleClass().add(App.SPINNER);
+		nbMaxSaucesSpinner.setMaxWidth(LARGREUR_SPINNERS);
 		nbMaxSaucesLabel.setLabelFor(nbMaxSaucesSpinner);
 		SpinnerValueFactory<Integer> usineAValeursSauces = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, plat.getNbMaxSauces());
 		nbMaxSaucesSpinner.setValueFactory(usineAValeursSauces);
@@ -1216,15 +1371,20 @@ public final class EditionContenus {
 		nbMaxSaucesBox.getChildren().addAll(nbMaxSaucesLabel, nbMaxSaucesSpinner);
 
 		HBox utilisePainBox = new HBox();
+		utilisePainBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		CheckBox utilisePainCheckBox = new CheckBox();
+		utilisePainCheckBox.getStyleClass().add(App.CHECKBOX);
+		utilisePainCheckBox.getStyleClass().add(DARK_CHECKBOX);
 		if(plat.getUtilisePain()){
 			utilisePainCheckBox.setSelected(true);
 		}
 		Label utilisePainLabel = new Label("Utilise du pain");
+		utilisePainLabel.getStyleClass().add(LABEL);
 		utilisePainLabel.setLabelFor(utilisePainCheckBox);
 		utilisePainLabel.setOnMouseClicked(new EventHandler<Event>() {
 			public void handle(Event e){
 				utilisePainCheckBox.setSelected(!utilisePainCheckBox.isSelected());
+				utilisePainCheckBox.requestFocus();
 			}
 		});
 
@@ -1273,7 +1433,11 @@ public final class EditionContenus {
         };
 
 		Label prixLabel = new Label("Prix : ");
+		prixLabel.getStyleClass().add(LABEL);
+		prixLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField prixField = new TextField();
+		prixField.getStyleClass().add(App.FIELD);
+		prixField.setMaxWidth(LARGREUR_COUT_PRIX_FIELDS);
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
         prixField.setText("" + NUMBER_FORMATTER.format(supplementBoisson.getPrix()));
@@ -1281,6 +1445,7 @@ public final class EditionContenus {
         prixField.setTextFormatter(new TextFormatter<>(filter));
 
 		HBox coutPrixBox = (HBox)nodes.get(2);
+		coutPrixBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		coutPrixBox.getChildren().addAll(prixLabel, prixField);
 		
 		return(nodes);
@@ -1322,7 +1487,11 @@ public final class EditionContenus {
         };
 
 		Label prixLabel = new Label("Prix : ");
+		prixLabel.getStyleClass().add(LABEL);
+		prixLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField prixField = new TextField();
+		prixField.getStyleClass().add(App.FIELD);
+		prixField.setMaxWidth(LARGREUR_COUT_PRIX_FIELDS);
 		prixLabel.setLabelFor(prixField);
 		prixField.setPromptText("Prix");
         prixField.setText("" + NUMBER_FORMATTER.format(dessert.getPrix()));
@@ -1330,6 +1499,7 @@ public final class EditionContenus {
         prixField.setTextFormatter(new TextFormatter<>(filter));
 
 		HBox coutPrixBox = (HBox)nodes.get(2);
+		coutPrixBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		coutPrixBox.getChildren().addAll(prixLabel, prixField);
 		
 		return(nodes);

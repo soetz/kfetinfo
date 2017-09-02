@@ -48,7 +48,7 @@ public final class Parametres {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Paramètres/").toURI()); //on définit le dossier de lecture sur le dossier Paramètres
+			dossier = new File(Parametres.class.getResource("../../Base de Données/Paramètres/").toURI()); //on définit le dossier de lecture sur le dossier Paramètres
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

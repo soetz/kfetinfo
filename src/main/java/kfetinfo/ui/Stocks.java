@@ -36,6 +36,7 @@ import java.text.NumberFormat;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -58,9 +59,33 @@ import javafx.stage.Stage;
  * <p>Stocks est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de l'écran permettant de sélectionner les contenus commande en stocks ainsi que les quantités de pain achetées et réservées aux membres pour le service.</p>
  * 
  * @author Simon Lecutiez - Sœtz
- * @version 1.0
+ * @version 1.1
  */
 public final class Stocks {
+
+	//classes de style pour l'utilisation du CSS
+	private static final String FOND = "stocks-fond";
+	private static final String BAGUETTES = "stocks-baguettes";
+	private static final String TEXTE_BAGUETTES = "stocks-texte-baguettes";
+	private static final String BAGUETTES_UTILISEES = "stocks-baguettes-utilisees";
+	private static final String GROUPE = "stocks-groupe";
+	private static final String TITRE_GROUPE = "stocks-titre-groupe";
+	private static final String BOUTON_APPLIQUER = "stocks-bouton-appliquer";
+	private static final String VIDE = "stocks-vide";
+
+	//pseudo classes de style
+	protected static final PseudoClass BOX_DESELECTIONNEE = PseudoClass.getPseudoClass("box-deselectionnee");
+
+	//constantes pour l'affichage
+	private static final Double ESPACE_GROUPES = 6.0;
+	private static final Double ESPACE_HAUT_BAS_LISTE = 4.0;
+	private static final Double GAUCHE_ELEMENT = 4.0;
+	private static final Double TAILLE_PANNEAU_BAGUETTES = 120.0;
+	private static final Double GAUCHE_BAGUETTES = 15.0;
+	private static final Double BAS_BAGUETTES = 15.0;
+	private static final Double LARGREUR_SPINNERS = 70.0;
+	private static final Double ESPACE_HORIZONTAL_BAGUETTES = 8.0;
+	private static final Double ESPACE_VERTICAL_BAGUETTES = 4.0;
 
 	//variables transversales qui seront utilisées lors de l'enregistrement
 	private static List<CheckBox> checkBoxesPlats;
@@ -78,6 +103,8 @@ public final class Stocks {
 		BorderPane pane = new BorderPane();
 
 		HBox selection = new HBox();
+		selection.setSpacing(ESPACE_GROUPES);
+		selection.setTranslateX(ESPACE_GROUPES/2);
 
 		checkBoxesPlats = new ArrayList<CheckBox>();
 
@@ -101,15 +128,25 @@ public final class Stocks {
 		selection.getChildren().add(groupeDesserts);
 
 		AnchorPane baguettes = new AnchorPane();
+		baguettes.setMinHeight(TAILLE_PANNEAU_BAGUETTES);
+		baguettes.getStyleClass().add(BAGUETTES);
 
 		GridPane layout = new GridPane();
+		layout.setHgap(ESPACE_HORIZONTAL_BAGUETTES);
+		layout.setVgap(ESPACE_VERTICAL_BAGUETTES);
 
 		Label baguettesUtilisees = new Label("Nombre de baguettes utilisées");
+		baguettesUtilisees.getStyleClass().add(TEXTE_BAGUETTES);
 		Label baguettesAchetees = new Label("Nombre de baguettes achetées");
+		baguettesAchetees.getStyleClass().add(TEXTE_BAGUETTES);
 		Label baguettesMembres = new Label("Nombre de baguettes réservées aux membres");
+		baguettesMembres.getStyleClass().add(TEXTE_BAGUETTES);
 
 		NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.FRENCH);
 		Label nbUtilisees = new Label("" + numberFormatter.format(Core.getService().getNbBaguettesUtilisees()));
+		nbUtilisees.setMaxWidth(Double.MAX_VALUE);
+		nbUtilisees.getStyleClass().add(TEXTE_BAGUETTES);
+		nbUtilisees.getStyleClass().add(BAGUETTES_UTILISEES);
 
 		nbBaguettesAchetees = Core.getService().getNbBaguettesAchetees();
 		nbBaguettesReservees = Core.getService().getNbBaguettesReservees();
@@ -143,6 +180,9 @@ public final class Stocks {
 			}
 		});
 
+		spinnerAchetees.setMaxWidth(LARGREUR_SPINNERS);
+		spinnerAchetees.getStyleClass().add(App.SPINNER);
+
 		Spinner<Float> spinnerReservees = new Spinner(new SpinnerValueFactory() {
 			{
 				setValue(Core.getService().getNbBaguettesReservees());
@@ -165,6 +205,9 @@ public final class Stocks {
 			}
 		});
 
+		spinnerReservees.setMaxWidth(LARGREUR_SPINNERS);
+		spinnerReservees.getStyleClass().add(App.SPINNER);
+
 		spinnerReservees.focusedProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				if(!spinnerReservees.isFocused()){ //lorsque le focus est perdu, on affecte la valeur du spinner à la variable nbBaguettesAchetees
@@ -175,6 +218,10 @@ public final class Stocks {
 		});
 
 		Button appliquer = new Button("Appliquer");
+		appliquer.setDefaultButton(true);
+		appliquer.getStyleClass().add(App.BOUTON);
+		appliquer.getStyleClass().add(BOUTON_APPLIQUER);
+		appliquer.setMaxHeight(Double.MAX_VALUE);
 		appliquer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
 				Core.getService().setNbBaguettesAchetees(nbBaguettesAchetees);
@@ -196,15 +243,20 @@ public final class Stocks {
 		layout.add(spinnerReservees, 1, 2);
 		layout.add(appliquer, 2, 1, 1, 2);
 
-		AnchorPane.setLeftAnchor(layout, 3.0);
-		AnchorPane.setBottomAnchor(layout, 3.0);
+		AnchorPane.setLeftAnchor(layout, GAUCHE_BAGUETTES);
+		AnchorPane.setBottomAnchor(layout, BAS_BAGUETTES);
 
 		baguettes.getChildren().add(layout);
 
 		pane.setCenter(selection);
 		pane.setBottom(baguettes);
+		pane.getStyleClass().add(FOND);
 
 		Scene scene = new Scene(pane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
+
+		scene.getStylesheets().add(Stocks.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(Stocks.class.getResource("../../Interface/Stylesheets/stocks.css").toExternalForm());
+
 		Stage theatre = new Stage();
 		theatre.setAlwaysOnTop(true);
 		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
@@ -226,17 +278,36 @@ public final class Stocks {
 	public static final VBox groupePlats(Region parent){
 
 		VBox groupePlats = new VBox();
+		groupePlats.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
+		groupePlats.setMaxWidth(Double.MAX_VALUE);
 
 		VBox listePlats = new VBox();
+		listePlats.getStyleClass().add(GROUPE);
+
+		Region haut = new Region();
+		haut.getStyleClass().add(VIDE);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listePlats.getChildren().add(haut);
 
 		int i = 0;
 		for(Plat plat : BaseDonnees.getPlats()){
 			if(!plat.equals(BaseDonnees.getRienPlat())){
 				HBox box = new HBox();
+				box.getStyleClass().add(App.SELECTION_BOX);
+
+				Region gauche = new Region();
+				gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+				gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+				gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+				gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+				box.getChildren().add(gauche);
 
 				final int numero = i;
 
 				CheckBox checkBox = new CheckBox();
+				checkBox.getStyleClass().add(App.CHECKBOX);
 				checkBox.selectedProperty().addListener(new ChangeListener() {
 					public void changed(ObservableValue o, Object oldVal, Object newVal){
 						boolean grise = false;
@@ -248,6 +319,9 @@ public final class Stocks {
 
 						if(!checkBox.isSelected()){
 							grise = true;
+							box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
+						} else {
+							box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
 						}
 
 						plat.setDisponible(checkBox.isSelected());
@@ -259,10 +333,14 @@ public final class Stocks {
 
 				if(plat.getDisponible()){
 					checkBox.setSelected(true);
+					box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+				} else {
+					box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
 				}
 
 				Label label = new Label(plat.getNom());
-				label.setOnMouseClicked(new EventHandler<Event>() {
+				label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
+				box.setOnMouseClicked(new EventHandler<Event>() {
 					public void handle(Event event) {
 						checkBox.setSelected(!checkBox.isSelected());
 						checkBox.requestFocus();
@@ -277,7 +355,16 @@ public final class Stocks {
 			}
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(VIDE);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listePlats.getChildren().add(bas);
+
 		Label titrePlats = new Label("PLATS");
+		titrePlats.setMaxWidth(Double.MAX_VALUE);
+		titrePlats.getStyleClass().add(TITRE_GROUPE);
 
 		groupePlats.getChildren().add(titrePlats);
 		groupePlats.getChildren().add(listePlats);
@@ -296,29 +383,58 @@ public final class Stocks {
 	public static final VBox groupeIngredients(Region parent){
 
 		VBox groupeIngredients = new VBox();
+		groupeIngredients.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
+		groupeIngredients.maxWidthProperty().bind(groupeIngredients.prefWidthProperty());
+		groupeIngredients.minWidthProperty().bind(groupeIngredients.prefWidthProperty());
 
 		VBox listeIngredients = new VBox();
+		listeIngredients.getStyleClass().add(GROUPE);
+
+		Region haut = new Region();
+		haut.getStyleClass().add(VIDE);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeIngredients.getChildren().add(haut);
 
 		int i = 0;
 		for(Ingredient ingredient : BaseDonnees.getIngredients()){
 			HBox box = new HBox();
+			box.getStyleClass().add(App.SELECTION_BOX);
+
+			Region gauche = new Region();
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			box.getChildren().add(gauche);
 
 			final int numero = i;
 
 			CheckBox checkBox = new CheckBox();
+			checkBox.getStyleClass().add(App.CHECKBOX);
 			checkBox.selectedProperty().addListener(new ChangeListener() {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
 					ingredient.setDisponible(checkBox.isSelected());
 					Selection.ingredientDisponible(numero, checkBox.isSelected());
+					if(checkBox.isSelected()){
+						box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+					} else {
+						box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
+					}
 				}
 			});
 
 			if(ingredient.getDisponible()){
 				checkBox.setSelected(true);
+				box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+			} else {
+				box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
 			}
 
 			Label label = new Label(ingredient.getNom());
-			label.setOnMouseClicked(new EventHandler<Event>() {
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
+			box.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event) {
 					checkBox.setSelected(!checkBox.isSelected());
 					checkBox.requestFocus();
@@ -332,7 +448,16 @@ public final class Stocks {
 			i++;
 		}
 
-		Label titreIngredients = new Label("INGREDIENTS");
+		Region bas = new Region();
+		bas.getStyleClass().add(VIDE);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeIngredients.getChildren().add(bas);
+
+		Label titreIngredients = new Label("INGRÉDIENTS");
+		titreIngredients.setMaxWidth(Double.MAX_VALUE);
+		titreIngredients.getStyleClass().add(TITRE_GROUPE);
 
 		groupeIngredients.getChildren().add(titreIngredients);
 		groupeIngredients.getChildren().add(listeIngredients);
@@ -351,29 +476,58 @@ public final class Stocks {
 	public static final VBox groupeSauces(Region parent){
 
 		VBox groupeSauces = new VBox();
+		groupeSauces.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
+		groupeSauces.maxWidthProperty().bind(groupeSauces.prefWidthProperty());
+		groupeSauces.minWidthProperty().bind(groupeSauces.prefWidthProperty());
 
 		VBox listeSauces = new VBox();
+		listeSauces.getStyleClass().add(GROUPE);
+
+		Region haut = new Region();
+		haut.getStyleClass().add(VIDE);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeSauces.getChildren().add(haut);
 
 		int i = 0;
 		for(Sauce sauce : BaseDonnees.getSauces()){
 			HBox box = new HBox();
+			box.getStyleClass().add(App.SELECTION_BOX);
+
+			Region gauche = new Region();
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			box.getChildren().add(gauche);
 
 			final int numero = i;
 
 			CheckBox checkBox = new CheckBox();
+			checkBox.getStyleClass().add(App.CHECKBOX);
 			checkBox.selectedProperty().addListener(new ChangeListener() {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
 					sauce.setDisponible(checkBox.isSelected());
 					Selection.sauceDisponible(numero, checkBox.isSelected());
+					if(checkBox.isSelected()){
+						box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+					} else {
+						box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
+					}
 				}
 			});
 
 			if(sauce.getDisponible()){
 				checkBox.setSelected(true);
+				box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+			} else {
+				box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
 			}
 
 			Label label = new Label(sauce.getNom());
-			label.setOnMouseClicked(new EventHandler<Event>() {
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
+			box.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event) {
 					checkBox.setSelected(!checkBox.isSelected());
 					checkBox.requestFocus();
@@ -387,7 +541,16 @@ public final class Stocks {
 			i++;
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(VIDE);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeSauces.getChildren().add(bas);
+
 		Label titreSauces = new Label("SAUCES");
+		titreSauces.setMaxWidth(Double.MAX_VALUE);
+		titreSauces.getStyleClass().add(TITRE_GROUPE);
 
 		groupeSauces.getChildren().add(titreSauces);
 		groupeSauces.getChildren().add(listeSauces);
@@ -406,30 +569,59 @@ public final class Stocks {
 	public static final VBox groupeBoissons(Region parent){
 
 		VBox groupeBoissons = new VBox();
+		groupeBoissons.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
+		groupeBoissons.maxWidthProperty().bind(groupeBoissons.prefWidthProperty());
+		groupeBoissons.minWidthProperty().bind(groupeBoissons.prefWidthProperty());
 
 		VBox listeBoissons = new VBox();
+		listeBoissons.getStyleClass().add(GROUPE);
+
+		Region haut = new Region();
+		haut.getStyleClass().add(VIDE);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeBoissons.getChildren().add(haut);
 
 		int i = 0;
 		for(Boisson boisson : BaseDonnees.getBoissons()){
 			if(!boisson.equals(BaseDonnees.getRienBoisson())){
 				HBox box = new HBox();
+				box.getStyleClass().add(App.SELECTION_BOX);
+
+				Region gauche = new Region();
+				gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+				gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+				gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+				gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+				box.getChildren().add(gauche);
 
 				final int numero = i;
 
 				CheckBox checkBox = new CheckBox();
+				checkBox.getStyleClass().add(App.CHECKBOX);
 				checkBox.selectedProperty().addListener(new ChangeListener() {
 					public void changed(ObservableValue o, Object oldVal, Object newVal){
 						boisson.setDisponible(checkBox.isSelected());
 						Selection.boissonDisponible(numero, checkBox.isSelected());
+						if(checkBox.isSelected()){
+							box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+						} else {
+							box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
+						}
 					}
 				});
 
 				if(boisson.getDisponible()){
 					checkBox.setSelected(true);
+					box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+				} else {
+					box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
 				}
 
 				Label label = new Label(boisson.getNom());
-				label.setOnMouseClicked(new EventHandler<Event>() {
+				label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
+				box.setOnMouseClicked(new EventHandler<Event>() {
 					public void handle(Event event) {
 						checkBox.setSelected(!checkBox.isSelected());
 						checkBox.requestFocus();
@@ -444,7 +636,16 @@ public final class Stocks {
 			}
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(VIDE);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeBoissons.getChildren().add(bas);
+
 		Label titreBoissons = new Label("BOISSONS");
+		titreBoissons.setMaxWidth(Double.MAX_VALUE);
+		titreBoissons.getStyleClass().add(TITRE_GROUPE);
 
 		groupeBoissons.getChildren().add(titreBoissons);
 		groupeBoissons.getChildren().add(listeBoissons);
@@ -463,30 +664,59 @@ public final class Stocks {
 	public static final VBox groupeSupplementsBoisson(Region parent){
 
 		VBox groupeSupplementsBoisson = new VBox();
+		groupeSupplementsBoisson.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
+		groupeSupplementsBoisson.maxWidthProperty().bind(groupeSupplementsBoisson.prefWidthProperty());
+		groupeSupplementsBoisson.minWidthProperty().bind(groupeSupplementsBoisson.prefWidthProperty());
 
 		VBox listeSupplementsBoisson = new VBox();
+		listeSupplementsBoisson.getStyleClass().add(GROUPE);
+
+		Region haut = new Region();
+		haut.getStyleClass().add(VIDE);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeSupplementsBoisson.getChildren().add(haut);
 
 		int i = 0;
 		for(SupplementBoisson supplementBoisson : BaseDonnees.getSupplementsBoisson()){
 			if(!supplementBoisson.equals(BaseDonnees.getRienSupplementBoisson())){
 				HBox box = new HBox();
+				box.getStyleClass().add(App.SELECTION_BOX);
+
+				Region gauche = new Region();
+				gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+				gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+				gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+				gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+				box.getChildren().add(gauche);
 
 				final int numero = i;
 
 				CheckBox checkBox = new CheckBox();
+				checkBox.getStyleClass().add(App.CHECKBOX);
 				checkBox.selectedProperty().addListener(new ChangeListener() {
 					public void changed(ObservableValue o, Object oldVal, Object newVal){
 						supplementBoisson.setDisponible(checkBox.isSelected());
 						Selection.supplementBoissonDisponible(numero, checkBox.isSelected());
+						if(checkBox.isSelected()){
+							box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+						} else {
+							box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
+						}
 					}
 				});
 
 				if(supplementBoisson.getDisponible()){
 					checkBox.setSelected(true);
+					box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+				} else {
+					box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
 				}
 
 				Label label = new Label(supplementBoisson.getNom());
-				label.setOnMouseClicked(new EventHandler<Event>() {
+				label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
+				box.setOnMouseClicked(new EventHandler<Event>() {
 					public void handle(Event event) {
 						checkBox.setSelected(!checkBox.isSelected());
 						checkBox.requestFocus();
@@ -501,7 +731,16 @@ public final class Stocks {
 			}
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(VIDE);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeSupplementsBoisson.getChildren().add(bas);
+
 		Label titreSupplementsBoisson = new Label("SUPPLÉMENTS BOISSON");
+		titreSupplementsBoisson.setMaxWidth(Double.MAX_VALUE);
+		titreSupplementsBoisson.getStyleClass().add(TITRE_GROUPE);
 
 		groupeSupplementsBoisson.getChildren().add(titreSupplementsBoisson);
 		groupeSupplementsBoisson.getChildren().add(listeSupplementsBoisson);
@@ -520,30 +759,58 @@ public final class Stocks {
 	public static final VBox groupeDesserts(Region parent){
 
 		VBox groupeDesserts = new VBox();
+		groupeDesserts.prefWidthProperty().bind(parent.widthProperty().subtract(7*ESPACE_GROUPES).divide(6));
+		groupeDesserts.setMaxWidth(Double.MAX_VALUE);
 
 		VBox listeDesserts = new VBox();
+		listeDesserts.getStyleClass().add(GROUPE);
+
+		Region haut = new Region();
+		haut.getStyleClass().add(VIDE);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeDesserts.getChildren().add(haut);
 
 		int i = 0;
 		for(Dessert dessert : BaseDonnees.getDesserts()){
 			if(!dessert.equals(BaseDonnees.getRienDessert())){
 				HBox box = new HBox();
+				box.getStyleClass().add(App.SELECTION_BOX);
+
+				Region gauche = new Region();
+				gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+				gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+				gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+				gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+				box.getChildren().add(gauche);
 
 				final int numero = i;
 
 				CheckBox checkBox = new CheckBox();
+				checkBox.getStyleClass().add(App.CHECKBOX);
 				checkBox.selectedProperty().addListener(new ChangeListener() {
 					public void changed(ObservableValue o, Object oldVal, Object newVal){
 						dessert.setDisponible(checkBox.isSelected());
 						Selection.dessertDisponible(numero, checkBox.isSelected());
+						if(checkBox.isSelected()){
+							box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+						} else {
+							box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
+						}
 					}
 				});
 
 				if(dessert.getDisponible()){
 					checkBox.setSelected(true);
+					box.pseudoClassStateChanged(BOX_DESELECTIONNEE, false);
+				} else {
+					box.pseudoClassStateChanged(BOX_DESELECTIONNEE, true);
 				}
 
 				Label label = new Label(dessert.getNom());
-				label.setOnMouseClicked(new EventHandler<Event>() {
+				label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
+				box.setOnMouseClicked(new EventHandler<Event>() {
 					public void handle(Event event) {
 						checkBox.setSelected(!checkBox.isSelected());
 						checkBox.requestFocus();
@@ -558,7 +825,16 @@ public final class Stocks {
 			}
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(VIDE);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeDesserts.getChildren().add(bas);
+
 		Label titreDesserts = new Label("DESSERTS");
+		titreDesserts.setMaxWidth(Double.MAX_VALUE);
+		titreDesserts.getStyleClass().add(TITRE_GROUPE);
 
 		groupeDesserts.getChildren().add(titreDesserts);
 		groupeDesserts.getChildren().add(listeDesserts);

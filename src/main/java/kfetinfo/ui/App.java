@@ -45,13 +45,24 @@ public final class App extends Application{
 	public static final String NUMERO_COMMANDE_REALISEE = "numero-commande-realisee";
 	public static final String NUMERO_COMMANDE_DONNEE = "numero-commande-donnee";
 	public static final String PLAT_COMMANDE = "plat-commande";
+	public static final String BOUTON = "bouton";
+	public static final String CHECKBOX = "checkbox";
+	public static final String SELECTION_BOX = "selection-box";
+	public static final String SELECTION_ELEMENT_LABEL = "selection-element-label";
+	public static final String SELECTION_GAUCHE_ELEMENT_S = "selection-gauche-element";
+	public static final String FIELD = "field";
+	public static final String SPINNER = "cus-spinner";
+	public static final String LISTVIEW = "listview";
+	public static final String CODE = "code";
+	private static final String ROOT = "root";
+	private static final String FOND = "fond";
 
 	//constantes pour l'affichage
 	public static final Double LARGEUR_MIN_FENETRE = 800.0;
-	public static final Double HAUTEUR_MIN_FENETRE = 600.0;
+	public static final Double HAUTEUR_MIN_FENETRE = 700.0;
 	public static final Double TAILLE_PANNEAU_MENU = 25.0;
 	public static final Double TAILLE_PANNEAU_COMMANDES = 250.0;
-	public static final Double TAILLE_PANNEAU_RESULTAT = 173.0;
+	public static final Double TAILLE_PANNEAU_RESULTAT = 195.0;
 	public static final Double TAILLE_NUMERO_COMMANDE = 30.0;
 	public static final Double ESPACE_NUMERO_PLAT = 5.0;
 
@@ -92,7 +103,15 @@ public final class App extends Application{
 
 		theatre.setScene(scene);
 
-		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/style.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/menu.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/commandes.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/selection.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/resultat.css").toExternalForm());
+		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/graphiques.css").toExternalForm());
+
+		root.getStyleClass().add(ROOT);
+		root.getStyleClass().add(FOND);
 
 		theatre.show();
 	}
@@ -111,13 +130,14 @@ public final class App extends Application{
 
 		BorderPane racine = new BorderPane();
 
-		Region haut = Menu.menu(theatre);
-
 		Region droite = Commandes.commandes();
+		droite.setTranslateY(1);
 
 		Region centre = Selection.selection(racine);
 
 		Region bas = Resultat.resultat(racine);
+
+		Region haut = Menu.menu(theatre);
 
 		racine.setTop(haut);
 		racine.setRight(droite);

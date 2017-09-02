@@ -42,6 +42,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -55,24 +56,32 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Line;
 
 /**
  * <p>Selection est une classe constituée uniquement d'attributs et de méthodes statiques relatifs à l'affichage de la section « sélection du contenu de la commande » du logiciel.</p>
  * 
  * @author Simon Lecutiez - Sœtz
  * @author James_D de StackOverflow
- * @version 1.0
+ * @version 1.1
  */
 public final class Selection {
 
 	//classes de style pour l'utilisation du CSS
-	public static final String LISTE_CONTENU_COMMANDE = "liste-contenu-commande";
-	public static final String TITRE_GROUPE = "titre-groupe-contenu-commande";
+	public static final String LISTE_CONTENU_COMMANDE = "selection-liste-contenu-commande";
+	public static final String TITRE_GROUPE = "selection-titre-groupe-contenu-commande";
+	public static final String RADIO = "selection-radio";
+	public static final String ESPACE_HAUT_BAS_LISTE_S = "selection-espace-haut-bas-liste";
+	public static final String COMPTEUR_BAGUETTES = "selection-compteur-baguettes";
+
+	//pseudo classes de style
+	protected static final PseudoClass BOX_SELECTIONNEE = PseudoClass.getPseudoClass("box-selectionnee");
 
 	//constantes pour l'affichage
 	private static final Double ESPACE_GROUPES = 4.0;
 	private static final Double PADDING_SELECTION = 3.0;
+	private static final Double ESPACE_ELEMENTS = 0.0;
+	private static final Double GAUCHE_ELEMENT = 5.0;
+	private static final Double ESPACE_HAUT_BAS_LISTE = 4.0;
 
 	//variables utiles pour l'affichage du panneau de développement
 	private static final boolean DEV = true;
@@ -214,15 +223,32 @@ public final class Selection {
 
 		VBox listePlats = new VBox();
 
+		Region haut = new Region();
+		haut.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listePlats.getChildren().add(haut);
+
 		int i = 0;
 		for(Plat plat : BaseDonnees.getPlats()){
 			HBox box = new HBox();
+			box.getStyleClass().add(App.SELECTION_BOX);
+
+			Region gauche = new Region();
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			box.getChildren().add(gauche);
 
 			RadioButton radio = new RadioButton();
 			radio.setToggleGroup(platSelection);
+			radio.getStyleClass().add(RADIO);
 			radiosPlats.add(radio);
 
 			Label label = new Label();
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 			if(mnemoniquesUtilisees.contains(plat.getNom().toUpperCase().substring(0, 1))){ //si la mnémonique n'est pas déjà utilisée, on l'ajoute
 				label.setText(plat.getNom());
 				label.setMnemonicParsing(false);
@@ -231,8 +257,8 @@ public final class Selection {
 				label.setMnemonicParsing(true);
 			}
 
-			//lorsque l'utilisateur clique sur le Label de nom du plat, on sélectionne le radio correspondant
-			label.setOnMouseClicked(new EventHandler<Event>() {
+			//lorsque l'utilisateur clique sur la boîte de nom du plat, on sélectionne le radio correspondant
+			box.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event) {
 					platSelection.selectToggle(radio);
 					radio.requestFocus();
@@ -262,17 +288,27 @@ public final class Selection {
 			i++;
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listePlats.getChildren().add(bas);
+
 		listePlats.getStyleClass().add(LISTE_CONTENU_COMMANDE);
 		listePlats.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listePlats.maxWidthProperty().bind(listePlats.minWidthProperty());
 		listePlats.setMaxHeight(Control.USE_PREF_SIZE);
+		listePlats.setSpacing(ESPACE_ELEMENTS);
 
 		//lorsque l'élément sélectionné change, on sélectionne le plat de la base de données correspondant et on indique que la commande a changé
 		platSelection.selectedToggleProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosPlats){
+					boxesPlats.get(radiosPlats.indexOf(radio)).pseudoClassStateChanged(BOX_SELECTIONNEE, false);
 					if(newVal.equals(radio)){
 						PLAT_SELECTIONNE.set(BaseDonnees.getPlats().get(radiosPlats.indexOf(radio))); //on sélectionne le plat correspondant au bouton,
+						boxesPlats.get(radiosPlats.indexOf(radio)).pseudoClassStateChanged(BOX_SELECTIONNEE, true);
 						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //on indique que le contenu de la commande a changé
 						if(chargementTermine){
 							grisageIngredients(); //et on grise les ingrédients ou les sauces suivant les spécificités du plat
@@ -308,20 +344,38 @@ public final class Selection {
 
 		VBox groupeIngredients = new VBox();
 
+		Region haut = new Region();
+		haut.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeIngredients.getChildren().add(haut);
+
 		for (Ingredient ingredient : BaseDonnees.getIngredients()){
 			HBox box = new HBox();
+			box.getStyleClass().add(App.SELECTION_BOX);
+
+			Region gauche = new Region();
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			box.getChildren().add(gauche);
 
 			CheckBox checkBox = new CheckBox();
+			checkBox.getStyleClass().add(App.CHECKBOX);
 			checksIngredients.add(checkBox);
 
 			//lorsque l'état de sélection d'un élément change, on ajoute ou on retire l'ingrédient de la base de données correspondant à la liste des ingrédients sélectionnés, et on indique que le dernier ingrédient sélectionné ainsi que la commande ont changé
 			checkBox.selectedProperty().addListener(new ChangeListener() {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
 					if(checkBox.isSelected()){
+						box.pseudoClassStateChanged(BOX_SELECTIONNEE, true);
 						ingredientsSelectionnes.add(BaseDonnees.getIngredients().get(checksIngredients.indexOf(checkBox)));
 						INGREDIENT_CHANGE.set(!INGREDIENT_CHANGE.get());
 						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get());
 					} else {
+						box.pseudoClassStateChanged(BOX_SELECTIONNEE, false);
 						ingredientsSelectionnes.remove(BaseDonnees.getIngredients().get(checksIngredients.indexOf(checkBox)));
 						INGREDIENT_CHANGE.set(!INGREDIENT_CHANGE.get());
 						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get());
@@ -330,9 +384,10 @@ public final class Selection {
 			});
 
 			Label label = new Label(ingredient.getNom());
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 
 			//lorsque l'utilisateur clique sur le Label de nom de l'ingrédient, on sélectionne la checkbox correspondante
-			label.setOnMouseClicked(new EventHandler<Event>() {
+			box.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
 					checkBox.setSelected(!checkBox.isSelected());
 					checkBox.requestFocus();
@@ -346,10 +401,18 @@ public final class Selection {
 			listeIngredients.getChildren().add(box);
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeIngredients.getChildren().add(bas);
+
 		listeIngredients.getStyleClass().add(LISTE_CONTENU_COMMANDE);
 		listeIngredients.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listeIngredients.maxWidthProperty().bind(listeIngredients.minWidthProperty());
 		listeIngredients.setMaxHeight(Control.USE_PREF_SIZE);
+		listeIngredients.setSpacing(ESPACE_ELEMENTS);
 
 		Label titreIngredients = new Label("INGRÉDIENTS");
 		titreIngredients.getStyleClass().add(TITRE_GROUPE);
@@ -375,21 +438,39 @@ public final class Selection {
 
 		VBox listeSauces = new VBox();
 
+		Region haut = new Region();
+		haut.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeSauces.getChildren().add(haut);
+
 		for(Sauce sauce : BaseDonnees.getSauces()){
 			HBox box = new HBox();
+			box.getStyleClass().add(App.SELECTION_BOX);
+
+			Region gauche = new Region();
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			box.getChildren().add(gauche);
 
 			CheckBox checkBox = new CheckBox();
+			checkBox.getStyleClass().add(App.CHECKBOX);
 			checksSauces.add(checkBox);
 
 			//lorsque l'état de sélection d'un élément change, on ajoute ou on retire la sauce de la base de données correspondant à la liste des sauces sélectionnées, et on indique que la dernière sauce sélectionnée ainsi que la commande ont changé
 			checkBox.selectedProperty().addListener(new ChangeListener() {
 				public void changed(ObservableValue o, Object oldVal, Object newVal){
 					if(checkBox.isSelected()){
+						box.pseudoClassStateChanged(BOX_SELECTIONNEE, true);
 						saucesSelectionnees.add(BaseDonnees.getSauces().get(checksSauces.indexOf(checkBox)));
 						SAUCE_CHANGEE.set(!SAUCE_CHANGEE.get());
 						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get());
 						grisageSauces();
 					} else {
+						box.pseudoClassStateChanged(BOX_SELECTIONNEE, false);
 						saucesSelectionnees.remove(BaseDonnees.getSauces().get(checksSauces.indexOf(checkBox)));
 						SAUCE_CHANGEE.set(!SAUCE_CHANGEE.get());
 						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get());
@@ -399,7 +480,10 @@ public final class Selection {
 			});
 
 			Label label = new Label(sauce.getNom());
-			label.setOnMouseClicked(new EventHandler<Event>() {
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
+
+			//lorsque l'utilisateur clique sur le Label de nom de la sauce, on sélectionne la checkbox correspondante
+			box.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
 					checkBox.setSelected(!checkBox.isSelected());
 					checkBox.requestFocus();
@@ -413,10 +497,18 @@ public final class Selection {
 			listeSauces.getChildren().add(box);
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeSauces.getChildren().add(bas);
+
 		listeSauces.getStyleClass().add(LISTE_CONTENU_COMMANDE);
 		listeSauces.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listeSauces.maxWidthProperty().bind(listeSauces.minWidthProperty());
 		listeSauces.setMaxHeight(Control.USE_PREF_SIZE);
+		listeSauces.setSpacing(ESPACE_ELEMENTS);
 
 		Label titreSauces = new Label("SAUCES");
 		titreSauces.getStyleClass().add(TITRE_GROUPE);
@@ -444,18 +536,34 @@ public final class Selection {
 
 		VBox listeBoissons = new VBox();
 
+		Region haut = new Region();
+		haut.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeBoissons.getChildren().add(haut);
+
 		for(Boisson boisson : BaseDonnees.getBoissons()){
 			HBox box = new HBox();
+			box.getStyleClass().add(App.SELECTION_BOX);
+
+			Region gauche = new Region();
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			box.getChildren().add(gauche);
 
 			RadioButton radio = new RadioButton();
 			radio.setToggleGroup(boissonSelection);
+			radio.getStyleClass().add(RADIO);
 			radiosBoissons.add(radio);
-			radio.setSelected(true);
 
 			Label label = new Label(boisson.getNom());
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 
-			//lorsque l'utilisateur clique sur le Label de nom de la boisson, on sélectionne le radio correspondant
-			label.setOnMouseClicked(new EventHandler<Event>() {
+			//lorsque l'utilisateur clique sur la boîte de nom de la boisson, on sélectionne le radio correspondant
+			box.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
 					boissonSelection.selectToggle(radio);
 					radio.requestFocus();
@@ -471,27 +579,36 @@ public final class Selection {
 			listeBoissons.getChildren().add(box);
 		}
 
-		Line separation = new Line(); //on ajoute une ligne de séparation entre boissons et suppléments boisson
-		separation.setStartX(0);
-		separation.setStartY(0);
-		separation.endXProperty().bind(groupeBoissons.widthProperty().subtract(10));
-		separation.setEndY(0);
-		separation.setTranslateX(5);
+		Region separation = new Region();
+		separation.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		separation.setPrefSize(1, 2*ESPACE_HAUT_BAS_LISTE);
+		separation.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		separation.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 		listeBoissons.getChildren().add(separation);
 
 		ToggleGroup supplementBoissonSelection = new ToggleGroup(); //un ToggleGroup permet de n'autoriser qu'un des Toggles (pour le coup des boutons radio) à être sélectionné en même temps
 
 		for(SupplementBoisson supplementBoisson : BaseDonnees.getSupplementsBoisson()){
 			HBox box = new HBox();
+			box.getStyleClass().add(App.SELECTION_BOX);
+
+			Region gauche = new Region();
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			box.getChildren().add(gauche);
 
 			RadioButton radio = new RadioButton();
 			radio.setToggleGroup(supplementBoissonSelection);
+			radio.getStyleClass().add(RADIO);
 			radiosSupplementsBoisson.add(radio);
-			radio.setSelected(true);
 
-			//lorsque l'utilisateur clique sur le Label de nom du supplément boisson, on sélectionne le radio correspondant
 			Label label = new Label(supplementBoisson.getNom());
-			label.setOnMouseClicked(new EventHandler<Event>() {
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
+
+			//lorsque l'utilisateur clique sur la boîte de nom du supplément boisson, on sélectionne le radio correspondant
+			box.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
 					supplementBoissonSelection.selectToggle(radio);
 					radio.requestFocus();
@@ -507,17 +624,27 @@ public final class Selection {
 			listeBoissons.getChildren().add(box);
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeBoissons.getChildren().add(bas);
+
 		listeBoissons.getStyleClass().add(LISTE_CONTENU_COMMANDE);
 		listeBoissons.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listeBoissons.maxWidthProperty().bind(listeBoissons.minWidthProperty());
 		listeBoissons.setMaxHeight(Control.USE_PREF_SIZE);
+		listeBoissons.setSpacing(ESPACE_ELEMENTS);
 
 		//lorsque l'élément sélectionné change, on sélectionne la boisson de la base de données correspondante et on indique que la commande a changé
 		boissonSelection.selectedToggleProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosBoissons){
+					boxesBoissons.get(radiosBoissons.indexOf(radio)).pseudoClassStateChanged(BOX_SELECTIONNEE, false);
 					if(newVal.equals(radio)){
 						BOISSON_SELECTIONNEE.set(BaseDonnees.getBoissons().get(radiosBoissons.indexOf(radio))); //on sélectionne la boisson correspondant au bouton,
+						boxesBoissons.get(radiosBoissons.indexOf(radio)).pseudoClassStateChanged(BOX_SELECTIONNEE, true);
 						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
@@ -528,8 +655,10 @@ public final class Selection {
 		supplementBoissonSelection.selectedToggleProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosSupplementsBoisson){
+					boxesSupplementsBoisson.get(radiosSupplementsBoisson.indexOf(radio)).pseudoClassStateChanged(BOX_SELECTIONNEE, false);
 					if(newVal.equals(radio)){
 						SUPPLEMENT_BOISSON_SELECTIONNE.set(BaseDonnees.getSupplementsBoisson().get(radiosSupplementsBoisson.indexOf(radio))); //on sélectionne le supplément boisson correspondant au bouton,
+						boxesSupplementsBoisson.get(radiosSupplementsBoisson.indexOf(radio)).pseudoClassStateChanged(BOX_SELECTIONNEE, true);
 						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
@@ -567,18 +696,34 @@ public final class Selection {
 
 		VBox listeDesserts = new VBox();
 
+		Region haut = new Region();
+		haut.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		haut.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		haut.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		haut.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeDesserts.getChildren().add(haut);
+
 		for(Dessert dessert : BaseDonnees.getDesserts()){
 			HBox box = new HBox();
+			box.getStyleClass().add(App.SELECTION_BOX);
+
+			Region gauche = new Region();
+			gauche.getStyleClass().add(App.SELECTION_GAUCHE_ELEMENT_S);
+			gauche.setPrefSize(GAUCHE_ELEMENT, 1);
+			gauche.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			gauche.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+			box.getChildren().add(gauche);
 
 			RadioButton radio = new RadioButton();
 			radio.setToggleGroup(dessertSelection);
+			radio.getStyleClass().add(RADIO);
 			radiosDesserts.add(radio);
-			radio.setSelected(true);
 
 			Label label = new Label(dessert.getNom());
+			label.getStyleClass().add(App.SELECTION_ELEMENT_LABEL);
 
-			//lorsque l'utilisateur clique sur le Label de nom du plat, on sélectionne le radio correspondant
-			label.setOnMouseClicked(new EventHandler<Event>() {
+			//lorsque l'utilisateur clique sur la boîte de nom du dessert, on sélectionne le radio correspondant
+			box.setOnMouseClicked(new EventHandler<Event>() {
 				public void handle(Event event){
 					dessertSelection.selectToggle(radio);
 					radio.requestFocus();
@@ -594,17 +739,27 @@ public final class Selection {
 			listeDesserts.getChildren().add(box);
 		}
 
+		Region bas = new Region();
+		bas.getStyleClass().add(ESPACE_HAUT_BAS_LISTE_S);
+		bas.setPrefSize(1, ESPACE_HAUT_BAS_LISTE);
+		bas.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		bas.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+		listeDesserts.getChildren().add(bas);
+
 		listeDesserts.getStyleClass().add(LISTE_CONTENU_COMMANDE);
 		listeDesserts.minWidthProperty().bind(parent.widthProperty().subtract(ESPACE_GROUPES*4 + PADDING_SELECTION*2).divide(5));
 		listeDesserts.maxWidthProperty().bind(listeDesserts.minWidthProperty());
 		listeDesserts.setMaxHeight(Control.USE_PREF_SIZE);
+		listeDesserts.setSpacing(ESPACE_ELEMENTS);
 
 		//lorsque l'élément sélectionné change, on sélectionne le dessert de la base de données correspondant et on indique que la commande a changé
 		dessertSelection.selectedToggleProperty().addListener(new ChangeListener() {
 			public void changed(ObservableValue o, Object oldVal, Object newVal){
 				for(RadioButton radio : radiosDesserts){
+					boxesDesserts.get(radiosDesserts.indexOf(radio)).pseudoClassStateChanged(BOX_SELECTIONNEE, false);
 					if(newVal.equals(radio)){
 						DESSERT_SELECTIONNE.set(BaseDonnees.getDesserts().get(radiosDesserts.indexOf(radio))); //on sélectionne le dessert correspondant au bouton,
+						boxesDesserts.get(radiosDesserts.indexOf(radio)).pseudoClassStateChanged(BOX_SELECTIONNEE, true);
 						COMMANDE_CHANGEE.set(!COMMANDE_CHANGEE.get()); //et on indique que le contenu de la commande a changé
 					}
 				}
@@ -636,8 +791,9 @@ public final class Selection {
 
 		if(DEV){
 			Label dev = new Label(); //alors ce qui se passe ici je l'ai trouvé sur internet (https://stackoverflow.com/questions/28287398/what-is-the-preferred-way-of-getting-the-frame-rate-of-a-javafx-application) et je serais bien incapable de l'expliquer
+			dev.getStyleClass().add(COMPTEUR_BAGUETTES);
 			AnimationTimer frameRateMeter = new AnimationTimer(){ //anyway merci à James_D et tout ce qu'il faut savoir c'est que ça fait un compteur de framerate (auquel j'ai ajouté la taille de la fenêtre)
-				
+
 				@Override
 				public void handle(long now) {
 					long oldFrameTime = FRAME_TIMES[frameTimeIndex] ;
@@ -657,12 +813,14 @@ public final class Selection {
 
 			frameRateMeter.start();
 
-			AnchorPane.setBottomAnchor(dev, 14.0);
+			AnchorPane.setBottomAnchor(dev, 20.0);
 			AnchorPane.setLeftAnchor(dev, 4.0);
 			compteurBaguettesPane.getChildren().add(dev);
 		}
 
 		refreshCompteurBaguettes();
+
+		compteurBaguettes.getStyleClass().add(COMPTEUR_BAGUETTES);
 
 		AnchorPane.setBottomAnchor(compteurBaguettes, 0.0);
 		AnchorPane.setLeftAnchor(compteurBaguettes, 4.0);
