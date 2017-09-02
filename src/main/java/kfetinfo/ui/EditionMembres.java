@@ -62,6 +62,21 @@ import javafx.stage.Stage;
  */
 public class EditionMembres {
 
+	//classes de style pour l'utilisation du CSS
+	private static final String FOND = "ec-membres-fond";
+	private static final String LABEL = "ec-membres-label";
+	private static final String BOUTON_ENREGISTRER = "ec-membres-bouton-enregistrer";
+
+	//constantes pour l'affichage
+	private static final Double ESPACEMENT_ELEMENTS = 8.0;
+	private static final Double ESPACEMENT_LABELS_FIELDS = 4.0;
+	private static final Double TRANSLATION_HORIZONTALE_ELEMENTS = 10.0;
+	private static final Double TRANSLATION_VERTICALE_ELEMENTS = 10.0;
+	private static final Double TRANSLATION_VERTICALE_LABELS = 4.0;
+	private static final Double LARGEUR_ID_FIELD = 350.0;
+	private static final Double DECALAGE_HORIZONTAL_BOUTONS = 10.0;
+	private static final Double DECALAGE_VERTICAL_BOUTONS = 10.0;
+
 	//id par défaut des nouveaux membres
 	public static final String ID_NOUVEAU = "Sera généré au moment de l'enregistrement";
 
@@ -74,6 +89,7 @@ public class EditionMembres {
 		Stage theatre = new Stage();
 
 		HBox pane = new HBox();
+		pane.getStyleClass().add(FOND);
 
 		Membre nouveau = new Membre(ID_NOUVEAU, "", "", "", "", new Date(), 0, 0, 0);
 		List<Membre> liste = new ArrayList<Membre>();
@@ -92,14 +108,24 @@ public class EditionMembres {
 		listeMembres.setPrefHeight(500);
 
 		VBox infosMembre = new VBox();
+		infosMembre.setSpacing(ESPACEMENT_ELEMENTS);
+		infosMembre.setTranslateX(TRANSLATION_HORIZONTALE_ELEMENTS);
+		infosMembre.setTranslateY(TRANSLATION_VERTICALE_ELEMENTS);
 
 		HBox idBox = new HBox();
+		idBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label idLabel = new Label("Identificateur : ");
+		idLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
+		idLabel.getStyleClass().add(LABEL);
 		TextField idField = new TextField();
+		idField.getStyleClass().add(App.FIELD);
+		idField.getStyleClass().add(App.CODE);
+		idField.setMinWidth(LARGEUR_ID_FIELD);
 		idLabel.setLabelFor(idField);
 		idField.setText(listeMembres.getSelectionModel().getSelectedItem().getId());
 		idField.setDisable(true);
 		Button idCopierBouton = new Button("Copier");
+		idCopierBouton.getStyleClass().add(App.BOUTON);
 		if(listeMembres.getSelectionModel().getSelectedItem().getId().equals(ID_NOUVEAU)){
 			idCopierBouton.setDisable(true);
 		}
@@ -115,8 +141,12 @@ public class EditionMembres {
 		idBox.getChildren().setAll(idLabel, idField, idCopierBouton);
 
 		HBox surnomBox = new HBox();
+		surnomBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label surnomLabel = new Label("Surnom : ");
+		surnomLabel.getStyleClass().add(LABEL);
+		surnomLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField surnomField = new TextField();
+		surnomField.getStyleClass().add(App.FIELD);
 		surnomLabel.setLabelFor(surnomField);
 		surnomField.setPromptText("Surnom");
 		surnomField.setText(listeMembres.getSelectionModel().getSelectedItem().getSurnom());
@@ -124,13 +154,20 @@ public class EditionMembres {
 		surnomBox.getChildren().setAll(surnomLabel, surnomField);
 
 		HBox prenomNomBox = new HBox();
+		prenomNomBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label prenomLabel = new Label("Prénom : ");
+		prenomLabel.getStyleClass().add(LABEL);
+		prenomLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField prenomField = new TextField();
+		prenomField.getStyleClass().add(App.FIELD);
 		prenomLabel.setLabelFor(prenomField);
 		prenomField.setPromptText("Prénom");
 		prenomField.setText(listeMembres.getSelectionModel().getSelectedItem().getPrenom());
 		Label nomLabel = new Label("Nom : ");
+		nomLabel.getStyleClass().add(LABEL);
+		nomLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField nomField = new TextField();
+		nomField.getStyleClass().add(App.FIELD);
 		nomLabel.setLabelFor(nomField);
 		nomField.setPromptText("Nom");
 		nomField.setText(listeMembres.getSelectionModel().getSelectedItem().getNom());
@@ -138,8 +175,12 @@ public class EditionMembres {
 		prenomNomBox.getChildren().setAll(prenomLabel, prenomField, nomLabel, nomField);
 
 		HBox posteBox = new HBox();
+		posteBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label posteLabel = new Label("Poste : ");
+		posteLabel.getStyleClass().add(LABEL);
+		posteLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		TextField posteField = new TextField();
+		posteField.getStyleClass().add(App.FIELD);
 		posteLabel.setLabelFor(posteField);
 		posteField.setPromptText("Poste");
 		posteField.setText(listeMembres.getSelectionModel().getSelectedItem().getPoste());
@@ -147,7 +188,10 @@ public class EditionMembres {
 		posteBox.getChildren().setAll(posteLabel, posteField);
 
 		HBox dateNaissanceBox = new HBox();
+		dateNaissanceBox.setSpacing(ESPACEMENT_LABELS_FIELDS);
 		Label dateNaissanceLabel = new Label("Date de naissance : ");
+		dateNaissanceLabel.getStyleClass().add(LABEL);
+		dateNaissanceLabel.setTranslateY(TRANSLATION_VERTICALE_LABELS);
 		DatePicker dateNaissancePicker = new DatePicker();
 		dateNaissanceLabel.setLabelFor(dateNaissancePicker);
 		LocalDate dateInitiale = listeMembres.getSelectionModel().getSelectedItem().getDateNaissance().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -158,7 +202,10 @@ public class EditionMembres {
 		infosMembre.getChildren().setAll(idBox, surnomBox, prenomNomBox, posteBox, dateNaissanceBox);
 
 		HBox boutons = new HBox();
+		boutons.setSpacing(ESPACEMENT_ELEMENTS);
 		Button supprimer = new Button("Supprimer");
+		supprimer.getStyleClass().add(App.BOUTON);
+		supprimer.setTranslateY(1);
 		if(listeMembres.getSelectionModel().getSelectedItem().getId().equals(ID_NOUVEAU)){
 			supprimer.setDisable(true);
 		}
@@ -189,6 +236,8 @@ public class EditionMembres {
 		});
 
 		Button enregistrer = new Button("Enregistrer");
+		enregistrer.getStyleClass().add(App.BOUTON);
+		enregistrer.getStyleClass().add(BOUTON_ENREGISTRER);
 		enregistrer.setDefaultButton(true);
 		enregistrer.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae){
@@ -232,8 +281,8 @@ public class EditionMembres {
 		AnchorPane disposition = new AnchorPane();
 		AnchorPane.setTopAnchor(infosMembre, 0.0);
 		AnchorPane.setLeftAnchor(infosMembre, 0.0);
-		AnchorPane.setRightAnchor(boutons, 0.0);
-		AnchorPane.setBottomAnchor(boutons, 0.0);
+		AnchorPane.setRightAnchor(boutons, DECALAGE_HORIZONTAL_BOUTONS);
+		AnchorPane.setBottomAnchor(boutons, DECALAGE_VERTICAL_BOUTONS);
 
 		disposition.getChildren().addAll(infosMembre, boutons);
 

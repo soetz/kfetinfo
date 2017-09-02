@@ -71,14 +71,13 @@ public final class SelectionMembre {
 		Scene scene = new Scene(listeMembres, 250, 350);
 
 		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
-		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/selection membre.css").toExternalForm());
 
 		Stage stage = new Stage();
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
-		stage.setTitle("Selection du membre");
+		stage.setTitle("Sélection du membre");
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -97,6 +96,7 @@ public final class SelectionMembre {
 		membres.addAll(BaseDonnees.getMembres());
 
 		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getStyleClass().add(App.LISTVIEW);
 		listeMembres.getItems().setAll(membres);
 
 		listeMembres.setCellFactory(lv -> new MembreModificationCell());
@@ -124,11 +124,15 @@ public final class SelectionMembre {
 		});
 
 		Scene scene = new Scene(listeMembres, 250, 350);
+
+		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+
 		Stage stage = new Stage();
+
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
-		stage.setTitle("Selection du membre");
+		stage.setTitle("Sélection du membre");
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -147,6 +151,7 @@ public final class SelectionMembre {
 		membres.addAll(BaseDonnees.getMembres());
 
 		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getStyleClass().add(App.LISTVIEW);
 		listeMembres.getItems().setAll(membres);
 
 		listeMembres.setCellFactory(lv -> new MembreModificationCell());
@@ -174,11 +179,15 @@ public final class SelectionMembre {
 		});
 
 		Scene scene = new Scene(listeMembres, 250, 350);
+
+		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+
 		Stage stage = new Stage();
+
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
-		stage.setTitle("Selection du membre");
+		stage.setTitle("Sélection du membre");
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -197,6 +206,7 @@ public final class SelectionMembre {
 		membres.addAll(BaseDonnees.getMembres());
 
 		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getStyleClass().add(App.LISTVIEW);
 		listeMembres.getItems().setAll(membres);
 
 		listeMembres.setCellFactory(lv -> new MembreModificationCell());
@@ -231,11 +241,15 @@ public final class SelectionMembre {
 		});
 
 		Scene scene = new Scene(listeMembres, 250, 350);
+
+		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+
 		Stage stage = new Stage();
+
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
-		stage.setTitle("Selection du membre");
+		stage.setTitle("Sélection du membre");
 		stage.setScene(scene);
 		stage.show();
 
@@ -256,6 +270,7 @@ public final class SelectionMembre {
 		membres.addAll(BaseDonnees.getMembres());
 
 		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getStyleClass().add(App.LISTVIEW);
 		listeMembres.getItems().setAll(membres);
 
 		listeMembres.setCellFactory(lv -> new MembreModificationCell());
@@ -290,11 +305,15 @@ public final class SelectionMembre {
 		});
 
 		Scene scene = new Scene(listeMembres, 250, 350);
+
+		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+
 		Stage stage = new Stage();
+
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
-		stage.setTitle("Selection du membre");
+		stage.setTitle("Sélection du membre");
 		stage.setScene(scene);
 		stage.show();
 
@@ -315,6 +334,7 @@ public final class SelectionMembre {
 		membres.addAll(BaseDonnees.getMembres());
 
 		ListView<Membre> listeMembres = new ListView();
+		listeMembres.getStyleClass().add(App.LISTVIEW);
 		listeMembres.getItems().setAll(membres);
 
 		listeMembres.setCellFactory(lv -> new MembreModificationCell());
@@ -349,11 +369,15 @@ public final class SelectionMembre {
 		});
 
 		Scene scene = new Scene(listeMembres, 250, 350);
+
+		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+
 		Stage stage = new Stage();
+
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
 		stage.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
-		stage.setTitle("Selection du membre");
+		stage.setTitle("Sélection du membre");
 		stage.setScene(scene);
 		stage.show();
 

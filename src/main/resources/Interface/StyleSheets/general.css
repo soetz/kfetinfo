@@ -31,6 +31,7 @@
     light : rgb(236, 245, 244);
     cus-lightgrey : rgb(228, 234, 233);
     cus-grey : rgb(205, 211, 210);
+    darkgrey : rgb(170, 177, 176);
     less-dark : rgb(89, 102, 101);
     dark : rgb(59, 68, 67);
     darker : rgb(40, 46, 45);
@@ -145,7 +146,7 @@
     -fx-background-radius : 0;
     -fx-highlight-fill : chakra-turquoise;
     -fx-highlight-text-fill : light;
-    -fx-prompt-text-fill : less-dark;
+    -fx-prompt-text-fill : darkgrey;
     -fx-border-color : transparent;
     -fx-border-width : 1px;
 }

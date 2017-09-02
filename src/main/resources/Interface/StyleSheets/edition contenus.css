@@ -6,3 +6,55 @@
 	-fx-font : 16px "Source Sans Pro";
 	-fx-text-fill : light;
 }
+
+.ec-menu-onglets .tab-header-area .headers-region .tab {
+	-fx-background-radius : 0;
+	-fx-background-color : less-dark;
+}
+
+.ec-menu-onglets .tab-header-area .headers-region .tab:hover {
+	-fx-background-color : darkgrey;
+}
+
+.ec-menu-onglets .tab-header-area .headers-region .tab:selected {
+	-fx-background-color : dark;
+}
+
+.ec-menu-onglets:focused .tab-header-area .headers-region .tab:selected .focus-indicator {
+	-fx-border-radius : 0;
+    -fx-border-color : chakra-blue;
+}
+
+
+.ec-menu-onglets .tab-header-area .headers-region .tab .tab-container .tab-label {
+	-fx-font : 14px "Source Sans Pro";
+	-fx-text-fill : light;
+}
+
+.ec-menu-onglets .tab-header-area .tab-header-background {
+	-fx-background-color : darker;
+}
+
+.ec-menu-dark-checkbox .box {
+    -fx-background-color : dark;
+    -fx-border-color : light;
+}
+
+.ec-menu-dark-checkbox:selected .box .mark {
+    -fx-background-color : light;
+    -fx-translate-y : -1px;
+}
+
+.ec-menu-bouton-enregistrer {
+    -fx-font : bold 15px "Source Sans Pro";
+    -fx-background-color : chakra-blue;
+    -fx-text-fill : light;
+}
+
+.ec-menu-bouton-enregistrer:hover {
+    -fx-background-color : light-chakra-blue;
+}
+
+.ec-menu-bouton-enregistrer:focused {
+    -fx-border-color : chakra-turquoise;
+}
