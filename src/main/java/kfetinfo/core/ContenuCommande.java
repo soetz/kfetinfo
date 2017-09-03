@@ -28,7 +28,7 @@ import java.util.Objects;
  * <li>les {@code Sauce},</li>
  * <li>les {@code Boisson},</li>
  * <li>les {@code SupplementBoisson}, et</li>
- * <li>les {@code Dessert}.</li></ul><p>
+ * <li>les {@code Dessert}.</li></ul></p>
  * <p>Chaque contenu commande a un {@code id} qui permet de l'identifier dans la base de données.</p>
  * 
  * @see Plat
@@ -52,7 +52,7 @@ public abstract class ContenuCommande {
 	private int priorite;
 
 	/**
-	 * <p>Constructeur ContenuCommande.<p>
+	 * <p>Constructeur ContenuCommande.</p>
 	 * <p>Tous les paramètres sont appliqués aux attributs de l'objet directement.</p>
 	 * 
 	 * @param id l'identificateur du contenu commande, utilisé dans le cadre de la base de données notamment.

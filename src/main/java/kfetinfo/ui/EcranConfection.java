@@ -171,6 +171,7 @@ public class EcranConfection {
 	 * Crée une {@code Region} affichant le contenu d'une commande étant en train d'être confectionnée.
 	 * 
 	 * @param numero la position du membre dans la liste des membres confection du service (commence à 0).
+	 * @param fenetre le numéro de la fenêtre dans la liste des fenêtres.
 	 * 
 	 * @return une commande en train d'être réalisée.
 	 */

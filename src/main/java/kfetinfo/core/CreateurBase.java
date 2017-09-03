@@ -281,7 +281,6 @@ public final class CreateurBase {
 	 * @param nom le nom du plat.
 	 * @param cout le coût du plat, c'est à dire une estimation de la quantité d'argent dépensée pour ajouter le plat à la commande pour une portion classique.
 	 * @param estDisponible le fait que le plat soit en stock ou pas.
-	 * @param nbUtilisations le nombre d'utilisations du plat. Non implémenté pour l'instant.
 	 * @param priorite la position du plat dans la liste des plats (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 * @param prix le prix minimum que doit payer un client choisissant ce plat.
 	 * @param nbMaxIngredients le nombre maximal d'ingrédients pouvant être ajoutés au plat avant de payer un supplément.
@@ -322,7 +321,6 @@ public final class CreateurBase {
 	 * @param nom le nom de l'ingrédient.
 	 * @param cout le coût de l'ingrédient, c'est à dire une estimation de la quantité d'argent dépensée pour ajouter l'ingrédient au plat pour une portion classique.
 	 * @param estDisponible le fait que l'ingrédient soit en stock ou pas.
-	 * @param nbUtilisations le nombre d'utilisations de l'ingrédient. Non implémenté pour l'instant.
 	 * @param priorite la position de l'ingrédient dans la liste des ingrédients (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 */
 	public static final void creerIngredient(String nom, float cout, boolean estDisponible, int priorite){
@@ -354,7 +352,6 @@ public final class CreateurBase {
 	 * @param nom le nom de la sauce.
 	 * @param cout le coût de la sauce, c'est à dire une estimation de la quantité d'argent dépensée pour ajouter la sauce au plat pour une portion classique.
 	 * @param estDisponible le fait que la sauce soit en stock ou pas.
-	 * @param nbUtilisations le nombre d'utilisations de la sauce. Non implémenté pour l'instant.
 	 * @param priorite la position de la sauce dans la liste des sauces (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 */
 	public static final void creerSauce(String nom, float cout, boolean estDisponible, int priorite){
@@ -386,7 +383,6 @@ public final class CreateurBase {
 	 * @param nom le nom de la boisson.
 	 * @param cout le coût de la boisson, c'est à dire une estimation de la quantité d'argent dépensée pour servir la boisson si celle-ci est servie de manière classique.
 	 * @param estDisponible le fait que la boisson soit en stock ou pas.
-	 * @param nbUtilisations le nombre d'utilisations de la boisson. Non implémenté pour l'instant.
 	 * @param priorite la position de la boisson dans la liste des boissons (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 */
 	public static final void creerBoisson(String nom, float cout, boolean estDisponible, int priorite) {
@@ -418,7 +414,6 @@ public final class CreateurBase {
 	 * @param nom le nom du supplément boisson.
 	 * @param cout le coût du supplément boisson, c'est à dire une estimation de la quantité d'argent dépensée pour ajouter le supplément à une boisson pour une portion classique.
 	 * @param estDisponible le fait que le supplément boisson soit en stock ou pas.
-	 * @param nbUtilisations le nombre d'utilisations du supplément boisson. Non implémenté pour l'instant.
 	 * @param priorite la position du supplément boisson dans la liste des suppléments boisson (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 * @param prix le prix que doit payer le client pour ajouter ce supplément boisson à sa boisson.
 	 */
@@ -453,7 +448,6 @@ public final class CreateurBase {
 	 * @param nom le nom du dessert.
 	 * @param cout le coût du dessert, c'est à dire une estimation de la quantité d'argent dépensée pour réaliser le dessert pour une portion classique.
 	 * @param estDisponible le fait que le dessert soit en stock ou pas.
-	 * @param nbUtilisations le nombre d'utilisations du dessert. Non implémenté pour l'instant.
 	 * @param priorite la position du dessert dans la liste des desserts (la liste est triée d'abord par ordre de priorité puis par ordre alphabétique si les priorités sont égales).
 	 * @param prix le prix que doit payer le client pour ajouter ce dessert à sa commande.
 	 */
@@ -1113,6 +1107,7 @@ public final class CreateurBase {
 	 * @param prixIngredientSupp le prix d'un ingrédient supplémentaire (lorsque le client choisit plus d'ingrédients que ce que le plat autorise d'ordinaire).
 	 * @param prixBoisson le prix d'une boisson.
 	 * @param reducMenu le montant de la réduction accordée si le client choisit un plat, une boisson et un dessert pour sa commande.
+	 * @param coutPain le coût d'une baguette de pain chez le boulanger.
 	 * 
 	 * @return un {@code JSONObject} contenant toutes les informations des paramètres.
 	 */
@@ -1167,6 +1162,7 @@ public final class CreateurBase {
 	 * @param prixIngredientSupp le prix d'un ingrédient supplémentaire (lorsque le client choisit plus d'ingrédients que ce que le plat autorise d'ordinaire).
 	 * @param prixBoisson le prix d'une boisson.
 	 * @param reducMenu le montant de la réduction accordée si le client choisit un plat, une boisson et un dessert pour sa commande.
+	 * @param coutPain le coût d'une baguette de pain chez le boulanger.
 	 */
 	private static final void ajouterParametres(float prixIngredientSupp, float prixBoisson, float reducMenu, float coutPain){
 
@@ -1177,8 +1173,6 @@ public final class CreateurBase {
 
 	/**
 	 * Ajoute (ou met à jour) un fichier de paramètres à la base de données. Permet de ne passer que l'objet paramètres en paramètres.
-	 * 
-	 * @param parametres les paramètres à écrire dans la base de données.
 	 */
 	public static final void ajouterParametres(){
 

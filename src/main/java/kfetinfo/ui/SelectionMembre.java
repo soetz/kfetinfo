@@ -219,6 +219,8 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le premier confection du service.
+	 * 
+	 * @return la fenêtre créée.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static final Stage selectionConfection1(){
@@ -291,6 +293,8 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le deuxième confection du service.
+	 * 
+	 * @return la fenêtre créée.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final Stage selectionConfection2(){
@@ -363,6 +367,8 @@ public final class SelectionMembre {
 
 	/**
 	 * Crée une fenêtre permettant de sélectionner le troisième confection du service.
+	 * 
+	 * @return la fenêtre créée.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static final Stage selectionConfection3(){

@@ -309,7 +309,6 @@ public class Commande {
 	 * 
 	 * @param plat le plat utilisé pour calculer le prix de la commande.
 	 * @param ingredients la {@code List<Ingredient>} décrivant la liste des ingrédients utilisés pour calculer le prix de la commande.
-	 * @param sauces la {@code List<Sauce>} décrivant la liste des sauces utilisées pour calculer le prix de la commande.
 	 * @param boisson la boisson utilisée pour calculer le prix de la commande.
 	 * @param supplementBoisson le supplément boisson utilisé pour calculer le prix de la commande.
 	 * @param dessert le dessert utilisé pour calculer le prix de la commande.

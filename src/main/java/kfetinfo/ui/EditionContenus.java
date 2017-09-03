@@ -1022,7 +1022,6 @@ public final class EditionContenus {
 
 	/**
 	 * Crée l'onglet divers de l'écran de modification des contenus commandes. Celui-ci permet de modifier les informations relatives aux paramètres basiques de l'application comme le prix d'une boisson ou la réduction accordée pour un menu.
-	 * @param theatre le {@code Stage} de l'écran de modification des contenus commande.
 	 * 
 	 * @return l'onglet de modification des divers.
 	 */

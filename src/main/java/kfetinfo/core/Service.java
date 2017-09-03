@@ -584,7 +584,7 @@ public class Service {
 	/**
 	 * Modifie la {@code List<Membre>} contenant les membres qui sont chargés de confectionner les plats lors du service.
 	 * 
-	 * @param commis la liste des nouveaux confection du service.
+	 * @param confection la liste des nouveaux confection du service.
 	 */
 	public void setConfection(List<Membre> confection){
 
