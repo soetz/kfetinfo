@@ -72,7 +72,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/").toURI()); //on définit le dossier de base sur le dossier Base de Données qui se trouve à la racine de l'arborescence du programme
+			dossier = Core.recupererFichier("/Base de Données/"); //on définit le dossier de base sur le dossier Base de Données qui se trouve à la racine de l'arborescence du programme
 		} catch (NullPointerException e) { //En général lorsque cette exception est levée, c'est que le dossier Base de Données n'existe pas à la racine du logiciel, alors on affiche un petit message pour indiquer la marche à suivre
 			JOptionPane.showMessageDialog(null, "Il faut créer un dossier « Base de Données » à la racine du logiciel, sinon ça ne peut pas fonctionner ! :(");
 			e.printStackTrace();
@@ -107,7 +107,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI()); //on définit le dossier d'écriture sur le dossier Plats
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Plats/"); //on définit le dossier d'écriture sur le dossier Plats
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,7 +138,7 @@ public final class CreateurBase {
         }
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI()); //on définit le dossier d'écriture sur le dossier Boissons
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Boissons/"); //on définit le dossier d'écriture sur le dossier Boissons
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -165,7 +165,7 @@ public final class CreateurBase {
         }
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI()); //on définit le dossier d'écriture sur le dossier Suppléments Boisson
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Suppléments Boisson/"); //on définit le dossier d'écriture sur le dossier Suppléments Boisson
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -193,7 +193,7 @@ public final class CreateurBase {
         }
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI()); //on définit le dossier d'écriture sur le dossier Desserts
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Desserts/"); //on définit le dossier d'écriture sur le dossier Desserts
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -299,7 +299,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI()); //on définit le dossier d'écriture sur le dossier Plats
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Plats/"); //on définit le dossier d'écriture sur le dossier Plats
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -330,7 +330,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI()); //on définit le dossier d'écriture sur le dossier Ingrédients
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Ingrédients/"); //on définit le dossier d'écriture sur le dossier Ingrédients
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -361,7 +361,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI()); //on définit le dossier d'écriture sur le dossier Sauces
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Sauces/"); //on définit le dossier d'écriture sur le dossier Sauces
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -392,7 +392,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI()); //on définit le dossier d'écriture sur le dossier Boissons
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Boissons/"); //on définit le dossier d'écriture sur le dossier Boissons
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -426,7 +426,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI()); //on définit le dossier d'écriture sur le dossier Suppléments Boisson
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Suppléments Boisson/"); //on définit le dossier d'écriture sur le dossier Suppléments Boisson
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -460,7 +460,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI()); //on définit le dossier d'écriture sur le dossier Desserts
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Desserts/"); //on définit le dossier d'écriture sur le dossier Desserts
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -501,7 +501,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Membres/").toURI()); //on définit le dossier d'écriture sur le dossier Membres
+			dossier = Core.recupererFichier("/Base de Données/Membres/"); //on définit le dossier d'écriture sur le dossier Membres
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -558,7 +558,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI()); //on définit le dossier d'écriture sur le dossier Plats
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Plats/"); //on définit le dossier d'écriture sur le dossier Plats
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -595,7 +595,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI()); //on définit le dossier d'écriture sur le dossier Ingrédients
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Ingrédients/"); //on définit le dossier d'écriture sur le dossier Ingrédients
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -632,7 +632,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI()); //on définit le dossier d'écriture sur le dossier Sauces
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Sauces/"); //on définit le dossier d'écriture sur le dossier Sauces
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -669,7 +669,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI()); //on définit le dossier d'écriture sur le dossier Boissons
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Boissons/"); //on définit le dossier d'écriture sur le dossier Boissons
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -708,7 +708,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI()); //on définit le dossier d'écriture sur le dossier Suppléments Boisson
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Suppléments Boisson/"); //on définit le dossier d'écriture sur le dossier Suppléments Boisson
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -747,7 +747,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI()); //on définit le dossier d'écriture sur le dossier Desserts
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Desserts/"); //on définit le dossier d'écriture sur le dossier Desserts
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -794,7 +794,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Membres/").toURI()); //on définit le dossier d'écriture sur le dossier Membres
+			dossier = Core.recupererFichier("/Base de Données/Membres/"); //on définit le dossier d'écriture sur le dossier Membres
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -887,7 +887,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier d'écriture sur le dossier Services
+			dossier = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier d'écriture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1048,7 +1048,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier d'écriture sur le dossier Services
+			dossier = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier d'écriture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1134,7 +1134,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Paramètres/").toURI()); //on définit le dossier d'écriture sur le dossier Paramètres
+			dossier = Core.recupererFichier("/Base de Données/Paramètres/"); //on définit le dossier d'écriture sur le dossier Paramètres
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1189,7 +1189,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI()); //on définit le dossier d'écriture sur le dossier Plats
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Plats/"); //on définit le dossier d'écriture sur le dossier Plats
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1208,7 +1208,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI()); //on définit le dossier d'écriture sur le dossier Ingrédients
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Ingrédients/"); //on définit le dossier d'écriture sur le dossier Ingrédients
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1227,7 +1227,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI()); //on définit le dossier d'écriture sur le dossier Ingrédients
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Sauces/"); //on définit le dossier d'écriture sur le dossier Ingrédients
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1246,7 +1246,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI()); //on définit le dossier d'écriture sur le dossier Boissons
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Boissons/"); //on définit le dossier d'écriture sur le dossier Boissons
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1265,7 +1265,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI()); //on définit le dossier d'écriture sur le dossier Suppléments Boisson
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Suppléments Boisson/"); //on définit le dossier d'écriture sur le dossier Suppléments Boisson
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1284,7 +1284,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI()); //on définit le dossier d'écriture sur le dossier Desserts
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Desserts/"); //on définit le dossier d'écriture sur le dossier Desserts
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1303,7 +1303,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Membres").toURI()); //on définit le dossier d'écriture sur le dossier Membres
+			dossier = Core.recupererFichier("/Base de Données/Membres"); //on définit le dossier d'écriture sur le dossier Membres
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1335,7 +1335,7 @@ public final class CreateurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(CreateurBase.class.getResource("../../Base de Données/Services").toURI()); //on définit le dossier d'écriture sur le dossier Membres
+			dossier = Core.recupererFichier("/Base de Données/Services"); //on définit le dossier d'écriture sur le dossier Membres
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -21,6 +21,7 @@ package kfetinfo.ui;
 import kfetinfo.core.BaseDonnees;
 import kfetinfo.core.Boisson;
 import kfetinfo.core.ContenuCommande;
+import kfetinfo.core.Core;
 import kfetinfo.core.CreateurBase;
 import kfetinfo.core.Dessert;
 import kfetinfo.core.Ingredient;
@@ -36,7 +37,7 @@ import java.util.Locale;
 
 import java.util.Optional;
 import java.util.function.UnaryOperator;
-
+import java.io.File;
 import java.text.NumberFormat;
 
 import javafx.beans.value.ChangeListener;
@@ -128,14 +129,14 @@ public final class EditionContenus {
 		modifie = false;
 
 		Stage theatre = new Stage();
-		theatre.getIcons().setAll(new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_16.png").toExternalForm()),
-				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_24.png").toExternalForm()),
-				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_32.png").toExternalForm()),
-				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_48.png").toExternalForm()),
-				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_64.png").toExternalForm()),
-				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_128.png").toExternalForm()),
-				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_256.png").toExternalForm()),
-				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_512.png").toExternalForm()));
+		theatre.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Menu/Menu_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Menu/Menu_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Menu/Menu_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Menu/Menu_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Menu/Menu_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Menu/Menu_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Menu/Menu_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Menu/Menu_512.png").getAbsolutePath()));
 
 		TabPane tabPane = new TabPane();
 
@@ -174,8 +175,10 @@ public final class EditionContenus {
 
 		Scene scene = new Scene(tabPane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
 
-		scene.getStylesheets().add(EditionContenus.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
-		scene.getStylesheets().add(EditionContenus.class.getResource("../../Interface/Stylesheets/edition contenus.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		f = Core.recupererFichier("/Interface/Stylesheets/edition-contenus.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		theatre.setAlwaysOnTop(true);
 		theatre.setResizable(false);

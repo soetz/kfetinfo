@@ -82,7 +82,7 @@ public class Service {
 		File dossier = null;
 
 		try {
-			dossier = new File(Service.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
+			dossier = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier de lecture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -363,7 +363,7 @@ public class Service {
 
 		File dossierServices = null;
 		try {
-			dossierServices = new File(Service.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
+			dossierServices = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier de lecture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -382,7 +382,7 @@ public class Service {
 
 		File dossierAnnee = null;
 		try {
-			dossierAnnee = new File(Service.class.getResource("../../Base de Données/Services/" + anneeRecente + "/").toURI()); //on définit le dossier de lecture sur le dossier Services/anneeRecente
+			dossierAnnee = Core.recupererFichier("/Base de Données/Services/" + anneeRecente + "/"); //on définit le dossier de lecture sur le dossier Services/anneeRecente
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -401,7 +401,7 @@ public class Service {
 
 		File dossierMois = null;
 		try {
-			dossierMois = new File(Service.class.getResource("../../Base de Données/Services/" + anneeRecente + "/" + moisRecent + "/").toURI()); //on définit le dossier de lecture sur le dossier Services/anneeRecente/moisRecent
+			dossierMois = Core.recupererFichier("/Base de Données/Services/" + anneeRecente + "/" + moisRecent + "/"); //on définit le dossier de lecture sur le dossier Services/anneeRecente/moisRecent
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -656,7 +656,7 @@ public class Service {
 
 		File dossier = null;
 		try {
-			dossier = new File(Service.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
+			dossier = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier de lecture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

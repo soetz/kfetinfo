@@ -93,7 +93,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI()); //on définit le dossier de lecture sur le dossier Plats
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Plats/"); //on définit le dossier de lecture sur le dossier Plats
 			platJson = lireObjet(dossier + "/" + nom + ".json"); //on récupère l'objet JSON du plat lu
 			System.out.println("Lecture de : " + platJson); //on écrit dans la console qu'on a lu un fichier
 		} catch (Exception e) {
@@ -129,7 +129,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI()); //on définit le dossier de lecture sur le dossier Ingrédients
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Ingrédients/"); //on définit le dossier de lecture sur le dossier Ingrédients
 			ingredientJson = lireObjet(dossier + "/" + nom + ".json"); //on récupère l'objet JSON de l'ingrédient lu
 			System.out.println("Lecture de : " + ingredientJson); //on écrit dans la console qu'on a lu un fichier
 		} catch (Exception e) {
@@ -161,7 +161,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI()); //on définit le dossier de lecture sur le dossier Sauces
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Sauces/"); //on définit le dossier de lecture sur le dossier Sauces
 			sauceJson = lireObjet(dossier + "/" + nom + ".json"); //on récupère l'objet JSON de la sauce lue
 			System.out.println("Lecture de : " + sauceJson); //on écrit dans la console qu'on a lu un fichier
 		} catch (Exception e) {
@@ -193,7 +193,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI()); //on définit le dossier de lecture sur le dossier Boissons
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Boissons/"); //on définit le dossier de lecture sur le dossier Boissons
 			boissonJson = lireObjet(dossier + "/" + nom + ".json"); //on récupère l'objet JSON de la boisson lue
 			System.out.println("Lecture de : " + boissonJson); //on écrit dans la console qu'on a lu un fichier
 		} catch (Exception e) {
@@ -225,7 +225,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI()); //on définit le dossier de lecture sur le dossier Suppléments Boisson
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Suppléments Boisson/"); //on définit le dossier de lecture sur le dossier Suppléments Boisson
 			supplementBoissonJson = lireObjet(dossier + "/" + nom + ".json"); //on récupère l'objet JSON du supplément boisson lu
 			System.out.println("Lecture de : " + supplementBoissonJson); //on écrit dans la console qu'on a lu un fichier
 		} catch (Exception e) {
@@ -258,7 +258,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI()); //on définit le dossier de lecture sur le dossier Desserts
+			dossier = Core.recupererFichier("/Base de Données/Contenus Commandes/Desserts/"); //on définit le dossier de lecture sur le dossier Desserts
 			dessertJson = lireObjet(dossier + "/" + nom + ".json"); //on récupère l'objet JSON du dessert lu
 			System.out.println("Lecture de : " + dessertJson); //on écrit dans la console qu'on a lu un fichier
 		} catch (Exception e) {
@@ -291,7 +291,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Membres/").toURI()); //on définit le dossier de lecture sur le dossier Membres
+			dossier = Core.recupererFichier("/Base de Données/Membres/"); //on définit le dossier de lecture sur le dossier Membres
 			membreJson = lireObjet(dossier + "/" + nomFichier + ".json"); //on récupère l'objet JSON du membre lu
 			System.out.println("Lecture de : " + membreJson); //on écrit dans la console qu'on a lu un fichier
 		} catch (Exception e) {
@@ -347,7 +347,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
+			dossier = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier de lecture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -417,7 +417,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
+			dossier = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier de lecture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -486,7 +486,7 @@ public final class LecteurBase {
 
 		File dossier = null;
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
+			dossier = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier de lecture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -539,7 +539,7 @@ public final class LecteurBase {
 
 		File dossier = null;
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Paramètres/").toURI()); //on définit le dossier de lecture sur le dossier Paramètres
+			dossier = Core.recupererFichier("/Base de Données/Paramètres/"); //on définit le dossier de lecture sur le dossier Paramètres
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -583,7 +583,7 @@ public final class LecteurBase {
 		File dossier = null;
 
 		try {
-			dossier = new File(LecteurBase.class.getResource("../../Base de Données/Services/").toURI()); //on définit le dossier de lecture sur le dossier Services
+			dossier = Core.recupererFichier("/Base de Données/Services/"); //on définit le dossier de lecture sur le dossier Services
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

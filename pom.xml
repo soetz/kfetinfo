@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.bdeinfo</groupId>
   <artifactId>kfetinfo</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -50,4 +50,48 @@ This program is free software: you can redistribute it and/or modify it under th
   <scm>
   	<url>https://github.com/Rbird0/kfetinfo.git</url>
   </scm>
+  <build>
+  	<plugins>
+  	  <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+          <finalName>${project.artifactId}-${project.version}</finalName>
+          <outputDirectory>${basedir}\\export</outputDirectory>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>kfetinfo.ui.App</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>package-jar-with-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+  	</plugins>
+  	<resources>
+        <resource>
+            <directory>src</directory>
+            <excludes>
+                <exclude>**/*.java</exclude>
+            </excludes>
+        </resource>
+        <resource>
+            <directory>resources</directory>
+            <excludes>
+                <exclude>**/*.java</exclude>
+            </excludes>
+        </resource>
+    </resources>
+  </build>
 </project>

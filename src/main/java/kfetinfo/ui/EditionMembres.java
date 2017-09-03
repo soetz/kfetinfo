@@ -19,6 +19,7 @@
 package kfetinfo.ui;
 
 import kfetinfo.core.BaseDonnees;
+import kfetinfo.core.Core;
 import kfetinfo.core.CreateurBase;
 import kfetinfo.core.Membre;
 
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.util.Date;
-
+import java.io.File;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -88,14 +89,14 @@ public class EditionMembres {
 	public static final void ecran(){
 
 		Stage theatre = new Stage();
-		theatre.getIcons().setAll(new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
-				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
-				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
-				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
-				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
-				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
-				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
-				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
+		theatre.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_512.png").getAbsolutePath()));
 
 		HBox pane = new HBox();
 		pane.getStyleClass().add(FOND);
@@ -321,8 +322,10 @@ public class EditionMembres {
 
 		Scene scene = new Scene(pane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
 
-		scene.getStylesheets().add(EditionMembres.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
-		scene.getStylesheets().add(EditionMembres.class.getResource("../../Interface/Stylesheets/edition membres.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		f = Core.recupererFichier("/Interface/Stylesheets/edition-membres.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		theatre.setAlwaysOnTop(true);
 		theatre.setResizable(false);

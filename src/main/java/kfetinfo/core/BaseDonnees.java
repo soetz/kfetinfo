@@ -579,10 +579,12 @@ public final class BaseDonnees {
 		File dossierPlats = null;
 
 		try {
-			dossierPlats = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Plats/").toURI()); //on attribue le chemin du dossier des plats
+			dossierPlats = Core.recupererFichier("/Base de Données/Contenus Commandes/Plats/"); //on attribue le chemin du dossier des plats
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		System.out.println(dossierPlats);
 
 		for(File fichier : dossierPlats.listFiles()){ //pour chaque fichier dans le dossier des plats
 			if(fichier.isFile()&&(FilenameUtils.getExtension(fichier.getName())).equals("json")){ //si le fichier en question est un fichier et que son extension est json
@@ -605,7 +607,7 @@ public final class BaseDonnees {
 		File dossierIngredients = null;
 
 		try {
-			dossierIngredients = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Ingrédients/").toURI()); //on attribue le chemin du dossier des ingrédients
+			dossierIngredients = Core.recupererFichier("/Base de Données/Contenus Commandes/Ingrédients/"); //on attribue le chemin du dossier des ingrédients
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -631,7 +633,7 @@ public final class BaseDonnees {
 		File dossierSauces = null;
 
 		try {
-			dossierSauces = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Sauces/").toURI()); //on attribue le chemin du dossier des sauces
+			dossierSauces = Core.recupererFichier("/Base de Données/Contenus Commandes/Sauces/"); //on attribue le chemin du dossier des sauces
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -657,7 +659,7 @@ public final class BaseDonnees {
 		File dossierBoissons = null;
 
 		try {
-			dossierBoissons = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Boissons/").toURI()); //on attribue le chemin du dossier des boissons
+			dossierBoissons = Core.recupererFichier("/Base de Données/Contenus Commandes/Boissons/"); //on attribue le chemin du dossier des boissons
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -683,7 +685,7 @@ public final class BaseDonnees {
 		File dossierSupplementsBoisson = null;
 
 		try {
-			dossierSupplementsBoisson = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Suppléments Boisson/").toURI()); //on attribue le chemin du dossier des suppléments boisson
+			dossierSupplementsBoisson = Core.recupererFichier("/Base de Données/Contenus Commandes/Suppléments Boisson/"); //on attribue le chemin du dossier des suppléments boisson
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -709,7 +711,7 @@ public final class BaseDonnees {
 		File dossierDesserts = null;
 
 		try {
-			dossierDesserts = new File(BaseDonnees.class.getResource("../../Base de Données/Contenus Commandes/Desserts/").toURI()); //on attribue le chemin du dossier des desserts
+			dossierDesserts = Core.recupererFichier("/Base de Données/Contenus Commandes/Desserts/"); //on attribue le chemin du dossier des desserts
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -748,7 +750,7 @@ public final class BaseDonnees {
 		File dossierMembres = null;
 
 		try {
-			dossierMembres = new File(BaseDonnees.class.getResource("../../Base de Données/Membres/").toURI()); //on attribue le chemin du dossier des membres
+			dossierMembres = Core.recupererFichier("/Base de Données/Membres/"); //on attribue le chemin du dossier des membres
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

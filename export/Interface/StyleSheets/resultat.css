@@ -1,0 +1,145 @@
+.resultat-panneau {
+    -fx-background-color : dark;
+
+    copper : rgb(154, 97, 43);
+    nordic-gold : rgb(190, 162, 66);
+    nickel : rgb(172, 170, 168);
+    five-euros : rgb(148, 170, 166);
+    ten-euros : rgb(179, 137, 107);
+    twenty-euros : rgb(132, 164, 175);
+
+    light-copper : rgb(178, 134, 93);
+    light-nordic-gold : rgb(205, 184, 111);
+    light-nickel : rgb(192, 190, 189);
+    light-five-euros : rgb(173, 190, 187);
+    light-ten-euros : rgb(197, 165, 142);
+    light-twenty-euros : rgb(161, 185, 194);
+}
+
+.resultat-fond-commande-preview {
+	-fx-background-color : light;
+}
+
+.resultat-contenu-commande-preview {
+	-fx-font : 15px "Source Sans Pro";
+    -fx-text-fill : dark;
+}
+
+.resultat-prix-commande-preview {
+	-fx-font : bold 28px "Source Sans Pro";
+    -fx-background-color : chakra-turquoise;
+	-fx-text-fill : light;
+}
+
+.resultat-nombre-pieces {
+	-fx-alignment : center;
+    -fx-font : 13px "Source Sans Pro";
+    -fx-text-fill : light;
+}
+
+.resultat-a-rendre {
+	-fx-alignment : center;
+	-fx-font : bold 15px "Source Sans Pro";
+    -fx-text-fill : light;
+}
+
+.resultat-cent-rouge {
+    -fx-font : 14px "Source Sans Pro";
+    -fx-background-color : copper;
+    -fx-text-fill : light;
+}
+
+.resultat-cent-rouge:hover {
+    -fx-background-color : light-copper;
+}
+
+.resultat-cent-jaune {
+    -fx-font : 14px "Source Sans Pro";
+    -fx-background-color : nordic-gold;
+    -fx-text-fill : light;
+}
+
+.resultat-cent-jaune:hover {
+    -fx-background-color : light-nordic-gold;
+}
+
+.resultat-euros {
+    -fx-font : 14px "Source Sans Pro";
+    -fx-background-color : nickel;
+    -fx-text-fill : light;
+}
+
+.resultat-euros:hover {
+    -fx-background-color : light-nickel;
+}
+
+#billet-cinq-euros {
+    -fx-font : 14px "Source Sans Pro";
+    -fx-background-color : five-euros;
+    -fx-text-fill : light;
+}
+
+#billet-cinq-euros:hover {
+    -fx-background-color : light-five-euros;
+}
+
+#billet-dix-euros {
+    -fx-font : 14px "Source Sans Pro";
+    -fx-background-color : ten-euros;
+    -fx-text-fill : light;
+}
+
+#billet-dix-euros:hover {
+    -fx-background-color : light-ten-euros;
+}
+
+#billet-vingt-euros {
+    -fx-font : 14px "Source Sans Pro";
+    -fx-background-color : twenty-euros;
+    -fx-text-fill : light;
+}
+
+#billet-vingt-euros:hover {
+    -fx-background-color : light-twenty-euros;
+}
+
+.resultat-bouton-reset {
+    -fx-text-fill : dark;
+}
+
+.resultat-bouton-ajouter {
+    -fx-font : bold 15px "Source Sans Pro";
+    -fx-background-color : chakra-blue;
+    -fx-text-fill : light;
+}
+
+.resultat-bouton-ajouter:hover {
+    -fx-background-color : light-chakra-blue;
+}
+
+.resultat-bouton-ajouter:focused {
+    -fx-border-color : chakra-turquoise;
+}
+
+.resultat-poste {
+    -fx-font : bold 15px "Source Sans Pro";
+    -fx-text-fill : light;
+}
+
+.resultat-membre-equipe {
+    -fx-font : italic 14px "Source Sans Pro";
+    -fx-text-fill : chakra-turquoise;
+}
+
+.resultat-fond-membre-equipe {
+    -fx-background-color : darker;
+}
+
+.resultat-superposition-membre-equipe {
+    -fx-alignment : center-left;
+}
+
+.resultat-bouton-modifier {
+    -fx-font : 13px "Source Sans Pro";
+    -fx-text-fill : dark;
+}

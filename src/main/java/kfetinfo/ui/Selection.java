@@ -84,7 +84,7 @@ public final class Selection {
 	private static final Double ESPACE_HAUT_BAS_LISTE = 4.0;
 
 	//variables utiles pour l'affichage du panneau de développement
-	private static final boolean DEV = true;
+	private static final boolean DEV = false;
 	private static final long[] FRAME_TIMES = new long[100];
 	private static int frameTimeIndex = 0 ;
 	private static boolean arrayFilled = false ;

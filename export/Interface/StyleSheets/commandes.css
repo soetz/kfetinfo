@@ -1,0 +1,80 @@
+.commandes-commande {
+    -fx-background-color : light;
+}
+
+.commandes-commande:hover {
+    -fx-background-color : sea-glass;
+}
+
+.commandes-panneau {
+	-fx-focus-color : transparent;
+}
+
+.commandes-panneau .viewport {
+    -fx-background-color : cus-grey;
+}
+
+.commandes-panneau .scroll-bar .track {
+    -fx-background-color : cus-grey;
+}
+
+.commandes-panneau .scroll-bar .thumb {
+    -fx-background-color : less-dark;
+    -fx-background-radius : 0px;
+}
+
+.commandes-panneau .scroll-bar .thumb:hover {
+    -fx-background-color : dark;
+}
+
+.commandes-panneau .scroll-bar .thumb:pressed {
+    -fx-background-color : dark;
+}
+
+.commandes-panneau .scroll-bar .increment-button {
+    -fx-background-color : transparent;
+    -fx-background-radius : 0em;
+    -fx-padding : 0 10 0 0;
+}
+
+.commandes-panneau .scroll-bar .increment-button .increment-arrow {
+    -fx-shape : " ";
+    -fx-padding : 0;
+}
+
+.commandes-panneau .scroll-bar .decrement-button {
+    -fx-background-color : transparent;
+    -fx-background-radius : 0em;
+    -fx-padding : 0 10 0 0;
+}
+
+.commandes-panneau .scroll-bar .decrement-button .decrement-arrow {
+    -fx-shape : " ";
+    -fx-padding : 0;
+}
+
+.commandes-plat-liste {
+	-fx-cursor : hand;
+}
+
+.commandes-confection {
+    -fx-font : italic 13px "Source Sans Pro";
+    -fx-fill : dark;
+}
+
+.commandes-contenu {
+    -fx-font : 13px "Source Sans Pro";
+    -fx-fill : dark;
+}
+
+.commandes-separation-primaire {
+    -fx-background-color : less-dark;
+}
+
+.commandes-separation-secondaire {
+    -fx-background-color : dark;
+}
+
+.commandes-fleche {
+    -fx-fill : dark;
+}

@@ -27,6 +27,7 @@ import kfetinfo.core.Membre;
 import kfetinfo.core.Sauce;
 
 import java.util.List;
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.beans.property.DoubleProperty;
@@ -126,18 +127,20 @@ public class EcranConfection {
 
 		Scene scene = new Scene(ecran, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
 
-		scene.getStylesheets().add(EcranConfection.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
-		scene.getStylesheets().add(EcranConfection.class.getResource("../../Interface/Stylesheets/ecran confection.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		f = Core.recupererFichier("/Interface/Stylesheets/ecran-confection.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		Stage theatre = new Stage();
-		theatre.getIcons().setAll(new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_16.png").toExternalForm()),
-				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_24.png").toExternalForm()),
-				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_32.png").toExternalForm()),
-				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_48.png").toExternalForm()),
-				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_64.png").toExternalForm()),
-				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_128.png").toExternalForm()),
-				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_256.png").toExternalForm()),
-				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_512.png").toExternalForm()));
+		theatre.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/App/AppIcon_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/App/AppIcon_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/App/AppIcon_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/App/AppIcon_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/App/AppIcon_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/App/AppIcon_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/App/AppIcon_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/App/AppIcon_512.png").getAbsolutePath()));
 		LISTE_FENETRES.add(theatre);
 
 		theatre.setMinWidth(App.LARGEUR_MIN_FENETRE + 16);

@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.util.Locale;
-
+import java.io.File;
 import java.text.NumberFormat;
 
 import javafx.beans.value.ChangeListener;
@@ -255,18 +255,20 @@ public final class Stocks {
 
 		Scene scene = new Scene(pane, App.LARGEUR_MIN_FENETRE, App.HAUTEUR_MIN_FENETRE);
 
-		scene.getStylesheets().add(Stocks.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
-		scene.getStylesheets().add(Stocks.class.getResource("../../Interface/Stylesheets/stocks.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		f = Core.recupererFichier("/Interface/Stylesheets/stocks.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		Stage theatre = new Stage();
-		theatre.getIcons().setAll(new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_16.png").toExternalForm()),
-				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_24.png").toExternalForm()),
-				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_32.png").toExternalForm()),
-				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_48.png").toExternalForm()),
-				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_64.png").toExternalForm()),
-				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_128.png").toExternalForm()),
-				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_256.png").toExternalForm()),
-				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_512.png").toExternalForm()));
+		theatre.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Stocks/Stocks_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Stocks/Stocks_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Stocks/Stocks_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Stocks/Stocks_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Stocks/Stocks_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Stocks/Stocks_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Stocks/Stocks_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Stocks/Stocks_512.png").getAbsolutePath()));
 		theatre.setAlwaysOnTop(true);
 		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		theatre.setMinWidth(App.LARGEUR_MIN_FENETRE + 16);

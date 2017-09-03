@@ -18,6 +18,8 @@
 
 package kfetinfo.core;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Date;
 
 /**
@@ -62,5 +64,27 @@ public class Core {
 	public static Service getService(){
 
 		return(service);
+	}
+
+	public static String recupererCheminJar(){
+		URL url = Core.class.getProtectionDomain().getCodeSource().getLocation();
+		File jar = null;
+		try {
+			jar = new File(url.toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return(jar.getParent());
+	}
+
+	public static File recupererFichier(String path){
+		URL url = Core.class.getProtectionDomain().getCodeSource().getLocation();
+		File jar = null;
+		try {
+			jar = new File(url.toURI());
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return(new File(jar.getParent(), path));
 	}
 }

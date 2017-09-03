@@ -23,6 +23,7 @@ import kfetinfo.core.Core;
 import kfetinfo.core.Membre;
 
 import java.util.List;
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
@@ -71,17 +72,18 @@ public final class SelectionMembre {
 
 		Scene scene = new Scene(listeMembres, 250, 350);
 
-		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		Stage stage = new Stage();
-		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
+		stage.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_512.png").getAbsolutePath()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -134,17 +136,18 @@ public final class SelectionMembre {
 
 		Scene scene = new Scene(listeMembres, 250, 350);
 
-		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		Stage stage = new Stage();
-		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
+		stage.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_512.png").getAbsolutePath()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -197,17 +200,18 @@ public final class SelectionMembre {
 
 		Scene scene = new Scene(listeMembres, 250, 350);
 
-		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		Stage stage = new Stage();
-		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
+		stage.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_512.png").getAbsolutePath()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -269,17 +273,18 @@ public final class SelectionMembre {
 
 		Scene scene = new Scene(listeMembres, 250, 350);
 
-		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		Stage stage = new Stage();
-		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
+		stage.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_512.png").getAbsolutePath()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -343,17 +348,18 @@ public final class SelectionMembre {
 
 		Scene scene = new Scene(listeMembres, 250, 350);
 
-		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		Stage stage = new Stage();
-		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
+		stage.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_512.png").getAbsolutePath()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -417,17 +423,18 @@ public final class SelectionMembre {
 
 		Scene scene = new Scene(listeMembres, 250, 350);
 
-		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		File f = Core.recupererFichier("/Interface/Stylesheets/general.css");
+		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
 		Stage stage = new Stage();
-		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
-				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
+		stage.getIcons().setAll(new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_16.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_24.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_32.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_48.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_64.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_128.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_256.png").getAbsolutePath()),
+				new Image("file:" + Core.recupererFichier("/Interface/Images/Icons/Membres/Membres_512.png").getAbsolutePath()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
