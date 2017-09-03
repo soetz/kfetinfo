@@ -38,6 +38,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -129,6 +130,14 @@ public class EcranConfection {
 		scene.getStylesheets().add(EcranConfection.class.getResource("../../Interface/Stylesheets/ecran confection.css").toExternalForm());
 
 		Stage theatre = new Stage();
+		theatre.getIcons().setAll(new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_16.png").toExternalForm()),
+				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_24.png").toExternalForm()),
+				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_32.png").toExternalForm()),
+				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_48.png").toExternalForm()),
+				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_64.png").toExternalForm()),
+				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_128.png").toExternalForm()),
+				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_256.png").toExternalForm()),
+				new Image(EcranConfection.class.getResource("../../Interface/Images/Icons/App/AppIcon_512.png").toExternalForm()));
 		LISTE_FENETRES.add(theatre);
 
 		theatre.setMinWidth(App.LARGEUR_MIN_FENETRE + 16);

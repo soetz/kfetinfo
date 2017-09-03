@@ -29,6 +29,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -73,6 +74,14 @@ public final class SelectionMembre {
 		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
 
 		Stage stage = new Stage();
+		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -128,6 +137,14 @@ public final class SelectionMembre {
 		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
 
 		Stage stage = new Stage();
+		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -183,6 +200,14 @@ public final class SelectionMembre {
 		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
 
 		Stage stage = new Stage();
+		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -245,6 +270,14 @@ public final class SelectionMembre {
 		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
 
 		Stage stage = new Stage();
+		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -309,6 +342,14 @@ public final class SelectionMembre {
 		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
 
 		Stage stage = new Stage();
+		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);
@@ -373,6 +414,14 @@ public final class SelectionMembre {
 		scene.getStylesheets().add(SelectionMembre.class.getResource("../../Interface/Stylesheets/general.css").toExternalForm());
 
 		Stage stage = new Stage();
+		stage.getIcons().setAll(new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
+				new Image(SelectionMembre.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
 
 		stage.setResizable(false);
 		stage.setAlwaysOnTop(true);

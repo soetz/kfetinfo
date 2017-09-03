@@ -46,6 +46,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -258,6 +259,14 @@ public final class Stocks {
 		scene.getStylesheets().add(Stocks.class.getResource("../../Interface/Stylesheets/stocks.css").toExternalForm());
 
 		Stage theatre = new Stage();
+		theatre.getIcons().setAll(new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_16.png").toExternalForm()),
+				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_24.png").toExternalForm()),
+				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_32.png").toExternalForm()),
+				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_48.png").toExternalForm()),
+				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_64.png").toExternalForm()),
+				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_128.png").toExternalForm()),
+				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_256.png").toExternalForm()),
+				new Image(Stocks.class.getResource("../../Interface/Images/Icons/Stocks/Stocks_512.png").toExternalForm()));
 		theatre.setAlwaysOnTop(true);
 		theatre.initModality(Modality.APPLICATION_MODAL); //il faut fermer cette fenêtre pour revenir à l'écran principal
 		theatre.setMinWidth(App.LARGEUR_MIN_FENETRE + 16);

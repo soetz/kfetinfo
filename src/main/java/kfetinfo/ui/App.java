@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
@@ -95,6 +96,14 @@ public final class App extends Application{
 		}
 
 		theatre.setTitle("K'Fet Info");
+		theatre.getIcons().setAll(new Image(getClass().getResource("../../Interface/Images/Icons/App/AppIcon_16.png").toExternalForm()),
+				new Image(getClass().getResource("../../Interface/Images/Icons/App/AppIcon_24.png").toExternalForm()),
+				new Image(getClass().getResource("../../Interface/Images/Icons/App/AppIcon_32.png").toExternalForm()),
+				new Image(getClass().getResource("../../Interface/Images/Icons/App/AppIcon_48.png").toExternalForm()),
+				new Image(getClass().getResource("../../Interface/Images/Icons/App/AppIcon_64.png").toExternalForm()),
+				new Image(getClass().getResource("../../Interface/Images/Icons/App/AppIcon_128.png").toExternalForm()),
+				new Image(getClass().getResource("../../Interface/Images/Icons/App/AppIcon_256.png").toExternalForm()),
+				new Image(getClass().getResource("../../Interface/Images/Icons/App/AppIcon_512.png").toExternalForm()));
 
 		theatre.setMinWidth(LARGEUR_MIN_FENETRE + 16); //je sais pas pourquoi mais il faut ajouter ce nombre de pixels à la taille de la fenêtre sinon on peut redimensionner en dessous des tailles standard
 		theatre.setMinHeight(HAUTEUR_MIN_FENETRE + 39);
@@ -103,12 +112,12 @@ public final class App extends Application{
 
 		theatre.setScene(scene);
 
-		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/general.css").toExternalForm());
-		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/menu.css").toExternalForm());
-		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/commandes.css").toExternalForm());
-		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/selection.css").toExternalForm());
-		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/resultat.css").toExternalForm());
-		scene.getStylesheets().add(this.getClass().getResource("../../Interface/Stylesheets/graphiques.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("../../Interface/Stylesheets/general.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("../../Interface/Stylesheets/menu.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("../../Interface/Stylesheets/commandes.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("../../Interface/Stylesheets/selection.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("../../Interface/Stylesheets/resultat.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("../../Interface/Stylesheets/graphiques.css").toExternalForm());
 
 		root.getStyleClass().add(ROOT);
 		root.getStyleClass().add(FOND);

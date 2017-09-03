@@ -45,6 +45,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -87,6 +88,14 @@ public class EditionMembres {
 	public static final void ecran(){
 
 		Stage theatre = new Stage();
+		theatre.getIcons().setAll(new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_16.png").toExternalForm()),
+				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_24.png").toExternalForm()),
+				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_32.png").toExternalForm()),
+				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_48.png").toExternalForm()),
+				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_64.png").toExternalForm()),
+				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_128.png").toExternalForm()),
+				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_256.png").toExternalForm()),
+				new Image(EditionMembres.class.getResource("../../Interface/Images/Icons/Membres/Membres_512.png").toExternalForm()));
 
 		HBox pane = new HBox();
 		pane.getStyleClass().add(FOND);

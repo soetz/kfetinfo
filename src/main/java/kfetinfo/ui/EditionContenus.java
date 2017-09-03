@@ -58,6 +58,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -127,6 +128,14 @@ public final class EditionContenus {
 		modifie = false;
 
 		Stage theatre = new Stage();
+		theatre.getIcons().setAll(new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_16.png").toExternalForm()),
+				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_24.png").toExternalForm()),
+				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_32.png").toExternalForm()),
+				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_48.png").toExternalForm()),
+				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_64.png").toExternalForm()),
+				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_128.png").toExternalForm()),
+				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_256.png").toExternalForm()),
+				new Image(EditionContenus.class.getResource("../../Interface/Images/Icons/Menu/Menu_512.png").toExternalForm()));
 
 		TabPane tabPane = new TabPane();
 
