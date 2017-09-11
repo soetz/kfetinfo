@@ -976,7 +976,7 @@ public final class Commandes {
 						}
 					}
 
-					if(m != 1){
+					if(m != -1){
 						listeCommandesRealisees.remove(m);
 					}
 

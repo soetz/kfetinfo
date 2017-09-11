@@ -720,10 +720,11 @@ public class Service {
 
 		CreateurBase.ajouterCommande(commande); //on ajoute la commande à la base de données,
 
-		commandes.add(commande); //et à la liste des commandes
-		nouvelleCommande.set(commande); //on définit la propriété javafx de la nouvelle commande ajoutée sur cette commande
+		Commande commandeAAjouter = LecteurBase.lireCommande(date, commande.getNumero());
+		commandes.add(commandeAAjouter); //et à la liste des commandes
+		nouvelleCommande.set(commandeAAjouter); //on définit la propriété javafx de la nouvelle commande ajoutée sur cette commande
 
-		if(commande.getPlat().getUtilisePain()){
+		if(commandeAAjouter.getPlat().getUtilisePain()){
 			nbBaguettesUtilisees += 0.5;
 		}
 
