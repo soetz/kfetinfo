@@ -67,7 +67,7 @@ public final class Commandes {
 	private static final Double LARGEUR_SCROLLBAR = 12.0;
 	private static final Double LARGEUR_MIN_PLAT = 118.0;
 	private static final Double HAUTEUR_COMMANDE_FERMEE = App.TAILLE_NUMERO_COMMANDE;
-	private static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 130.0;
+	private static final Double HAUTEUR_COMMANDE_DEVELOPPEE = 100.0 + App.TAILLE_NUMERO_COMMANDE;
 	private static final Double HAUTEUR_AJOUT_BOUTONS = 36.0;
 	private static final Double TAILLE_SEPARATION = 8.0;
 	private static final Double DECALAGE_CONTENU = 2.0;

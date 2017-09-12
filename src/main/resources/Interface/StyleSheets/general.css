@@ -52,33 +52,33 @@
 .numero-commande-ajoutee {
 	-fx-alignment : center;
 	-fx-background-color : ajoutee;
-	-fx-font : bold 16px "Source Sans Pro"; 
+	-fx-font : bold 22px "Source Sans Pro"; 
 	-fx-text-fill : light;
 }
 
 .numero-commande-assignee {
 	-fx-alignment : center;
 	-fx-background-color : assignee;
-	-fx-font : bold 16px "Source Sans Pro"; 
+	-fx-font : bold 22px "Source Sans Pro"; 
 	-fx-text-fill : light;
 }
 
 .numero-commande-realisee {
 	-fx-alignment : center;
 	-fx-background-color : realisee;
-	-fx-font : bold 16px "Source Sans Pro"; 
+	-fx-font : bold 22px "Source Sans Pro"; 
 	-fx-text-fill : light;
 }
 
 .numero-commande-donnee {
 	-fx-alignment : center;
 	-fx-background-color : donnee;
-	-fx-font : bold 16px "Source Sans Pro"; 
+	-fx-font : bold 22px "Source Sans Pro"; 
 	-fx-text-fill : light;
 }
 
 .plat-commande {
-	-fx-font : bold 15px "Source Sans Pro";
+	-fx-font : bold 18px "Source Sans Pro";
     -fx-text-fill : dark;
 }
 

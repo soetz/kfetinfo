@@ -67,18 +67,19 @@ public class EcranConfection {
 	private static final String AUTRE_MEMBRE = "ec-confection-autre-membre";
 	private static final String CONTENU_AUTRE = "ec-confection-autre-contenu";
 	private static final String ESPACEMENT = "ec-confection-espacement";
+	private static final String EST_DIRECTE = "ec-confection-est-directe";
 
 	//constantes pour l'affichage
 	private static final Double ESPACE_CATEGORIES = 10.0;
-	private static final Double ESPACE_CONFECTION = 6.0;
+	private static final Double ESPACE_CONFECTION = 8.0;
 	private static final Double ESPACE_CONTENU_CONFECTION = 2.0;
 	private static final Double DECALAGE_CATEGORIE_CONTENU = 8.0;
 	private static final Double DECALAGE_CONTENU = 16.0;
 	private static final Double ESPACE_FIN_COMMANDE = 4.0;
 	private static final Double ESPACE_AUTRE = 6.0;
 	private static final Double DECALAGE_CONTENU_AUTRE = 2.0;
-	private static final Double LARGEUR_COMMANDE = 200.0;
-	private static final Double HAUTEUR_COMMANDE = 100.0;
+	private static final Double LARGEUR_COMMANDE = 220.0;
+	private static final Double HAUTEUR_COMMANDE = 124.0;
 	
 
 	//la liste des contenus des écrans de confection, comme ça on peut en avoir plusieurs et les mettre à jour
@@ -225,6 +226,16 @@ public class EcranConfection {
 			numeroEtPlat.getChildren().add(numeroCommande);
 			numeroEtPlat.getChildren().add(plat);
 
+			if(commande.getBoisson().equals(BaseDonnees.getRienBoisson())&&commande.getDessert().equals(BaseDonnees.getRienDessert())){
+				Label directe = new Label("(directe)");
+				directe.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
+				directe.setMinHeight(Control.USE_PREF_SIZE);
+				directe.setMaxHeight(Control.USE_PREF_SIZE);
+				directe.setTranslateX(App.ESPACE_NUMERO_PLAT*2);
+				directe.getStyleClass().add(EST_DIRECTE);
+				numeroEtPlat.getChildren().add(directe);
+			}
+
 			commandeBox.getChildren().add(numeroEtPlat);
 
 			Label sauces = new Label("Sauces :");
@@ -322,8 +333,13 @@ public class EcranConfection {
 
 		commandePane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		commandePane.setPrefHeight(HAUTEUR_COMMANDE);
-		commandePane.prefWidthProperty().bind(reste.divide(nbDivisions).add(LARGEUR_COMMANDE).subtract(nbDivisions.subtract(1).multiply(ESPACE_AUTRE).divide(nbDivisions)));
+		commandePane.prefWidthProperty().bind(reste.divide(nbDivisions).add(LARGEUR_COMMANDE).subtract(nbDivisions.subtract(0).multiply(ESPACE_AUTRE).divide(nbDivisions)));
 		commandePane.setMinSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+
+		HBox numeroPlat = new HBox();
+		numeroPlat.setSpacing(App.ESPACE_NUMERO_PLAT);
+		numeroPlat.maxWidthProperty().bind(commandePane.widthProperty());
+		numeroPlat.minWidthProperty().bind(numeroPlat.maxWidthProperty());
 
 		Label numeroCommande = new Label("" + numero);
 		numeroCommande.setPrefSize(App.TAILLE_NUMERO_COMMANDE, App.TAILLE_NUMERO_COMMANDE);
@@ -340,13 +356,24 @@ public class EcranConfection {
 			numeroCommande.getStyleClass().add(App.NUMERO_COMMANDE_AJOUTEE);
 		}
 
+		numeroPlat.getChildren().add(numeroCommande);
+
 		Label plat = new Label(commande.getPlat().getNom().toUpperCase());
-		plat.setTranslateX(DECALAGE_CONTENU_AUTRE);
 		plat.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
 		plat.setMinHeight(Control.USE_PREF_SIZE);
 		plat.setMaxHeight(Control.USE_PREF_SIZE);
 		plat.setMaxWidth(Double.MAX_VALUE);
 		plat.getStyleClass().add(App.PLAT_COMMANDE);
+		numeroPlat.getChildren().add(plat);
+		
+		if(commande.getBoisson().equals(BaseDonnees.getRienBoisson())&&commande.getDessert().equals(BaseDonnees.getRienDessert())){
+			Label directe = new Label("(directe)");
+			directe.setPrefHeight(App.TAILLE_NUMERO_COMMANDE);
+			directe.setMinHeight(Control.USE_PREF_SIZE);
+			directe.setMaxHeight(Control.USE_PREF_SIZE);
+			directe.getStyleClass().add(EST_DIRECTE);
+			numeroPlat.getChildren().add(directe);
+		}
 
 		Label confection = new Label();
 		if(assignee){
@@ -377,17 +404,17 @@ public class EcranConfection {
 		
 		contenuCommande.getChildren().addAll(lbIngredients, lbSauces, lbBoisson, lbDessert);
 
-		AnchorPane.setTopAnchor(numeroCommande, 0.0);
-		AnchorPane.setLeftAnchor(numeroCommande, 0.0);
-		AnchorPane.setTopAnchor(plat, 0.0);
-		AnchorPane.setLeftAnchor(plat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
+		AnchorPane.setTopAnchor(numeroPlat, 0.0);
+		AnchorPane.setLeftAnchor(numeroPlat, 0.0);
+//		AnchorPane.setTopAnchor(numeroPlat, 0.0);
+//		AnchorPane.setLeftAnchor(numeroPlat, App.TAILLE_NUMERO_COMMANDE + App.ESPACE_NUMERO_PLAT);
 		AnchorPane.setTopAnchor(confection, 0.0);
 		AnchorPane.setRightAnchor(confection, 2.0);
 		AnchorPane.setTopAnchor(contenuCommande, App.TAILLE_NUMERO_COMMANDE);
 		AnchorPane.setLeftAnchor(contenuCommande, 3.0);
 
-		commandePane.getChildren().add(numeroCommande);
-		commandePane.getChildren().add(plat);
+//		commandePane.getChildren().add(numeroCommande);
+		commandePane.getChildren().add(numeroPlat);
 		commandePane.getChildren().add(confection);
 		commandePane.getChildren().add(contenuCommande);
 
@@ -456,7 +483,7 @@ public class EcranConfection {
 			box.getChildren().clear();
 
 			Region gauche = new Region();
-			gauche.setMinWidth(ESPACE_CONFECTION);
+			gauche.setMinWidth(1);
 			gauche.setMaxHeight(1);
 			gauche.getStyleClass().add(ESPACEMENT);
 
@@ -467,7 +494,7 @@ public class EcranConfection {
 			}
 
 			Region droite = new Region();
-			droite.setMinWidth(ESPACE_CONFECTION);
+			droite.setMinWidth(1);
 			droite.setMaxHeight(1);
 			droite.getStyleClass().add(ESPACEMENT);
 

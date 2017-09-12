@@ -65,7 +65,7 @@ public final class App extends Application{
 	public static final Double TAILLE_PANNEAU_MENU = 25.0;
 	public static final Double TAILLE_PANNEAU_COMMANDES = 250.0;
 	public static final Double TAILLE_PANNEAU_RESULTAT = 195.0;
-	public static final Double TAILLE_NUMERO_COMMANDE = 30.0;
+	public static final Double TAILLE_NUMERO_COMMANDE = 38.0;
 	public static final Double ESPACE_NUMERO_PLAT = 5.0;
 
 	/**
