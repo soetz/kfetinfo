@@ -127,7 +127,7 @@ public final class App extends Application{
 		Scene scene = new Scene(root, LARGEUR_MIN_FENETRE, HAUTEUR_MIN_FENETRE);
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
-			if(key.getCode()==TOUCHE_CONF_1) {
+			if(key.getCode()==TOUCHE_CONF_1){
 				if(Core.getService().getConfection().size() >= 1){
 					Membre confection = Core.getService().getConfection().get(0);
 					CommandeAssignee commandeARealiser = null;
@@ -146,7 +146,7 @@ public final class App extends Application{
 		});
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
-			if(key.getCode()==TOUCHE_CONF_2) {
+			if(key.getCode()==TOUCHE_CONF_2){
 				if(Core.getService().getConfection().size() >= 2){
 					Membre confection = Core.getService().getConfection().get(1);
 					CommandeAssignee commandeARealiser = null;
@@ -165,7 +165,7 @@ public final class App extends Application{
 		});
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
-			if(key.getCode()==TOUCHE_CONF_3) {
+			if(key.getCode()==TOUCHE_CONF_3){
 				if(Core.getService().getConfection().size() >= 3){
 					Membre confection = Core.getService().getConfection().get(2);
 					CommandeAssignee commandeARealiser = null;
