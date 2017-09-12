@@ -18,7 +18,10 @@
 
 package kfetinfo.ui;
 
+import kfetinfo.core.Commande;
+import kfetinfo.core.CommandeAssignee;
 import kfetinfo.core.Core;
+import kfetinfo.core.Membre;
 
 import java.io.File;
 import java.util.Locale;
@@ -26,6 +29,8 @@ import java.util.Locale;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
@@ -115,6 +120,63 @@ public final class App extends Application{
 		theatre.setMinHeight(HAUTEUR_MIN_FENETRE + 39);
 
 		Scene scene = new Scene(root, LARGEUR_MIN_FENETRE, HAUTEUR_MIN_FENETRE);
+
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
+			if(key.getCode()==KeyCode.W) {
+				if(Core.getService().getConfection().size() >= 1){
+					Membre confection = Core.getService().getConfection().get(0);
+					CommandeAssignee commandeARealiser = null;
+					for(Commande commande : Core.getService().getCommandes()){
+						if(commande instanceof CommandeAssignee){
+							CommandeAssignee commandeAssignee = (CommandeAssignee)commande;
+							if((commandeAssignee.getMembre().equals(confection))&&(!commandeAssignee.getEstRealisee())){
+								commandeARealiser = commandeAssignee;
+							}
+						}
+					}
+
+					commandeARealiser.realisee(Core.getService());
+				}
+			}
+		});
+
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
+			if(key.getCode()==KeyCode.V) {
+				if(Core.getService().getConfection().size() >= 2){
+					Membre confection = Core.getService().getConfection().get(1);
+					CommandeAssignee commandeARealiser = null;
+					for(Commande commande : Core.getService().getCommandes()){
+						if(commande instanceof CommandeAssignee){
+							CommandeAssignee commandeAssignee = (CommandeAssignee)commande;
+							if((commandeAssignee.getMembre().equals(confection))&&(!commandeAssignee.getEstRealisee())){
+								commandeARealiser = commandeAssignee;
+							}
+						}
+					}
+
+					commandeARealiser.realisee(Core.getService());
+				}
+			}
+		});
+
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
+			if(key.getCode()==KeyCode.COMMA) {
+				if(Core.getService().getConfection().size() >= 3){
+					Membre confection = Core.getService().getConfection().get(2);
+					CommandeAssignee commandeARealiser = null;
+					for(Commande commande : Core.getService().getCommandes()){
+						if(commande instanceof CommandeAssignee){
+							CommandeAssignee commandeAssignee = (CommandeAssignee)commande;
+							if((commandeAssignee.getMembre().equals(confection))&&(!commandeAssignee.getEstRealisee())){
+								commandeARealiser = commandeAssignee;
+							}
+						}
+					}
+
+					commandeARealiser.realisee(Core.getService());
+				}
+			}
+		});
 
 		theatre.setScene(scene);
 
