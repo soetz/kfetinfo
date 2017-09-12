@@ -73,6 +73,11 @@ public final class App extends Application{
 	public static final Double TAILLE_NUMERO_COMMANDE = 38.0;
 	public static final Double ESPACE_NUMERO_PLAT = 5.0;
 
+	//touches de clavier
+	private static final KeyCode TOUCHE_CONF_1 = KeyCode.W;
+	private static final KeyCode TOUCHE_CONF_2 = KeyCode.V;
+	private static final KeyCode TOUCHE_CONF_3 = KeyCode.COMMA;
+
 	/**
 	 * Première méthode appelée par le programme. On démarre l'interface graphique. Il est déconseillé d'y mettre autre chose.
 	 * 
@@ -122,7 +127,7 @@ public final class App extends Application{
 		Scene scene = new Scene(root, LARGEUR_MIN_FENETRE, HAUTEUR_MIN_FENETRE);
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
-			if(key.getCode()==KeyCode.W) {
+			if(key.getCode()==TOUCHE_CONF_1) {
 				if(Core.getService().getConfection().size() >= 1){
 					Membre confection = Core.getService().getConfection().get(0);
 					CommandeAssignee commandeARealiser = null;
@@ -141,7 +146,7 @@ public final class App extends Application{
 		});
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
-			if(key.getCode()==KeyCode.V) {
+			if(key.getCode()==TOUCHE_CONF_2) {
 				if(Core.getService().getConfection().size() >= 2){
 					Membre confection = Core.getService().getConfection().get(1);
 					CommandeAssignee commandeARealiser = null;
@@ -160,7 +165,7 @@ public final class App extends Application{
 		});
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> { //gestion de l'appui par les confection sur leurs touches pour indiquer la réalisation d'une commande
-			if(key.getCode()==KeyCode.COMMA) {
+			if(key.getCode()==TOUCHE_CONF_3) {
 				if(Core.getService().getConfection().size() >= 3){
 					Membre confection = Core.getService().getConfection().get(2);
 					CommandeAssignee commandeARealiser = null;
