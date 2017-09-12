@@ -1,1 +1,0 @@
-En vrai ce qu'il y a ici on l'utilise jamais, mais j'ai utilisé [ce site](http://www.irunmywebsite.com/raphael/SVGTOHTML_LIVE.php) pour le convertir en chaîne de caractères et créer des SVGPath. Bisous.
