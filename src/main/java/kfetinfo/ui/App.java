@@ -74,9 +74,9 @@ public final class App extends Application{
 	public static final Double ESPACE_NUMERO_PLAT = 5.0;
 
 	//touches de clavier
-	private static final KeyCode TOUCHE_CONF_1 = KeyCode.W;
-	private static final KeyCode TOUCHE_CONF_2 = KeyCode.V;
-	private static final KeyCode TOUCHE_CONF_3 = KeyCode.COMMA;
+	private static final KeyCode TOUCHE_CONF_1 = KeyCode.NUMPAD1;
+	private static final KeyCode TOUCHE_CONF_2 = KeyCode.NUMPAD2;
+	private static final KeyCode TOUCHE_CONF_3 = KeyCode.NUMPAD3;
 
 	/**
 	 * Première méthode appelée par le programme. On démarre l'interface graphique. Il est déconseillé d'y mettre autre chose.
